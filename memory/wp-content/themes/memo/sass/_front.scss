@@ -85,6 +85,43 @@ p,ul,ol,dl,blockquote {
 }
 
 
+.site-content {
+	position: relative;
+	
+	@include for(medium-screens) {
+		&:after {
+			content: '';
+			display: block;
+			width: 100%;
+			height: 845px;
+			background: transparent url(../img/bg.jpg) no-repeat center top;
+			background-size: cover;
+			position: absolute;
+			top: 0;
+			left: 0;
+			z-index: -1px;
+		}
+	}
+	
+}
+
+.section-header {
+	
+	.section-title {
+		font-family: $sans;
+		text-transform: uppercase;
+		@include rem('font-size', 32px);
+		font-weight: 100;
+	}
+}
+
+
+#bottombar {
+	background: $color-secondary;
+	border-top: 3px solid $color-link-one;
+	@include rem('font-size', 12px);
+	@include rem('padding', 30px 0);
+}
 
 
 .site-footer {

@@ -87,9 +87,7 @@
 			float: left;
 			@include rem('padding', 5px 0);
 			
-			li {
-				float: left;
-			}
+			li { float: left; }
 			
 			a {
 				display: inline-block;
@@ -100,10 +98,35 @@
 		
 		#search-toggle {
 			float: left;
-			position: relative;
-			.search-holder {
-				display: none;
-			}
+			position: relative;			
+		}
+		
+		.search-trigger {
+			width: 35px;
+			height: 35px;
+			margin-top: 5px;
+			text-align: center;
+			cursor: pointer;
+			color: $color-link-one;
+			&:hover, &:focus, &:active {
+				color: $color-link-two; }			
+			.fa {
+				line-height: 35px; }
+		}
+		
+		.search-holder {
+			display: none;
+			background: $color-white;
+			padding: 1px;
+			width: 280px;
+			position: absolute;
+			right: 4px;
+			top: 40px;
+			box-shadow: 1px 1px 2px rgba(0,0,0, 0.4);
+		}
+		
+		#search-toggle.toggled .search-holder {
+			display: block;
 		}
 	}
 }

@@ -130,7 +130,7 @@ LAM Galleries (_modules.scss)
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-	border: 2px solid $color-border-normal;
+	border: 1px solid #aaa;
 	position: relative;
 	height: 30px; 
 
@@ -141,7 +141,7 @@ LAM Galleries (_modules.scss)
 		@include rem('font-size', 12px);
 		@include rem('line-height', 14px);
 		border: none;
-		color: $color-border-normal;
+		color: $color-text;
 		@include border-radius(0px);
 		&:focus {			
 			background: rgba(255,255,255, 0.85);
@@ -159,7 +159,7 @@ LAM Galleries (_modules.scss)
 		@include transition-all(0.3s);
 				
 		.fa {
-			color: $color-border-normal;
+			color: #aaa;
 			position: absolute;
 			top: 4px;
 			left: 6px;

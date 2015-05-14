@@ -45,25 +45,24 @@ $sidebar-width: 280px;
 //Mixins
 @mixin post-title($size: 16px) {
 	font: {		
-		weight: normal;
+		weight: bold;
 		family: $heading;
 	}
 	
 	@include rem('font-size', $size);
 	color: $color-text-black;	
 	a {
-		color: $color-link-one;
-		&:hover {
-			color: $color-link-two;
+		color: $color-text-black;
+		&:hover, &:focus, &:active {
+			color: $color-link-one;		
 		}
-	}
-	margin-bottom: 4px;
+	}	
 }
 
 @mixin widget-title($size: 16px) {
 	font: {
-		family: $heading;		
-		weight: normal;
+		family: $sans;		
+		weight: 600;
 	}
 	
 	@include rem('font-size', $size);
