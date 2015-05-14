@@ -1,0 +1,129 @@
+/*---------------------------------------------------------
+ Global Layout (_front.scss)
+-------------------------------------------------------- */
+html {
+	font-size: 62.5%; //10px
+	background-color: $color-white;
+}
+
+body {
+	background-color: $color-white;
+	text-rendering: optimizeLegibility;
+	@include rem('font-size', 14px);
+	line-height: 1.5;
+	color: $color-text;
+	font-family: $sans;	
+}
+
+
+a {
+	color: $color-link-one;	
+	text-decoration: none; //reset
+	&:visited { color: $color-link-one; }
+	&:hover, &:focus, &:active { color: $color-link-two; }
+}
+
+p {
+	@include rem('margin-bottom', $base);
+	@include rem('margin-top', $base);
+	&:first-child {
+		margin-top: 0;
+	}
+	&:last-child {
+		margin-bottom: 0;
+	}
+}
+
+p,ul,ol,dl,blockquote {
+	@extend .break;
+}
+
+
+/* structure */
+.container {
+	width: 85%;
+	max-width: 978px;
+	margin: 0 auto;
+}
+
+
+.site-header {
+	@include rem('margin-bottom', 30px);	
+}
+
+.site-branding {
+	text-align: center;
+	
+	.site-description {
+		text-transform: uppercase;
+		font-weight: bold;
+		@include rem('font-size', 11px);
+		letter-spacing: 1px;
+		@include rem('padding', 3px 0);
+		border-top: 1px solid $color-border-light;
+		border-bottom: 1px solid $color-border-light;
+	}
+	
+	.site-name {
+		font-family: $heading;
+		font-weight: bold;
+		text-transform: uppercase;
+		line-height: 1;
+		@include rem('font-size', 45px);
+		@include rem('padding', 10px 0);
+		a, span {
+			color: $color-link-one;
+		}
+		
+		@include for(medium-screens) {
+			@include rem('font-size', 80px);
+		}
+		@include for(large-screens) {
+			@include rem('font-size', 90px);
+		}
+	}
+}
+
+
+
+
+.site-footer {
+	@include rem('padding', $base*0.8 0 $base*1.2);
+	@include rem('font-size', 11px);
+	line-height: 1.35;
+	color: $color-text-semi;	
+	
+	.copy a {
+		color: $color-text-black;
+		text-decoration: underline;		
+		&:hover, &:focus, &:active {
+			color: $color-link-one;
+		}
+	}
+	
+	.te-st-bn {
+		text-align: right;
+		position: relative;
+		height: 51px;
+		
+		a {
+			display: block;
+			width: 106px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: 1px dotted transparent;
+			padding: 1px;
+			&:hover, &:focus, &:active {
+				border-color: $color-text-semi;
+			}
+		}
+		
+		span {
+			display: inline-block;
+			margin-right: 115px;
+			padding-top: 10px;
+		}
+	}
+}
+
