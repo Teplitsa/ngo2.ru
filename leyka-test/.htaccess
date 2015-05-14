@@ -1,0 +1,23 @@
+<IfModule mod_rewrite.c>
+RewriteEngine On
+RewriteBase /leyka-test/
+RewriteRule ^index\.php$ - [L]
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /leyka-test/index.php [L]
+
+# Display PHP errors on screen
+php_flag display_errors on
+
+# Equivalent int value of E_ALL | E_STRICT
+php_value error_reporting 32767 
+</IfModule>
+
+Satisfy any
+order allow,deny
+Allow from all
+Options All -Indexes
+
+# BEGIN WordPress
+
+# END WordPress

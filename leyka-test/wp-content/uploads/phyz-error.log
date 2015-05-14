@@ -1,0 +1,596 @@
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 0.99
+    [datetime] => 2014-12-12T15:14:23Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 410011529152455
+    [sha1_hash] => 9c6c6b531ac9978d064920d43bb531a6bdd4aa36
+    [operation_id] => 943424926690018025
+    [currency] => 643
+    [label] => 533
+)
+Label=533
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 533
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 533
+            [post_author] => 1
+            [post_date] => 2014-12-12 18:13:34
+            [post_date_gmt] => 2014-12-12 15:13:34
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-32
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-12 18:13:34
+            [post_modified_gmt] => 2014-12-12 15:13:34
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-32/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_money
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => Звягинцев Лев Тестерович
+            [donor_email] => ahaenor@gmail.com
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418397214
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=p2p-incoming&943424926690018025&0.99&643&2014-12-12T15:14:23Z&410011529152455&false&xWLAGTvLHLfL8bVcvEq3A9+G&533
+sha1=9c6c6b531ac9978d064920d43bb531a6bdd4aa36
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 0.99
+    [datetime] => 2014-12-12T16:02:56Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 410011530064822
+    [sha1_hash] => ffe820dd5238708784fec6bbf9eae127f39caffd
+    [operation_id] => 943430752660026025
+    [currency] => 643
+    [label] => 539
+)
+Label=539
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 539
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 539
+            [post_author] => 0
+            [post_date] => 2014-12-12 19:01:59
+            [post_date_gmt] => 2014-12-12 16:01:59
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-38
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-12 19:01:59
+            [post_modified_gmt] => 2014-12-12 16:01:59
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-38/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_money
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => qqq
+            [donor_email] => qqq
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418400119
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=p2p-incoming&943430752660026025&0.99&643&2014-12-12T16:02:56Z&410011530064822&false&xWLAGTvLHLfL8bVcvEq3A9+G&539
+sha1=ffe820dd5238708784fec6bbf9eae127f39caffd
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => card-incoming
+    [amount] => 0.98
+    [datetime] => 2014-12-12T16:11:47Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 
+    [sha1_hash] => f8b6a1df10cc4b90b282f69d26cfd08760ac60dd
+    [operation_id] => 471715907954024012
+    [currency] => 643
+    [label] => 544
+)
+Label=544
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 544
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 544
+            [post_author] => 0
+            [post_date] => 2014-12-12 19:10:26
+            [post_date_gmt] => 2014-12-12 16:10:26
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-41
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-12 19:10:26
+            [post_modified_gmt] => 2014-12-12 16:10:26
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-41/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_money
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => qqq
+            [donor_email] => qqq@qqq.ru
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418400626
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=card-incoming&471715907954024012&0.98&643&2014-12-12T16:11:47Z&&false&xWLAGTvLHLfL8bVcvEq3A9+G&544
+sha1=f8b6a1df10cc4b90b282f69d26cfd08760ac60dd
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => card-incoming
+    [amount] => 0.98
+    [datetime] => 2014-12-16T16:37:32Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 
+    [sha1_hash] => b2f89d4709c65f39c78739a0e9a3fba849db26a3
+    [operation_id] => 472063052537012012
+    [currency] => 643
+    [label] => 645
+)
+Label=645
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 645
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 645
+            [post_author] => 1
+            [post_date] => 2014-12-16 19:36:22
+            [post_date_gmt] => 2014-12-16 16:36:22
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-42
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-16 19:36:22
+            [post_modified_gmt] => 2014-12-16 16:36:22
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-42/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_card
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => Лев Звягинцев
+            [donor_email] => ahaenor@gmail.com
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418747782
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=card-incoming&472063052537012012&0.98&643&2014-12-16T16:37:32Z&&false&xWLAGTvLHLfL8bVcvEq3A9+G&645
+sha1=b2f89d4709c65f39c78739a0e9a3fba849db26a3
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 0.99
+    [datetime] => 2014-12-16T16:40:47Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 410011529152455
+    [sha1_hash] => 32b37bfef544c4ccdb6dd98b4a50de1627af1eae
+    [operation_id] => 944126494300086025
+    [currency] => 643
+    [label] => 646
+)
+Label=646
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 646
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 646
+            [post_author] => 1
+            [post_date] => 2014-12-16 19:40:12
+            [post_date_gmt] => 2014-12-16 16:40:12
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-43
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-16 19:40:12
+            [post_modified_gmt] => 2014-12-16 16:40:12
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-43/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_money
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => Лев Звягинцев
+            [donor_email] => ahaenor@gmail.com
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418748012
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=p2p-incoming&944126494300086025&0.99&643&2014-12-16T16:40:47Z&410011529152455&false&xWLAGTvLHLfL8bVcvEq3A9+G&646
+sha1=32b37bfef544c4ccdb6dd98b4a50de1627af1eae
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 0.99
+    [datetime] => 2014-12-16T16:43:37Z
+    [codepro] => false
+    [withdraw_amount] => 1.00
+    [sender] => 410011529152455
+    [sha1_hash] => 3ebab201758a180751290635462d5ecc80defeb0
+    [operation_id] => 944126834880220025
+    [currency] => 643
+    [label] => 647
+)
+Label=647
+Amount=1.00
+Donation initialized
+Leyka_Donation Object
+(
+    [_id:Leyka_Donation:private] => 647
+    [_post_object:Leyka_Donation:private] => WP_Post Object
+        (
+            [ID] => 647
+            [post_author] => 1
+            [post_date] => 2014-12-16 19:41:45
+            [post_date_gmt] => 2014-12-16 16:41:45
+            [post_content] => 
+            [post_title] => Пожертвование в помощь слоненку
+            [post_excerpt] => 
+            [post_status] => submitted
+            [comment_status] => open
+            [ping_status] => open
+            [post_password] => 
+            [post_name] => pozhertvovanie-v-pomoshh-slonenku-44
+            [to_ping] => 
+            [pinged] => 
+            [post_modified] => 2014-12-16 19:41:45
+            [post_modified_gmt] => 2014-12-16 16:41:45
+            [post_content_filtered] => 
+            [post_parent] => 0
+            [guid] => http://ngo2.ru/leyka-test/donation/pozhertvovanie-v-pomoshh-slonenku-44/
+            [menu_order] => 0
+            [post_type] => leyka_donation
+            [post_mime_type] => 
+            [comment_count] => 0
+            [filter] => raw
+        )
+
+    [_donation_meta:Leyka_Donation:private] => Array
+        (
+            [payment_title] => Пожертвование в помощь слоненку
+            [payment_type] => single
+            [payment_method] => yandex_phyz_money
+            [gateway] => yandex_phyz
+            [currency] => rur
+            [amount] => 1
+            [main_curr_amount] => 1
+            [donor_name] => Лев Звягинцев
+            [donor_email] => ahaenor@gmail.com
+            [donor_email_date] => 0
+            [managers_emails_date] => 0
+            [campaign_id] => 130
+            [status_log] => Array
+                (
+                    [0] => Array
+                        (
+                            [date] => 1418748105
+                            [status] => submitted
+                        )
+
+                )
+
+            [gateway_response] => 
+            [recurrents_cancelled] => 
+            [recurrents_cancel_date] => 0
+            [chronopay_customer_id] => 
+        )
+
+)
+
+Params_to_sha1=p2p-incoming&944126834880220025&0.99&643&2014-12-16T16:43:37Z&410011529152455&false&xWLAGTvLHLfL8bVcvEq3A9+G&647
+sha1=3ebab201758a180751290635462d5ecc80defeb0
+Donation OK
+$donation->sum=1
+$donation->status=submitted
+Donation is funded
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 1000.00
+    [datetime] => 2015-01-13T05:26:47Z
+    [codepro] => false
+    [withdraw_amount] => 1005.00
+    [sender] => 410011102558655
+    [sha1_hash] => 81c2137bb8c660b9165d668e59a279cbb6580c29
+    [operation_id] => 948884015068024025
+    [currency] => 643
+    [label] => 
+)
+Label=0
+Amount=1005.00
+Label is empty
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 337.71
+    [datetime] => 2015-01-26T14:14:48Z
+    [codepro] => false
+    [sender] => 41001000040
+    [sha1_hash] => 01bed1d4bb0180e30676c8a85cd3c8d782f63a51
+    [test_notification] => true
+    [operation_id] => test-notification
+    [currency] => 643
+    [label] => 
+)
+Label=0
+Amount=
+Label is empty
+
+
+---- response ----
+
+Array
+(
+    [notification_type] => p2p-incoming
+    [amount] => 400.00
+    [datetime] => 2015-05-07T13:15:49Z
+    [codepro] => false
+    [withdraw_amount] => 400.00
+    [sender] => 410012101854814
+    [sha1_hash] => 949b5c19b5a55f48f92130246c03c934638f7fff
+    [unaccepted] => false
+    [operation_label] => 
+    [operation_id] => 968639498722056025
+    [currency] => 643
+    [label] => 
+)
+Label=0
+Amount=400.00
+Label is empty
