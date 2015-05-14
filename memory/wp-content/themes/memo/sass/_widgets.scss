@@ -11,3 +11,8 @@
 		@include widget-title(14px);
 	}
 }
+
+//types
+.textwidget {
+	@include rem('font-size', 12px);
+}

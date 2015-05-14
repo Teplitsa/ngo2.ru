@@ -9,24 +9,15 @@ global $post;
 ?>
 <header class="section-header">
 
+<?php
+if(is_singular(array('post', 'book', 'documnt'))) {
+	echo memo_breadcrumbs();	
+} else { ?>
 <h1 class="section-title"><?php
-	if(is_singular(array('post', 'event'))){
-		//to-do crumbs
-		echo memo_breadcrumbs();
-	}	
-	elseif(is_home()){
+	if(is_home()){
 		$p = get_post(get_option('page_for_posts'));
 		if($p)
 			echo get_the_title($p);
-	}
-	elseif(is_category()){
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			echo get_the_title($p);
-			echo "<span>";
-			single_cat_title(' // ');
-			echo "</span>";
-		}
 	}
 	elseif(is_post_type_archive('event')) {
 		$p = get_post(get_option('page_for_posts'));
@@ -49,5 +40,6 @@ global $post;
 		_e('404: Page not found', 'memo');
 	}
 ?></h1>
+<?php } ?>
 </header>
 

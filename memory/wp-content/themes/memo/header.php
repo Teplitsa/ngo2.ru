@@ -71,4 +71,4 @@
 </div></header>
 	
 
-<div id="content" class="site-content"><div class="container">
+<div id="content" class="site-content"><div class="bg"></div><div class="container">

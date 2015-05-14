@@ -44,6 +44,7 @@ p,ul,ol,dl,blockquote {
 	width: 85%;
 	max-width: 978px;
 	margin: 0 auto;
+	position: relative;
 }
 
 
@@ -87,23 +88,41 @@ p,ul,ol,dl,blockquote {
 
 .site-content {
 	position: relative;
+	background: transparent;	
+	
+	.bg {
+		display: none;
+	}
 	
 	@include for(medium-screens) {
-		&:after {
+		.bg {
 			content: '';
 			display: block;
 			width: 100%;
 			height: 845px;
+			max-height: 100%;
 			background: transparent url(../img/bg.jpg) no-repeat center top;
 			background-size: cover;
 			position: absolute;
 			top: 0;
 			left: 0;
-			z-index: -1px;
+			z-index: 1;
 		}
-	}
-	
+		.container {
+			z-index: 10;
+		}
+	}	
 }
+
+//page-like
+body.page-template-default .site-content {
+	
+	.container {
+		@include rem('padding', 0 $gut);
+		background: rgba(255,255,255, 0.95);
+	}
+}
+
 
 .section-header {
 	
@@ -121,6 +140,7 @@ p,ul,ol,dl,blockquote {
 	border-top: 3px solid $color-link-one;
 	@include rem('font-size', 12px);
 	@include rem('padding', 30px 0);
+	@include rem('margin-top', $base*2);
 }
 
 
@@ -164,3 +184,8 @@ p,ul,ol,dl,blockquote {
 	}
 }
 
+
+//map page
+.map-holder {
+	@include rem('margin-bottom', $base*1.5);
+}
