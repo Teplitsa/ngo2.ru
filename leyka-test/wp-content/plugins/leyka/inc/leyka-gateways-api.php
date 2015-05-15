@@ -105,7 +105,6 @@ abstract class Leyka_Gateway {
     protected $_icon = ''; // A gateway icon URL. Must have 25px on a bigger side
     protected $_payment_methods = array(); // Supported PMs array
     protected $_options = array(); // Gateway configs
-//    protected $_persistent_options = array(); // Gateway universal options (that persists in any gateway)
 
     protected function __construct() {
 
@@ -119,19 +118,6 @@ abstract class Leyka_Gateway {
 
         $this->_set_gateway_attributes(); // Create main Gateway's attributes
 
-//        $this->_persistent_options = array(
-//            $this->_id.'_custom_title' => array(
-//                'type' => 'text', // html, rich_html, select, radio, checkbox, multi_checkbox
-//                'value' => '',
-//                'default' => '',
-//                'title' => __('Custom title', 'leyka'),
-//                'description' => __('IP address to check for requests.', 'leyka'),
-//                'required' => 1,
-//                'placeholder' => __('Ex., 159.255.220.140', 'leyka'),
-//                'list_entries' => array(), // For select, radio & checkbox fields
-//                'validation_rules' => array(), // List of regexp?..
-//            ),
-//        );
         $this->_set_options_defaults(); // Set configurable options in admin area
 
         $this->_set_gateway_pm_list(); // Initialize or restore Gateway's PMs list and all their options
@@ -274,8 +260,9 @@ abstract class Leyka_Gateway {
 
         foreach($this->_options as $option_name => $params) {
 
-            if( !leyka_options()->option_exists($option_name) )
+            if( !leyka_options()->option_exists($option_name) ) {
                 leyka_options()->add_option($option_name, $params['type'], $params);
+            }
         }
 
         add_filter('leyka_payment_options_allocation', array($this, 'allocate_gateway_options'), 1, 1);
@@ -451,25 +438,27 @@ abstract class Leyka_Payment_Method {
     }
 
     public function has_currency_support($currency = false) {
-        if(empty($currency))
+
+        if( !$currency ) {
             return true;
-        elseif(is_array($currency) && !array_diff($currency, $this->_supported_currencies))
+        } elseif(is_array($currency) && !array_diff($currency, $this->_supported_currencies)) {
             return true;
-        elseif(in_array($currency, $this->_supported_currencies))
+        } elseif(in_array($currency, $this->_supported_currencies)) {
             return true;
-        else
+        } else {
             return false;
+        }
     }
 
     abstract protected function _set_pm_options_defaults();
 
-    /** @todo Maybe, it's worth to make this method a final. */
-    protected function _add_pm_options() {
+    protected final function _add_pm_options() {
 
         foreach($this->_options as $option_name => $params) {
 
-            if( !leyka_options()->option_exists($option_name) )
+            if( !leyka_options()->option_exists($option_name) ) {
                 leyka_options()->add_option($option_name, $params['type'], $params);
+            }
         }
     }
 
@@ -478,7 +467,24 @@ abstract class Leyka_Payment_Method {
         $this->_set_pm_options_defaults();
 
         $this->_add_pm_options();
-    
+
+        /** PM frontend label is a special persistent option, universal for each PM */
+        if( !leyka_options()->option_exists($this->full_id.'_label') ) {
+
+            leyka_options()->add_option($this->full_id.'_label', 'text', array(
+                'value' => '',
+                'default' => $this->_label,
+                'title' => __('Payment method custom label', 'leyka'),
+                'description' => __('A label for this payment method that will appear on all donation forms.', 'leyka'),
+                'required' => false,
+                'placeholder' => '',
+                'validation_rules' => array(), // List of regexp?..
+            ));
+        }
+
+        $this->_label = leyka_options()->opt_safe($this->full_id.'_label') ?
+            leyka_options()->opt_safe($this->full_id.'_label') : $this->_label;
+
         add_filter('leyka_payment_options_allocation', array($this, 'allocate_pm_options'), 10, 1);
     }
 

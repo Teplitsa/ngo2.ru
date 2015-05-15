@@ -117,10 +117,13 @@ foreach($gw as $i => $gateway) { //add metaboxes
         <ul id="pm-order-settings">
             <?php $pm_order = explode('pm_order[]=', leyka_options()->opt('pm_order'));
             array_shift($pm_order);
-    
+
             foreach($pm_order as $pm) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm), true);?>
-    
-                <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order"><?php echo $pm->title_backend;?></li>
+
+                <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
+                    <?php echo $pm->label;?>
+                    <span class="pm-change-custom-label" data-pm-id="<?php echo $pm->full_id;?>">Переим.</span>
+                </li>
             <?php }?>
         </ul>
         <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
