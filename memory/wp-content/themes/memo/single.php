@@ -11,7 +11,7 @@ get_header(); ?>
 
 <?php get_template_part('partials/title', 'section');?>	
 
-<div class="complex-single">
+<div class="complex-single content-area">
 	<?php while ( have_posts() ) : the_post(); ?>
 
 		<?php get_template_part('partials/content_single', get_post_type()); ?>

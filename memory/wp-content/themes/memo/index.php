@@ -11,7 +11,7 @@ get_header(); ?>
 <?php get_template_part('partials/title', 'section');?>	
 
 <?php if(is_post_type_archive(array('document', 'book')) || is_home()) { ?>
-<div class="complex-loop">
+<div class="complex-loop content-area">
 	<div class="frame">
 	<?php
 		if(have_posts()){

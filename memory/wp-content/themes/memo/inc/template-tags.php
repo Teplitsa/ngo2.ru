@@ -307,21 +307,18 @@ function memo_breadcrumbs(){
 			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 			$cat = wp_get_object_terms($post->ID, 'category');
 			if(!empty($cat)){
-				$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('memo_the_title', $cat[0]->name)."</a>";
+				$links[] = "&lt; <a href='".get_term_link($cat[0])."'>".apply_filters('memo_the_title', $cat[0]->name)."</a>";
 			}
 		}	
 	}
-	elseif(is_singular('event')) {
+	elseif(is_singular('document')){
 		
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
-			$pt_link = get_post_type_archive_link('event');
-			$pt_name = memo_get_post_type_archive_title('event');
-			if(!empty($pt_name)){
-				$links[] = "<a href='".$pt_link."'>".$pt_name."</a>";
-			}
-		}	
+		$pt_link = get_post_type_archive_link('document');
+		$pt_name = memo_get_post_type_archive_title('document');
+		if(!empty($pt_name)){
+			$links[] = "&lt; <a href='".$pt_link."'>".$pt_name."</a>";
+		}
+			
 	}
 	
 	$sep = memo_get_sep();
@@ -330,6 +327,14 @@ function memo_breadcrumbs(){
 }
 
 function memo_get_post_type_archive_title($post_type) {
+	
+	if($post_type == 'document'){
+		return "Раритет";
+	}
+	
+	if($post_type == 'book'){
+		return "Книжная полка";
+	}
 	
 	$pt_obj = get_post_type_object( $post_type );
 	return $pt_obj->labels->name;

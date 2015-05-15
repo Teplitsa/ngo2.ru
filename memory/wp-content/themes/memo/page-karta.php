@@ -7,8 +7,8 @@ get_header(); ?>
 
 <?php get_template_part('partials/title', 'section');?>
 
-<div id="primary" class="content-area">
-	<main id="main" class="site-main" role="main">		
+<div class="content-area">
+		
 		
 		<section class="map-holder">
 			<div id="map" style="height: 520px;"></div>
@@ -50,7 +50,7 @@ get_header(); ?>
 				<?php get_sidebar();?>
 			</div>
 		</section>
-	</main><!-- #main -->
+	
 </div><!-- #primary -->
 
 <?php get_footer(); ?>

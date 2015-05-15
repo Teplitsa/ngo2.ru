@@ -10,7 +10,7 @@ global $post;
 <header class="section-header">
 
 <?php
-if(is_singular(array('post', 'book', 'documnt'))) {
+if(is_singular(array('post', 'book', 'document'))) {
 	echo memo_breadcrumbs();	
 } else { ?>
 <h1 class="section-title"><?php
@@ -19,14 +19,9 @@ if(is_singular(array('post', 'book', 'documnt'))) {
 		if($p)
 			echo get_the_title($p);
 	}
-	elseif(is_post_type_archive('event')) {
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			echo get_the_title($p);
-			echo "<span>";
-			post_type_archive_title(' // ');
-			echo "</span>";
-		}
+	elseif(is_post_type_archive('document')) {
+		
+		echo memo_get_post_type_archive_title('document');
 	}
 	elseif(is_page()) {
 		global $post;
