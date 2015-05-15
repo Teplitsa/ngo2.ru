@@ -162,6 +162,8 @@ class PLL_Model {
 					foreach ($languages as $k => $v) {
 						$languages[$k] = new PLL_Language($v, $term_languages[$v->name]);
 					}
+					
+					$languages = apply_filters('pll_languages_list', $languages);
 				}
 				else {
 					$languages = array(); // in case something went wrong
@@ -398,10 +400,11 @@ class PLL_Model {
 		$translations = array_intersect_key($translations, array_flip($this->get_languages_list(array('fields' => 'slug'))));
 		
 		// make sure to return at least the passed post or term in its translation array
-		if (empty($translations) && $lang = call_user_func(array(&$this, 'get_'.$type.'_language'), $id))
+		if (empty($translations) && $type && $lang = call_user_func(array(&$this, 'get_'.$type.'_language'), $id))
 			$translations = array($lang->slug => $id);
 		
-		return $translations;	}
+		return $translations;
+	}
 
 	/*
 	 * store the post language in the database
@@ -494,10 +497,8 @@ class PLL_Model {
 		elseif (is_string($value) && $taxonomy)
 			$term_id = get_term_by('slug', $value , $taxonomy)->term_id;
 
-		$lang = $this->get_object_term($term_id, 'term_language');
-
-		// switch to PLL_Language
-		return ($lang) ? $this->get_language($lang->term_id) : false;
+		// get the language and make sure it is a PLL_Language object
+		return isset($term_id) && ($lang = $this->get_object_term($term_id, 'term_language')) ? $this->get_language($lang->term_id) : false;
 	}
 
 	/*
@@ -908,8 +909,12 @@ class PLL_Model {
 	 * @return object implementing "links_model interface"
 	 */
 	public function get_links_model() {
-		$c = array('Directory', 'Directory', 'Subdomain', 'Domain');
-		$class = get_option('permalink_structure') ? 'PLL_Links_' .$c[$this->options['force_lang']] : 'PLL_Links_Default';
-		return new $class($this);
+		if (!$links_model = $this->cache->get('links_model')) {
+			$c = array('Directory', 'Directory', 'Subdomain', 'Domain');
+			$class = get_option('permalink_structure') ? 'PLL_Links_' .$c[$this->options['force_lang']] : 'PLL_Links_Default';
+			$links_model = new $class($this);
+			$this->cache->set('links_model', $links_model);
+		}
+		return $links_model;
 	}
 }

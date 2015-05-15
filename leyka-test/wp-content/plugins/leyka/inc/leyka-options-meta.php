@@ -620,18 +620,17 @@ $options_meta = apply_filters('leyka_core_options_meta', array(
         'list_entries' => array(), // For select, radio & checkbox fields
         'validation_rules' => array(), // List of regexp?..
     ),
-    /** @todo Решили убрать эту опцию за ненужностью. Если ненужность подтвердится, удалить совсем. */
-//    'test_mode_on' => array(
-//        'type' => 'checkbox', // html, rich_html, select, radio, checkbox, multi_checkbox
-//        'default' => '',
-//        'title' => __('Test mode is on', 'leyka'),
-//        'description' => __('Check to enable the test mode. While in test mode, the real payments will not be committed.', 'leyka'),
-//        'required' => 0, // 1 if field is required, 0 otherwise
-//        'placeholder' => '', // For text fields
-//        'length' => '', // For text fields
-//        'list_entries' => array(), // For select, radio & checkbox fields
-//        'validation_rules' => array(), // List of regexp?..
-//    ),
+    'donation_submit_text' => array(
+        'type' => 'text',
+        'default' => __('Donate', 'leyka'),
+        'title' => __('Label of the button to submit a donation form', 'leyka'),
+        'description' => __('Enter the text for a submit buttons on a donation forms.', 'leyka'),
+        'required' => 1,
+        'placeholder' => __('For ex., «Donate» or «Support»', 'leyka'),
+        'length' => '', // For text fields
+        'list_entries' => array(), // For select, radio & checkbox fields
+        'validation_rules' => array(), // List of regexp?..
+    ),
     'success_page' => array(
         'type' => 'select',
         'default' => leyka_get_default_success_page(),
