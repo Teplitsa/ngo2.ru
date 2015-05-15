@@ -165,7 +165,7 @@ function memo_custom_content(){
         'menu_position'      => 5,
 		'menu_icon'          => 'dashicons-media-default',
         'taxonomies'         => array('post_tag', 'type'),
-        'supports'           => array('title', 'excerpt',)
+        'supports'           => array('title', 'editor', 'thumbnail', 'excerpt',)
     ));
 
     
