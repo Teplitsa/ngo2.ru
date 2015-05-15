@@ -4,75 +4,7 @@ if( !function_exists('step_custom_content') ) {
 function step_custom_content(){
 
     /** Existing post types settings: */
-    add_post_type_support('page', array('excerpt'));
-	
-	register_taxonomy('topics', array('post', 'reference'), array(
-        'labels' => array(
-            'name'                       => 'Темы',
-            'singular_name'              => 'Тема',
-            'menu_name'                  => 'Темы',
-            'all_items'                  => 'Все темы',
-            'edit_item'                  => 'Редактировать тему',
-            'view_item'                  => 'Просмотреть',
-            'update_item'                => 'Обновить тему',
-            'add_new_item'               => 'Добавить новую тему',
-            'new_item_name'              => 'Название новой темы',
-            'parent_item'                => 'Родительская тема',
-            'parent_item_colon'          => 'Родительская тема:',            
-            'search_items'               => 'Искать темы',
-            'popular_items'              => 'Часто используемые',
-            'separate_items_with_commas' => 'Разделять запятыми',
-            'add_or_remove_items'        => 'Добавить или удалить темы',
-            'choose_from_most_used'      => 'Выбрать из часто используемых',
-            'not_found'                  => 'Не найдено'
-        ),
-        'hierarchical'      => true,
-        'show_ui'           => true,
-        'show_in_nav_menus' => true,
-        'show_tagcloud'     => false,
-        'show_admin_column' => true,
-        'query_var'         => true,
-        'rewrite'           => array('slug' => 'topics', 'with_front' => false),
-        //'update_count_callback' => '',        
-    ));
-	
-	
-    /** Post types: */
-    register_post_type('reference', array(
-        'labels' => array(
-            'name'               => 'Ссылки',
-            'singular_name'      => 'Ссылка',
-            'menu_name'          => 'Ссылки',
-            'name_admin_bar'     => 'Добавить ссылку',
-            'add_new'            => 'Добавить новую',
-            'add_new_item'       => 'Добавить ссылку',
-            'new_item'           => 'Новая ссылка',
-            'edit_item'          => 'Редактировать ссылку',
-            'view_item'          => 'Просмотр ссылки',
-            'all_items'          => 'Все ссылки',
-            'search_items'       => 'Искать ссылки',
-            'parent_item_colon'  => 'Родительская ссылка:',
-            'not_found'          => 'Ссылки не найдены',
-            'not_found_in_trash' => 'В корзине ссылки не найдены'
-       ),
-        'public'              => true,
-        'exclude_from_search' => false,
-        'publicly_queryable'  => true,
-        'show_ui'             => true,
-        'show_in_nav_menus'   => false,
-        'show_in_menu'        => true,
-        'show_in_admin_bar'   => true,
-        //'query_var'           => true,
-        'capability_type'     => 'post',
-        'has_archive'         => false,
-        'rewrite'             => array('slug' => 'ref', 'with_front' => false),
-        'hierarchical'        => false,
-        'menu_position'       => 5,
-        'supports'            => array('title', 'excerpt', 'editor', 'thumbnail'),
-        'taxonomies'          => array('post_tag'),
-    ));
-
-	
+//    add_post_type_support('page', array('excerpt'));
 }
 
 } // if step_custom_content
