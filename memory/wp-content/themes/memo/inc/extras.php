@@ -45,7 +45,7 @@ function memo_continue_reading_link() {
 
 function memo_get_more_text(){
 	
-	return __('More', 'memo');
+	return "&raquo;";
 }
 
 /** excerpt filters  */
@@ -56,7 +56,7 @@ function memo_auto_excerpt_more( $more ) {
 
 add_filter( 'excerpt_length', 'memo_custom_excerpt_length' );
 function memo_custom_excerpt_length( $l ) {
-	return 30;
+	return 20;
 }
 
 /** inject */
