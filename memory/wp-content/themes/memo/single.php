@@ -20,8 +20,9 @@ get_header(); ?>
 		
 <?php
 	//related
-	$num = 6; 
-	$r_query = frl_get_related_query($post, 'post_tag', $num); 
+	$num = 6;
+	$tax = (is_singular('post')) ? 'place' : 'post_tag';
+	$r_query = frl_get_related_query($post, $tax, $num); 
 	if($r_query && $r_query->have_posts()){
 ?>
 	<aside class="related-posts entry-relations">
@@ -31,7 +32,14 @@ get_header(); ?>
 			
 		while($r_query->have_posts()){
 			$r_query->the_post();
-			get_template_part('partials/content', get_post_type());
+			
+			if(is_singular('post')){
+				get_template_part('partials/content', 'story');
+			}
+			else {
+				get_template_part('partials/content', get_post_type());
+			}
+			
 		}
 		wp_reset_postdata();
 		
