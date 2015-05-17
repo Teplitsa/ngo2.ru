@@ -23,7 +23,7 @@ $css = (is_singular()) ? ' bit sm-6 md-4' : '';
 	</header>
 	
 	<div class="entry-summary"><?php the_excerpt(); ?></div>
-	<?php echo get_the_term_list(get_the_ID(), 'post_tag', '<div class="type">', ', ', '</div>'); ?>
+	<?php echo get_the_term_list(get_the_ID(), 'post_tag', '<div class="tags"><i class="fa fa-tags"></i>', ', ', '</div>'); ?>
 
 </div>
 

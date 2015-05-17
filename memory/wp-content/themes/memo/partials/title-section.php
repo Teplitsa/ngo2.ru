@@ -23,6 +23,10 @@ if(is_singular(array('post', 'book', 'document'))) {
 		
 		echo memo_get_post_type_archive_title('document');
 	}
+	elseif(is_post_type_archive('book')) {
+		
+		echo memo_get_post_type_archive_title('book');
+	}
 	elseif(is_page()) {
 		global $post;
 		
