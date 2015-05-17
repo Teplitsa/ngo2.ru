@@ -8,18 +8,23 @@
  */
 
 /* CPT Filters */
-//add_action('parse_query', 'memo_request_corrected');
+add_action('parse_query', 'memo_request_corrected');
 function memo_request_corrected($query) {
 	
-	if(is_admin())
+	if(is_admin() || !$query->is_main_query())
 		return;
 	
-	if(is_search() && $query->is_main_query()){
+
+	if(is_search()){
 		
 		$per = get_option('posts_per_page');
 		if($per < 25) {
-			$query->query_vars['posts_per_page'] = 15; // 25
+			$query->query_vars['posts_per_page'] = 5; // 25
 		}
+	}
+	elseif(is_home()){
+		$query->query_vars['orderby'] = 'title';
+		$query->query_vars['order'] = 'ASC';
 	}
 	
 	//var_dump($query->query_vars);
