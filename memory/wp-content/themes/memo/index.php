@@ -15,16 +15,21 @@ get_header(); ?>
 	<div class="frame">
 	<?php
 		if(have_posts()){
-			$count = 1;
+			$count = 1; $col = 1;
 			while(have_posts()){			
 				
 				if($count > ceil(count($wp_query->posts)/3)){
 					$count = 1;
+					$col++;
 					echo "</div>";
 				}
 				
 				if($count == 1)
 					echo "<div class='bit md-4'>";
+				
+				if(is_home() && $col == 3){
+					memo_tags_widget();
+				}
 				
 				the_post();
 				get_template_part( 'partials/content', get_post_type() );

@@ -3,7 +3,7 @@
  * @package bb
  */
 
-$show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail') : true;
+
 
 ?>
 
@@ -18,34 +18,58 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 		
 	</header>
 	
-	
-	<div class="entry-summary"><?php the_excerpt();?></div>
-	
-	<?php if($show_thumb) { ?>
-		<div class="entry-media">
+	<div class="frame intro-section">
+		<div class="bit md-3">
+			<div class="entry-media">
 			<?php
 				$attr = array(
 					'alt' => sprintf(__('Thumbnail for - %s', 'memo'), get_the_title()),
 				);
-				the_post_thumbnail('embed', $attr);
+				the_post_thumbnail('portrait', $attr);
 			?>
+			</div>
 		</div>
-	<?php } ?>
-	
-	<div class="entry-content"><?php the_content(); ?></div><!-- .entry-content -->
-		
-	<?php
-		$pt = get_post_type();
-		if($pt == 'post') {
-	?>
-		<footer class="entry-footer">
-		<time class="date"><?php echo esc_html(get_the_date());?></time>
+		<div class="bit md-9">
+			<div class="entry-summary">
 		<?php
-			$sep = memo_get_sep();
-			echo get_the_term_list(get_the_ID(), 'category', $sep.' <span class="category">', ', ', '</span>');
+			$intro = (function_exists('get_field')) ? get_field('annotation_full') : '';
+			echo apply_filters('memo_the_content', $intro);
 		?>
-		</footer>
-	<?php } ?>
+			</div>
+		</div>
+	</div>
+	
+	<div class="frame content-section">
+		<div class="bit md-8">
+			<div class="entry-content"><?php the_content();?></div>
+		</div>
+		<div class="bit md-4">
+			<div class="column-inner side">
+				
+				<div class="widget">
+					<h3 class="widget-title">Аудио</h3>
+					<div class="widget-content">Здесь будет плеер</div>
+				</div>
+				
+				<div class="widget">
+					<h3 class="widget-title">Фото</h3>
+					<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 3);?></div>
+				</div>
+				
+			</div>
+		</div>
+	</div>
+	
+	<footer class="document-footer">
+		<div class="frame">
+			<div class="bit sm-7 md-9">
+				<span class="pubdate"><i class="fa fa-calendar"></i> <time><?php the_date();?></time></span>
+				<?php echo get_the_term_list(get_the_ID(), 'place', ' <span class="tags"><i class="fa fa-map-marker"></i>', ', ', '</span>'); ?>
+			</div>
+			<div class="bit sm-5 md-3"><?php memo_post_nav(); ?></div>
+		</div>
+		
+	</footer>
 	
 </article><!-- #post-## -->
 

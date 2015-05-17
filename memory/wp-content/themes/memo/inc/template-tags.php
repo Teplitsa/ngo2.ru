@@ -309,11 +309,7 @@ function memo_breadcrumbs(){
 	if(is_singular('post')) {
 		$p = get_post(get_option('page_for_posts'));
 		if($p){
-			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
-			$cat = wp_get_object_terms($post->ID, 'category');
-			if(!empty($cat)){
-				$links[] = "&lt; <a href='".get_term_link($cat[0])."'>".apply_filters('memo_the_title', $cat[0]->name)."</a>";
-			}
+			$links[] = "&lt; <a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 		}	
 	}
 	elseif(is_singular('document')){
@@ -353,5 +349,56 @@ function memo_get_post_type_archive_title($post_type) {
 	return $pt_obj->labels->name;
 }
 
+function memo_tags_widget(){
+	
+?>
+	<div class="tagscloud-widget">
+		<div class="post-inner">
+			<div class="widget-icon"><i class="fa fa-map-marker"></i></div>
+			<div class="widget-cloud-content">
+			<?php
+				$args = array(
+					'taxonomy' => 'place',
+					'smallest' => 11, 'largest' => 18, 'unit' => 'pх'
+				);
+				wp_tag_cloud($args);
+			?>
+			</div>
+		</div>	
+	</div>
+<?php	
+}
 
+function memo_post_attached_gallery($post_id, $columns) {
+	
+	$gallery = (function_exists('get_field')) ? get_field('entry_gallery') : '';
+	if(empty($gallery))
+		return '';
+	
+	$ids = array();
+	foreach($gallery as $g){
+		$ids[] = $g['id'];
+	}
+	
+	 $args = array(
+        'post_type'   => 'attachment',
+        'post_status' => 'inherit',
+        'orderby'     => 'post__in',
+        'order'       => 'ASC',
+        'post_mime_type' => 'image',
+        'post__in'     => $ids,
+        'posts_per_page' => -1
+    );
+	
+	$columns = intval($columns);
 
+    if($columns == 0 || $columns > 8)
+        $columns = 5;
+		
+	$query = new WP_Query($args);
+	
+    if(empty($query->posts))
+        return $out; //no attachments
+	
+	return lam_lightbox_gallery_output($query->posts, $columns);
+}
