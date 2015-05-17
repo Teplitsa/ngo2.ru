@@ -18,7 +18,7 @@ get_header(); ?>
 
 	<?php endwhile; // end of the loop. ?>
 		
-	<?php
+<?php
 	//related
 	$num = 6; 
 	$r_query = frl_get_related_query($post, 'post_tag', $num); 

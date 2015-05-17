@@ -320,6 +320,14 @@ function memo_breadcrumbs(){
 		}
 			
 	}
+	elseif(is_singular('book')){
+		
+		$pt_link = get_post_type_archive_link('book');
+		$pt_name = memo_get_post_type_archive_title('book');
+		if(!empty($pt_name)){
+			$links[] = "&lt; <a href='".$pt_link."'>".$pt_name."</a>";
+		}
+	}
 	
 	$sep = memo_get_sep();
 	
@@ -338,42 +346,6 @@ function memo_get_post_type_archive_title($post_type) {
 	
 	$pt_obj = get_post_type_object( $post_type );
 	return $pt_obj->labels->name;
-}
-
-/**
- * Events meta
- **/
-
-function memo_event_meta($cpost = null) {
-	global $post;
-		
-	if(!$cpost)
-		$cpost = $post;
-		
-	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : $cpost->post_date;
-	$time = (function_exists('get_field')) ? get_field('event_time', $cpost->ID) : '';
-	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
-
-	if(!empty($date)){
-		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Event date', 'memo').":</span>";
-		echo "<time class='e-date'>".date('d.m.Y', strtotime($date))."</time>";
-		echo "</div>";
-	}
-	if(!empty($time)){
-		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Time', 'memo').":</span>";
-		echo "<time class='e-time'>".apply_filters('memo_the_title', $time)."</time>";
-		echo "</div>";
-	}
-	if(!empty($addr)){
-		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Address', 'memo').":</span>";
-		echo "<time class='e-time'>".apply_filters('memo_the_title', $addr)."</time>";
-		echo "</div>";
-	}
-	
-
 }
 
 

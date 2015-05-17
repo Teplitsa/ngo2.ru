@@ -12,7 +12,8 @@ function frl_related_posts_rules(){
 	
 	return array(
 		'post'      => array('post'),
-		'document'  => array('document'),		
+		'document'  => array('document'),
+		'book'      => array('book')
 	);
 }
 

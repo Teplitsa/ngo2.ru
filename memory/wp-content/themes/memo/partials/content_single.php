@@ -18,7 +18,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 		
 	</header>
 	
-	<div class="entry-meta"><?php memo_event_meta(); ?></div>
+	
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	
 	<?php if($show_thumb) { ?>
