@@ -72,6 +72,20 @@ jQuery(document).ready(function($){
                 $pm_order.sortable('refresh').sortable('refreshPositions');
             }
         });
+
+        // PM renaming (changing labels) fields:
+        $('.pm-change-label').click(function(e){
+
+            e.preventDefault();
+
+            var $this = $(this),
+                $wrapper = $this.parents('li:first'),
+                pm_full_id = $this.data('pm-id');
+
+            $this.hide();
+            $wrapper.find('#pm-label-'+pm_full_id).slideUp(100);
+            $wrapper.find('.pm-label-field').slideDown(100);
+        });
     }
 
     /** Manual emails sending: */

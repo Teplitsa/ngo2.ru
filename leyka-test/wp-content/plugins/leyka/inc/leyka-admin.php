@@ -20,13 +20,13 @@ class Leyka_Admin_Setup {
 	private function __construct() {
 
 		add_action('admin_menu', array($this, 'admin_menu_setup'), 9); // Add the options page and menu item
-		
+
 		add_action('admin_enqueue_scripts', array($this, 'enqueue_cssjs')); // Load admin style sheet and JavaScript
 
         /** Remove needless metaboxes */
         add_action('admin_init', array($this, 'remove_seo')); // Remove needless columns and metaboxes
 
-        add_action('wp_ajax_leyka_send_feedback', array($this, 'ajax_send_feedback')); // Ajax
+        add_action('wp_ajax_leyka_send_feedback', array($this, 'ajax_send_feedback'));
 
         add_filter('plugin_row_meta', array($this, 'set_plugin_meta'), 10, 2);
 
@@ -522,7 +522,7 @@ class Leyka_Admin_Setup {
     <?php }
 
     /** Feedback page processing */
-    function ajax_send_feedback() {
+    public function ajax_send_feedback() {
 
         if( !wp_verify_nonce($_POST['nonce'], 'leyka_feedback_sending') ) {
             die('1');

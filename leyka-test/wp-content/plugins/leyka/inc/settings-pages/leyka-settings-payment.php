@@ -116,8 +116,16 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             foreach($pm_order as $pm) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm), true);?>
 
                 <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
-                    <?php echo $pm->label;?>
-                    <span class="pm-change-custom-label" data-pm-id="<?php echo $pm->full_id;?>">Переим.</span>
+                    <?php echo $pm->label_backend;?>
+                    <br>
+                    <span id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
+                    <span class="pm-label-field" style="display:none;">
+                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('A new label:', 'leyka');?></label>
+                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" name="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>">
+                        <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
+                        <span class="new-pm-label-cancel"><? _e('Cancel', 'leyka');?></span>
+                    </span>
+                    <span class="pm-change-label" data-pm-id="<?php echo $pm->full_id;?>">Переим.</span>
                 </li>
             <?php }?>
         </ul>
