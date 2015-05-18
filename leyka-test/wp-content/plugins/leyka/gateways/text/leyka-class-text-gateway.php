@@ -83,6 +83,8 @@ class Leyka_Text_Box extends Leyka_Payment_Method {
 
         $this->_id = empty($params['id']) ? 'text_box' : $params['id'];
 
+        $this->_label_backend = empty($params['label_backend']) ?
+            __('Additional ways to donate', 'leyka') : $params['label_backend'];
         $this->_label = empty($params['label']) ? __('Additional ways to donate', 'leyka') : $params['label'];
 
         $this->_description = empty($params['desc']) ?

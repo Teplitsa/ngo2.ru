@@ -3,12 +3,11 @@
 
 function grt_change_pm_labels($label, Leyka_Payment_Method $pm) {
 
-    if($pm->gateway_id == 'quittance')
+    if(
+        $label != leyka_options()->get_default_of($pm->full_id.'_label') // Label was changed via settings
+     || $pm->gateway_id == 'quittance') {
         return $label;
-
-//    if($pm->id == 'chronopay_card_rebill') {
-//        $label .= ' - регулярные платежи';
-//    }
+    }
 
     foreach(leyka_get_gateways() as $gateway) {
         if($gateway->id == $pm->gateway_id) {

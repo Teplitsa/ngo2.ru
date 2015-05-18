@@ -170,6 +170,8 @@ class Leyka_Bank_Order extends Leyka_Payment_Method {
 
         $this->_active = isset($params['active']) ? $params['active'] : true;
 
+        $this->_label_backend = empty($params['label_backend']) ?
+            __('Bank order quittance', 'leyka') : $params['label_backend'];
         $this->_label = empty($params['label']) ? __('Bank order quittance', 'leyka') : $params['label'];
 
         $this->_description = empty($params['desc']) ?

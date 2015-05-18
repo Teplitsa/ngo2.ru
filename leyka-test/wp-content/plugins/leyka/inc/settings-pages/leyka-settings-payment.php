@@ -116,8 +116,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             foreach($pm_order as $pm) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm), true);?>
 
                 <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
-                    <?php echo $pm->label_backend;?>
-                    <br>
+                    <?php echo $pm->label_backend == $pm->label ? '' : $pm->label_backend.'<br>';?>
                     <span class="pm-label" id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
                     <span class="pm-label-fields" style="display:none;">
                         <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('New label:', 'leyka');?></label>
