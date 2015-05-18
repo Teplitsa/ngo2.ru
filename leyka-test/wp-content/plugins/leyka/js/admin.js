@@ -7,19 +7,20 @@ jQuery(document).ready(function($){
     /** Plugin metaboxes rendering: */
     function leyka_support_metaboxes(metabox_area) {
 
-        $('.if-js-closed').removeClass('if-js-closed').addClass('closed'); // close postboxes that should be closed
+        $('.if-js-closed').removeClass('if-js-closed').addClass('closed'); // Close postboxes that should be closed
         postboxes.add_postbox_toggles(metabox_area);
     }
 
-    // Leyka desktop page:
-    if($('body').hasClass('toplevel_page_leyka')) {
+    var $body = $('body');
+
+    if($body.hasClass('toplevel_page_leyka')) { // Leyka desktop page
         leyka_support_metaboxes('toplevel_page_leyka');
+    } else if($body.hasClass('lejka_page_leyka_settings')) { // Leyka payment settings page
+        leyka_support_metaboxes('lejka_page_leyka_settings');
     }
 
     // Payment settings page:
     if($('#payment-settings-area').length) {
-
-        leyka_support_metaboxes('leyka_settings_payment');
 
         var $gateways_accordion = $('#pm-settings-wrapper');
         $gateways_accordion.accordion({

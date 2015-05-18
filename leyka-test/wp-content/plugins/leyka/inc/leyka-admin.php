@@ -54,7 +54,7 @@ class Leyka_Admin_Setup {
             return;?>
 
         <!-- Metaboxes reordering and folding support -->
-        <form style="display:none" method="get" action="">
+        <form style="display:none" method="get" action="#">
             <?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
             <?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
         </form>
@@ -147,12 +147,12 @@ class Leyka_Admin_Setup {
 	/** Displaying dashboard **/
 	public function dashboard_screen(){
 
-		if( !current_user_can('leyka_manage_donations') )
+		if( !current_user_can('leyka_manage_donations') ) {
             wp_die(__('Sorry, but you do not have permissions to access this page.', 'leyka'));
+        }
 
 		do_action('leyka_dashboard_actions'); // Collapsible
 
-		/* @to-do: make metaboxes collapsable */
 		add_meta_box('leyka_guide', __('First steps', 'leyka'), array($this, 'guide_metabox_screen'), 'toplevel_page_leyka', 'normal');
 		add_meta_box('leyka_status', __('Settings', 'leyka'), array($this, 'status_metabox_screen'), 'toplevel_page_leyka', 'normal');
 		add_meta_box('leyka_history', __('Recent donations', 'leyka'), array($this, 'history_metabox_screen'), 'toplevel_page_leyka', 'normal');
@@ -381,8 +381,9 @@ class Leyka_Admin_Setup {
 	public function settings_screen() {
 		
 		/* Capability test */
-		if( !current_user_can('leyka_manage_options') )
+		if( !current_user_can('leyka_manage_options') ) {
             wp_die(__('You do not have permissions to access this page.', 'leyka'));
+        }
 
         $current_stage = $this->get_current_settings_tab();
 
@@ -390,8 +391,6 @@ class Leyka_Admin_Setup {
 
         /* Page actions */
 		do_action('leyka_pre_settings_actions', $current_stage);
-
-		$faction = add_query_arg('stage', $current_stage, "admin.php?page=leyka_settings");
 
         /** Process settings change */
 	    if( !empty($_POST["leyka_settings_{$current_stage}_submit"]) ) {
@@ -404,7 +403,7 @@ class Leyka_Admin_Setup {
 		<h2 class="nav-tab-wrapper"><?php echo $this->settings_tabs_menu();?></h2>
 
 		<div id="tab-container">
-			<form method="post" action="<?php echo admin_url($faction);?>" id="leyka-settings-form">
+			<form method="post" action="<?php echo admin_url(add_query_arg('stage', $current_stage, 'admin.php?page=leyka_settings'));?>" id="leyka-settings-form">
 
             <?php wp_nonce_field("leyka_settings_{$current_stage}", '_leyka_nonce');
 
@@ -605,8 +604,8 @@ class Leyka_Admin_Setup {
             $dependencies[] = 'postbox';
         }
         if($current_screen->id == 'lejka_page_leyka_settings') {
-            $dependencies[] = 'jquery-ui-accordion';
             $dependencies[] = 'postbox';
+            $dependencies[] = 'jquery-ui-accordion';
             $dependencies[] = 'jquery-ui-sortable';
         }
         if($current_screen->post_type == Leyka_Donation_Management::$post_type) {

@@ -1,7 +1,5 @@
-<?php
-if( !defined('WPINC') ) die; // If this file is called directly, abort
+<?php if( !defined('WPINC') ) die; // If this file is called directly, abort
 
-//ad metabox on screen
 function leyka_add_gateway_metabox($post, $args) {
 
     // $post is always null
@@ -24,15 +22,12 @@ function leyka_add_gateway_metabox($post, $args) {
 <?php
 }
 
-$gw = leyka_get_gateways();
 $count = 0;
-foreach($gw as $i => $gateway) { //add metaboxes
-        
+foreach(leyka_get_gateways() as $gateway) { //add metaboxes
+
     $count++;
-    if($count > 3){
-       $count = 1;
-    }
-      
+    $count = $count > 3 ? 1 : $count;
+
     add_meta_box(
         'leyka_payment_settings_gateway_'.$gateway->id,
         $gateway->title,
