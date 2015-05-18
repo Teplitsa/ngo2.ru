@@ -505,6 +505,7 @@ abstract class Leyka_Payment_Method {
         $gateway_section_index = -1;
 
         foreach($options as $index => $option) {
+
             if( !empty($option['section']) && $option['section']['name'] == $gateway->id ) {
                 $gateway_section_index = $index;
                 break;
@@ -512,19 +513,21 @@ abstract class Leyka_Payment_Method {
         }
 
         $pm_options_names = $this->get_pm_options_names();
+        $pm_options_names[] = $this->full_id.'_label';
 
-        if($gateway_section_index < 0)
+        if($gateway_section_index < 0) {
             $options[] = array('section' => array(
                 'name' => $gateway->id,
                 'title' => $gateway->title,
                 'is_default_collapsed' => false,
                 'options' => $pm_options_names,
             ));
-        else
+        } else {
             $options[$gateway_section_index]['section']['options'] = array_unique(array_merge(
                 $pm_options_names,
                 $options[$gateway_section_index]['section']['options']
             ));
+        }
 
         return $options;
     }

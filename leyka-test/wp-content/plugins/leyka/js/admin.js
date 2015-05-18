@@ -74,7 +74,7 @@ jQuery(document).ready(function($){
         });
 
         // PM renaming (changing labels) fields:
-        $('.pm-change-label').click(function(e){
+        $('.pm-change-label').on('click', function(e){
 
             e.preventDefault();
 
@@ -83,13 +83,34 @@ jQuery(document).ready(function($){
                 pm_full_id = $this.data('pm-id');
 
             $this.hide();
-            $wrapper.find('#pm-label-'+pm_full_id).slideUp(100);
-            $wrapper.find('.pm-label-field').slideDown(100);
+            $wrapper.find('.pm-label').hide();
+            $wrapper.find('.pm-label-fields').show();
+        });
+        $('.new-pm-label-ok,.new-pm-label-cancel').on('click', function(e){
+
+            e.preventDefault();
+
+            var $this = $(this),
+                $wrapper = $this.parents('li:first'),
+                $pm_label_wrapper = $wrapper.find('.pm-label'),
+                new_pm_label = $wrapper.find('input[id*="pm_label"]').val();
+
+            if($this.hasClass('new-pm-label-ok')) {
+                $pm_label_wrapper.text(new_pm_label);
+                $wrapper.find('input.pm-label-field').val(new_pm_label);
+            } else {
+                $wrapper.find('input[id*="pm_label"]').val($pm_label_wrapper.text());
+            }
+
+            $pm_label_wrapper.show();
+            $wrapper.find('.pm-label-fields').hide();
+            $wrapper.find('.pm-change-label').show();
         });
     }
 
     /** Manual emails sending: */
     $('.send-donor-thanks').click(function(e){
+
         e.preventDefault();
 
         var $this = $(this),

@@ -104,7 +104,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
            
         </div><!-- #active-pm-settings -->
     </div><!-- .active-pm-panel -->
-    
+
     <div class="pm-order-panel"><div class="panel-content">
 
         <h3 class="panel-title"><?php _e('Payment methods order', 'leyka');?></h3>
@@ -118,10 +118,11 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                 <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
                     <?php echo $pm->label_backend;?>
                     <br>
-                    <span id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
-                    <span class="pm-label-field" style="display:none;">
-                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('A new label:', 'leyka');?></label>
-                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" name="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>">
+                    <span class="pm-label" id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
+                    <span class="pm-label-fields" style="display:none;">
+                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('New label:', 'leyka');?></label>
+                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
+                        <input type="hidden" class="pm-label-field" name="leyka_<?php echo $pm->full_id;?>_label" value="<?php echo $pm->label;?>">
                         <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
                         <span class="new-pm-label-cancel"><? _e('Cancel', 'leyka');?></span>
                     </span>
@@ -130,7 +131,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             <?php }?>
         </ul>
         <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
-        
+
     </div></div>
-    
+
 </div><!-- #payment-settings-area -->
