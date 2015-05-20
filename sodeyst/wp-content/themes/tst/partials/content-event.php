@@ -22,7 +22,7 @@
 		<div class="bit md-5">
 			<header class="entry-header">
 				<h3 class="entry-title"><a href="<?php the_permalink();?>"><?php the_title();?></a></h3>	
-				<div class="entry-meta"><?php step_event_meta(); ?></div>
+				<div class="entry-meta"><?php tst_event_meta(); ?></div>
 			</header>
 		</div>
 	</div>

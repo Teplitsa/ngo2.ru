@@ -5,15 +5,15 @@
  * @package bb
  */
 
-define('STEP_VERSION', '1.0');
+define('TST_VERSION', '1.0');
  
  
 if ( ! isset( $content_width ) ) {
 	$content_width = 640; /* pixels */
 }
 
-if ( ! function_exists( 'step_setup' ) ) :
-function step_setup() {
+if ( ! function_exists( 'tst_setup' ) ) :
+function tst_setup() {
 
 	// Inits
 	load_theme_textdomain( 'tst', get_template_directory() . '/lang' );
@@ -33,26 +33,22 @@ function step_setup() {
 
 	// Menus
 	register_nav_menus(array(
-		'primary'      => __('Primary Menu', 'tst'),
-		'secondary'    => __('Secondary Menu', 'tst'),
-		'footer_left'  => __('Left Menu in footer', 'tst'),
-		'footer_right' => __('Right Menu in footer', 'tst'),
-		'social'       => __('Social Buttons', 'tst'),
-		'langs'        => __('Languages', 'tst')
+		'primary'      => __('Primary Menu', 'tst'),		
+		'social'       => __('Social Buttons', 'tst')
 	));
 
 	// Editor style
 	//add_editor_style(array('css/editor-style.css'));
 }
-endif; // step_setup
-add_action( 'after_setup_theme', 'step_setup' );
+endif; // tst_setup
+add_action( 'after_setup_theme', 'tst_setup' );
 
 /**
  * Register widget area.
  *
  * @link http://codex.wordpress.org/Function_Reference/register_sidebar
  */
-function step_widgets_init() {
+function tst_widgets_init() {
 	
 	$config = array(
 		'right' => array(
@@ -64,17 +60,21 @@ function step_widgets_init() {
 						'description' => 'Динамическая область в шапке сайта'
 					),		
 		'footer_1' => array(
-						'name' => 'Футер',
-						'description' => 'Динамическая нижняя область'
+						'name' => 'Футер - 1 кол.',
+						'description' => 'Динамическая нижняя область - 1 колонка'
 					),
-		//'footer_2' => array(
-		//				'name' => 'Футер - 2 кол.',
-		//				'description' => 'Динамическая нижняя область - 2 колонка'
-		//			),
-		//'footer_3' => array(
-		//				'name' => 'Футер - 3 кол.',
-		//				'description' => 'Динамическая нижняя область - 3 колонка'
-		//			)
+		'footer_2' => array(
+						'name' => 'Футер - 2 кол.',
+						'description' => 'Динамическая нижняя область - 2 колонка'
+					),
+		'footer_3' => array(
+						'name' => 'Футер - 3 кол.',
+						'description' => 'Динамическая нижняя область - 3 колонка'
+					),
+		'footer_4' => array(
+						'name' => 'Футер - 4 кол.',
+						'description' => 'Динамическая нижняя область - 4 колонка'
+					)
 		
 	);
 	
@@ -98,12 +98,12 @@ function step_widgets_init() {
 		));
 	}
 }
-add_action( 'widgets_init', 'step_widgets_init' );
+add_action( 'widgets_init', 'tst_widgets_init' );
 
 /**
  * Enqueue scripts and styles.
  */
-function step_scripts() {
+function tst_scripts() {
 	
 	$theme_dir_url = get_template_directory_uri();
 	
@@ -112,28 +112,28 @@ function step_scripts() {
 	
 	// Icons	
 	wp_enqueue_style(
-		'step-fontawesome',
+		'tst-fontawesome',
 		'//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css',
 		$style_dependencies,
 		false
 	);
-	$style_dependencies[] = 'step-fontawesome';
+	$style_dependencies[] = 'tst-fontawesome';
 	
 	// Fresco
 	wp_enqueue_style(
-		'step-fresco',
+		'tst-fresco',
 		$theme_dir_url . '/css/fresco.css',
 		array(),
-		STEP_VERSION
+		TST_VERSION
 	);
-	$style_dependencies[] = 'step-fresco';
+	$style_dependencies[] = 'tst-fresco';
 		
 	// Stylesheet
 	wp_enqueue_style(
-		'step-style',
+		'tst-style',
 		$theme_dir_url . '/css/design.css',
 		$style_dependencies,
-		STEP_VERSION
+		TST_VERSION
 	);
 	
 	
@@ -144,53 +144,53 @@ function step_scripts() {
 	$script_dependencies[] = 'jquery';
 	
 	wp_enqueue_script(
-		'step-fresco',
+		'tst-fresco',
 		$theme_dir_url . '/js/fresco.js',
 		$script_dependencies,
-		STEP_VERSION,
+		TST_VERSION,
 		true
 	);
 	
-	$script_dependencies[] = 'step-fresco';
+	$script_dependencies[] = 'tst-fresco';
 	
 	wp_enqueue_script(
-		'step-imageloaded',
+		'tst-imageloaded',
 		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
 		$script_dependencies,
-		STEP_VERSION,
+		TST_VERSION,
 		true
 	);
 	
-	$script_dependencies[] = 'step-imageloaded';
+	$script_dependencies[] = 'tst-imageloaded';
 	
 	//wp_enqueue_script('masonry');	
 	//$script_dependencies[] = 'masonry';
 	
 	wp_enqueue_script(
-		'step-grids',
+		'tst-grids',
 		$theme_dir_url . '/js/grids.min.js',
 		$script_dependencies,
-		STEP_VERSION,
+		TST_VERSION,
 		true
 	);
 	
-	$script_dependencies[] = 'step-grids';
+	$script_dependencies[] = 'tst-grids';
 	
 	wp_enqueue_script(
-		'step-front',
+		'tst-front',
 		$theme_dir_url . '/js/front.js',
 		$script_dependencies,
-		STEP_VERSION,
+		TST_VERSION,
 		true
 	);
 	
 }
-add_action( 'wp_enqueue_scripts', 'step_scripts' );
+add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 
-add_action( 'admin_enqueue_scripts', 'step_admin_scripts' );
-function step_admin_scripts() {
+add_action( 'admin_enqueue_scripts', 'tst_admin_scripts' );
+function tst_admin_scripts() {
 			
-	wp_enqueue_style('step-admin', get_template_directory_uri().'/css/admin.css', array());
+	wp_enqueue_style('tst-admin', get_template_directory_uri().'/css/admin.css', array());
 	
 }
 

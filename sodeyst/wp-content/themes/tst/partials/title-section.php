@@ -12,7 +12,7 @@ global $post;
 <h1 class="section-title"><?php
 	if(is_singular(array('post', 'event'))){
 		//to-do crumbs
-		echo step_breadcrumbs();
+		echo tst_breadcrumbs();
 	}	
 	elseif(is_home()){
 		$p = get_post(get_option('page_for_posts'));

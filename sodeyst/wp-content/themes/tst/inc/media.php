@@ -4,10 +4,10 @@
  **/
 
 // Custom image size for medialib
-//add_filter('image_size_names_choose', 'step_medialib_custom_image_sizes');
-function step_medialib_custom_image_sizes($sizes) {
+//add_filter('image_size_names_choose', 'tst_medialib_custom_image_sizes');
+function tst_medialib_custom_image_sizes($sizes) {
 	
-	$addsizes = apply_filters('step_medialib_custom_image_sizes', array(
+	$addsizes = apply_filters('tst_medialib_custom_image_sizes', array(
 		"post-thumb" => __("Column-width", "bb")
 	));	
 	
@@ -19,8 +19,8 @@ function step_medialib_custom_image_sizes($sizes) {
 /**
  * Lightbox for linked images
  **/
-add_filter('media_send_to_editor', 'step_media_send_to_editor_filter', 2, 3);
-function step_media_send_to_editor_filter($html, $id, $attachment) {
+add_filter('media_send_to_editor', 'tst_media_send_to_editor_filter', 2, 3);
+function tst_media_send_to_editor_filter($html, $id, $attachment) {
 		
 	$post = get_post($id);		
 	//var_dump($attachment);

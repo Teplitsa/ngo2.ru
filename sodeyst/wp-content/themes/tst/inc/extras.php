@@ -10,16 +10,16 @@
 
 
 /** Default filters **/
-add_filter( 'step_the_content', 'wptexturize'        );
-add_filter( 'step_the_content', 'convert_smilies'    );
-add_filter( 'step_the_content', 'convert_chars'      );
-add_filter( 'step_the_content', 'wpautop'            );
-add_filter( 'step_the_content', 'shortcode_unautop'  );
-add_filter( 'step_the_content', 'do_shortcode' );
+add_filter( 'tst_the_content', 'wptexturize'        );
+add_filter( 'tst_the_content', 'convert_smilies'    );
+add_filter( 'tst_the_content', 'convert_chars'      );
+add_filter( 'tst_the_content', 'wpautop'            );
+add_filter( 'tst_the_content', 'shortcode_unautop'  );
+add_filter( 'tst_the_content', 'do_shortcode' );
 
-add_filter( 'step_the_title', 'wptexturize'   );
-add_filter( 'step_the_title', 'convert_chars' );
-add_filter( 'step_the_title', 'trim'          );
+add_filter( 'tst_the_title', 'wptexturize'   );
+add_filter( 'tst_the_title', 'convert_chars' );
+add_filter( 'tst_the_title', 'trim'          );
 
 /* jpeg compression */
 add_filter( 'jpeg_quality', create_function( '', 'return 95;' ) );
@@ -28,8 +28,8 @@ add_filter( 'jpeg_quality', create_function( '', 'return 95;' ) );
 /** Custom excerpts  **/
 
 /** more link */
-function step_get_excerpt_with_link($cpost) {
-	$more = step_get_more_text();
+function tst_get_excerpt_with_link($cpost) {
+	$more = tst_get_more_text();
 	$exerpt = $cpost->post_excerpt;
 	if(empty($exerpt))
 		return '';
@@ -38,44 +38,44 @@ function step_get_excerpt_with_link($cpost) {
 	return $exerpt.'&nbsp;<a href="'. esc_url($url) . '"><span class="meta-nav">'.$more.'</span></a>';
 }
 
-function step_continue_reading_link() {
-	$more = step_get_more_text();
+function tst_continue_reading_link() {
+	$more = tst_get_more_text();
 	return '&nbsp;<a href="'. esc_url( get_permalink() ) . '"><span class="meta-nav">'.$more.'</span></a>';
 }
 
-function step_get_more_text(){
+function tst_get_more_text(){
 	
 	return __('More', 'tst');
 }
 
 /** excerpt filters  */
-add_filter( 'excerpt_more', 'step_auto_excerpt_more' );
-function step_auto_excerpt_more( $more ) {
+add_filter( 'excerpt_more', 'tst_auto_excerpt_more' );
+function tst_auto_excerpt_more( $more ) {
 	return '&hellip;';
 }
 
-add_filter( 'excerpt_length', 'step_custom_excerpt_length' );
-function step_custom_excerpt_length( $l ) {
+add_filter( 'excerpt_length', 'tst_custom_excerpt_length' );
+function tst_custom_excerpt_length( $l ) {
 	return 30;
 }
 
 /** inject */
-add_filter( 'get_the_excerpt', 'step_custom_excerpt_more' );
-function step_custom_excerpt_more( $output ) {
+add_filter( 'get_the_excerpt', 'tst_custom_excerpt_more' );
+function tst_custom_excerpt_more( $output ) {
 	global $post;
 	
 	if(is_singular() || is_search())
 		return $output;
 	
-	$output .= step_continue_reading_link();
+	$output .= tst_continue_reading_link();
 	return $output;
 }
 
 /**
  * Current URL
  **/
-if(!function_exists('step_current_url')){
-function step_current_url() {
+if(!function_exists('tst_current_url')){
+function tst_current_url() {
    
     $pageURL = 'http';
    
@@ -93,7 +93,7 @@ function step_current_url() {
 }
 
 /** extract posts IDs from query **/
-function step_get_posts_ids_from_query($query){
+function tst_get_posts_ids_from_query($query){
 	
 	$ids = array();
 	if(!$query->have_posts())
@@ -108,7 +108,7 @@ function step_get_posts_ids_from_query($query){
 
 
 /** Copyright string */
-function step_dynamic_copyright($start_year, $name){
+function tst_dynamic_copyright($start_year, $name){
 	
 	$start = intval($start_year);
 	if($start == 0 || empty($name))
@@ -130,7 +130,7 @@ function step_dynamic_copyright($start_year, $name){
  * Inject  top link  HTML
  * require <body> tag to have id ='top'
  **/
-function step_print_top_link(){
+function tst_print_top_link(){
 
 	if(!is_admin()):
  ?>	
@@ -140,13 +140,13 @@ function step_print_top_link(){
 	
 <?php endif; 
 }
-add_action('wp_footer', 'step_print_top_link');
+add_action('wp_footer', 'tst_print_top_link');
 
 
 /**
  * Favicon
  **/
-function step_favicon(){
+function tst_favicon(){
 	
 	$favicon_test = WP_CONTENT_DIR. '/favicon.ico'; //in the root not working don't know why
     if(!file_exists($favicon_test))
@@ -155,9 +155,9 @@ function step_favicon(){
     $favicon = content_url('favicon.ico');
 	echo "<link href='{$favicon}' rel='shortcut icon' type='image/x-icon' >";
 }
-add_action('wp_head', 'step_favicon', 1);
-add_action('admin_head', 'step_favicon', 1);
-add_action('login_head', 'step_favicon', 1);
+add_action('wp_head', 'tst_favicon', 1);
+add_action('admin_head', 'tst_favicon', 1);
+add_action('login_head', 'tst_favicon', 1);
 
 
 /**
@@ -166,19 +166,19 @@ add_action('login_head', 'step_favicon', 1);
  * @param array $classes Classes for the body element.
  * @return array
  */
-function step_body_classes( $classes ) {
+function tst_body_classes( $classes ) {
 	
 
 	return $classes;
 }
-//add_filter( 'body_class', 'step_body_classes' );
+//add_filter( 'body_class', 'tst_body_classes' );
 
 
 /**
  * Menu filter sceleton
  **/
-//add_filter('wp_nav_menu_objects', 'step__clear_menu_item_classes', 2, 2);
-function step__clear_menu_item_classes($items, $args){			
+//add_filter('wp_nav_menu_objects', 'tst__clear_menu_item_classes', 2, 2);
+function tst__clear_menu_item_classes($items, $args){			
 	
 	if(empty($items))
 		return;	
@@ -203,8 +203,8 @@ function step__clear_menu_item_classes($items, $args){
  * needs font awesome
  * 
  **/
-add_filter( 'pre_wp_nav_menu', 'step_pre_wp_nav_menu_social', 10, 2 );
-function step_pre_wp_nav_menu_social( $output, $args ) {
+add_filter( 'pre_wp_nav_menu', 'tst_pre_wp_nav_menu_social', 10, 2 );
+function tst_pre_wp_nav_menu_social( $output, $args ) {
 	if ( ! $args->theme_location || 'social' !== $args->theme_location ) {
 		return $output;
 	}
@@ -234,7 +234,7 @@ function step_pre_wp_nav_menu_social( $output, $args ) {
 	unset( $menu_items, $menu_item );
 
 	// Supported social icons (filterable); [url pattern] => [css class]
-	$supported_icons = apply_filters( 'step_supported_social_icons', array(
+	$supported_icons = apply_filters( 'tst_supported_social_icons', array(
 		'app.net'            => 'fa-adn',
 		'behance.net'        => 'fa-behance',
 		'bitbucket.org'      => 'fa-bitbucket',
@@ -276,7 +276,8 @@ function step_pre_wp_nav_menu_social( $output, $args ) {
 		'yahoo.com'          => 'fa-yahoo',
 		'youtube.com'        => 'fa-youtube',
 		'feed'               => 'fa-rss',
-		'odnoklassniki.ru'   => 'icon-odnoklassniki'
+		//'odnoklassniki.ru'   => 'icon-odnoklassniki'
+		'mailto'             => 'fa-envelope'
 	));
 
 	// Process each menu item
@@ -341,7 +342,7 @@ endif;
 
 
 add_filter('wpseo_title', 'hmap_wpseo_title_correction');
-function step_wpseo_title_correction($title){
+function tst_wpseo_title_correction($title){
 	
 	//if(is_singular('attack')){		
 	//	$a_title = hmap_attack_title();
@@ -352,7 +353,7 @@ function step_wpseo_title_correction($title){
 }
 
 //add_filter('the_content', 'ruka_http_the_content', 100);
-function step_http_the_content($html){
+function tst_http_the_content($html){
 	
 	if(false !== strpos($html, 'http:')){
 		$html = str_replace('http://', '//', $html);

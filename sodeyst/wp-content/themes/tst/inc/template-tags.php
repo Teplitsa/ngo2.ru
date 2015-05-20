@@ -8,8 +8,8 @@
  */
 
 /* CPT Filters */
-//add_action('parse_query', 'step_request_corrected');
-function step_request_corrected($query) {
+//add_action('parse_query', 'tst_request_corrected');
+function tst_request_corrected($query) {
 	
 	if(is_admin())
 		return;
@@ -127,11 +127,11 @@ function is_events() {
  
  
 
-if ( ! function_exists( 'step_paging_nav' ) ) :
+if ( ! function_exists( 'tst_paging_nav' ) ) :
 /**
  * Display paging nav
  */
-function step_paging_nav($query = null) {
+function tst_paging_nav($query = null) {
 	global $wp_query;
 	
 	if(!$query)
@@ -145,10 +145,10 @@ function step_paging_nav($query = null) {
 	<nav class="navigation paging-navigation" role="navigation">
 		
 		<?php
-			$p = step_paginate_links($query, false);
+			$p = tst_paginate_links($query, false);
 			if(!empty($p)):
 		?>
-			<div class="pagination"><?php step_paginate_links($query); ?></div>
+			<div class="pagination"><?php tst_paginate_links($query); ?></div>
 		<?php endif; ?>
 		
 	</nav><!-- .navigation -->
@@ -157,7 +157,7 @@ function step_paging_nav($query = null) {
 endif;
 
 
-function step_paginate_links($query = null, $echo = true) {
+function tst_paginate_links($query = null, $echo = true) {
     global $wp_rewrite, $wp_query, $post;
     
 	if(null == $query)
@@ -209,11 +209,11 @@ function step_paginate_links($query = null, $echo = true) {
 }
 
 
-if ( ! function_exists( 'step_post_nav' ) ) :
+if ( ! function_exists( 'tst_post_nav' ) ) :
 /**
  * Display navigation to next/previous post when applicable.
  */
-function step_post_nav() {
+function tst_post_nav() {
 	// Don't print empty markup if there's nowhere to navigate.
 	$previous = ( is_attachment() ) ? get_post( get_post()->post_parent ) : get_adjacent_post( false, '', true );
 	$next     = get_adjacent_post( false, '', false );
@@ -236,11 +236,11 @@ function step_post_nav() {
 endif;
 
 
-if ( ! function_exists( 'step_posted_on' ) ) :
+if ( ! function_exists( 'tst_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
-function step_posted_on() {
+function tst_posted_on() {
 	$pt = get_post_type();
 	$cat = '';
 	
@@ -250,7 +250,7 @@ function step_posted_on() {
 		$cat = get_the_term_list(get_the_ID(), 'category', '<span class="category">', ', ', '</span>');
 	}
 	
-	$sep = step_get_sep();
+	$sep = tst_get_sep();
 	
 	if(!empty($cat))
 		$cat = $sep.strip_tags($cat, '<span>');
@@ -261,7 +261,7 @@ function step_posted_on() {
 endif;
 
 
-function step_get_sep() {
+function tst_get_sep() {
 	
 	return "<span class='sep'>//</span>";
 }
@@ -271,7 +271,7 @@ function step_get_sep() {
 /**
  * Accessable thumbnail
  **/
-function step_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
+function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 	global $post;
 	
 	if(!$cpost)
@@ -294,7 +294,7 @@ function step_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 /**
  * Breadcrumbs
  **/
-function step_breadcrumbs(){
+function tst_breadcrumbs(){
 	global $post;
 	
 	if(!is_single())
@@ -307,7 +307,7 @@ function step_breadcrumbs(){
 			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 			$cat = wp_get_object_terms($post->ID, 'category');
 			if(!empty($cat)){
-				$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('step_the_title', $cat[0]->name)."</a>";
+				$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('tst_the_title', $cat[0]->name)."</a>";
 			}
 		}	
 	}
@@ -317,19 +317,19 @@ function step_breadcrumbs(){
 		if($p){
 			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 			$pt_link = get_post_type_archive_link('event');
-			$pt_name = step_get_post_type_archive_title('event');
+			$pt_name = tst_get_post_type_archive_title('event');
 			if(!empty($pt_name)){
 				$links[] = "<a href='".$pt_link."'>".$pt_name."</a>";
 			}
 		}	
 	}
 	
-	$sep = step_get_sep();
+	$sep = tst_get_sep();
 	
 	return implode($sep, $links);	
 }
 
-function step_get_post_type_archive_title($post_type) {
+function tst_get_post_type_archive_title($post_type) {
 	
 	$pt_obj = get_post_type_object( $post_type );
 	return $pt_obj->labels->name;
@@ -339,7 +339,7 @@ function step_get_post_type_archive_title($post_type) {
  * Events meta
  **/
 
-function step_event_meta($cpost = null) {
+function tst_event_meta($cpost = null) {
 	global $post;
 		
 	if(!$cpost)
@@ -358,13 +358,13 @@ function step_event_meta($cpost = null) {
 	if(!empty($time)){
 		echo "<div class='em-field'>";
 		echo "<span class='label'>".__('Time', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('step_the_title', $time)."</time>";
+		echo "<time class='e-time'>".apply_filters('tst_the_title', $time)."</time>";
 		echo "</div>";
 	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
 		echo "<span class='label'>".__('Address', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('step_the_title', $addr)."</time>";
+		echo "<time class='e-time'>".apply_filters('tst_the_title', $addr)."</time>";
 		echo "</div>";
 	}
 	

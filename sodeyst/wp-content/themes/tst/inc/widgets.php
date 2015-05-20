@@ -4,8 +4,8 @@
  **/
 
  
-add_action('widgets_init', 'step_custom_widgets', 11);
-function step_custom_widgets(){
+add_action('widgets_init', 'tst_custom_widgets', 11);
+function tst_custom_widgets(){
 
 	unregister_widget('WP_Widget_Pages');
 	unregister_widget('WP_Widget_Archives');
@@ -45,7 +45,7 @@ class BB_RSS_Widget extends WP_Widget {
 						
 		
 		$title = apply_filters( 'widget_title', $instance['title'], $instance, $this->id_base );
-		$link_txt = apply_filters('step_the_title', $instance['link_txt']);
+		$link_txt = apply_filters('tst_the_title', $instance['link_txt']);
 		$link_url = esc_url($instance['link_url']);
 		
         echo $before_widget;
@@ -262,7 +262,7 @@ class BB_Recent_Posts_Widget extends WP_Widget {
 					$meta[] = "<time>".get_the_date()."</time>";
 				
 				$meta = apply_filters('rpw_post_meta', $meta, $post, $instance);
-				$sep = apply_filters('rpw_post_meta_separator', step_get_sep(), $post);
+				$sep = apply_filters('rpw_post_meta_separator', tst_get_sep(), $post);
 				
 				if(!empty($meta)){
 					self::_recent_item_meta($meta, $sep);
@@ -549,7 +549,7 @@ class BB_Featured_Post_Widget extends WP_Widget {
 				<a href="<?php echo get_the_permalink($cpost);?>"><?php echo get_the_title($cpost); ?></a>
 			</h1>
 			
-			<div class="entry-summary"><?php echo apply_filters('step_the_content', apl_get_excerpt_with_link($cpost));?></div>
+			<div class="entry-summary"><?php echo apply_filters('tst_the_content', apl_get_excerpt_with_link($cpost));?></div>
 		</div>
 		
 	<?php	

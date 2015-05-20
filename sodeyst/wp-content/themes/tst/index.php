@@ -33,7 +33,7 @@ get_header(); ?>
 
 			<?php endwhile; ?>
 
-			<?php step_paging_nav(); ?>
+			<?php tst_paging_nav(); ?>
 
 		<?php else : ?>
 

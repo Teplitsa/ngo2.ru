@@ -7,7 +7,7 @@
  * @package bb
  */
 
-$cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons СС-BY-SA 3.0</a>';
+$cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative&nbsp;Commons&nbsp;СС-BY-SA&nbsp;3.0</a>';
 $tst = __("Teplitsa of social technologies", 'tst');
 
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
@@ -19,19 +19,20 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 	<div id="bottombar" class="widget-area">		
 		<div class="frame">
 			
-			<div class="bit md-4"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
-			<div class="bit md-5">
+			<div class="bit md-6">
 				<div class="frame">
-					<div class="bit sm-6">
-						<?php wp_nav_menu(array('theme_location' => 'footer_left', 'container' => false, 'menu_class' => 'footer-menu one')); ?>						
-					</div>
-					<div class="bit sm-6">
-						<?php wp_nav_menu(array('theme_location' => 'footer_right', 'container' => false, 'menu_class' => 'footer-menu two')); ?>
-					</div>
+					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
+					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
 				</div>
 			</div>
-			<div class="bit md-3">&nbsp;</div>			
+			<div class="bit md-6">
+				<div class="frame">
+					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>
+					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_4-sidebar' );?></div>
+				</div>
+			</div>
 		</div>	
+		
 	</div>
 	
 	

@@ -1,7 +1,7 @@
 <?php
-add_action('init', 'step_custom_content', 20);
-if( !function_exists('step_custom_content') ) {
-function step_custom_content(){
+add_action('init', 'tst_custom_content', 20);
+if( !function_exists('tst_custom_content') ) {
+function tst_custom_content(){
 
     /** Existing post types settings: */
     //add_post_type_support('page', array('excerpt'));
@@ -45,11 +45,11 @@ function step_custom_content(){
 	
 }
 
-} // if step_custom_content
+} // if tst_custom_content
 
 
 /* Alter post labels */
-function step_change_post_labels($post_type, $args){ /* change assigned labels */
+function tst_change_post_labels($post_type, $args){ /* change assigned labels */
     global $wp_post_types;
 
     if($post_type != 'post')
@@ -74,9 +74,9 @@ function step_change_post_labels($post_type, $args){ /* change assigned labels *
 
     $wp_post_types[$post_type]->labels = $labels;
 }
-add_action('registered_post_type', 'step_change_post_labels', 2, 2);
+add_action('registered_post_type', 'tst_change_post_labels', 2, 2);
  
-function step_change_post_menu_labels(){ /* change adming menu labels */
+function tst_change_post_menu_labels(){ /* change adming menu labels */
     global $menu, $submenu;
 
     $post_type_object = get_post_type_object('post');
@@ -97,7 +97,7 @@ function step_change_post_menu_labels(){ /* change adming menu labels */
     /* find proper submenu */
     $submenu['edit.php'][$post_menu_order][0] = $sub_label;
 }
-add_action('admin_menu', 'step_change_post_menu_labels');
+add_action('admin_menu', 'tst_change_post_menu_labels');
  
 function tst_change_post_updated_labels($messages){     /* change updated post labels */
     global $post;
@@ -121,7 +121,7 @@ function tst_change_post_updated_labels($messages){     /* change updated post l
 
     return $messages;
 }
-//add_filter('post_updated_messages', 'step_change_post_updated_labels');
+//add_filter('post_updated_messages', 'tst_change_post_updated_labels');
 
 //add_action( 'p2p_init', 'apl_connection_types' );
 function tst_connection_types() {

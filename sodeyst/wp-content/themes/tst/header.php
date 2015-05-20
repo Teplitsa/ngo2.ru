@@ -21,16 +21,20 @@
 <div id="page" class="hfeed site">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 	
-	<nav id="langs_nav" class="langs-nav">
-		<span class="screen-reader-text"><?php _e( 'Languages', 'tst' ); ?></span>
-		<?php wp_nav_menu(array('theme_location' => 'langs', 'container' => false, 'menu_class' => 'langs-menu', 'fallback_cb'=> false)); ?>
+	<nav id="top_nav" class="top-nav">
+		<span class="screen-reader-text"><?php _e( 'Social menu', 'tst' ); ?></span>
+		<div id="search-toggle">
+			<div class="search-trigger"><i class="fa fa-search"></i></div>
+			<div class="search-holder"><?php get_search_form();?></div>
+		</div>
+		<?php wp_nav_menu(array('theme_location' => 'social', 'container' => false, 'menu_class' => 'social-menu')); ?>				
 	</nav>
 	
 		
 	<header id="site_header" class="site-header" role="banner">
 		
 		<div class="frame">
-			<div class="bit md-8">
+			<div class="bit md-7">
 				
 				<div class="site-branding">
 					
@@ -42,17 +46,9 @@
 					
 					<div class="site-logo">
 						<?php $src = get_template_directory_uri().'/img/logo'; ?>
-						<img src="<?php echo $src;?>.svg" onerror="this.onerror=null;this.src=<?php echo $src;?>.png">
+						<img src="<?php echo $src;?>.svg" onerror="this.onerror=null;this.src=<?php echo $src;?>.png" alt="<?php bloginfo( 'name' ); ?>">
 					</div>
-					<div class="site-title">
-						
-						<div class="site-title"><!-- print it directry - no other way -->
-							<span class="w1-ru">Лучшие</span> <span class="w2-ru">друзья</span> <span class="w3-ru">Россиия</span> <span class='sep'>|</span> <span class="w1-en">Best</span> <span class="w2-en">Buddies</span> <span class="w3-en">Russia</span>
-						</div>			
-						<div class="site-description"><?php bloginfo( 'description' ); ?></div>						
-					</div>
-					
-					
+										
 					<?php if(!is_front_page()) { ?>	
 						</a>
 					<?php } else { ?>
@@ -63,30 +59,19 @@
 				
 			</div><!-- bit -->
 			
-			<div class="bit md-4">
-				<span class="screen-reader-text"><?php _e( 'Social menu', 'tst' ); ?></span>
-				<?php dynamic_sidebar('header-sidebar'); ?>
-			</div>
+			<div class="bit md-5"><?php dynamic_sidebar('header-sidebar'); ?></div>
 		</div>	
 	</header><!-- #masthead -->	
 	
 	<nav id="site_nav" class="site-nav">
-		<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>
-		
+		<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>		
 		
 		<button id="menu-trigger" class="menu-toggle"><span class="fa fa-bars" aria-hidden="true"></span> <?php echo esc_html(__('Menu', 'tst')); ?></button>
 		
 		<div class="site-navigation-area">
-			<div class="first-row">
-				<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'main-menu')); ?>
-			</div>
-			<div class="second-row">
-				<?php wp_nav_menu(array('theme_location' => 'secondary', 'container' => false, 'menu_class' => 'aux-menu')); ?>
-				<div id="search-toggle">
-					<div class="search-trigger"><i class="fa fa-search"></i></div>
-					<div class="search-holder"><?php get_search_form();?></div>
-				</div>
-			</div>
+			
+			<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'main-menu')); ?>
+			
 		</div><!-- .site-navigation-area -->
 		
 	</nav>

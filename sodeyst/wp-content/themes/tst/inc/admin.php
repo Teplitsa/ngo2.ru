@@ -3,8 +3,8 @@
  * Admin customization
  **/
 
-add_filter('manage_posts_columns', 'step_common_columns_names', 50, 2);
-function step_common_columns_names($columns, $post_type) {
+add_filter('manage_posts_columns', 'tst_common_columns_names', 50, 2);
+function tst_common_columns_names($columns, $post_type) {
 		
 	if(in_array($post_type, array('post', 'event', 'programm', 'friendship', 'attachment'))){
 		
@@ -28,8 +28,8 @@ function step_common_columns_names($columns, $post_type) {
 }
 
 
-add_action('manage_posts_custom_column', 'step_common_columns_content', 2, 2);
-function step_common_columns_content($column_name, $post_id) {
+add_action('manage_posts_custom_column', 'tst_common_columns_content', 2, 2);
+function tst_common_columns_content($column_name, $post_id) {
 	
 	$cpost = get_post($post_id);
 	if($column_name == 'id'){
@@ -54,8 +54,8 @@ function step_common_columns_content($column_name, $post_id) {
 }
 
 
-add_filter('manage_pages_columns', 'step_pages_columns_names', 50);
-function step_pages_columns_names($columns) {		
+add_filter('manage_pages_columns', 'tst_pages_columns_names', 50);
+function tst_pages_columns_names($columns) {		
 		
 	if(isset($columns['author'])){
 		$columns['author'] = 'Создал';
@@ -68,8 +68,8 @@ function step_pages_columns_names($columns) {
 }
 
 
-add_action('manage_pages_custom_column', 'step_pages_columns_content', 2, 2);
-function step_pages_columns_content($column_name, $post_id) {
+add_action('manage_pages_custom_column', 'tst_pages_columns_content', 2, 2);
+function tst_pages_columns_content($column_name, $post_id) {
 	
 	$cpost = get_post($post_id);
 	if($column_name == 'id'){
@@ -86,18 +86,18 @@ function step_pages_columns_content($column_name, $post_id) {
 
 
 //manage_edit-topics_columns
-add_filter( "manage_edit-category_columns", 'step_common_tax_columns_names', 10);
-add_filter( "manage_edit-post_tag_columns", 'step_common_tax_columns_names', 10);
-function step_common_tax_columns_names($columns){
+add_filter( "manage_edit-category_columns", 'tst_common_tax_columns_names', 10);
+add_filter( "manage_edit-post_tag_columns", 'tst_common_tax_columns_names', 10);
+function tst_common_tax_columns_names($columns){
 	
 	$columns['id'] = 'ID';
 	
 	return $columns;	
 }
 
-add_filter( "manage_category_custom_column", 'step_common_tax_columns_content', 10, 3);
-add_filter( "manage_post_tag_custom_column", 'step_common_tax_columns_content', 10, 3);
-function step_common_tax_columns_content($content, $column_name, $term_id){
+add_filter( "manage_category_custom_column", 'tst_common_tax_columns_content', 10, 3);
+add_filter( "manage_post_tag_custom_column", 'tst_common_tax_columns_content', 10, 3);
+function tst_common_tax_columns_content($content, $column_name, $term_id){
 	
 	if($column_name == 'id')
 		return intval($term_id);
@@ -119,11 +119,11 @@ function step_common_tax_columns_content($content, $column_name, $term_id){
 **/
 add_action('admin_init', function(){
 	foreach(get_post_types(array('public' => true), 'names') as $pt) {
-		add_filter('manage_' . $pt . '_posts_columns', 'step_clear_seo_columns', 100);
+		add_filter('manage_' . $pt . '_posts_columns', 'tst_clear_seo_columns', 100);
 	}	
 }, 100);
 
-function step_clear_seo_columns($columns){
+function tst_clear_seo_columns($columns){
 
 	if(isset($columns['wpseo-score']))
 		unset($columns['wpseo-score']);
@@ -144,19 +144,19 @@ add_filter('wpseo_use_page_analysis', '__return_false');
 
 
 /* Excerpt metabox */
-add_action('add_meta_boxes', 'step_correct_metaboxes', 2, 2);
-function step_correct_metaboxes($post_type, $post ){
+add_action('add_meta_boxes', 'tst_correct_metaboxes', 2, 2);
+function tst_correct_metaboxes($post_type, $post ){
 	
 	if(post_type_supports($post_type, 'excerpt')){
 		remove_meta_box('postexcerpt', null, 'normal');
 		
 		$label = 'Аннотация';
-		add_meta_box('step_postexcerpt', $label, 'step_excerpt_meta_box', null, 'normal', 'core');
+		add_meta_box('tst_postexcerpt', $label, 'tst_excerpt_meta_box', null, 'normal', 'core');
 	}
 	//add_meta_box('postexcerpt', __('Excerpt'), 'post_excerpt_meta_box', null, 'normal', 'core');
 }
 
-function step_excerpt_meta_box($post){
+function tst_excerpt_meta_box($post){
 
 $label =  'Аннотация';
 $help =  'Аннотация для списков, на странице основного текста добавляется в начало.';
@@ -169,8 +169,8 @@ $help =  'Аннотация для списков, на странице осн
 
 
 /* Menu Labeles */
-//add_action('admin_menu', 'step_admin_menu_labels');
-function step_admin_menu_labels(){ /* change adming menu labels */
+//add_action('admin_menu', 'tst_admin_menu_labels');
+function tst_admin_menu_labels(){ /* change adming menu labels */
     global $menu, $submenu;
 	
     /* find proper top menu item */    

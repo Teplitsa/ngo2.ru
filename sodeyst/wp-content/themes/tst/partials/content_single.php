@@ -18,7 +18,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 		
 	</header>
 	
-	<div class="entry-meta"><?php step_event_meta(); ?></div>
+	<div class="entry-meta"><?php tst_event_meta(); ?></div>
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	
 	<?php if($show_thumb) { ?>
@@ -41,7 +41,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 		<footer class="entry-footer">
 		<time class="date"><?php echo esc_html(get_the_date());?></time>
 		<?php
-			$sep = step_get_sep();
+			$sep = tst_get_sep();
 			echo get_the_term_list(get_the_ID(), 'category', $sep.' <span class="category">', ', ', '</span>');
 		?>
 		</footer>
