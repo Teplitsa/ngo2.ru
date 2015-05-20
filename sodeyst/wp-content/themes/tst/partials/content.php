@@ -14,7 +14,7 @@
 				$attr = array(
 					'alt' => sprintf(__('Thumbnail for - %s', 'tst'), get_the_title()),
 				);
-				the_post_thumbnail('long', $attr);
+				the_post_thumbnail('thumbnail', $attr);
 			?>
 			</a>	
 		</div>

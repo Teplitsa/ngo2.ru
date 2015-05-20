@@ -102,11 +102,8 @@ function is_posts() {
 	
 	if(is_home() || is_category())
 		return true;
-		
-	if(is_post_type_archive('event'))
-		return true;
-		
-	if(is_singular('post') || is_singular('event'))
+			
+	if(is_singular('post'))
 		return true;
 	
 	return false;
@@ -119,6 +116,17 @@ function is_events() {
 		return true;
 		
 	if(is_singular('event'))
+		return true;
+	
+	return false;
+}
+
+function is_help() {
+
+	if(is_page('other-help'))
+		return true;
+		
+	if(is_singular('leyka_campaign'))
 		return true;
 	
 	return false;

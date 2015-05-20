@@ -97,7 +97,7 @@ function tst_change_post_menu_labels(){ /* change adming menu labels */
     /* find proper submenu */
     $submenu['edit.php'][$post_menu_order][0] = $sub_label;
 }
-add_action('admin_menu', 'tst_change_post_menu_labels');
+//add_action('admin_menu', 'tst_change_post_menu_labels');
  
 function tst_change_post_updated_labels($messages){     /* change updated post labels */
     global $post;

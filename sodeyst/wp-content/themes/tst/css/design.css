@@ -1636,6 +1636,8 @@ p {
 #site_nav li {
   display: inline-block;
   margin-left: 10px; }
+#site_nav .sub-menu {
+  display: none; }
 
 /*---------------------------------------------------------
  Widgets (_widgets.scss)

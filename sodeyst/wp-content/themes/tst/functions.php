@@ -26,9 +26,9 @@ function tst_setup() {
 	// Thumbnails
 	add_theme_support( 'post-thumbnails' );
 	set_post_thumbnail_size(395, 230, true ); // regular thumbnails
-	add_image_size('long', 395, 210, true ); // logo thumbnail 
+	//add_image_size('long', 395, 210, true ); // logo thumbnail 
 	//add_image_size('poster', 220, 295, true ); // poster in widget	
-	add_image_size('embed', 640, 400, true ); // fixed size for embedding
+	add_image_size('embed', 700, 415, true ); // fixed size for embedding
 	//add_image_size('long', 640, 280, true ); // long thumbnail for pages
 
 	// Menus
