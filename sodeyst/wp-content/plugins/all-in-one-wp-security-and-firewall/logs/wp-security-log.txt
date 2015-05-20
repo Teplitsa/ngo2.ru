@@ -1,3 +1,0 @@
-[05/13/2015 9:40 AM] - FAILURE : Error inserting record into str_aiowps_login_activity
-[05/13/2015 9:43 AM] - SUCCESS : Force Logout - This user logged in more than (240) minutes ago. Doing a force log out for the user with username: dk
-[05/13/2015 9:43 AM] - FAILURE : Error inserting record into str_aiowps_login_activity
