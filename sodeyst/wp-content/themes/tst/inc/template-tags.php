@@ -326,7 +326,7 @@ function tst_breadcrumbs(){
 		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 	}
 	
-	$sep = tst_get_sep();
+	$sep = "<span class='sep'>/</span>";
 	
 	return implode($sep, $links);	
 }
