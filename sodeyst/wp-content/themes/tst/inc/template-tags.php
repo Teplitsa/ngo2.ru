@@ -132,6 +132,7 @@ function is_help() {
 	return false;
 }
 
+
  
  
 
@@ -321,15 +322,8 @@ function tst_breadcrumbs(){
 	}
 	elseif(is_singular('event')) {
 		
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
-			$pt_link = get_post_type_archive_link('event');
-			$pt_name = tst_get_post_type_archive_title('event');
-			if(!empty($pt_name)){
-				$links[] = "<a href='".$pt_link."'>".$pt_name."</a>";
-			}
-		}	
+		$p = get_page_by_path('events');
+		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 	}
 	
 	$sep = tst_get_sep();

@@ -8,7 +8,10 @@ global $post;
 //echo frl_breadcrumbs();	
 ?>
 <header class="section-header">
-
+<?php
+if(is_singular(array('post', 'book', 'document'))) {
+	echo memo_breadcrumbs();	
+} else { ?>
 <h1 class="section-title"><?php
 	if(is_singular(array('post', 'event'))){
 		//to-do crumbs
@@ -49,5 +52,6 @@ global $post;
 		_e('404: Page not found', 'tst');
 	}
 ?></h1>
+<?php } ?>
 </header>
 
