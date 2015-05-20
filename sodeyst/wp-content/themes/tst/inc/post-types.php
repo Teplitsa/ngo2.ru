@@ -33,13 +33,13 @@ function step_custom_content(){
         'show_ui'            => true,
         'show_in_menu'       => true,
         'query_var'          => true,
-        'rewrite'            => array('slug' => 'document'),
+        'rewrite'            => array('slug' => 'event'),
         'capability_type'    => 'post',
-        'has_archive'        => true,
+        'has_archive'        => 'event-archive',
         'hierarchical'       => false,
         'menu_position'      => 5,
-		'menu_icon'          => 'dashicons-media-default',
-        'taxonomies'         => array('post_tag', 'type'),
+		'menu_icon'          => 'dashicons-calendar',
+        'taxonomies'         => array(),
         'supports'           => array('title', 'editor', 'thumbnail', 'excerpt',)
     ));
 	
