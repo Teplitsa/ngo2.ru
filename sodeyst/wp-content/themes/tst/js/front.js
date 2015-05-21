@@ -125,6 +125,30 @@ jQuery(document).ready(function($){
 		$(this).parents('form').removeClass('focus');	
 	});
     
+	// search toggle
+	var searchArea = $('#search-toggle');
+	searchArea.on('click', '.search-trigger', function(e){
+		e.preventDefault();
+		if (searchArea.hasClass('toggled')) { 
+            //remove
+            searchArea.find('.search-holder').slideUp('fast', function(){
+				searchArea.removeClass('toggled');
+				searchArea.find('.search-holder').removeAttr('style');
+				searchArea.find('.search-trigger').find('.fa').removeClass('fa-times-circle').addClass('fa-search');
+			});
+            
+        }
+        else { 
+            //add
+            searchArea.find('.search-holder').slideDown('fast', function(){
+				searchArea.addClass('toggled');
+				searchArea.find('.search-holder').removeAttr('style');
+				searchArea.find('.search-trigger').find('.fa').removeClass('fa-search').addClass('fa-times-circle');
+			});
+            
+        }
+	});
+	
     
     // Center logos 
 	function logo_vertical_center() {

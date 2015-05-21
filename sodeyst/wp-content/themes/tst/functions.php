@@ -110,6 +110,15 @@ function tst_scripts() {
 	// Styles
 	$style_dependencies = array();
 	
+	//Fonts
+	wp_enqueue_style(
+		'tst-gfonts',
+		'//fonts.googleapis.com/css?family=Cuprum:400,700|Arimo:400,400italic,700,700italic&subset=latin,cyrillic',
+		$style_dependencies,
+		false
+	);
+	$style_dependencies[] = 'tst-gfonts';
+	
 	// Icons	
 	wp_enqueue_style(
 		'tst-fontawesome',

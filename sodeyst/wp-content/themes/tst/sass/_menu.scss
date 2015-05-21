@@ -5,6 +5,7 @@
 .social-menu-position {
 	@include clearfix;
 }
+
 .social-menu {
 	list-style-type: none;
 	margin: 0;
@@ -18,14 +19,15 @@
 		a {
 			display: block;
 			font-size: 18px;
-			background: $color-link-one;
+			background: $color-link-two;
 			color: $color-white;
-			width: 30px;
-			height: 30px;
-			//@include border-radius(4px);
+			width: 34px;
+			height: 30px;			
 			text-align: center;
-			&:hover {
-				background: darken($color-link-one, 10%);
+			@include transition(all 0.35s);
+			
+			&:hover, &:focus,  &:active  {
+				background: darken($color-link-two, 15%);
 			}
 		}
 		
@@ -67,22 +69,53 @@
 	}*/
 }
 
-
-/** Menu **/
-#site_nav {
+// top nav
+.top-nav {
+	@include clearfix;
+	position: relative;
+	position: relative;
+	top: -2px;
+	z-index: 10;
 	
-	
-	li {
-		display: inline-block;
-		margin-left: 10px;
+	.nav-panel,
+	#search-toggle,
+	ul {
+		float: right;		
 	}
 	
-	.sub-menu {
-		display: none;
-	}
+	
 }
 
 
+#search-toggle {
+	position: relative;
+	
+	.search-trigger {
+		font-size: 18px;
+		background: $color-link-two;
+		color: $color-white;
+		width: 34px;
+		height: 30px;			
+		text-align: center;
+		cursor: pointer;
+		@include transition(all 0.35s);
+			
+		&:hover, &:focus,  &:active  {
+			background: darken($color-link-two, 15%);
+		}
+	}
+	
+	.search-holder {
+		display: none;
+		border: 1px solid $color-white;
+		background: $color-white;
+		width: 250px;
+		position: absolute;
+		top: -2px;
+		right: 39px;
+		z-index: 10;
+	}
+}
 
-
+#search-toggle.toggled .search-holder { display: block; }
 

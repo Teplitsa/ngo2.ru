@@ -130,18 +130,18 @@ LAM Galleries (_modules.scss)
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-	border: 2px solid $color-white;
+	border: 2px solid $color-border-normal;
 	position: relative;
-	height: 30px; 
+	height: 32px; 
 
 	.search-field {
 		width: 100%;
-		padding: 6px 28px 6px 6px;
+		padding: 7px 28px 7px 6px;
 		background: transparent;		
 		@include rem('font-size', 12px);
 		@include rem('line-height', 14px);
 		border: none;
-		color: $color-white;
+		color: $color-border-normal;
 		@include border-radius(0px);
 		&:focus {			
 			background: rgba(255,255,255, 0.85);
@@ -152,20 +152,20 @@ LAM Galleries (_modules.scss)
 	.submit-icon {
 		background: transparent;
 		width: 29px;
-		height: 28px;
+		height: 30px;
 		position: absolute;
 		top: 0;
 		right: 0;
 		@include transition-all(0.3s);
 				
 		.fa {
-			color: #ffffff;
+			color: $color-border-normal;
 			position: absolute;
 			top: 4px;
 			left: 6px;
 			z-index: 1;
-			width: 24px;
-			height: 24px;
+			width: 26px;
+			height: 26px;
 			font-size: 18px;
 		}
 				
@@ -270,22 +270,6 @@ LAM Galleries (_modules.scss)
 }
 
 
-
-/*---------------------------------------------------------
- Symple shortcodes corrections (_modules.scss)
--------------------------------------------------------- */
-.entry-content .symple-toggle.symple-all {
-	@include smart-margin(1.5714em);
-	
-	.symple-toggle-trigger {
-		padding-top: 10px;
-		padding-bottom: 10px;
-	}
-}
-
-.symple-tabs ul.ui-tabs-nav .ui-state-active a {
-	height: 45px !important;
-}
 
 
 /*---------------------------------------------------------

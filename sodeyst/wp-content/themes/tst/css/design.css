@@ -111,11 +111,6 @@ svg:not(:root) {
 }*/
 /** button **/
 /** label */
-/** thumbnail **/
-/* menu reset */
-.screen-reader-text {
-  display: none; }
-
 /*---------------------------------------------------------
  Mixins (_utility.scss)
 -------------------------------------------------------- */
@@ -318,7 +313,7 @@ input[type="url"]:focus,
 input[type="password"]:focus,
 input[type="search"]:focus,
 textarea:focus {
-  color: #2f3239; }
+  color: #2d2d2d; }
 
 input[type="text"],
 input[type="email"],
@@ -340,15 +335,15 @@ textarea {
 -------------------------------------------------------- */
 /* titles */
 h1, h2, h3, h4, h5, h6 {
-  color: #2f3239;
-  font-family: "Helvetica Neue", sans-serif;
+  color: #2d2d2d;
+  font-family: "Cuprum", sans-serif;
   font-weight: normal; }
   h1 a, h1 a:visited, a h1, h2 a, h2 a:visited, a h2, h3 a, h3 a:visited, a h3, h4 a, h4 a:visited, a h4, h5 a, h5 a:visited, a h5, h6 a, h6 a:visited, a h6 {
     color: inherit;
     text-decoration: none;
     font-weight: normal; }
   h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, h5 a:hover, h6 a:hover {
-    color: #177ca3; }
+    color: #F6A235; }
 
 /*h1 {
 	@include for(medium-screens) {
@@ -677,7 +672,7 @@ Alerts (_semantics.scss)
     font: 64px/1 dashicons;
     width: 64px;
     height: 64px;
-    color: #1a8db9;
+    color: #f7ad4d;
     position: absolute;
     top: -4px;
     right: -6px; }
@@ -1233,21 +1228,21 @@ LAM Galleries (_modules.scss)
  Search (_modules.scss)
 -------------------------------------------------------- */
 .searchform {
-  border: 2px solid #ffffff;
+  border: 2px solid #dfdfdf;
   position: relative;
-  height: 30px; }
+  height: 32px; }
   .searchform, .searchform * {
     box-sizing: border-box; }
   .searchform .search-field {
     width: 100%;
-    padding: 6px 28px 6px 6px;
+    padding: 7px 28px 7px 6px;
     background: transparent;
     font-size: 12px;
     font-size: 1.2rem;
     line-height: 14px;
     line-height: 1.4rem;
     border: none;
-    color: #ffffff;
+    color: #dfdfdf;
     border-radius: 0px; }
     .searchform .search-field:focus {
       background: rgba(255, 255, 255, 0.85);
@@ -1255,20 +1250,20 @@ LAM Galleries (_modules.scss)
   .searchform .submit-icon {
     background: transparent;
     width: 29px;
-    height: 28px;
+    height: 30px;
     position: absolute;
     top: 0;
     right: 0;
     -webkit-transition: all 0.3s;
     transition: all 0.3s; }
     .searchform .submit-icon .fa {
-      color: #ffffff;
+      color: #dfdfdf;
       position: absolute;
       top: 4px;
       left: 6px;
       z-index: 1;
-      width: 24px;
-      height: 24px;
+      width: 26px;
+      height: 26px;
       font-size: 18px; }
     .searchform .submit-icon input {
       position: absolute;
@@ -1285,11 +1280,11 @@ LAM Galleries (_modules.scss)
       text-shadow: none; }
 
 .searchform.focus {
-  border-color: #177ca3; }
+  border-color: #F6A235; }
   .searchform.focus .submit-icon .fa {
-    color: #177ca3; }
+    color: #F6A235; }
     .searchform.focus .submit-icon .fa:hover {
-      color: #146b8d; }
+      color: #f5971d; }
 
 #primary .search-holder {
   margin-bottom: 36px; }
@@ -1308,7 +1303,7 @@ LAM Galleries (_modules.scss)
     font-size: 11px;
     font-size: 1.1rem;
     font-weight: normal;
-    color: #aa0000;
+    color: #9CCD52;
     margin-bottom: 12px; }
   .search-item .item-summary p {
     margin: 0; }
@@ -1320,13 +1315,13 @@ LAM Galleries (_modules.scss)
   display: none; }
 .tst-toggle .tst-toggle-trigger span {
   display: inline-block;
-  color: #177ca3;
+  color: #F6A235;
   border-bottom: 1px dashed;
   cursor: pointer;
   font-size: 12px;
   font-size: 1.2rem; }
   .tst-toggle .tst-toggle-trigger span:hover {
-    color: #aa0000; }
+    color: #9CCD52; }
 .tst-toggle .tst-toggle-trigger .close {
   display: none; }
 
@@ -1339,23 +1334,6 @@ LAM Galleries (_modules.scss)
   display: none; }
 .tst-toggle.toggled .tst-toggle-trigger .close {
   display: inline-block; }
-
-/*---------------------------------------------------------
- Symple shortcodes corrections (_modules.scss)
--------------------------------------------------------- */
-.entry-content .symple-toggle.symple-all {
-  margin-top: 1.5714em;
-  margin-bottom: 1.5714em; }
-  .entry-content .symple-toggle.symple-all:first-child {
-    margin-top: 0; }
-  .entry-content .symple-toggle.symple-all:last-child {
-    margin-bottom: 0; }
-  .entry-content .symple-toggle.symple-all .symple-toggle-trigger {
-    padding-top: 10px;
-    padding-bottom: 10px; }
-
-.symple-tabs ul.ui-tabs-nav .ui-state-active a {
-  height: 45px !important; }
 
 /*---------------------------------------------------------
  Repeatable blocks (_modules.scss)
@@ -1482,19 +1460,19 @@ html {
 body {
   background-color: #ffffff;
   text-rendering: optimizeLegibility;
-  font-size: 16px;
-  font-size: 1.6rem;
+  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 1.5;
   color: #333;
-  font-family: "Helvetica Neue", Helvetica, sans-serif; }
+  font-family: "Arimo", sans-serif; }
 
 a {
-  color: #177ca3;
+  color: #F6A235;
   text-decoration: none; }
   a:visited {
-    color: #177ca3; }
-  a:hover {
-    color: #0e4960; }
+    color: #F6A235; }
+  a:hover, a:focus, a:active {
+    color: #d57c09; }
 
 p {
   margin-bottom: 24px;
@@ -1512,66 +1490,10 @@ p {
   max-width: 978px;
   margin: 0 auto; }
 
-.site-header {
-  padding: 10px;
-  border-bottom: 1px solid #dfdfdf; }
-
-.site-footer {
-  padding: 10px;
-  border-top: 1px solid #dfdfdf;
-  font-size: 12px;
-  font-size: 1.2rem; }
-
-.tpl-post {
-  margin: 36px 0;
-  max-width: 700px; }
-  .tpl-post .entry-header {
-    margin-bottom: 18px; }
-  .tpl-post .entry-title {
-    font-size: 1.3em;
-    line-height: 1.05;
-    color: #2f3239; }
-    .tpl-post .entry-title a {
-      font-weight: bold; }
-
-.tpl-post-full,
-.tpl-page {
-  padding: 36px 0;
-  max-width: 700px; }
-  .tpl-post-full .entry-header,
-  .tpl-page .entry-header {
-    margin-bottom: 24px; }
-  .tpl-post-full .entry-title,
-  .tpl-page .entry-title {
-    font-size: 2em;
-    line-height: 1.05;
-    font-weight: bold;
-    color: #2f3239; }
-
-.crumbs {
-  font-size: 14px;
-  font-size: 1.4rem;
-  color: #999999; }
-
-.entry-meta {
-  margin-top: 5px;
-  font-size: 13px;
-  color: #999999; }
-  .entry-meta .sep {
-    margin: 0 5px; }
-  .entry-meta .category {
-    text-transform: uppercase; }
-
-.navigation {
-  margin: 24px 0; }
-
-.nav-links .nav-previous,
-.nav-links .nav-next {
-  display: inline-block;
-  margin-right: 10px; }
-
-#ui-datepicker-div {
-  font-size: 12px; }
+.body-top {
+  width: 100%;
+  height: 8px;
+  background: #9CCD52; }
 
 /*---------------------------------------------------------
  Menu main (_menu.scss)
@@ -1619,25 +1541,61 @@ p {
     .social-menu li a {
       display: block;
       font-size: 18px;
-      background: #177ca3;
+      background: #9CCD52;
       color: #ffffff;
-      width: 30px;
+      width: 34px;
       height: 30px;
-      text-align: center; }
-      .social-menu li a:hover {
-        background: #115a76; }
+      text-align: center;
+      -webkit-transition: all 0.35s;
+      transition: all 0.35s; }
+      .social-menu li a:hover, .social-menu li a:focus, .social-menu li a:active {
+        background: #75a32f; }
     .social-menu li i {
       color: #ffffff;
       line-height: 30px; }
       .social-menu li i span {
         display: none; }
 
-/** Menu **/
-#site_nav li {
-  display: inline-block;
-  margin-left: 10px; }
-#site_nav .sub-menu {
-  display: none; }
+.top-nav {
+  position: relative;
+  position: relative;
+  top: -2px;
+  z-index: 10; }
+  .top-nav::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .top-nav .nav-panel,
+  .top-nav #search-toggle,
+  .top-nav ul {
+    float: right; }
+
+#search-toggle {
+  position: relative; }
+  #search-toggle .search-trigger {
+    font-size: 18px;
+    background: #9CCD52;
+    color: #ffffff;
+    width: 34px;
+    height: 30px;
+    text-align: center;
+    cursor: pointer;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s; }
+    #search-toggle .search-trigger:hover, #search-toggle .search-trigger:focus, #search-toggle .search-trigger:active {
+      background: #75a32f; }
+  #search-toggle .search-holder {
+    display: none;
+    border: 1px solid #ffffff;
+    background: #ffffff;
+    width: 250px;
+    position: absolute;
+    top: -2px;
+    right: 39px;
+    z-index: 10; }
+
+#search-toggle.toggled .search-holder {
+  display: block; }
 
 /*---------------------------------------------------------
  Widgets (_widgets.scss)
