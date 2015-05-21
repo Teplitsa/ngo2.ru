@@ -79,7 +79,7 @@ $sidebar-width: 280px;
 
 @mixin single-title($size : 40px){
 	@include rem('font-size', $size);			
-	line-height: 1.2;
+	line-height: 1.05;
 	font-weight: bold;
 	@include rem('margin-bottom', $size);	
 	word-break: break-word;

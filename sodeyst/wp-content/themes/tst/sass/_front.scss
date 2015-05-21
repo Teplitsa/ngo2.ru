@@ -119,13 +119,42 @@ p,ul,ol,dl,blockquote {
 		color: $color-white;
 		@include rem('font-size', 30px);
 		text-transform: uppercase;
+		
+		span {
+			font-size: 0.5em;
+		}
+	}
+	
+	.crumbs {
+		color: $color-white;
+		text-transform: uppercase;
+		@include rem('font-size', 17px);
+		font-family: $heading;
+		
+		.sep {
+			display: inline-block;
+			padding: 0 4px;
+		}
+		
+		a {
+			color: $color-white;
+			&:hover, &:focus, &:active {
+				color: $color-link-three;
+			}
+		}
 	}
 }
 
-.sidebar-wide {
-	margin-left: $col/2;
+.sidebar-wide {	
 	@include rem('font-size', 12px);
 }
+
+@incldue for(medium-screens) {
+	.single .site-main { margin-right: $col/2; }
+	.sidebar-wide { margin-left: $col/2; }
+}
+
+
 
 #bottombar {
 	position: relative;

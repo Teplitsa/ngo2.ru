@@ -217,7 +217,7 @@ require get_template_directory().'/inc/extras.php';
 require get_template_directory().'/inc/template-tags.php';
 require get_template_directory().'/inc/shortcodes.php';
 require get_template_directory().'/inc/widgets.php'; 
-
+require get_template_directory().'/inc/related.php'; 
 
 if(is_admin()){
 	require get_template_directory() . '/inc/admin.php';

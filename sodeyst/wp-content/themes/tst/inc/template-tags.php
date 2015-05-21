@@ -332,7 +332,7 @@ function tst_breadcrumbs(){
 	
 	$sep = "<span class='sep'>&gt;</span>";
 	
-	return implode($sep, $links);	
+	return "<div class='crumbs'>".implode($sep, $links)."</div>";	
 }
 
 function tst_get_post_type_archive_title($post_type) {
@@ -363,20 +363,20 @@ function tst_event_meta($cpost = null) {
 
 	if(!empty($date)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'><i class='fa fa-calendar'></i>".__('Event date', 'tst').":</span>";
-		echo "<time class='e-date'>".date('d.m.Y', strtotime($date))."</time>";
+		echo "<span class='label'><i class='fa fa-calendar'></i>".__('Date', 'tst').":</span>";
+		echo "<time class='value e-date'>".date('d.m.Y', strtotime($date))."</time>";
 		echo "</div>";
 	}
 	if(!empty($time)){
 		echo "<div class='em-field'>";
 		echo "<span class='label'>".__('Time', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('tst_the_title', $time)."</time>";
+		echo "<time class='value e-time'>".apply_filters('tst_the_title', $time)."</time>";
 		echo "</div>";
 	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
 		echo "<span class='label'>".__('Address', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('tst_the_title', $addr)."</time>";
+		echo "<span class='value e-addr'>".apply_filters('tst_the_title', $addr)."</span>";
 		echo "</div>";
 	}
 	

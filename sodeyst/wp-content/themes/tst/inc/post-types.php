@@ -8,7 +8,7 @@ function tst_custom_content(){
 	
 	// Remove category taxonomy for Posts PT:
 	//deregister_taxonomy_for_object_type('category', 'post');
-	//deregister_taxonomy_for_object_type('post_tag', 'post');
+	deregister_taxonomy_for_object_type('post_tag', 'post');
 	
 	/** Document PT: */
     register_post_type('event', array(
