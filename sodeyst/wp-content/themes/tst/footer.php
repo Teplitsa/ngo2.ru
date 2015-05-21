@@ -28,7 +28,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 			<div class="bit md-6">
 				<div class="frame">
 					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>
-					<div class="bit sm-6"><?php dynamic_sidebar( 'footer_4-sidebar' );?></div>
+					<div class="bit sm-6 last-col"><?php dynamic_sidebar( 'footer_4-sidebar' );?></div>
 				</div>
 			</div>
 		</div>	

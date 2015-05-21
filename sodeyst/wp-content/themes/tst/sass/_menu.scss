@@ -239,6 +239,21 @@
 			}
 		}
 	}
+	
+	@include for(large-screens) {
+		
+		li > a {
+			padding: 0.55em 1.4em;
+		}
+		
+		.sub-menu li  a {
+			padding: 0.2em 0.4em;
+		}
+		
+		.help-button a {
+			padding: 0.55em 2em;
+		}
+	}
 }
 
 .site-nav.toggled .site-navigation-area { display: block; }

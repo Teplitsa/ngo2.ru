@@ -1542,7 +1542,11 @@ p {
     left: 5px; } }
 
 .section-header {
-  background: #9CCD52;
+  background-color: #9CCD52;
+  background-image: url(../img/sun-t.png);
+  background-image: url(../img/sun-t.svg);
+  background-repeat: no-repeat;
+  background-position: right top;
   padding: 0.3em 1em;
   color: #ffffff;
   margin-bottom: 36px;
@@ -1552,6 +1556,88 @@ p {
     font-size: 30px;
     font-size: 3rem;
     text-transform: uppercase; }
+
+#bottombar {
+  position: relative;
+  background-color: #F6A235;
+  color: #2d2d2d;
+  font-size: 12px;
+  font-size: 1.2rem;
+  padding: 24px;
+  padding: 2.4rem;
+  margin-top: 60px;
+  margin-top: 6rem; }
+  #bottombar .last-col {
+    min-height: 193px;
+    background-image: url(../img/sun-l.png);
+    background-image: url(../img/sun-l.svg);
+    background-repeat: no-repeat;
+    background-position: right bottom;
+    background-size: contain; }
+  #bottombar:before {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 6px;
+    background: #eeeeee;
+    position: absolute;
+    top: -10px;
+    left: 0; }
+  #bottombar a {
+    border-bottom: 1px dotted;
+    color: #2d2d2d; }
+    #bottombar a:hover, #bottombar a:focus, #bottombar a:active {
+      color: #ffffff;
+      border-bottom: 1px solid; }
+  #bottombar .button {
+    display: inline-block;
+    color: rgba(45, 45, 45, 0.85);
+    border: 2px solid rgba(45, 45, 45, 0.85);
+    background-color: transparent;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-family: "Arimo", sans-serif;
+    padding: 0.4em 1.8em 0.4em;
+    font-size: 12px;
+    font-size: 1.2rem;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    padding: 0.4em 1.4em; }
+    #bottombar .button:hover, #bottombar .button:focus, #bottombar .button:active {
+      border: 2px solid #2d2d2d;
+      color: #2d2d2d;
+      background: rgba(45, 45, 45, 0.1); }
+
+.site-footer {
+  padding: 19.2px 0 28.8px;
+  padding:  1.92rem 0 2.88rem;
+  font-size: 11px;
+  font-size: 1.1rem;
+  line-height: 1.35;
+  color: #666666; }
+  .site-footer .copy a {
+    color: #2d2d2d;
+    text-decoration: underline; }
+    .site-footer .copy a:hover, .site-footer .copy a:focus, .site-footer .copy a:active {
+      color: #9CCD52; }
+  .site-footer .te-st-bn {
+    text-align: right;
+    position: relative;
+    height: 51px; }
+    .site-footer .te-st-bn a {
+      display: block;
+      width: 106px;
+      position: absolute;
+      top: 0;
+      right: 0;
+      border: 1px dotted transparent;
+      padding: 1px; }
+      .site-footer .te-st-bn a:hover, .site-footer .te-st-bn a:focus, .site-footer .te-st-bn a:active {
+        border-color: #666666; }
+    .site-footer .te-st-bn span {
+      display: inline-block;
+      margin-right: 115px;
+      padding-top: 10px; }
 
 /*---------------------------------------------------------
  Menu main (_menu.scss)
@@ -1739,6 +1825,13 @@ p {
         font-weight: bold; }
         .site-nav .help-button a:hover, .site-nav .help-button a:focus, .site-nav .help-button a:active {
           background: #d57c09; } }
+  @media screen and (min-width: 1000px) {
+    .site-nav li > a {
+      padding: 0.55em 1.4em; }
+    .site-nav .sub-menu li a {
+      padding: 0.2em 0.4em; }
+    .site-nav .help-button a {
+      padding: 0.55em 2em; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }
@@ -1761,6 +1854,15 @@ p {
 
 #bottombar .widget:last-child {
   margin-bottom: 0; }
+#bottombar .no-title {
+  padding-top: 42px;
+  padding-top: 4.2rem; }
+
+.widget_nav_menu.bottom li {
+  margin-bottom: 5px; }
+.widget_nav_menu.bottom a {
+  display: inline-block;
+  text-transform: uppercase; }
 
 /* posts */
 /* home */

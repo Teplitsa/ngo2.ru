@@ -169,14 +169,14 @@ $sidebar-width: 280px;
 	background-color: transparent;
 	cursor: pointer;
 	text-transform: uppercase;
-	font-family: $sans;
-	padding: 0.4em 1.8em 0.45em;	
+	font-family: $sans;	
+	padding: 0.4em 1.8em 0.4em;	
 	
 	@include rem('font-size', $size);		
 	@include transition-all(0.3s);
 	
 	&:hover, &:focus, &:active {
-		border-color: $color;
+		border: 2px solid $color; 
 		color: $color;
 		background: transparentize($color, 0.9);
 	}	
