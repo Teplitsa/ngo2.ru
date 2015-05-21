@@ -2134,9 +2134,19 @@ p {
 .home-section.intro {
   padding-top: 4px; }
   .home-section.intro .flex-direction-nav a {
-    background: red;
     left: 0;
     opacity: 1; }
+    .home-section.intro .flex-direction-nav a:after {
+      content: "\f138";
+      display: block;
+      font: normal normal normal 14px/1 FontAwesome;
+      font-size: 30px;
+      line-height: 1;
+      color: #F6A235;
+      background: rgba(246, 162, 53, 0.8);
+      webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: absolute; }
   .home-section.intro .flex-direction-nav .flex-next {
     left: auto;
     right: 0; }

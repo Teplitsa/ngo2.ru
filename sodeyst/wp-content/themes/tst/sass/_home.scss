@@ -7,10 +7,27 @@
 		background: red;		
 		left: 0;
 		opacity: 1;
+		
+		&:after {
+			content:"\f138";
+			display:block;
+			font:normal normal normal 14px/1 FontAwesome;
+			font-size: 30px;
+			line-height: 1;
+			color: $color-link-one;
+			background: rgba(246,162,53, 0.8);
+			webkit-font-smoothing:antialiased;
+			-moz-osx-font-smoothing:grayscale;
+			position: absolute;
+		}
 	}
 	
 	.flex-direction-nav .flex-next {
 		left: auto;
 		right: 0;
+		
+		
 	}
+	
+	
 }
