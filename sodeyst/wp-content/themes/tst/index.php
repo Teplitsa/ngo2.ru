@@ -16,7 +16,7 @@ get_header(); ?>
 <?php get_template_part('partials/title', 'section');?>	
 
 <div class="frame">
-	<div id="primary" class="content-area bit md-8">
+	<div id="primary" class="content-area bit md-9">
 		<main id="main" class="site-main" role="main">
 
 		<?php if ( have_posts() ) : ?>

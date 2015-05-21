@@ -162,9 +162,8 @@
 		
 		a {
 			text-transform:  none;
-			color: $color-link-two;
-			&:hover, &:focus, &:active {
-				
+			color: $color-link-two-dark;
+			&:hover, &:focus, &:active {				
 				color: $color-link-three;		
 			}
 		}
@@ -227,14 +226,14 @@
 				@inlcude transition(all 0.35s);
 				position: absolute;
 				top: -18px;
-				left: 30px;
+				left: 20px;
 				z-index: 100;
 				white-space: nowrap;
 				padding: 0.55em 2em;
 				font-weight: bold;
 				
 				&:hover, &:focus, &:active {
-					background: darken($color-link-one, 15%);
+					background: $color-link-three;
 				}
 			}
 		}
@@ -252,8 +251,40 @@
 		
 		.help-button a {
 			padding: 0.55em 2em;
+			left: 32px;
 		}
 	}
 }
 
 .site-nav.toggled .site-navigation-area { display: block; }
+
+
+//side menus
+.section-menu {
+	
+	li {
+		@include rem('font-size', 16px);
+		line-height: 1.2;
+	}
+	
+	a {
+		display: inline-block;
+		padding: 0.3em 1em;
+	}
+	
+	li:first-child {
+		margin-bottom: 0.3em;
+		a {
+			width: 100%;
+			background: $color-link-one;
+			color: $color-white;
+			text-transform: uppercase;
+			padding: 0.4em 1em;
+			@include transition(all 0.35s);
+			
+			&:hover, &:focus, &:active {
+				background: $color-link-three;
+			}
+		}
+	}
+}

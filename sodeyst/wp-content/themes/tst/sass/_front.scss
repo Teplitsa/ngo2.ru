@@ -16,10 +16,10 @@ body {
 
 
 a {
-	color: $color-link-one;	
+	color: $color-link-one-dark;	
 	text-decoration: none; 
 	&:visited { color: $color-link-one; }
-	&:hover, &:focus, &:active { color: darken($color-link-one, 15%); }		
+	&:hover, &:focus, &:active { color: $color-link-three; }		
 }
 
 p {
@@ -111,7 +111,7 @@ p,ul,ol,dl,blockquote {
 	background-image: url(../img/sun-t.svg);
 	background-repeat: no-repeat;
 	background-position: right top;
-	padding: 0.3em 1em;
+	padding: 0.4em 1em;
 	color: $color-white;
 	@include rem('margin-bottom', $base*1.5);
 	
@@ -122,6 +122,10 @@ p,ul,ol,dl,blockquote {
 	}
 }
 
+.sidebar-wide {
+	margin-left: $col/2;
+	@include rem('font-size', 12px);
+}
 
 #bottombar {
 	position: relative;

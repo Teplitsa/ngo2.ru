@@ -1467,12 +1467,12 @@ body {
   font-family: "Arimo", sans-serif; }
 
 a {
-  color: #F6A235;
+  color: #F2A012;
   text-decoration: none; }
   a:visited {
     color: #F6A235; }
   a:hover, a:focus, a:active {
-    color: #d57c09; }
+    color: #056937; }
 
 p {
   margin-bottom: 24px;
@@ -1547,7 +1547,7 @@ p {
   background-image: url(../img/sun-t.svg);
   background-repeat: no-repeat;
   background-position: right top;
-  padding: 0.3em 1em;
+  padding: 0.4em 1em;
   color: #ffffff;
   margin-bottom: 36px;
   margin-bottom: 3.6rem; }
@@ -1556,6 +1556,11 @@ p {
     font-size: 30px;
     font-size: 3rem;
     text-transform: uppercase; }
+
+.sidebar-wide {
+  margin-left: 27px;
+  font-size: 12px;
+  font-size: 1.2rem; }
 
 #bottombar {
   position: relative;
@@ -1771,7 +1776,7 @@ p {
     padding: 0.8rem; }
     .site-nav .sub-menu a {
       text-transform: none;
-      color: #9CCD52; }
+      color: #74B018; }
       .site-nav .sub-menu a:hover, .site-nav .sub-menu a:focus, .site-nav .sub-menu a:active {
         color: #056937; }
   @media screen and (min-width: 800px) {
@@ -1818,23 +1823,44 @@ p {
         @inlcude transition(all 0.35s);
         position: absolute;
         top: -18px;
-        left: 30px;
+        left: 20px;
         z-index: 100;
         white-space: nowrap;
         padding: 0.55em 2em;
         font-weight: bold; }
         .site-nav .help-button a:hover, .site-nav .help-button a:focus, .site-nav .help-button a:active {
-          background: #d57c09; } }
+          background: #056937; } }
   @media screen and (min-width: 1000px) {
     .site-nav li > a {
       padding: 0.55em 1.4em; }
     .site-nav .sub-menu li a {
       padding: 0.2em 0.4em; }
     .site-nav .help-button a {
-      padding: 0.55em 2em; } }
+      padding: 0.55em 2em;
+      left: 32px; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }
+
+.section-menu li {
+  font-size: 16px;
+  font-size: 1.6rem;
+  line-height: 1.2; }
+.section-menu a {
+  display: inline-block;
+  padding: 0.3em 1em; }
+.section-menu li:first-child {
+  margin-bottom: 0.3em; }
+  .section-menu li:first-child a {
+    width: 100%;
+    background: #F6A235;
+    color: #ffffff;
+    text-transform: uppercase;
+    padding: 0.4em 1em;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s; }
+    .section-menu li:first-child a:hover, .section-menu li:first-child a:focus, .section-menu li:first-child a:active {
+      background: #056937; }
 
 /*---------------------------------------------------------
  Widgets (_widgets.scss)
@@ -1865,6 +1891,65 @@ p {
   text-transform: uppercase; }
 
 /* posts */
+.tpl-post {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+  .tpl-post .entry-header {
+    margin-bottom: 24px;
+    margin-bottom: 2.4rem; }
+  .tpl-post .entry-title {
+    font-weight: normal;
+    font-family: "Cuprum", sans-serif;
+    line-height: 1.1;
+    font-size: 26px;
+    font-size: 2.6rem;
+    color: #F2A012;
+    margin-bottom: 10px;
+    margin-bottom: 1rem; }
+    .tpl-post .entry-title a {
+      color: #F2A012;
+      @inlcude transition(all 0.35s); }
+      .tpl-post .entry-title a:hover, .tpl-post .entry-title a:focus, .tpl-post .entry-title a:active {
+        color: #056937; }
+  .tpl-post .entry-meta {
+    font-size: 12px;
+    font-size: 1.2rem;
+    color: #999999; }
+    .tpl-post .entry-meta time {
+      color: #2d2d2d; }
+    .tpl-post .entry-meta .sep {
+      display: inline-block;
+      padding: 0 4px; }
+    .tpl-post .entry-meta a {
+      text-transform: uppercase;
+      color: #74B018; }
+      .tpl-post .entry-meta a:hover, .tpl-post .entry-meta a:focus, .tpl-post .entry-meta a:active {
+        color: #056937; }
+  .tpl-post .entry-summary a {
+    font-weight: bold; }
+
+.thumbnail-link {
+  display: block; }
+  .thumbnail-link img {
+    width: 100%;
+    height: auto;
+    max-height: 100%; }
+
+.paging-navigation {
+  border-top: 4px solid #eeeeee;
+  padding-top: 8px;
+  padding-top: 0.8rem;
+  text-align: right; }
+  .paging-navigation span, .paging-navigation a {
+    font-size: 18px;
+    font-size: 1.8rem;
+    padding: 0.2em 0.3em; }
+  .paging-navigation a {
+    color: #9CCD52; }
+    .paging-navigation a:hover, .paging-navigation a:focus, .paging-navigation a:active {
+      background: #9CCD52;
+      color: #ffffff; }
+
 /* home */
 
 /*# sourceMappingURL=design.css.map */

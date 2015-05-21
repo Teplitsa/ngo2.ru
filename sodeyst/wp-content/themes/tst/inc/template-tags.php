@@ -259,7 +259,7 @@ function tst_posted_on() {
 		$cat = get_the_term_list(get_the_ID(), 'category', '<span class="category">', ', ', '</span>');
 	}
 	
-	$sep = tst_get_sep();
+	$sep = "<span class='sep'>|</span>";
 	
 	if(!empty($cat))
 		$cat = $sep.$cat;
