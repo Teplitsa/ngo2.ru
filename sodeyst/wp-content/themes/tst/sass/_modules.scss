@@ -228,46 +228,6 @@ LAM Galleries (_modules.scss)
 }
 
 
-/*---------------------------------------------------------
- Custom Toggle (_modules.scss)
--------------------------------------------------------- */
-.tst-toggle {
-	.tst-toggle-content {
-		display: none;	
-	}
-	
-	.tst-toggle-trigger {
-		span {
-			display: inline-block;
-			color: $color-link-one;
-			border-bottom: 1px dashed;
-			cursor: pointer;
-			@include rem('font-size', 12px);	
-			&:hover {
-				color: $color-link-two;
-			}
-		}
-		.close {
-			display: none;		
-		}
-	}
-}
-
-.tst-toggle.toggled {
-	.tst-toggle-content {
-		display: block;	
-	}
-	
-	.tst-toggle-trigger {
-		@include rem('margin-top', $base*0.75);	
-	}
-	.tst-toggle-trigger .open {
-		display: none;
-	}
-	.tst-toggle-trigger .close {
-		display: inline-block;		
-	}
-}
 
 
 
@@ -300,61 +260,24 @@ LAM Galleries (_modules.scss)
 /*---------------------------------------------------------
  Partners gallery (_modules.scss)
 -------------------------------------------------------- */
-.partners.logo-gallery {
-	
-	.bit {
-		padding: 5px;
-		&:nth-of-type(3n+1){
-			clear: left;
-		}
-		@include for(medium-screens) {
-			&:nth-of-type(3n+1){
-				clear: none;
-			}
-			&:nth-of-type(4n+1){
-				clear: left;
-			}
-		}
-		@include for(large-screens) {
-			&:nth-of-type(4n+1){
-				clear: none;
-			}
-			&:nth-of-type(6n+1){
-				clear: left;
-			}
-		}
-	}
+.partners-gallery {	
 	
 	.logo {
-		border: 1px solid $color-border-light;
-		position: relative;
+		@include rem('margin-bottom', $base/2);
 	}
+	
 	.logo-frame {
 		@include logo-frame;
 	}
 	
-	.logo .partner-cat {		
-		font-size: 10px;
-		text-transform: uppercase;
-		background: rgba(150,150,150, 0.95);
-		color: #fff;
-		padding: 5px 8px;
-		display: none;
-		position: absolute;
-		z-index: 100;
-		max-width: 90%;
-		left: 6%;
-		top: 10%;
-		margin: 0;		
-	}
-	
-	.logo:hover .partner-cat {
-		display: inline-block;
-	}
 }
 
-.partners.logo-gallery.frame {
-	margin: 0 -5px;
+
+/*---------------------------------------------------------
+ Formidable (_modules.scss)
+-------------------------------------------------------- */
+.frm_submit input {
+	@include fixed-button($color-link-one, $color-link-three, 16px);
 }
 
 

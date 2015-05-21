@@ -19,7 +19,7 @@ $post_release = (function_exists('get_field')) ? get_field('post-release') : tru
 	</header>
 	
 	<div class="frame">
-		<div class="bit md-4">
+		<div class="bit mf-4 md-3">
 			<a href="<?php the_permalink();?>" class="thumbnail-link">
 			<?php
 				$attr = array(
@@ -30,7 +30,7 @@ $post_release = (function_exists('get_field')) ? get_field('post-release') : tru
 			</a>	
 		</div>
 		
-		<div class="bit md-8">
+		<div class="bit mf-8 md-9">
 			<div class="entry-meta event-meta"><?php tst_event_meta(); ?></div>
 			<div class="entry-summary"><?php the_excerpt();?></div>
 		</div>
@@ -82,7 +82,7 @@ $post_release = (function_exists('get_field')) ? get_field('post-release') : tru
 	));
 	if($r_query && $r_query->have_posts()){
 ?>
-	<aside class="related-posts entry-relations">
+	<aside class="related-posts entry-relations events">
 		<h3 class="aside-title">Еще мероприятия</h3>
 	<?php
 		echo "<div class='frame'>";

@@ -144,9 +144,8 @@ $sidebar-width: 280px;
 }
 
 @mixin fixed-button($color, $hover, $size : 14px) {
-	@include button($color, hover, $size);
-	@include border-radius(0px);
-	-webkit-box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+	@include button($color, $hover, $size);
+	@include border-radius(0px);	
 	box-shadow:  0px 0px 0px 0px rgba(255, 255, 255, 0);
 	cursor: pointer;
 	border: none;

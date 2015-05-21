@@ -100,7 +100,7 @@
 .entry-footer {
 	@include rem('margin-top', $base*1.5);
 	border-top: 1px solid $color-border-normal;
-	border-bottom: 1px solid $color-border-normal;
+	border-bottom: 3px solid $color-border-light;
 	@include rem('padding', 4px 0);
 	
 	.sm-7 {
@@ -154,6 +154,10 @@
 	.aside-title {
 		@include widget-title(14px);		
 	}
+	
+	@include for(medium-screens) {
+		.mf-8 { padding-left: 0; }
+	}
 }
 
 //related 
@@ -174,6 +178,8 @@
 	.entry-meta {
 		@include post-meta();		
 	}
+	
+	
 }
 
 
@@ -239,11 +245,22 @@
 	}
 	
 	.post-release {
-		border-top: 1px solid $color-border-normal;		
-		border-bottom: 1px solid $color-border-normal;
-		@include rem('padding', $base 0);
+		background: $color-secondary;
+		@include rem('padding', $base);
 	}
 	
-	border-bottom: 1px solid $color-border-normal;
+	border-bottom: 3px solid $color-border-light;
 	@include rem('padding-bottom', $base);
+}
+
+//related
+.related-posts.events {
+
+	.label {
+		i { margin-right: 5px; }
+		span { display: none; }
+		.value {
+			color: $color-text-black;
+		}
+	}	
 }

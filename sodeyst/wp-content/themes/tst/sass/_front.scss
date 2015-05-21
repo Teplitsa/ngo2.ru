@@ -147,9 +147,14 @@ p,ul,ol,dl,blockquote {
 
 .sidebar-wide {	
 	@include rem('font-size', 12px);
+	
+	.widget:nth-of-type(2n+1) {
+		clear: left;
+	}
 }
 
-@incldue for(medium-screens) {
+@include for(medium-screens) {
+	.page-template-default .site-main { margin-right: $col/2; }
 	.single .site-main { margin-right: $col/2; }
 	.sidebar-wide { margin-left: $col/2; }
 }
