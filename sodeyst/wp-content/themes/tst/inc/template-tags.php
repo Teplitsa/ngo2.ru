@@ -363,19 +363,19 @@ function tst_event_meta($cpost = null) {
 
 	if(!empty($date)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'><i class='fa fa-calendar'></i>".__('Date', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-calendar fa-fw'></i>".__('Date', 'tst').":</span>";
 		echo "<time class='value e-date'>".date('d.m.Y', strtotime($date))."</time>";
 		echo "</div>";
 	}
 	if(!empty($time)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'><i class='fa fa-clock-o'></i>".__('Time', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-clock-o fa-fw'></i>".__('Time', 'tst').":</span>";
 		echo "<time class='value e-time'>".apply_filters('tst_the_title', $time)."</time>";
 		echo "</div>";
 	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'><i class='fa fa-map-marker'></i>".__('Address', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-map-marker fa-fw'></i>".__('Address', 'tst').":</span>";
 		echo "<span class='value e-addr'>".apply_filters('tst_the_title', $addr)."</span>";
 		echo "</div>";
 	}

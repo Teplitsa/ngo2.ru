@@ -190,22 +190,60 @@
 		@include rem('margin-bottom', 10px);
 	}
 	
-	.entry-meta {
-		.label {
-			i {
-				color: $color-link-one;
-				margin-right: 5px;
-			}
-			white-space: nowrap;
-		}
-		
-		.e-date {
-			font-weight: bold;
-			color: $color-text-black;
-		}
-	}
-	
 	.entry-summary {
 		a { font-weight: bold; }
 	}
+}
+
+.event-meta {
+	.em-field {
+		@include rem('margin-bottom', 5px);
+	}
+	
+	.label {
+		i {
+			color: $color-text-light;
+			margin-right: 5px;
+		}
+		white-space: nowrap;
+		margin-right: 5px;
+	}
+	
+	.value {
+		font-weight: bold;
+		color: $color-text-black;
+	}
+}
+
+.tpl-event-full {
+	.entry-header {
+		@include rem('margin-bottom', $base*1.5);
+	}
+	
+	.entry-title {
+		@include single-title(40px);
+	}
+	
+	.entry-summary {
+		font-style: italic;		
+		@include rem('margin-top', $base);
+	}
+	
+	.entry-content,
+	.entry-partners {
+		@include rem('margin-top', $base);
+	}
+	
+	.event-section-title {
+		@include widget-title(14px);
+	}
+	
+	.post-release {
+		border-top: 1px solid $color-border-normal;		
+		border-bottom: 1px solid $color-border-normal;
+		@include rem('padding', $base 0);
+	}
+	
+	border-bottom: 1px solid $color-border-normal;
+	@include rem('padding-bottom', $base);
 }
