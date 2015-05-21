@@ -369,13 +369,13 @@ function tst_event_meta($cpost = null) {
 	}
 	if(!empty($time)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Time', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-clock-o'></i>".__('Time', 'tst').":</span>";
 		echo "<time class='value e-time'>".apply_filters('tst_the_title', $time)."</time>";
 		echo "</div>";
 	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Address', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-map-marker'></i>".__('Address', 'tst').":</span>";
 		echo "<span class='value e-addr'>".apply_filters('tst_the_title', $addr)."</span>";
 		echo "</div>";
 	}

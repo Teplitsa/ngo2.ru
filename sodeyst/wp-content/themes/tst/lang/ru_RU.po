@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Website Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-04-10 10:08+0300\n"
-"PO-Revision-Date: 2015-04-10 10:09+0300\n"
+"POT-Creation-Date: 2015-05-21 17:00+0300\n"
+"PO-Revision-Date: 2015-05-21 17:00+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -37,7 +37,7 @@ msgstr "К сожалению, по вашему запросу ничего н�
 msgid "Teplitsa of social technologies"
 msgstr "Теплица социальных технологий"
 
-#: footer.php:41
+#: footer.php:42
 #, php-format
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
@@ -46,49 +46,29 @@ msgstr "Все материалы сайта доступны по лиценц�
 msgid "Primary Menu"
 msgstr "﻿Главное меню"
 
-#: functions.php:37
-msgid "Secondary Menu"
-msgstr "Вспомогательное меню"
-
-#: functions.php:38
-msgid "Left Menu in footer"
-msgstr "Левое меню в футере"
-
-#: functions.php:39
-msgid "Right Menu in footer"
-msgstr "Правое меню в футере"
-
-#: functions.php:40 inc/widgets.php:609
+#: functions.php:37 inc/widgets.php:609
 msgid "Social Buttons"
 msgstr "Социальные кнопки"
 
-#: functions.php:41 header.php:25
-msgid "Languages"
-msgstr "Языки"
-
-#: header.php:22
+#: header.php:23
 msgid "Skip to content"
 msgstr "Перейти к содержанию"
 
-#: header.php:67
+#: header.php:26
 msgid "Social menu"
 msgstr "Социальные кнопки"
 
-#: header.php:74
+#: header.php:69
 msgid "Primary menu"
 msgstr "﻿Главное меню"
 
-#: header.php:77
+#: header.php:71
 msgid "Menu"
 msgstr "Меню"
 
 #: inc/admin.php:180
 msgid "Custom fields"
 msgstr "Мета-поля"
-
-#: inc/extras.php:48 inc/shortcodes.php:257
-msgid "More"
-msgstr "Далее"
 
 #: inc/extras.php:138
 msgid "On top"
@@ -98,181 +78,34 @@ msgstr "К началу"
 msgid "Column-width"
 msgstr "По ширине колонки"
 
-#: inc/post-types.php:14
-msgid "Friendship stories"
-msgstr "Истории дружбы"
+#: inc/shortcodes.php:262
+msgid "More"
+msgstr "Далее"
 
-#: inc/post-types.php:15
-msgid "Story"
-msgstr "История"
-
-#: inc/post-types.php:16
-msgid "Stories"
-msgstr "Истории"
-
-#: inc/post-types.php:17
-msgid "Add a story"
-msgstr "Добавить историю"
-
-#: inc/post-types.php:18
-msgid "Add new"
-msgstr "Добавить новую"
-
-#: inc/post-types.php:19
-msgid "Add new story"
-msgstr "Добавить новую"
-
-#: inc/post-types.php:20
-msgid "New story"
-msgstr "Новая история"
-
-#: inc/post-types.php:21
-msgid "Edit the story"
-msgstr "Редактировать"
-
-#: inc/post-types.php:22
-msgid "View the story page"
-msgstr "Открыть страницу истории"
-
-#: inc/post-types.php:23
-msgid "All stories"
-msgstr "Все истории"
-
-#: inc/post-types.php:24
-msgid "Search for stories"
-msgstr "Поиск историй"
-
-#: inc/post-types.php:25
-msgid "Parent story"
-msgstr "Родительская"
-
-#: inc/post-types.php:26
-msgid "No stories found"
-msgstr "Историй не найдено"
-
-#: inc/post-types.php:27
-msgid "No stories found in Trash"
-msgstr "Историй в корзине не найдено"
-
-#: inc/post-types.php:48 inc/post-types.php:50
-msgid "Events"
-msgstr "Анонсы"
-
-#: inc/post-types.php:49 partials/content-event.php:8
-msgid "Event"
-msgstr "Анонс"
-
-#: inc/post-types.php:51 inc/post-types.php:53
-msgid "Add event"
-msgstr "Добавить анонс"
-
-#: inc/post-types.php:52
-msgid "Add new event"
-msgstr "Добавить новый"
-
-#: inc/post-types.php:54
-msgid "New event"
-msgstr "Новый анонс"
-
-#: inc/post-types.php:55
-msgid "Edit event"
-msgstr "Редактировать"
-
-#: inc/post-types.php:56
-msgid "View event"
-msgstr "Просмотреть"
-
-#: inc/post-types.php:57
-msgid "All events"
-msgstr "Все анонсы"
-
-#: inc/post-types.php:58
-msgid "Search events"
-msgstr "Поиск"
-
-#: inc/post-types.php:59
-msgid "Parent event"
-msgstr "Родительский"
-
-#: inc/post-types.php:60
-msgid "No events found"
-msgstr "Анонсы не найдены"
-
-#: inc/post-types.php:61
-msgid "No events found in Trash"
-msgstr "В Корзине мероприятия не найдены"
-
-#: inc/post-types.php:82 inc/post-types.php:84
-msgid "Programmes"
-msgstr "Программы"
-
-#: inc/post-types.php:83
-msgid "Programm"
-msgstr "Программа"
-
-#: inc/post-types.php:85 inc/post-types.php:87
-msgid "Add programm"
-msgstr "Добавить программу"
-
-#: inc/post-types.php:86
-msgid "Add new programm"
-msgstr "Добавить новую"
-
-#: inc/post-types.php:88
-msgid "New programm"
-msgstr "Новая программа"
-
-#: inc/post-types.php:89
-msgid "Edit programm"
-msgstr "Редактировать"
-
-#: inc/post-types.php:90
-msgid "View programm"
-msgstr "Просмотреть"
-
-#: inc/post-types.php:91
-msgid "All programmes"
-msgstr "Все программы"
-
-#: inc/post-types.php:92
-msgid "Search programmes"
-msgstr "Поиск программ"
-
-#: inc/post-types.php:93
-msgid "Parent programm"
-msgstr "Родительская"
-
-#: inc/post-types.php:94
-msgid "No programmes found"
-msgstr "Программы не найдены"
-
-#: inc/post-types.php:95
-msgid "No programmes found in Trash"
-msgstr "В Корзине программы не найдены"
-
-#: inc/shortcodes.php:258
+#: inc/shortcodes.php:263
 msgid "Close"
 msgstr "Закрыть"
 
-#: inc/template-tags.php:226
+#: inc/template-tags.php:235
 msgid "Post navigation"
 msgstr "Навигация по записям"
 
-#: inc/template-tags.php:285 partials/content-event.php:15
-#: partials/content.php:15 partials/content_single.php:28
+#: inc/template-tags.php:294 partials/content-event.php:14
+#: partials/content.php:15 partials/content_single-event.php:26
+#: partials/content_single.php:27 partials/content_single.php:68
 #, php-format
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:354
-msgid "Event date"
-msgstr "Дата мероприятия"
+#: inc/template-tags.php:366
+msgid "Date"
+msgstr "Дата"
 
-#: inc/template-tags.php:360
+#: inc/template-tags.php:372
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:366
+#: inc/template-tags.php:378
 msgid "Address"
 msgstr "Адрес"
 
@@ -354,6 +187,10 @@ msgstr "Укажите ярлык (разделенный запятыми сп�
 msgid "Social links menu with optional text"
 msgstr "Меню социальных кнопок с сопроводительным текстом"
 
+#: partials/content-event.php:8
+msgid "Event"
+msgstr "Анонс"
+
 #: partials/content-none.php:15
 msgid "Unfortunately, we cann't find anything under your request."
 msgstr "К сожалению, по вашему запросу ничего не найдено."
@@ -362,13 +199,139 @@ msgstr "К сожалению, по вашему запросу ничего н�
 msgid "Article"
 msgstr "Статья"
 
-#: partials/title-section.php:46
+#: partials/title-section.php:57
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: partials/title-section.php:49
+#: partials/title-section.php:60
 msgid "404: Page not found"
 msgstr "404: Страница не найдена"
+
+#~ msgid "Secondary Menu"
+#~ msgstr "Вспомогательное меню"
+
+#~ msgid "Left Menu in footer"
+#~ msgstr "Левое меню в футере"
+
+#~ msgid "Right Menu in footer"
+#~ msgstr "Правое меню в футере"
+
+#~ msgid "Languages"
+#~ msgstr "Языки"
+
+#~ msgid "Friendship stories"
+#~ msgstr "Истории дружбы"
+
+#~ msgid "Story"
+#~ msgstr "История"
+
+#~ msgid "Stories"
+#~ msgstr "Истории"
+
+#~ msgid "Add a story"
+#~ msgstr "Добавить историю"
+
+#~ msgid "Add new"
+#~ msgstr "Добавить новую"
+
+#~ msgid "Add new story"
+#~ msgstr "Добавить новую"
+
+#~ msgid "New story"
+#~ msgstr "Новая история"
+
+#~ msgid "Edit the story"
+#~ msgstr "Редактировать"
+
+#~ msgid "View the story page"
+#~ msgstr "Открыть страницу истории"
+
+#~ msgid "All stories"
+#~ msgstr "Все истории"
+
+#~ msgid "Search for stories"
+#~ msgstr "Поиск историй"
+
+#~ msgid "Parent story"
+#~ msgstr "Родительская"
+
+#~ msgid "No stories found"
+#~ msgstr "Историй не найдено"
+
+#~ msgid "No stories found in Trash"
+#~ msgstr "Историй в корзине не найдено"
+
+#~ msgid "Events"
+#~ msgstr "Анонсы"
+
+#~ msgid "Add event"
+#~ msgstr "Добавить анонс"
+
+#~ msgid "Add new event"
+#~ msgstr "Добавить новый"
+
+#~ msgid "New event"
+#~ msgstr "Новый анонс"
+
+#~ msgid "Edit event"
+#~ msgstr "Редактировать"
+
+#~ msgid "View event"
+#~ msgstr "Просмотреть"
+
+#~ msgid "All events"
+#~ msgstr "Все анонсы"
+
+#~ msgid "Search events"
+#~ msgstr "Поиск"
+
+#~ msgid "Parent event"
+#~ msgstr "Родительский"
+
+#~ msgid "No events found"
+#~ msgstr "Анонсы не найдены"
+
+#~ msgid "No events found in Trash"
+#~ msgstr "В Корзине мероприятия не найдены"
+
+#~ msgid "Programmes"
+#~ msgstr "Программы"
+
+#~ msgid "Programm"
+#~ msgstr "Программа"
+
+#~ msgid "Add programm"
+#~ msgstr "Добавить программу"
+
+#~ msgid "Add new programm"
+#~ msgstr "Добавить новую"
+
+#~ msgid "New programm"
+#~ msgstr "Новая программа"
+
+#~ msgid "Edit programm"
+#~ msgstr "Редактировать"
+
+#~ msgid "View programm"
+#~ msgstr "Просмотреть"
+
+#~ msgid "All programmes"
+#~ msgstr "Все программы"
+
+#~ msgid "Search programmes"
+#~ msgstr "Поиск программ"
+
+#~ msgid "Parent programm"
+#~ msgstr "Родительская"
+
+#~ msgid "No programmes found"
+#~ msgstr "Программы не найдены"
+
+#~ msgid "No programmes found in Trash"
+#~ msgstr "В Корзине программы не найдены"
+
+#~ msgid "Event date"
+#~ msgstr "Дата мероприятия"
 
 #~ msgid "Let&rsquo;s find the inforamtion you need"
 #~ msgstr "Давайте попробуем найти информацию, которая вам нужна."
