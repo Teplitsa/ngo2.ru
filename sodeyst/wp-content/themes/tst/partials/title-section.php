@@ -9,7 +9,7 @@ global $post;
 ?>
 <header class="section-header">
 <?php
-if(is_singular(array('post', 'event'))) {
+if(is_singular(array('post', 'event', 'leyka_campaign'))) {
 	echo tst_breadcrumbs();	
 } else { ?>
 <h1 class="section-title"><?php

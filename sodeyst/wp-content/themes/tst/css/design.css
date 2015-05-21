@@ -1495,6 +1495,50 @@ p {
   height: 8px;
   background: #9CCD52; }
 
+.site-header .site-logo {
+  background: transparent url(../img/sign.png) no-repeat left center;
+  background-size: auto 100%;
+  padding: 6% 0 6% 22%; }
+.site-header .bit {
+  margin: 0; }
+.site-header .widget {
+  display: none; }
+.site-header .textwidget {
+  position: relative;
+  border: 1px solid #dfdfdf;
+  padding: 1em;
+  font-size: 13px;
+  font-size: 1.3rem;
+  text-align: right; }
+  .site-header .textwidget p {
+    margin: 0; }
+  .site-header .textwidget .icon {
+    width: 45px;
+    height: 45px;
+    text-align: center;
+    border-radius: 50%;
+    background: #dfdfdf;
+    color: #ffffff;
+    z-index: 10;
+    position: absolute;
+    left: 10px;
+    top: -25px; }
+    .site-header .textwidget .icon i {
+      font-size: 24px;
+      line-height: 43px; }
+
+.section-header {
+  background: #9CCD52;
+  padding: 0.3em 1em;
+  color: #ffffff;
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+  .section-header .section-title {
+    color: #ffffff;
+    font-size: 30px;
+    font-size: 3rem;
+    text-transform: uppercase; }
+
 /*---------------------------------------------------------
  Menu main (_menu.scss)
 -------------------------------------------------------- */
@@ -1595,6 +1639,39 @@ p {
     z-index: 10; }
 
 #search-toggle.toggled .search-holder {
+  display: block; }
+
+.site-nav {
+  text-align: right; }
+  .site-nav .menu-toggle {
+    margin-bottom: 12px;
+    margin-bottom: 1.2rem;
+    background: #F6A235;
+    color: #ffffff;
+    padding: 0.75em 1.5em;
+    border: none;
+    width: 112px; }
+    .site-nav .menu-toggle:hover, .site-nav .menu-toggle:focus, .site-nav .menu-toggle:active {
+      background: #056937; }
+  .site-nav .site-navigation-area {
+    display: none;
+    text-align: left; }
+  .site-nav .main-menu {
+    border: 1px solid #9CCD52;
+    border-bottom-width: 4px;
+    padding: 14px;
+    padding: 1.4rem; }
+  .site-nav li a {
+    text-transform: uppercase;
+    color: #2d2d2d; }
+  .site-nav .sub-menu {
+    padding: 8px;
+    padding: 0.8rem; }
+    .site-nav .sub-menu a {
+      text-transform: none;
+      color: #9CCD52; }
+
+.site-nav.toggled .site-navigation-area {
   display: block; }
 
 /*---------------------------------------------------------

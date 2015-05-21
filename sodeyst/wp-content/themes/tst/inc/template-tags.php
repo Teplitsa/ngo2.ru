@@ -325,6 +325,10 @@ function tst_breadcrumbs(){
 		$p = get_page_by_path('events');
 		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 	}
+	elseif(is_singular('leyka_campaign')) {
+		
+		$links[] = 'Помочь нам';
+	}
 	
 	$sep = "<span class='sep'>&gt;</span>";
 	
