@@ -1230,12 +1230,12 @@ LAM Galleries (_modules.scss)
 .searchform {
   border: 2px solid #dfdfdf;
   position: relative;
-  height: 32px; }
+  height: 30px; }
   .searchform, .searchform * {
     box-sizing: border-box; }
   .searchform .search-field {
     width: 100%;
-    padding: 7px 28px 7px 6px;
+    padding: 6px 28px 6px 6px;
     background: transparent;
     font-size: 12px;
     font-size: 1.2rem;
@@ -1250,7 +1250,7 @@ LAM Galleries (_modules.scss)
   .searchform .submit-icon {
     background: transparent;
     width: 29px;
-    height: 30px;
+    height: 28px;
     position: absolute;
     top: 0;
     right: 0;
@@ -1262,8 +1262,8 @@ LAM Galleries (_modules.scss)
       top: 4px;
       left: 6px;
       z-index: 1;
-      width: 26px;
-      height: 26px;
+      width: 24px;
+      height: 24px;
       font-size: 18px; }
     .searchform .submit-icon input {
       position: absolute;
@@ -1280,11 +1280,11 @@ LAM Galleries (_modules.scss)
       text-shadow: none; }
 
 .searchform.focus {
-  border-color: #F6A235; }
+  border-color: #056937; }
   .searchform.focus .submit-icon .fa {
-    color: #F6A235; }
+    color: #056937; }
     .searchform.focus .submit-icon .fa:hover {
-      color: #f5971d; }
+      color: #068144; }
 
 #primary .search-holder {
   margin-bottom: 36px; }
@@ -1549,7 +1549,7 @@ p {
       -webkit-transition: all 0.35s;
       transition: all 0.35s; }
       .social-menu li a:hover, .social-menu li a:focus, .social-menu li a:active {
-        background: #75a32f; }
+        background: #056937; }
     .social-menu li i {
       color: #ffffff;
       line-height: 30px; }
@@ -1583,14 +1583,14 @@ p {
     -webkit-transition: all 0.35s;
     transition: all 0.35s; }
     #search-toggle .search-trigger:hover, #search-toggle .search-trigger:focus, #search-toggle .search-trigger:active {
-      background: #75a32f; }
+      background: #056937; }
   #search-toggle .search-holder {
     display: none;
     border: 1px solid #ffffff;
     background: #ffffff;
     width: 250px;
     position: absolute;
-    top: -2px;
+    top: -1px;
     right: 39px;
     z-index: 10; }
 

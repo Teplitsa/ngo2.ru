@@ -27,7 +27,7 @@
 			@include transition(all 0.35s);
 			
 			&:hover, &:focus,  &:active  {
-				background: darken($color-link-two, 15%);
+				background: $color-link-three;
 			}
 		}
 		
@@ -101,7 +101,7 @@
 		@include transition(all 0.35s);
 			
 		&:hover, &:focus,  &:active  {
-			background: darken($color-link-two, 15%);
+			background: $color-link-three;
 		}
 	}
 	
@@ -111,7 +111,7 @@
 		background: $color-white;
 		width: 250px;
 		position: absolute;
-		top: -2px;
+		top: -1px;
 		right: 39px;
 		z-index: 10;
 	}
