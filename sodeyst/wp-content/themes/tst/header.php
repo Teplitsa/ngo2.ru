@@ -19,7 +19,7 @@
 
 <body id="top" <?php body_class(); ?>>
 <div class="body-top"></div>
-<div id="page" class="hfeed site">
+<div class="site-wrap">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 	
 	<nav id="top_nav" class="top-nav"><div class="nav-panel">

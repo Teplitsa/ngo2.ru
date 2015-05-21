@@ -139,8 +139,7 @@ $sidebar-width: 280px;
 	&:hover, &:focus, &:active {	
 		background: $hover;
 		color: $color-white;	
-	}
-	
+	}	
 }
 
 @mixin fixed-button($color, $hover, $size : 14px) {
