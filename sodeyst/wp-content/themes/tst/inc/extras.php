@@ -45,7 +45,7 @@ function tst_continue_reading_link() {
 
 function tst_get_more_text(){
 	
-	return __('More', 'tst');
+	return "&gt;&gt;";
 }
 
 /** excerpt filters  */

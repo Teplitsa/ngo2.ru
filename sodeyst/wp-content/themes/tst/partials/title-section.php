@@ -21,18 +21,18 @@ if(is_singular(array('post', 'event'))) {
 	elseif(is_category()){
 		$p = get_post(get_option('page_for_posts'));
 		if($p){
+			single_cat_title();			
+			echo "<span> / ";
 			echo get_the_title($p);
-			echo "<span>";
-			single_cat_title(' // ');
 			echo "</span>";
 		}
 	}	
-	elseif(is_pageis_post_type_archive('event')) {
+	elseif(is_post_type_archive('event')) {
 		$p = get_page_by_path('events');
 		if($p){
-			echo get_the_title($p);
+			echo tst_get_post_type_archive_title('event');			
 			echo "<span> / ";
-			echo "Архив";
+			echo get_the_title($p);
 			echo "</span>";
 		}
 	}
@@ -42,9 +42,9 @@ if(is_singular(array('post', 'event'))) {
 		if($post->post_parent > 0){
 			$p = get_page($post->post_parent);
 			if($p){
-				echo get_the_title($p);
+				echo get_the_title($post);				
 				echo "<span> / ";
-				echo get_the_title($post);
+				echo get_the_title($p);
 				echo "</span>";
 			}
 		}

@@ -262,7 +262,7 @@ function tst_posted_on() {
 	$sep = tst_get_sep();
 	
 	if(!empty($cat))
-		$cat = $sep.strip_tags($cat, '<span>');
+		$cat = $sep.$cat;
 ?>
 	<time class="date"><?php echo esc_html(get_the_date());?></time><?php
 	echo $cat;	
@@ -326,15 +326,21 @@ function tst_breadcrumbs(){
 		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
 	}
 	
-	$sep = "<span class='sep'>/</span>";
+	$sep = "<span class='sep'>&gt;</span>";
 	
 	return implode($sep, $links);	
 }
 
 function tst_get_post_type_archive_title($post_type) {
 	
-	$pt_obj = get_post_type_object( $post_type );
-	return $pt_obj->labels->name;
+	if($post_type == 'event'){
+		return 'Архив событий';
+	}
+	else {
+		$pt_obj = get_post_type_object( $post_type );
+		return $pt_obj->labels->name;
+	}
+	
 }
 
 /**
