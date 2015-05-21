@@ -84,7 +84,7 @@ function tst_widgets_init() {
 		$before = '<div id="%1$s" class="widget %2$s">';
 		
 		if(false !== strpos($id, 'footer')){
-			$before = '<div id="%1$s" class="widget %2$s">';
+			$before = '<div id="%1$s" class="widget bottom %2$s">';
 		}		
 		
 		register_sidebar(array(

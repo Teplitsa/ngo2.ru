@@ -1,3 +1,18 @@
 /*---------------------------------------------------------
  Widgets (_widgets.scss)
 -------------------------------------------------------- */
+
+.widget {
+	@include rem('margin-bottom', $base*1.5);
+}
+
+.widget-title {
+	@include widget-title(14px);	
+}
+
+#bottombar {
+	.widget:last-child {
+		margin-bottom: 0;
+	}
+	
+}

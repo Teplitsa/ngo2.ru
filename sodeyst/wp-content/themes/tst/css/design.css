@@ -1527,10 +1527,13 @@ p {
       font-size: 21px;
       line-height: 38px; }
 @media screen and (min-width: 800px) {
-  .site-header .widget {
-    display: block;
-    padding-top: 24px;
-    padding-top: 2.4rem; } }
+  .site-header {
+    padding-bottom: 15px;
+    padding-bottom: 1.5rem; }
+    .site-header .widget {
+      display: block;
+      padding-top: 24px;
+      padding-top: 2.4rem; } }
 @media screen and (min-width: 1000px) {
   .site-header .widget {
     padding-top: 28px;
@@ -1675,12 +1678,16 @@ p {
   .site-nav li a {
     text-transform: uppercase;
     color: #2d2d2d; }
+    .site-nav li a:hover, .site-nav li a:focus, .site-nav li a:active {
+      background: rgba(156, 205, 82, 0.1); }
   .site-nav .sub-menu {
     padding: 8px;
     padding: 0.8rem; }
     .site-nav .sub-menu a {
       text-transform: none;
       color: #9CCD52; }
+      .site-nav .sub-menu a:hover, .site-nav .sub-menu a:focus, .site-nav .sub-menu a:active {
+        color: #056937; }
   @media screen and (min-width: 800px) {
     .site-nav .menu-toggle {
       display: none; }
@@ -1699,19 +1706,39 @@ p {
       position: relative; }
       .site-nav li > a {
         display: inline-block;
-        padding: 0.5em 1em; }
+        padding: 0.55em 1em; }
     .site-nav .sub-menu {
+      display: none;
       position: absolute;
       background: #ffffff;
       z-index: 100;
       border: 1px solid #9CCD52;
       border-bottom-width: 4px;
-      min-width: 100%; }
+      min-width: 100%;
+      -webkit-transition: all 0.35s;
+      transition: all 0.35s; }
       .site-nav .sub-menu li {
         float: none; }
       .site-nav .sub-menu a {
         white-space: nowrap;
-        padding: 0.2em; } }
+        padding: 0.2em 0.4em; }
+    .site-nav li.menu-item-has-children:hover .sub-menu {
+      display: block; }
+    .site-nav .help-button {
+      position: relative; }
+      .site-nav .help-button a {
+        background: #F6A235;
+        color: #ffffff;
+        @inlcude transition(all 0.35s);
+        position: absolute;
+        top: -18px;
+        left: 30px;
+        z-index: 100;
+        white-space: nowrap;
+        padding: 0.55em 2em;
+        font-weight: bold; }
+        .site-nav .help-button a:hover, .site-nav .help-button a:focus, .site-nav .help-button a:active {
+          background: #d57c09; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }
@@ -1719,6 +1746,22 @@ p {
 /*---------------------------------------------------------
  Widgets (_widgets.scss)
 -------------------------------------------------------- */
+.widget {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+
+.widget-title {
+  font-family: "Arimo", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  font-size: 1.4rem;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  margin-bottom: 1.5em; }
+
+#bottombar .widget:last-child {
+  margin-bottom: 0; }
+
 /* posts */
 /* home */
 

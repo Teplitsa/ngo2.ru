@@ -151,6 +151,9 @@
 		a {
 			text-transform: uppercase;
 			color: $color-text-black;
+			&:hover, &:focus, &:active {
+				background: transparentize($color-link-two, 0.9);	
+			}
 		}
 	}
 	
@@ -160,6 +163,10 @@
 		a {
 			text-transform:  none;
 			color: $color-link-two;
+			&:hover, &:focus, &:active {
+				
+				color: $color-link-three;		
+			}
 		}
 	}
 	
@@ -180,11 +187,11 @@
 		
 		li {
 			float: left;			
-			position: relative;
+			position: relative;			
 			
 			& > a {
 				display: inline-block;
-				padding: 0.5em 1em;
+				padding: 0.55em 1em;
 			}
 		}
 		
@@ -196,15 +203,39 @@
 			border: 1px solid $color-link-two;
 			border-bottom-width: 4px;
 			min-width: 100%;
+			@include transition(all 0.35s);
 			
 			li {
-				float: none;
-				
+				float: none;				
 			}
 			
 			a {
 				white-space: nowrap;
-				padding: 0.2em;
+				padding: 0.2em 0.4em;
+			}
+		}
+		
+		li.menu-item-has-children:hover {
+			.sub-menu { display: block; }
+		}
+		
+		.help-button  {
+			position: relative;
+			a {
+				background: $color-link-one;
+				color: $color-white;
+				@inlcude transition(all 0.35s);
+				position: absolute;
+				top: -18px;
+				left: 30px;
+				z-index: 100;
+				white-space: nowrap;
+				padding: 0.55em 2em;
+				font-weight: bold;
+				
+				&:hover, &:focus, &:active {
+					background: darken($color-link-one, 15%);
+				}
 			}
 		}
 	}

@@ -87,6 +87,8 @@ p,ul,ol,dl,blockquote {
 	}
 	
 	@include for(medium-screens) {
+		@include rem('padding-bottom', 15px);
+		
 		.widget {
 			display: block;
 			@include rem('padding-top', 24px);
@@ -114,4 +116,13 @@ p,ul,ol,dl,blockquote {
 		@include rem('font-size', 30px);
 		text-transform: uppercase;
 	}
+}
+
+
+#bottombar {
+	background: $color-link-one;
+	color: $color-text-black;
+	@include rem('font-size', 12px);
+	
+	
 }
