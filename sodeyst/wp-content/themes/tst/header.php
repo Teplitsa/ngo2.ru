@@ -78,4 +78,6 @@
 		
 	</nav>
 	
+<?php if(!is_front_page()) { ?>	
 	<div id="content" class="site-content">
+<?php }?>

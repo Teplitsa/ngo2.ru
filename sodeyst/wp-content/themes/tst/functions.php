@@ -58,6 +58,10 @@ function tst_widgets_init() {
 		'header' => array(
 						'name' => 'Шапка сайта',
 						'description' => 'Динамическая область в шапке сайта'
+					),
+		'home' => array(
+						'name' => 'Главная',
+						'description' => 'Динамическая область на главной странице'
 					),		
 		'footer_1' => array(
 						'name' => 'Футер - 1 кол.',
