@@ -59,27 +59,50 @@ get_header(); ?>
 		<div class="bit md-8">
 			<h3 class="section-title">Новое в блоге <a href="<?php echo home_url('blog');?>">&gt;&gt;</a></h3>
 		<?php
-			$news = new WP_Query(array('posts_per_page' => 3));
+			$news = new WP_Query(array('posts_per_page' => 3, 'post_type' => 'post'));
 			if($news->have_posts()) {
 				$items = $news->posts;
 		?>
-			<div class="frame">
-				<div class="bit sm-6">
+		<div class="frame">
+			<div class="bit sm-6">
 				<div class="h-item">
-					<a href="<?php echo get_permalink($items[0])?>" class="thumbnail-link"></a>
-					<h4 class="h-item-title"><a href="<?php echo get_permalink($items[0])?>"><?php echo get_the_title($items[0]);?></a></h4>
-					
+					<a href="<?php echo get_permalink($items[0])?>" class="thumbnail-link">
+						<?php echo get_the_post_thumbnail($items[0]->ID, 'post-thumbnail');?>
+					</a>
+					<h4 class="h-item-title">
+						<a href="<?php echo get_permalink($items[0])?>"><?php echo get_the_title($items[0]);?></a>
+					</h4>
+					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<p><?php echo apply_filters('tst_the_title', $items[0]->post_excerpt);?></p>
 				</div>	
-				</div>
-				<div class="bit sm-6">
-					
-				</div>
 			</div>
-		<?php } ?>
+			<div class="bit sm-6">
+			<?php if(isset($items[1])) { ?>	
+				<div class="h-item">						
+					<h4 class="h-item-title">
+						<a href="<?php echo get_permalink($items[1])?>"><?php echo get_the_title($items[1]);?></a>
+					</h4>
+					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<p><?php echo apply_filters('tst_the_title', $items[1]->post_excerpt);?></p>
+				</div>
+			<?php } ?>
+			
+			<?php if(isset($items[2])) { ?>	
+				<div class="h-item">						
+					<h4 class="h-item-title">
+						<a href="<?php echo get_permalink($items[2])?>"><?php echo get_the_title($items[2]);?></a>
+					</h4>
+					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<p><?php echo apply_filters('tst_the_title', $items[2]->post_excerpt);?></p>
+				</div>
+			<?php } ?>
+			</div>
 		</div>
-		<div class="bit md-4">
-			<?php dynamic_sidebar( 'home-sidebar' ); ?>
-		</div>
+		<?php } ?>	
+		</div><!-- .bit -->
+		
+		<div class="bit md-4"><?php dynamic_sidebar( 'home-sidebar' ); ?></div>
+		
 	</div>
 	
 </section>

@@ -2131,5 +2131,14 @@ p {
   color: #2d2d2d; }
 
 /* home */
+.home-section.intro {
+  padding-top: 4px; }
+  .home-section.intro .flex-direction-nav a {
+    background: red;
+    left: 0;
+    opacity: 1; }
+  .home-section.intro .flex-direction-nav .flex-next {
+    left: auto;
+    right: 0; }
 
 /*# sourceMappingURL=design.css.map */

@@ -1,1 +1,16 @@
 /* home */
+
+.home-section.intro {
+	padding-top: 4px;
+	
+	.flex-direction-nav a {
+		background: red;		
+		left: 0;
+		opacity: 1;
+	}
+	
+	.flex-direction-nav .flex-next {
+		left: auto;
+		right: 0;
+	}
+}
