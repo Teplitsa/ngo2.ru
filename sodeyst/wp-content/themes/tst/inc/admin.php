@@ -6,7 +6,7 @@
 add_filter('manage_posts_columns', 'tst_common_columns_names', 50, 2);
 function tst_common_columns_names($columns, $post_type) {
 		
-	if(in_array($post_type, array('post', 'event', 'programm', 'friendship', 'attachment'))){
+	if(in_array($post_type, array('post', 'event', 'attachment'))){
 		
 		
 		if(!in_array($post_type, array('attachment')))
@@ -46,8 +46,8 @@ function tst_common_columns_content($column_name, $post_id) {
 	}
 	elseif($column_name == 'event_date') {
 		
-		$e_date = (function_exists('get_field')) ? get_field('event_date', $post_id) : '';
-		if(!empty($e_date)){
+		$e_date = (function_exists('get_field')) ? get_field('event-date', $post_id) : '';
+		if(!empty($e_date)){			
 			echo date('d.m.Y', strtotime($e_date));
 		}
 	}

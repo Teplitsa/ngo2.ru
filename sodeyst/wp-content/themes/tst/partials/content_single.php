@@ -17,8 +17,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 		<?php } ?>	
 		
 	</header>
-	
-	<div class="entry-meta"><?php tst_event_meta(); ?></div>
+		
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	
 	<?php if($show_thumb) { ?>
@@ -33,19 +32,16 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 	<?php } ?>
 	
 	<div class="entry-content"><?php the_content(); ?></div><!-- .entry-content -->
-		
-	<?php
-		$pt = get_post_type();
-		if($pt == 'post') {
-	?>
-		<footer class="entry-footer">
-		<time class="date"><?php echo esc_html(get_the_date());?></time>
-		<?php
-			$sep = tst_get_sep();
-			echo get_the_term_list(get_the_ID(), 'category', $sep.' <span class="category">', ', ', '</span>');
-		?>
-		</footer>
-	<?php } ?>
+	
+	<footer class="entry-footer">
+		<div class="frame">
+			<div class="bit sm-7 md-9">
+				<span class="pubdate"><time><?php the_date();?></time></span>
+				<?php echo get_the_term_list(get_the_ID(), 'category', ' <span class="category">', ', ', '</span>'); ?>
+			</div>
+			<div class="bit sm-5 md-3"><?php tst_post_nav(); ?></div>
+		</div>
+	</footer>
 	
 </article><!-- #post-## -->
 

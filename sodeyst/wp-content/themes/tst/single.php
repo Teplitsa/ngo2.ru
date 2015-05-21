@@ -17,7 +17,7 @@ get_header(); ?>
 		<?php while ( have_posts() ) : the_post(); ?>
 
 			<?php get_template_part('partials/content_single', get_post_type()); ?>
-			<?php tst_post_nav(); ?>
+			<?php //tst_post_nav(); ?>
 
 		<?php endwhile; // end of the loop. ?>
 

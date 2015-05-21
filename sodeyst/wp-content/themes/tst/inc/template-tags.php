@@ -353,13 +353,13 @@ function tst_event_meta($cpost = null) {
 	if(!$cpost)
 		$cpost = $post;
 		
-	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : $cpost->post_date;
-	$time = (function_exists('get_field')) ? get_field('event_time', $cpost->ID) : '';
-	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
+	$date = (function_exists('get_field')) ? get_field('event-date', $cpost->ID) : $cpost->post_date;
+	$time = (function_exists('get_field')) ? get_field('event-time', $cpost->ID) : '';
+	$addr = (function_exists('get_field')) ? get_field('event-place-address', $cpost->ID) : '';
 
 	if(!empty($date)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Event date', 'tst').":</span>";
+		echo "<span class='label'><i class='fa fa-calendar'></i>".__('Event date', 'tst').":</span>";
 		echo "<time class='e-date'>".date('d.m.Y', strtotime($date))."</time>";
 		echo "</div>";
 	}
