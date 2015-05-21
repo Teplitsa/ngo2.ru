@@ -162,6 +162,52 @@
 			color: $color-link-two;
 		}
 	}
+	
+	@include for(medium-screens) {
+		.menu-toggle { display:  none; }
+		
+		.site-navigation-area {
+			display: block;
+			
+		}
+		
+		.main-menu {
+			@include clearfix;
+			padding: 0;
+			border: none;
+			border-top: 4px solid $color-link-two;
+		}
+		
+		li {
+			float: left;			
+			position: relative;
+			
+			& > a {
+				display: inline-block;
+				padding: 0.5em 1em;
+			}
+		}
+		
+		.sub-menu {
+			display: none;
+			position: absolute;
+			background: $color-white;
+			z-index: 100;
+			border: 1px solid $color-link-two;
+			border-bottom-width: 4px;
+			min-width: 100%;
+			
+			li {
+				float: none;
+				
+			}
+			
+			a {
+				white-space: nowrap;
+				padding: 0.2em;
+			}
+		}
+	}
 }
 
 .site-nav.toggled .site-navigation-area { display: block; }

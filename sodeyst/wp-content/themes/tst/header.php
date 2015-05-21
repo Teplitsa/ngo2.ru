@@ -61,7 +61,7 @@
 				
 			</div><!-- bit -->
 			
-			<div class="bit md-5"><?php dynamic_sidebar('header-sidebar'); ?></div>
+			<div class="bit md-4 md-offset-1"><?php dynamic_sidebar('header-sidebar'); ?></div>
 		</div>	
 	</header><!-- #masthead -->	
 	

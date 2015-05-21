@@ -1507,25 +1507,36 @@ p {
   position: relative;
   border: 1px solid #dfdfdf;
   padding: 1em;
-  font-size: 13px;
-  font-size: 1.3rem;
+  font-size: 12px;
+  font-size: 1.2rem;
   text-align: right; }
   .site-header .textwidget p {
     margin: 0; }
   .site-header .textwidget .icon {
-    width: 45px;
-    height: 45px;
+    width: 40px;
+    height: 40px;
     text-align: center;
     border-radius: 50%;
     background: #dfdfdf;
     color: #ffffff;
     z-index: 10;
     position: absolute;
-    left: 10px;
-    top: -25px; }
+    left: -20px;
+    top: -20px; }
     .site-header .textwidget .icon i {
-      font-size: 24px;
-      line-height: 43px; }
+      font-size: 21px;
+      line-height: 38px; }
+@media screen and (min-width: 800px) {
+  .site-header .widget {
+    display: block;
+    padding-top: 24px;
+    padding-top: 2.4rem; } }
+@media screen and (min-width: 1000px) {
+  .site-header .widget {
+    padding-top: 28px;
+    padding-top: 2.8rem; }
+  .site-header .textwidget .icon {
+    left: 5px; } }
 
 .section-header {
   background: #9CCD52;
@@ -1670,6 +1681,37 @@ p {
     .site-nav .sub-menu a {
       text-transform: none;
       color: #9CCD52; }
+  @media screen and (min-width: 800px) {
+    .site-nav .menu-toggle {
+      display: none; }
+    .site-nav .site-navigation-area {
+      display: block; }
+    .site-nav .main-menu {
+      padding: 0;
+      border: none;
+      border-top: 4px solid #9CCD52; }
+      .site-nav .main-menu::after {
+        clear: both;
+        content: "";
+        display: table; }
+    .site-nav li {
+      float: left;
+      position: relative; }
+      .site-nav li > a {
+        display: inline-block;
+        padding: 0.5em 1em; }
+    .site-nav .sub-menu {
+      position: absolute;
+      background: #ffffff;
+      z-index: 100;
+      border: 1px solid #9CCD52;
+      border-bottom-width: 4px;
+      min-width: 100%; }
+      .site-nav .sub-menu li {
+        float: none; }
+      .site-nav .sub-menu a {
+        white-space: nowrap;
+        padding: 0.2em; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }
