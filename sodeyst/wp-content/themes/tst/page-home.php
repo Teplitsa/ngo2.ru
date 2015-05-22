@@ -66,6 +66,7 @@ get_header(); ?>
 			<h3 class="section-title">Новое в блоге <a href="<?php echo home_url('blog');?>">&gt;&gt;</a></h3>
 		<?php
 			$news = new WP_Query(array('posts_per_page' => 3, 'post_type' => 'post'));
+			$words = 25;
 			if($news->have_posts()) {
 				$items = $news->posts;
 		?>
@@ -79,7 +80,7 @@ get_header(); ?>
 						<a href="<?php echo get_permalink($items[0])?>"><?php echo get_the_title($items[0]);?></a>
 					</h4>
 					<div class="h-item-meta"><?php tst_posted_on($items[0]); ?></div>
-					<p><?php echo apply_filters('tst_the_title', $items[0]->post_excerpt);?></p>
+					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[0]->post_excerpt, $words));?></p>
 				</div>	
 			</div>
 			<div class="bit sm-7 md-6">
@@ -89,7 +90,7 @@ get_header(); ?>
 						<a href="<?php echo get_permalink($items[1])?>"><?php echo get_the_title($items[1]);?></a>
 					</h4>
 					<div class="h-item-meta"><?php tst_posted_on($items[1]); ?></div>
-					<p><?php echo apply_filters('tst_the_title', $items[1]->post_excerpt);?></p>
+					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[1]->post_excerpt, $words));?></p>
 				</div>
 			<?php } ?>
 			
@@ -99,7 +100,7 @@ get_header(); ?>
 						<a href="<?php echo get_permalink($items[2])?>"><?php echo get_the_title($items[2]);?></a>
 					</h4>
 					<div class="h-item-meta"><?php tst_posted_on($items[2]); ?></div>
-					<p><?php echo apply_filters('tst_the_title', $items[2]->post_excerpt);?></p>
+					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[2]->post_excerpt, $words));?></p>
 				</div>
 			<?php } ?>
 			</div>

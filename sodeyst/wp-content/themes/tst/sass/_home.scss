@@ -140,6 +140,17 @@
 	.sm-7 .h-item:first-child {
 		@include rem('margin-bottom', $base);
 	}
+	
+	.md-4 { display: none; }
+	
+	@include for(medium-screens) {
+		.md-4 { display: block; }
+		.widgets-wrap .textwidget {
+			border-left: 2px solid $color-link-two;
+			@include rem('padding-left', $gut - 2);
+		}
+	}
+	
 }
 
 .h-item {

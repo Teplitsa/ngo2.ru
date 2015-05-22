@@ -2239,6 +2239,15 @@ p {
 .home-section.content .sm-7 .h-item:first-child {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
+.home-section.content .md-4 {
+  display: none; }
+@media screen and (min-width: 800px) {
+  .home-section.content .md-4 {
+    display: block; }
+  .home-section.content .widgets-wrap .textwidget {
+    border-left: 2px solid #9CCD52;
+    padding-left: 28px;
+    padding-left: 2.8rem; } }
 
 .h-item .thumbnail-link {
   margin-bottom: 12px;
