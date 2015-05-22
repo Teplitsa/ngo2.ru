@@ -40,9 +40,15 @@ get_header(); ?>
 			?>
 			
 			<div class="block bit md-4">
-				<a href="<?php echo $url;?>" class="block-link"><span><img src="<?php echo $img;?>"></span></a>
-				<h4><a href="<?php echo $url;?>"><?php echo $title;?></a></h4>
-				<p><?php echo apply_filters('tst_the_title', $title);?></p>
+				<div class="frame">
+					<div class="bit sm-5 md-12">
+						<a href="<?php echo $url;?>" class="block-link"><span></span><img src="<?php echo $img;?>"></a>
+					</div>
+					<div class="bit sm-7 md-12">
+						<h4><a href="<?php echo $url;?>"><?php echo $title;?></a></h4>
+						<p><?php echo apply_filters('tst_the_title', $desc);?></p>
+					</div>
+				</div>
 			</div>			
 		<?php } ?>
 		
