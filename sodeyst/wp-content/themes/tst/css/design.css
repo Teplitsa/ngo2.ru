@@ -2184,9 +2184,11 @@ p {
 .home-blocks {
   background: #f5f5f5;
   border-top: 1px solid #eeeeee;
-  border-top: 1px solid #eeeeee;
-  padding: 24px 0;
-  padding:  2.4rem 0; }
+  border-bottom: 1px solid #eeeeee;
+  padding: 30px 0;
+  padding:  3rem 0;
+  margin: 48px 0;
+  margin:  4.8rem 0; }
   .home-blocks .block-link {
     display: block;
     position: relative;
@@ -2208,9 +2210,71 @@ p {
       color: #74B018; }
       .home-blocks h4 a:hover, .home-blocks h4 a:focus, .home-blocks h4 a:active {
         color: #056937; }
+    @media screen and (min-width: 800px) {
+      .home-blocks h4 {
+        padding-left: 4px; } }
   .home-blocks p {
     font-style: italic;
     line-height: 1.3;
-    color: #666666; }
+    color: #666666;
+    margin: 0; }
+    @media screen and (min-width: 800px) {
+      .home-blocks p {
+        padding-left: 4px; } }
+
+.home-section.content .section-title {
+  font-family: "Arimo", sans-serif;
+  font-weight: bold;
+  font-size: 14px;
+  font-size: 1.4rem;
+  color: #2d2d2d;
+  text-transform: uppercase;
+  margin-bottom: 1.5em; }
+  .home-section.content .section-title a {
+    margin-left: 5px;
+    font-weight: bold;
+    color: #74B018; }
+    .home-section.content .section-title a:hover, .home-section.content .section-title a:focus, .home-section.content .section-title a:active {
+      color: #056937; }
+.home-section.content .sm-7 .h-item:first-child {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+
+.h-item .thumbnail-link {
+  margin-bottom: 12px;
+  margin-bottom: 1.2rem; }
+.h-item .h-item-title {
+  font-weight: normal;
+  font-family: "Cuprum", sans-serif;
+  line-height: 1.1;
+  font-size: 21px;
+  font-size: 2.1rem;
+  color: #F2A012;
+  margin-bottom: 5px;
+  margin-bottom: 0.5rem; }
+  .h-item .h-item-title a {
+    color: #F2A012;
+    @inlcude transition(all 0.35s); }
+    .h-item .h-item-title a:hover, .h-item .h-item-title a:focus, .h-item .h-item-title a:active {
+      color: #056937; }
+.h-item .h-item-meta {
+  font-size: 11px;
+  font-size: 1.1rem;
+  color: #999999;
+  margin-bottom: 12px;
+  margin-bottom: 1.2rem; }
+  .h-item .h-item-meta time {
+    color: #2d2d2d; }
+  .h-item .h-item-meta .sep {
+    display: inline-block;
+    padding: 0 5px; }
+  .h-item .h-item-meta a {
+    text-transform: uppercase;
+    color: #74B018; }
+    .h-item .h-item-meta a:hover, .h-item .h-item-meta a:focus, .h-item .h-item-meta a:active {
+      color: #056937; }
+.h-item p {
+  font-size: 12px;
+  font-size: 1.2rem; }
 
 /*# sourceMappingURL=design.css.map */

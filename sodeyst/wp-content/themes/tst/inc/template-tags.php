@@ -249,14 +249,18 @@ if ( ! function_exists( 'tst_posted_on' ) ) :
 /**
  * Prints HTML with meta information for the current post-date/time and author.
  */
-function tst_posted_on() {
-	$pt = get_post_type();
+function tst_posted_on($cpost = null) {
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+	
 	$cat = '';
 	
 	
-	if('post' == $pt){		
+	if('post' == $cpost->post_type){
+		$cat = get_the_term_list($cpost->ID, 'category', '<span class="category">', ', ', '</span>');
 	
-		$cat = get_the_term_list(get_the_ID(), 'category', '<span class="category">', ', ', '</span>');
 	}
 	
 	$sep = "<span class='sep'>|</span>";
@@ -264,7 +268,7 @@ function tst_posted_on() {
 	if(!empty($cat))
 		$cat = $sep.$cat;
 ?>
-	<time class="date"><?php echo esc_html(get_the_date());?></time><?php
+	<time class="date"><?php echo esc_html(get_the_date('', $cpost->ID));?></time><?php
 	echo $cat;	
 }
 endif;

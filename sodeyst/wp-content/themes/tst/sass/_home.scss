@@ -77,8 +77,9 @@
 .home-blocks {
 	background: $color-secondary;
 	border-top: 1px solid $color-border-light;
-	border-top: 1px solid $color-border-light;
-	@include rem('padding', $base 0);
+	border-bottom: 1px solid $color-border-light;
+	@include rem('padding', $gut 0);
+	@include rem('margin', $base*2 0);
 	
 	.block-link {
 		display: block;
@@ -106,11 +107,76 @@
 		}
 		
 		margin-bottom: 0.5em;
+		@include for(medium-screens) {
+			padding-left: 4px;
+		}
 	}
 	
 	p {
 		font-style: italic;
 		line-height: 1.3;
 		color: $color-text-semi;
+		margin: 0;
+		@include for(medium-screens) {
+			padding-left: 4px;
+		}
+	}
+}
+
+//blog
+.home-section.content {
+	.section-title {
+		@include widget-title(14px);
+		a {
+			margin-left: 5px;
+			font-weight: bold;
+			color: $color-link-two-dark;
+			&:hover, &:focus, &:active {
+				color: $color-link-three;
+			}
+		}
+	}
+	
+	.sm-7 .h-item:first-child {
+		@include rem('margin-bottom', $base);
+	}
+}
+
+.h-item {
+	
+	.thumbnail-link {
+		@include rem('margin-bottom', $base*0.5);
+	}
+	
+	.h-item-title {
+		@include post-title(21px);
+		@include rem('margin-bottom', 5px);
+	}
+	
+	.h-item-meta {
+		@include rem('font-size', 11px);
+		color: $color-text-light;
+		@include rem('margin-bottom', $base*0.5);
+		
+		time {
+			color: $color-text-black;
+		}
+		
+		.sep {
+			display: inline-block;
+			padding: 0 5px;
+		}
+		
+		a {
+			text-transform: uppercase;
+			color: $color-link-two-dark;
+			&:hover, &:focus, &:active {
+				color: $color-link-three;
+			}
+		}
+	}
+	
+	p {
+		@include rem('font-size', 12px);
 	}
 }

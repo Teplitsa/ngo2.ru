@@ -70,7 +70,7 @@ get_header(); ?>
 				$items = $news->posts;
 		?>
 		<div class="frame">
-			<div class="bit sm-6">
+			<div class="bit sm-5 md-6">
 				<div class="h-item">
 					<a href="<?php echo get_permalink($items[0])?>" class="thumbnail-link">
 						<?php echo get_the_post_thumbnail($items[0]->ID, 'post-thumbnail');?>
@@ -78,17 +78,17 @@ get_header(); ?>
 					<h4 class="h-item-title">
 						<a href="<?php echo get_permalink($items[0])?>"><?php echo get_the_title($items[0]);?></a>
 					</h4>
-					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<div class="h-item-meta"><?php tst_posted_on($items[0]); ?></div>
 					<p><?php echo apply_filters('tst_the_title', $items[0]->post_excerpt);?></p>
 				</div>	
 			</div>
-			<div class="bit sm-6">
+			<div class="bit sm-7 md-6">
 			<?php if(isset($items[1])) { ?>	
 				<div class="h-item">						
 					<h4 class="h-item-title">
 						<a href="<?php echo get_permalink($items[1])?>"><?php echo get_the_title($items[1]);?></a>
 					</h4>
-					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<div class="h-item-meta"><?php tst_posted_on($items[1]); ?></div>
 					<p><?php echo apply_filters('tst_the_title', $items[1]->post_excerpt);?></p>
 				</div>
 			<?php } ?>
@@ -98,7 +98,7 @@ get_header(); ?>
 					<h4 class="h-item-title">
 						<a href="<?php echo get_permalink($items[2])?>"><?php echo get_the_title($items[2]);?></a>
 					</h4>
-					<div class="h-item-meta"><?php tst_posted_on(); ?></div>
+					<div class="h-item-meta"><?php tst_posted_on($items[2]); ?></div>
 					<p><?php echo apply_filters('tst_the_title', $items[2]->post_excerpt);?></p>
 				</div>
 			<?php } ?>
@@ -107,7 +107,7 @@ get_header(); ?>
 		<?php } ?>	
 		</div><!-- .bit -->
 		
-		<div class="bit md-4"><?php dynamic_sidebar( 'home-sidebar' ); ?></div>
+		<div class="bit md-4"><div class="widgets-wrap"><?php dynamic_sidebar( 'home-sidebar' ); ?></div></div>
 		
 	</div>
 	
