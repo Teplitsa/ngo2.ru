@@ -93,7 +93,26 @@
 			top: 0;
 			left: 0;
 			background-color: rgba(173,212,117, 0.25);
+			background-repeat: no-repeat;
+			@include transition(all 0.35s);
 		}
+		
+		&:hover span {
+			background-color: rgba(173,212,117, 0.5);
+		}
+	}
+	
+	.block:nth-of-type(1) .block-link span{
+		background-image: url(../img/sun-b1.png);
+		background-position: right bottom;
+	}
+	.block:nth-of-type(2) .block-link span{
+		background-image: url(../img/sun-b2.png);
+		background-position: right top;
+	}
+	.block:nth-of-type(3) .block-link span{
+		background-image: url(../img/sun-b3.png);
+		background-position: right top;
 	}
 	
 	h4 {

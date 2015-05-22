@@ -2200,7 +2200,21 @@ p {
       height: 100%;
       top: 0;
       left: 0;
-      background-color: rgba(173, 212, 117, 0.25); }
+      background-color: rgba(173, 212, 117, 0.25);
+      background-repeat: no-repeat;
+      -webkit-transition: all 0.35s;
+      transition: all 0.35s; }
+    .home-blocks .block-link:hover span {
+      background-color: rgba(173, 212, 117, 0.5); }
+  .home-blocks .block:nth-of-type(1) .block-link span {
+    background-image: url(../img/sun-b1.png);
+    background-position: right bottom; }
+  .home-blocks .block:nth-of-type(2) .block-link span {
+    background-image: url(../img/sun-b2.png);
+    background-position: right top; }
+  .home-blocks .block:nth-of-type(3) .block-link span {
+    background-image: url(../img/sun-b3.png);
+    background-position: right top; }
   .home-blocks h4 {
     font: normal 24px/1.15 "Cuprum", sans-serif;
     font-size: 24px;
