@@ -50,11 +50,6 @@ class FrmProDisplaysController{
 		FrmAppHelper::force_capability( 'frm_edit_displays' );
 
         add_submenu_page('formidable', 'Formidable | '. __( 'Views', 'formidable' ), __( 'Views', 'formidable' ), 'frm_edit_displays', 'edit.php?post_type=frm_display');
-
-        add_filter('manage_edit-frm_display_columns', 'FrmProDisplaysController::manage_columns');
-        add_filter('manage_edit-frm_display_sortable_columns', 'FrmProDisplaysController::sortable_columns');
-        add_filter('get_user_option_manageedit-frm_displaycolumnshidden', 'FrmProDisplaysController::hidden_columns');
-        add_action('manage_frm_display_posts_custom_column', 'FrmProDisplaysController::manage_custom_columns', 10, 2);
     }
 
 	public static function highlight_menu() {
@@ -351,6 +346,16 @@ class FrmProDisplaysController{
         }
     }
 
+	/**
+	 * @since 2.0.8
+	 */
+	public static function delete_views_for_form( $form_id ) {
+		$display_ids = FrmProDisplay::get_display_ids_by_form( $form_id );
+		foreach ( $display_ids as $display_id ) {
+			wp_delete_post( $display_id );
+		}
+	}
+
     /* META BOXES */
 	public static function mb_dyncontent( $post ) {
         FrmProDisplaysHelper::prepare_duplicate_view($post);
@@ -609,7 +614,8 @@ class FrmProDisplaysController{
             self::calendar_daily_entries($entry, $display, compact('startday', 'maxday', 'year', 'month', 'field', 'efield'), $daily_entries);
         }
 
-        $day_names = FrmProAppHelper::reset_keys($wp_locale->weekday_abbrev); //switch keys to order
+		$locale_day_names = apply_filters( 'frm_calendar_day_names', 'weekday_abbrev', array( 'display' => $display ) );
+		$day_names = FrmProAppHelper::reset_keys($wp_locale->{$locale_day_names}); //switch keys to order
 
         if ( $week_begins ) {
             for ( $i = $week_begins; $i < ( $week_begins + 7 ); $i++ ) {
@@ -661,8 +667,7 @@ class FrmProDisplaysController{
         }
 
         if ( $i18n ) {
-            $date = get_date_from_gmt($date);
-            $date = date_i18n('Y-m-d', strtotime($date));
+			$date = FrmAppHelper::get_localized_date( 'Y-m-d', $date );
         } else {
             $date = date('Y-m-d', strtotime($date));
         }
@@ -678,11 +683,9 @@ class FrmProDisplaysController{
                     $edate = date('Y-m-d', strtotime('+'. ($edate - 1) .' days', strtotime($date)));
                 }
             } else if ( $display->frm_edate_field_id == 'updated_at' ) {
-                $edate = get_date_from_gmt($entry->updated_at);
-                $edate = date_i18n('Y-m-d', strtotime($edate));
+				$edate = FrmAppHelper::get_localized_date( 'Y-m-d', $entry->updated_at );
             } else {
-                $edate = get_date_from_gmt($entry->created_at);
-                $edate = date_i18n('Y-m-d', strtotime($edate));
+				$edate = FrmAppHelper::get_localized_date( 'Y-m-d', $entry->created_at );
             }
 
             if ( $edate && ! empty($edate) ) {
@@ -1054,13 +1057,14 @@ class FrmProDisplaysController{
 
                     if ( in_array( $where_opt, array( 'id', 'item_key', 'post_id') ) && ! is_array( $where_val ) && strpos( $where_val, ',' ) ) {
                         $where_val = explode(',', $where_val);
+						$where_val = array_filter( $where_val );
                     }
 
                     if ( is_array($where_val) && ! empty($where_val) ) {
                         if ( strpos($display->frm_where_is[$where_key], '!') === false && strpos($display->frm_where_is[$where_key], 'not') === false ) {
                             $display->frm_where_is[$where_key] = ' in ';
                         } else {
-                            $display->frm_where_is[$where_key] = ' not in ';
+                            $display->frm_where_is[$where_key] = 'not in';
                         }
                     }
 

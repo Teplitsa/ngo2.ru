@@ -691,7 +691,7 @@ class FrmProFieldsController{
 
 		$hide_field = FrmAppHelper::get_param( 'hide_field', '', 'post', 'absint' );
 		$entry_id = FrmAppHelper::get_param( 'entry_id' );
-		$selected_field_id = FrmAppHelper::get_param( 'selected_field_id', '', 'post', 'absint' );
+		$selected_field_id = FrmAppHelper::get_param( 'selected_field_id', '', 'post', 'sanitize_title' );
 		$field_id = FrmAppHelper::get_param( 'field_id', '', 'post', 'absint' );
 		$hidden_field_id = FrmAppHelper::get_param( 'hide_id', '', 'post', 'sanitize_title' );
 

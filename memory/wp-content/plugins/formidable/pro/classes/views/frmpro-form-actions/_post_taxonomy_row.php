@@ -68,11 +68,21 @@ if ( $selected_type == 'tag' ) { ?>
             <?php } ?>
             </div>
             <?php
-                FrmProFieldsHelper::get_child_checkboxes( array( 'field' => array( 'post_field' => 'post_category', 'form_id' => $values['id'], 'field_options' => array( 'taxonomy' => $field_vars['meta_name']), 'type' => 'checkbox'), 'field_name' =>  $action_control->get_field_name('post_category') .'['. $tax_meta .'][exclude_cat]', 'value' => (isset($field_vars['exclude_cat']) ? $field_vars['exclude_cat'] : 0), 'exclude' => 'no', 'hide_id' => true, 'tax_num' => $tax_meta ));
+			if ( ! empty( $selected_type ) && $selected_type != 'data' ) { ?>
+            <p class="howto check_lev1_label frm_hidden"><?php _e( 'NOTE: if the parent is excluded, child categories will be automatically excluded.', 'formidable' ) ?></p>
+            <?php
+            }
+
+			FrmProFieldsHelper::get_child_checkboxes( array( 'field' => array(
+				'post_field' => 'post_category', 'form_id' => $values['id'],
+				'field_options' => array(
+					'taxonomy' => $field_vars['meta_name']), 'type' => 'checkbox'
+				),
+				'field_name' =>  $action_control->get_field_name( 'post_category' ) . '[' . $tax_meta . '][exclude_cat]',
+				'value' => ( isset( $field_vars['exclude_cat'] ) ? $field_vars['exclude_cat'] : 0 ),
+				'exclude' => 'no', 'hide_id' => true, 'tax_num' => $tax_meta,
+			) );
            ?>
-           <?php if ( $selected_type != 'data' ) { ?>
-           <p class="howto check_lev1_label" style="margin-bottom:2px;display:none;"><?php _e( 'NOTE: if the parent is excluded, child categories will be automatically excluded.', 'formidable' ) ?></p>
-           <?php } ?>
         </div>
         </div>
     </div>

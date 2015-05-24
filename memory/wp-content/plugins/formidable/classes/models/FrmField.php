@@ -14,7 +14,7 @@ class FrmField {
         $key = isset($values['field_key']) ? $values['field_key'] : $values['name'];
         $new_values['field_key'] = FrmAppHelper::get_unique_key($key, $wpdb->prefix .'frm_fields', 'field_key');
 
-        foreach ( array( 'name', 'description', 'type', 'default_value') as $col ) {
+		foreach ( array( 'name', 'description', 'type', 'default_value' ) as $col ) {
 			$new_values[ $col ] = $values[ $col ];
         }
 
@@ -64,7 +64,7 @@ class FrmField {
 
     public static function duplicate( $old_form_id, $form_id, $copy_keys = false, $blog_id = false ) {
         global $frm_duplicate_ids;
-        $fields = self::getAll( array( 'fi.form_id' => $old_form_id), 'field_order', '', $blog_id);
+		$fields = self::getAll( array( 'fi.form_id' => $old_form_id ), 'field_order', '', $blog_id );
         foreach ( (array) $fields as $field ) {
             $new_key = ($copy_keys) ? $field->field_key : '';
             if ( $copy_keys && substr($field->field_key, -1) == 2 ) {
@@ -113,8 +113,10 @@ class FrmField {
             $values['required'] = (int) $values['required'];
         }
 
+		self::preserve_phone_format_backslashes( $values );
+
 		// serialize array values
-		foreach ( array( 'default_value', 'field_options', 'options') as $opt ) {
+		foreach ( array( 'default_value', 'field_options', 'options' ) as $opt ) {
 			if ( isset( $values[ $opt ] ) && is_array( $values[ $opt ] ) ) {
 				$values[ $opt ] = serialize( $values[ $opt ] );
 			}
@@ -143,6 +145,18 @@ class FrmField {
 
         return $query_results;
     }
+
+	/**
+	* Keep backslashes in the phone format option
+	*
+	* @since 2.0.8
+	* @param $values array - pass by reference
+	*/
+	private static function preserve_phone_format_backslashes( &$values ) {
+		if ( isset( $values['field_options']['format'] ) ) {
+			$values['field_options']['format'] = FrmAppHelper::preserve_backslashes( $values['field_options']['format'] );
+		}
+	}
 
     public static function destroy( $id ) {
 		global $wpdb;
@@ -255,7 +269,7 @@ class FrmField {
         }
 
         self::$use_cache = false;
-        $results = self::getAll( array( 'fi.form_id' => (int) $form_id, 'fi.type' => $type), 'field_order', $limit);
+		$results = self::getAll( array( 'fi.form_id' => (int) $form_id, 'fi.type' => $type ), 'field_order', $limit );
         self::$use_cache = true;
         self::include_sub_fields($results, $inc_sub, $type);
 
@@ -270,7 +284,7 @@ class FrmField {
 		$results = self::get_fields_from_transients( $form_id, $inc_sub );
 		if ( ! empty( $results ) ) {
             if ( empty($limit) ) {
-                return stripslashes_deep($results);
+				return $results;
             }
 
             $fields = array();
@@ -282,7 +296,7 @@ class FrmField {
                 }
             }
 
-            return stripslashes_deep($fields);
+			return $fields;
         }
 
         self::$use_cache = false;
@@ -297,7 +311,7 @@ class FrmField {
 			self::set_field_transient( $results, $form_id, $inc_sub );
         }
 
-        return $results;
+		return $results;
     }
 
     public static function include_sub_fields(&$results, $inc_sub, $type = 'all') {
@@ -378,39 +392,35 @@ class FrmField {
         }
         unset( $where );
 
-        if ( ! $results ) {
-            stripslashes_deep($results);
-        }
+		self::format_field_results( $results );
 
-        if ( is_array($results) ) {
-            foreach ( $results as $r_key => $result ) {
-                wp_cache_set($result->id, $result, 'frm_field');
-                wp_cache_set($result->field_key, $result, 'frm_field');
+		wp_cache_set( $cache_key, $results, 'frm_field', 300 );
+
+		return stripslashes_deep( $results );
+	}
+
+	/**
+	 * @since 2.0.8
+	 */
+	private static function format_field_results( &$results ) {
+		if ( is_array( $results ) ) {
+			foreach ( $results as $r_key => $result ) {
+				wp_cache_set( $result->id, $result, 'frm_field' );
+				wp_cache_set( $result->field_key, $result, 'frm_field' );
 
 				$results[ $r_key ]->field_options = maybe_unserialize( $result->field_options );
-                if ( isset( $results[ $r_key ]->field_options['format'] ) && ! empty( $results[ $r_key ]->field_options['format'] ) ) {
-                    $results[ $r_key ]->field_options['format'] = addslashes( $results[ $r_key ]->field_options['format'] );
-                }
+				$results[ $r_key ]->options = maybe_unserialize( $result->options );
+				$results[ $r_key ]->default_value = maybe_unserialize( $result->default_value );
 
-                $results[ $r_key ]->options = maybe_unserialize( $result->options );
-                $results[ $r_key ]->default_value = maybe_unserialize( $result->default_value );
-                $form_id = $result->form_id;
-
-                unset($r_key, $result);
-            }
-
-            unset($form_id);
+				unset( $r_key, $result );
+			}
 		} else if ( $results ) {
-            wp_cache_set($results->id, $results, 'frm_field');
-            wp_cache_set($results->field_key, $results, 'frm_field');
+			wp_cache_set( $results->id, $results, 'frm_field' );
+			wp_cache_set( $results->field_key, $results, 'frm_field' );
 
 			self::prepare_options( $results );
-        }
-
-        wp_cache_set($cache_key, $results, 'frm_field', 300);
-
-        return stripslashes_deep($results);
-    }
+		}
+	}
 
 	/**
 	 * Unserialize all the serialized field data
@@ -418,9 +428,6 @@ class FrmField {
 	 */
 	private static function prepare_options( &$results ) {
 		$results->field_options = maybe_unserialize( $results->field_options );
-		if ( isset( $results->field_options['format'] ) && ! empty( $results->field_options['format'] ) ) {
-			$results->field_options['format'] = addslashes( $results->field_options['format'] );
-		}
 
 		$results->options = maybe_unserialize($results->options);
 		$results->default_value = maybe_unserialize($results->default_value);

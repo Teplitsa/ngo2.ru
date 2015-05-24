@@ -15,7 +15,7 @@
 		<?php if(is_singular()) { ?>
 			<h2 class="screen-reader-text wac-go-to-hell">Полный текст публикации</h2>
 		<?php } ?>	
-		
+		<div class="entry-meta"><?php the_excerpt();?></div>
 	</header>
 	
 	<div class="frame intro-section">

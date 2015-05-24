@@ -10,7 +10,7 @@ class FrmAppHelper {
 	/**
 	 * @since 2.0
 	 */
-	public static $plug_version = '2.0.07';
+	public static $plug_version = '2.0.08';
 
     /**
      * @since 1.07.02
@@ -138,6 +138,14 @@ class FrmAppHelper {
         return defined('DOING_AJAX') && DOING_AJAX && ! self::is_preview_page();
     }
 
+	/**
+	 * @since 2.0.8
+	 */
+	public static function prevent_caching() {
+		global $frm_vars;
+		return isset( $frm_vars['prevent_caching'] ) && $frm_vars['prevent_caching'];
+	}
+
     /**
      * Check if on an admin page
      *
@@ -211,9 +219,9 @@ class FrmAppHelper {
             if ( ! isset( $_POST[ $param ] ) && isset( $_GET[ $param ] ) && ! is_array( $value ) ) {
                 $value = stripslashes_deep( htmlspecialchars_decode( urldecode( $_GET[ $param ] ) ) );
             }
-			self::sanitize_value( $value, $sanitize );
+			self::sanitize_value( $sanitize, $value );
 		} else {
-            $value = self::simple_request( array( 'type' => 'post', 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
+            $value = self::get_simple_request( array( 'type' => $src, 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
         }
 
 		if ( isset( $params ) && is_array( $value ) && ! empty( $value ) ) {
@@ -231,20 +239,13 @@ class FrmAppHelper {
     }
 
 	/**
-	 * @todo Deprecate this and use simple_request instead
 	 *
 	 * @param string $param
 	 * @param mixed $default
 	 * @param string $sanitize
 	 */
 	public static function get_post_param( $param, $default = '', $sanitize = '' ) {
-		return self::simple_request( array( 'type' => 'post', 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
-	}
-
-	public static function sanitize_value( &$value, $sanitize ) {
-		if ( ! empty( $sanitize ) ) {
-			$value = call_user_func( $sanitize, $value );
-		}
+		return self::get_simple_request( array( 'type' => 'post', 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
 	}
 
 	/**
@@ -253,11 +254,9 @@ class FrmAppHelper {
 	 * @param string $param
 	 * @param string $sanitize
 	 * @param string $default
-	 *
-	 * @todo Deprecate this and use simple_request instead
 	 */
 	public static function simple_get( $param, $sanitize = 'sanitize_text_field', $default = '' ) {
-		return self::simple_request( array( 'type' => 'get', 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
+		return self::get_simple_request( array( 'type' => 'get', 'param' => $param, 'default' => $default, 'sanitize' => $sanitize ) );
     }
 
 	/**
@@ -265,7 +264,7 @@ class FrmAppHelper {
 	 *
 	 * @since 2.0.6
 	 */
-	public static function simple_request( $args ) {
+	public static function get_simple_request( $args ) {
 		$defaults = array(
 			'param' => '', 'default' => '',
 			'type' => 'get', 'sanitize' => 'sanitize_text_field',
@@ -287,15 +286,40 @@ class FrmAppHelper {
 			}
 		}
 
-		self::sanitize_value( $value, $args['sanitize'] );
+		self::sanitize_value( $args['sanitize'], $value );
 		return $value;
+	}
+
+	/**
+	* Preserve backslashes in a value, but make sure value doesn't get compounding slashes
+	*
+	* @since 2.0.8
+	* @param string $value
+	* @return string $value
+	*/
+	public static function preserve_backslashes( $value ) {
+		// If backslashes have already been added, don't add them again
+		if ( strpos( $value, '\\\\' ) === false ) {
+			$value = addslashes( $value );
+		}
+		return $value;
+	}
+
+	public static function sanitize_value( $sanitize, &$value ) {
+		if ( ! empty( $sanitize ) ) {
+			if ( is_array( $value ) ) {
+				$value = array_map( $sanitize, $value );
+			} else {
+				$value = call_user_func( $sanitize, $value );
+			}
+		}
 	}
 
     public static function sanitize_request( $sanitize_method, &$values ) {
         $temp_values = $values;
         foreach ( $temp_values as $k => $val ) {
             if ( isset( $sanitize_method[ $k ] ) ) {
-				call_user_func( $sanitize_method[ $k ], $val );
+				$values[ $k ] = call_user_func( $sanitize_method[ $k ], $val );
             }
         }
     }
@@ -391,7 +415,9 @@ class FrmAppHelper {
             $results = $wpdb->{$type}($query);
         }
 
-        wp_cache_set($cache_key, $results, $group, $time);
+		if ( ! self::prevent_caching() ) {
+			wp_cache_set( $cache_key, $results, $group, $time );
+		}
 
         return $results;
     }
@@ -765,7 +791,7 @@ class FrmAppHelper {
 
     public static function replace_quotes($val) {
         //Replace double quotes
-        $val = str_replace( array( '&#8220;', '&#8221;', '&#8243;'), '"', $val);
+		$val = str_replace( array( '&#8220;', '&#8221;', '&#8243;' ), '"', $val );
         //Replace single quotes
         $val = str_replace( array( '&#8216;', '&#8217;', '&#8242;', '&prime;', '&rsquo;', '&lsquo;' ), "'", $val );
         return $val;
@@ -864,17 +890,17 @@ class FrmAppHelper {
             $key = base_convert( rand($min_slug_value, $max_slug_value), 10, 36 );
         }
 
-        if ( is_numeric($key) || in_array($key, array( 'id', 'key', 'created-at', 'detaillink', 'editlink', 'siteurl', 'evenodd')) ) {
+		if ( is_numeric($key) || in_array( $key, array( 'id', 'key', 'created-at', 'detaillink', 'editlink', 'siteurl', 'evenodd' ) ) ) {
             $key = $key .'a';
         }
 
-        $key_check = FrmDb::get_var( $table_name, array($column => $key, 'ID !' => $id), $column );
+		$key_check = FrmDb::get_var( $table_name, array( $column => $key, 'ID !' => $id ), $column );
 
         if ( $key_check || is_numeric($key_check) ) {
             $suffix = 2;
 			do {
 				$alt_post_name = substr( $key, 0, 200 - ( strlen( $suffix ) + 1 ) ) . $suffix;
-                $key_check = FrmDb::get_var( $table_name, array($column => $alt_post_name, 'ID !' => $id), $column );
+				$key_check = FrmDb::get_var( $table_name, array( $column => $alt_post_name, 'ID !' => $id ), $column );
 				$suffix++;
 			} while ($key_check || is_numeric($key_check));
 			$key = $alt_post_name;
@@ -898,9 +924,9 @@ class FrmAppHelper {
             $post_values = stripslashes_deep($_POST);
         }
 
-        $values = array( 'id' => $record->id, 'fields' => array());
+		$values = array( 'id' => $record->id, 'fields' => array() );
 
-        foreach ( array( 'name', 'description') as $var ) {
+		foreach ( array( 'name', 'description' ) as $var ) {
             $default_val = isset($record->{$var}) ? $record->{$var} : '';
             $values[ $var ] = self::get_param( $var, $default_val );
             unset($var, $default_val);
@@ -939,7 +965,7 @@ class FrmAppHelper {
                 if ( ! isset($field->field_options['custom_field']) ) {
                     $field->field_options['custom_field'] = '';
                 }
-                $meta_value = FrmProEntryMetaHelper::get_post_value($record->post_id, $field->field_options['post_field'], $field->field_options['custom_field'], array( 'truncate' => false, 'type' => $field->type, 'form_id' => $field->form_id, 'field' => $field));
+				$meta_value = FrmProEntryMetaHelper::get_post_value( $record->post_id, $field->field_options['post_field'], $field->field_options['custom_field'], array( 'truncate' => false, 'type' => $field->type, 'form_id' => $field->form_id, 'field' => $field ) );
             } else {
                 $meta_value = self::get_meta_value($field->id, $record);
             }
@@ -1046,7 +1072,7 @@ class FrmAppHelper {
 			$values['custom_style'] = ( $post_values && isset( $post_values['options']['custom_style'] ) ) ? absint( $_POST['options']['custom_style'] ) : ( $frm_settings->load_style != 'none' );
         }
 
-        foreach ( array( 'before', 'after', 'submit') as $h ) {
+		foreach ( array( 'before', 'after', 'submit' ) as $h ) {
             if ( ! isset( $values[ $h .'_html' ] ) ) {
                 $values[ $h .'_html' ] = ( isset( $post_values['options'][ $h .'_html' ] ) ? $post_values['options'][ $h .'_html' ] : FrmFormsHelper::get_default_html( $h ) );
             }
@@ -1144,26 +1170,30 @@ class FrmAppHelper {
             $date = FrmProAppHelper::convert_date($date, $frmpro_settings->date_format, 'Y-m-d');
         }
 
-        $do_time = ( date('H:i:s', strtotime($date)) == '00:00:00' ) ? false : true;
+		$formatted = self::get_localized_date( $date_format, $date );
 
-        $date = get_date_from_gmt($date);
+		$do_time = ( date( 'H:i:s', strtotime( $date ) ) != '00:00:00' );
+		if ( $do_time ) {
+			if ( empty($time_format) ) {
+				$time_format = get_option('time_format');
+			}
 
-        $formatted = date_i18n($date_format, strtotime($date));
-
-        if ( $do_time ) {
-
-            if ( empty($time_format) ) {
-                $time_format = get_option('time_format');
-            }
-
-            $trimmed_format = trim($time_format);
-            if ( $time_format && ! empty($trimmed_format) ) {
-                $formatted .= ' '. __( 'at', 'formidable' ) .' '. date_i18n($time_format, strtotime($date));
-            }
-        }
+			$trimmed_format = trim( $time_format );
+			if ( $time_format && ! empty( $trimmed_format ) ) {
+				$formatted .= ' ' . __( 'at', 'formidable' ) . ' ' . self::get_localized_date( $time_format, $date );
+			}
+		}
 
         return $formatted;
     }
+
+	/**
+	 * @since 2.0.8
+	 */
+	public static function get_localized_date( $date_format, $date ) {
+		$date = get_date_from_gmt( $date );
+		return date_i18n( $date_format, strtotime( $date ) );
+	}
 
     /**
      * @return string The time ago in words
@@ -1498,7 +1528,7 @@ class FrmAppHelper {
         $post_content = json_encode( $post_content );
 
 	    // add extra slashes for \r\n since WP strips them
-		$post_content = str_replace( array( '\\r', '\\n', '\\u', '\\t'), array( '\\\\r', '\\\\n', '\\\\u', '\\\\t'), $post_content );
+		$post_content = str_replace( array( '\\r', '\\n', '\\u', '\\t' ), array( '\\\\r', '\\\\n', '\\\\u', '\\\\t' ), $post_content );
 
         // allow for &quot
 	    $post_content = str_replace( '&quot;', '\\"', $post_content );
@@ -1616,7 +1646,7 @@ class FrmAppHelper {
      */
 	public static function load_admin_wide_js( $load = true ) {
         $version = FrmAppHelper::plugin_version();
-		wp_register_script( 'formidable_admin_global', FrmAppHelper::plugin_url() . '/js/formidable_admin_global.js', array( 'jquery'), $version );
+		wp_register_script( 'formidable_admin_global', FrmAppHelper::plugin_url() . '/js/formidable_admin_global.js', array( 'jquery' ), $version );
 
         wp_localize_script( 'formidable_admin_global', 'frmGlobal', array(
 			'updating_msg' => __( 'Please wait while your site updates.', 'formidable' ),

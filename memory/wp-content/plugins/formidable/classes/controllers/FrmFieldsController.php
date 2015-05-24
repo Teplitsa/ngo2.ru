@@ -90,10 +90,11 @@ class FrmFieldsController {
 		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
 
         if ( ! $field_id || ! $form_id ) {
-            return;
+            wp_die();
         }
 
-        FrmField::update( $field_id, compact('form_id') );
+		$updated = FrmField::update( $field_id, compact( 'form_id' ) );
+		echo absint( $updated );
 
         wp_die();
     }
@@ -118,7 +119,7 @@ class FrmFieldsController {
         }
 
 		FrmField::update( $id, array( $field => $value ) );
-        echo stripslashes($value);
+		echo stripslashes( wp_kses_post( $value ) );
         wp_die();
     }
 
@@ -160,17 +161,17 @@ class FrmFieldsController {
         global $wpdb;
 
 		$field_id = FrmAppHelper::get_post_param( 'field_id', 0, 'absint' );
+		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
+
 		$copy_field = FrmField::getOne( $field_id );
         if ( ! $copy_field ) {
             wp_die();
         }
 
-		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
-
         do_action('frm_duplicate_field', $copy_field, $form_id);
         do_action('frm_duplicate_field_'. $copy_field->type, $copy_field, $form_id);
 
-        $values = array();
+        $values = array( 'id' => $form_id );
         FrmFieldsHelper::fill_field( $values, $copy_field, $form_id );
 
 		$field_count = FrmDb::get_count( $wpdb->prefix .'frm_fields fi LEFT JOIN '. $wpdb->prefix .'frm_forms fr ON (fi.form_id = fr.id)', array( 'or' => 1, 'fr.id' => $form_id, 'fr.parent_form_id' => $form_id ) );
@@ -647,7 +648,7 @@ class FrmFieldsController {
             $add_html['placeholder'] = 'placeholder="'. esc_attr($field['default_value']) .'"';
             wp_enqueue_script('jquery-placeholder');
         } else if ( ! $frm_settings->use_html ) {
-            $val = str_replace( array("\r\n", "\n"), '\r', addslashes(str_replace('&#039;', "'", esc_attr($field['default_value']))));
+			$val = str_replace( array( "\r\n", "\n" ), '\r', addslashes( str_replace( '&#039;', "'", esc_attr( $field['default_value'] ) ) ) );
             $add_html['data-frmval'] = 'data-frmval="'. esc_attr($val) .'"';
             $class[] = 'frm_toggle_default';
 

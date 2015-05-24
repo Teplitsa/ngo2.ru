@@ -186,7 +186,7 @@ class FrmProDisplay{
         global $wpdb;
 
         if ( $args['form_id'] ) {
-            $display_ids = FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $args['form_id']), 'post_ID' );
+            $display_ids = self::get_display_ids_by_form( $args['form_id'] );
 
             if ( ! $display_ids ) {
                 return false;
@@ -235,10 +235,16 @@ class FrmProDisplay{
         return $display;
     }
 
+	public static function get_display_ids_by_form( $form_id ) {
+		global $wpdb;
+		return FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $form_id ), 'post_ID' );
+	}
+
 	public static function get_form_custom_display( $form_id ) {
         global $wpdb;
 
-        $display_ids = FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $form_id), 'post_ID' );
+        $display_ids = self::get_display_ids_by_form( $form_id );
+
         if ( ! $display_ids ) {
             return false;
         }

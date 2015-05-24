@@ -181,7 +181,7 @@ class FrmFormActionsController {
     private static function fields_to_values($form_id, array &$values) {
         $form = FrmForm::getOne($form_id);
 
-        $values = array( 'fields' => array(), 'id' => $form->id);
+		$values = array( 'fields' => array(), 'id' => $form->id );
 
         $fields = FrmField::get_all_for_form($form->id);
         foreach ( $fields as $k => $f ) {
@@ -203,7 +203,7 @@ class FrmFormActionsController {
 
         $registered_actions = self::$registered_actions->actions;
 
-        $old_actions = FrmDb::get_col( $wpdb->posts, array( 'post_type' => self::$action_post_type, 'menu_order' => $form_id), 'ID' );
+		$old_actions = FrmDb::get_col( $wpdb->posts, array( 'post_type' => self::$action_post_type, 'menu_order' => $form_id ), 'ID' );
         $new_actions = array();
 
         foreach ( $registered_actions as $registered_action ) {
@@ -219,14 +219,17 @@ class FrmFormActionsController {
         }
         $old_actions = array_diff( $old_actions, $new_actions );
 
-        // delete any actions that were not included on the page
-        if ( ! empty( $old_actions ) ) {
-            foreach ( $old_actions as $old_id ) {
-                wp_delete_post( $old_id );
-            }
-			FrmAppHelper::cache_delete_group( 'frm_actions' );
-        }
+		self::delete_missing_actions( $old_actions );
     }
+
+	public static function delete_missing_actions( $old_actions ) {
+		if ( ! empty( $old_actions ) ) {
+			foreach ( $old_actions as $old_id ) {
+				wp_delete_post( $old_id );
+			}
+			FrmAppHelper::cache_delete_group( 'frm_actions' );
+		}
+	}
 
 	public static function trigger_create_actions( $entry_id, $form_id, $args = array() ) {
 		self::trigger_actions( 'create', $form_id, $entry_id, 'all', $args );
@@ -261,15 +264,14 @@ class FrmFormActionsController {
                 $entry = FrmEntry::getOne( $entry, true );
             }
 
+			if ( empty( $entry ) || $entry->is_draft ) {
+				continue;
+			}
+
 			$child_entry = ( ( $form && is_numeric( $form->parent_form_id ) && $form->parent_form_id ) || ( $entry && ( $entry->form_id != $form->id || $entry->parent_item_id ) ) || ( isset( $args['is_child'] ) && $args['is_child'] ) );
 
 			if ( $child_entry ) {
                 //don't trigger actions for sub forms
-                continue;
-            }
-
-            if ( $entry->is_draft ) {
-                // TODO: add trigger actions for drafts
                 continue;
             }
 

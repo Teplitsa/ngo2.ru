@@ -1523,6 +1523,21 @@ body.page-template-default .site-content .container {
   font-size: 3.2rem;
   font-weight: 100; }
 
+.page-template-page-stories {
+  /*.section-header  {
+  	.section-title {
+  		background: rgba(255,255,255, 0.95);
+  		display: inline-block;
+  		padding: 0 1em 0.2em;
+  		margin-top: -15px;
+  	}
+  	
+  }
+  
+  .bg {
+  	top: 20px;
+  }*/ }
+
 #bottombar {
   background: #f5f5f5;
   border-top: 3px solid #E7792B;
@@ -1567,6 +1582,10 @@ body.page-template-default .site-content .container {
 .map-holder {
   margin-bottom: 36px;
   margin-bottom: 3.6rem; }
+
+.page-template-page-karta .map-holder {
+  margin-left: -30px;
+  margin-right: -30px; }
 
 /*---------------------------------------------------------
  Menu main (_menu.scss)

@@ -42,7 +42,7 @@ class FrmFieldsHelper {
             'user_id'   => __( 'User ID (hidden)', 'formidable' ),
             'password'  => __( 'Password', 'formidable' ),
             'html'      => __( 'HTML', 'formidable' ),
-            'tag'       => __( 'Tags', 'formidable' )
+			'tag'       => __( 'Tags', 'formidable' ),
             //'address' => 'Address' //Address line 1, Address line 2, City, State/Providence, Postal Code, Select Country
             //'city_selector' => 'US State/County/City selector',
             //'full_name' => 'First and Last Name',
@@ -177,8 +177,8 @@ class FrmFieldsHelper {
     }
 
     public static function setup_edit_vars( $record, $doing_ajax = false ) {
-        $values = array( 'id' => $record->id, 'form_id' => $record->form_id);
-        $defaults = array( 'name' => $record->name, 'description' => $record->description);
+		$values = array( 'id' => $record->id, 'form_id' => $record->form_id );
+		$defaults = array( 'name' => $record->name, 'description' => $record->description );
         $default_opts = array(
             'field_key' => $record->field_key, 'type' => $record->type,
 			'default_value' => $record->default_value, 'field_order' => $record->field_order,
@@ -221,7 +221,7 @@ class FrmFieldsHelper {
 
         $values['custom_html'] = (isset($record->field_options['custom_html'])) ? $record->field_options['custom_html'] : self::get_default_html($record->type);
 
-        return apply_filters('frm_setup_edit_field_vars', $values, array( 'doing_ajax' => $doing_ajax));
+		return apply_filters( 'frm_setup_edit_field_vars', $values, array( 'doing_ajax' => $doing_ajax ) );
     }
 
     public static function get_default_field_opts( $type, $field, $limit = false ) {
@@ -276,8 +276,8 @@ class FrmFieldsHelper {
         $default_settings = $frm_settings->default_options();
 
         $defaults = array(
-            'unique_msg' => array( 'full' => $default_settings['unique_msg'], 'part' => $field->name.' '. __( 'must be unique', 'formidable' )),
-            'invalid'   => array( 'full' => __( 'This field is invalid', 'formidable' ), 'part' => $field->name.' '. __( 'is invalid', 'formidable' ))
+			'unique_msg' => array( 'full' => $default_settings['unique_msg'], 'part' => $field->name . ' ' . __( 'must be unique', 'formidable' ) ),
+			'invalid'   => array( 'full' => __( 'This field is invalid', 'formidable' ), 'part' => $field->name . ' ' . __( 'is invalid', 'formidable' ) ),
         );
 
         $msg = ( $field->field_options[ $error ] == $defaults[ $error ]['full'] || empty( $field->field_options[ $error ] ) ) ? $defaults[ $error ]['part'] : $field->field_options[ $error ];
@@ -292,9 +292,9 @@ class FrmFieldsHelper {
 
 	public static function get_default_html( $type = 'text' ) {
 		if ( apply_filters( 'frm_normal_field_type_html', true, $type ) ) {
-            $input = (in_array($type, array( 'radio', 'checkbox', 'data'))) ? '<div class="frm_opt_container">[input]</div>' : '[input]';
+			$input = ( in_array( $type, array( 'radio', 'checkbox', 'data' ) ) ) ? '<div class="frm_opt_container">[input]</div>' : '[input]';
             $for = '';
-            if ( ! in_array( $type, array( 'radio', 'checkbox', 'data', 'scale') ) ) {
+			if ( ! in_array( $type, array( 'radio', 'checkbox', 'data', 'scale' ) ) ) {
                 $for = 'for="field_[key]"';
             }
 
@@ -380,7 +380,7 @@ DEFAULT_HTML;
         $html = str_replace('[field_name]', $field['name'], $html);
 
         //replace [error_class]
-		$error_class = isset ( $errors[ 'field' . $field_id ] ) ? ' frm_blank_field' : '';
+		$error_class = isset( $errors[ 'field' . $field_id ] ) ? ' frm_blank_field' : '';
 		self::get_more_field_classes( $error_class, $field, $field_id, $html );
 		if ( $field['type'] == 'html' && strpos( $html, '[error_class]' ) === false ) {
 			// there is no error_class shortcode to use for addign fields
@@ -399,7 +399,7 @@ DEFAULT_HTML;
 
         foreach ( $shortcodes[0] as $short_key => $tag ) {
             $atts = shortcode_parse_atts( $shortcodes[2][ $short_key ] );
-            $tag = self::get_shortcode_tag($shortcodes, $short_key, array( 'conditional' => false, 'conditional_check' => false));
+			$tag = self::get_shortcode_tag( $shortcodes, $short_key, array( 'conditional' => false, 'conditional_check' => false ) );
 
             $replace_with = '';
 
@@ -448,10 +448,9 @@ DEFAULT_HTML;
             $html = apply_filters('frm_replace_shortcodes', $html, $field, array( 'errors' => $errors, 'form' => $form ));
         }
 
-        // remove [collapse_this] when running the free version
-		if ( preg_match( '/\[(collapse_this)\]/s', $html ) ) {
-			$html = str_replace( '[collapse_this]', '', $html );
-        }
+		self::remove_collapse_shortcode( $html );
+
+		$html = do_shortcode( $html );
 
         return $html;
     }
@@ -473,7 +472,7 @@ DEFAULT_HTML;
 		}
 
 		//Add classes to inline confirmation field (if it doesn't already have classes set)
-		if ( isset ( $field['conf_field'] ) && $field['conf_field'] == 'inline' && ! $field['classes'] ) {
+		if ( isset( $field['conf_field'] ) && $field['conf_field'] == 'inline' && ! $field['classes'] ) {
 			$error_class .= ' frm_first_half';
 		}
 
@@ -498,7 +497,7 @@ DEFAULT_HTML;
 			// If this is a repeating section that should be hidden with exclude_fields or fields shortcode, hide it
 			if ( $field['repeat'] ) {
 				global $frm_vars;
-				if ( isset( $frm_vars['show_fields'] ) && ! empty ( $frm_vars['show_fields'] ) && ! in_array( $field['id'], $frm_vars['show_fields'] ) && ! in_array( $field['field_key'], $frm_vars['show_fields'] ) ) {
+				if ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && ! in_array( $field['id'], $frm_vars['show_fields'] ) && ! in_array( $field['field_key'], $frm_vars['show_fields'] ) ) {
 					$error_class .= ' frm_hidden';
 				}
 			}
@@ -525,7 +524,7 @@ DEFAULT_HTML;
     }
 
     public static function get_shortcode_tag($shortcodes, $short_key, $args) {
-        $args = wp_parse_args($args, array( 'conditional' => false, 'conditional_check' => false, 'foreach' => false));
+		$args = wp_parse_args( $args, array( 'conditional' => false, 'conditional_check' => false, 'foreach' => false ) );
         if ( ( $args['conditional'] || $args['foreach'] ) && ! $args['conditional_check'] ) {
             $args['conditional_check'] = true;
         }
@@ -553,6 +552,16 @@ DEFAULT_HTML;
 
         return $tag;
     }
+
+	/**
+	 * Remove [collapse_this] if it's still included after all processing
+	 * @since 2.0.8
+	 */
+	private static function remove_collapse_shortcode( &$html ) {
+		if ( preg_match( '/\[(collapse_this)\]/s', $html ) ) {
+			$html = str_replace( '[collapse_this]', '', $html );
+		}
+	}
 
     public static function display_recaptcha($field) {
         $frm_settings = FrmAppHelper::get_settings();
@@ -843,7 +852,7 @@ DEFAULT_HTML;
                 case 'updated_by':
                 case 'updated-by':
                     $this_tag = str_replace('-', '_', $tag);
-                    $replace_with = self::get_display_value($entry->{$this_tag}, (object) array( 'type' => 'user_id'), $atts);
+					$replace_with = self::get_display_value( $entry->{$this_tag}, (object) array( 'type' => 'user_id' ), $atts );
                     unset($this_tag);
                 break;
 
@@ -1200,9 +1209,39 @@ DEFAULT_HTML;
 			$classes[] = 'frm_other_full';
 		}
 
-        ?><input type="text" class="<?php echo sanitize_text_field( implode( ' ', $classes ) ) ?>" <?php
+		// Set up HTML ID for Other field
+		$other_id = self::get_other_field_html_id( $args['field']['type'], $args['html_id'], $args['opt_key'] );
+
+		?><input type="text" id="<?php echo esc_attr( $other_id ) ?>" class="<?php echo sanitize_text_field( implode( ' ', $classes ) ) ?>" <?php
 		echo ( $args['read_only'] ? ' readonly="readonly" disabled="disabled"' : '' );
-		?> name="<?php echo esc_attr( $args['name'] ) ?>" value="<?php echo esc_attr( $args['value'] ); ?>"><?php
+		?> name="<?php echo esc_attr( $args['name'] ) ?>" value="<?php echo esc_attr( $args['value'] ); ?>" /><?php
+	}
+
+	/**
+	* Get the HTML id for an "Other" text field
+	* Note: This does not affect fields in repeating sections
+	*
+	* @since 2.0.08
+	* @param string $type - field type
+	* @param string $html_id
+	* @param string|boolean $opt_key
+	* @return string $other_id
+	*/
+	public static function get_other_field_html_id( $type, $html_id, $opt_key = false ){
+		$other_id = $html_id;
+
+		// If hidden radio field, add an opt key of 0
+		if ( $type == 'radio' && $opt_key === false ) {
+			$opt_key = 0;
+		}
+
+		if ( $opt_key !== false ) {
+			$other_id .= '-' . $opt_key;
+		}
+
+		$other_id .= '-otext';
+
+		return $other_id;
 	}
 
 	public static function show_onfocus_js( $is_selected ) {

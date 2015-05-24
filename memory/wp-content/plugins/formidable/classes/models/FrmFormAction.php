@@ -15,8 +15,7 @@ class FrmFormAction {
 
 	// Member functions that you must over-ride.
 
-	/** Update a particular instance.
-	 *
+	/**
 	 * This function should check that $new_instance is set correctly.
 	 * The newly calculated value of $instance should be returned.
 	 * If "false" is returned, the instance won't be saved/updated.
@@ -81,7 +80,7 @@ class FrmFormAction {
         $default_options = array(
             'classes'   => '',
             'active'    => true,
-            'event'     => array( 'create'),
+			'event'     => array( 'create' ),
             'limit'     => 1,
             'force_event' => false,
             'priority'  => 20,
@@ -90,7 +89,7 @@ class FrmFormAction {
         );
 
 		$this->action_options = wp_parse_args( $action_options, $default_options );
-		$this->control_options = wp_parse_args( $control_options, array( 'id_base' => $this->id_base) );
+		$this->control_options = wp_parse_args( $control_options, array( 'id_base' => $this->id_base ) );
 	}
 
 	/**
@@ -372,7 +371,7 @@ class FrmFormAction {
             $query['menu_order'] = $this->form_id;
         }
 
-		$actions = FrmAppHelper::check_cache( serialize( $query ), 'frm_actions', $query, 'get_posts' );
+		$actions = FrmAppHelper::check_cache( serialize( $query ) . '_type_' . $type, 'frm_actions', $query, 'get_posts' );
         unset($query);
 
         remove_filter( 'posts_where' , 'FrmFormActionsController::limit_by_type' );
@@ -462,7 +461,7 @@ class FrmFormAction {
 	    $defaults = $this->get_defaults();
 
 	    if ( ! isset($defaults['event']) ) {
-	        $defaults['event'] = array( 'create');
+			$defaults['event'] = array( 'create' );
 	    }
 
 	    if ( ! isset($defaults['conditions']) ) {
@@ -477,7 +476,7 @@ class FrmFormAction {
 
 	public function get_global_switch_fields() {
 	    $switch = $this->get_switch_fields();
-	    $switch['conditions'] = array( 'hide_field');
+		$switch['conditions'] = array( 'hide_field' );
 	    return $switch;
 	}
 
@@ -516,7 +515,7 @@ class FrmFormAction {
             $form->options = maybe_serialize($form->options);
 
             // update form options
-            $wpdb->update($wpdb->prefix .'frm_forms', array( 'options' => $form->options), array( 'id' => $form->id));
+			$wpdb->update( $wpdb->prefix . 'frm_forms', array( 'options' => $form->options ), array( 'id' => $form->id ) );
             wp_cache_delete( $form->id, 'frm_form');
         }
 

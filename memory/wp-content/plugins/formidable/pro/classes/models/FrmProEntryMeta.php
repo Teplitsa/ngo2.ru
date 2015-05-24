@@ -34,6 +34,9 @@ class FrmProEntryMeta{
 
         // Get the field object
         $field = FrmField::getOne($field_id);
+		if ( ! $field ) {
+			return $values;
+		}
 
         // If a file upload field, upload file and get the media ID
         if ( $field->type == 'file' ) {
@@ -396,7 +399,10 @@ class FrmProEntryMeta{
             if ( isset($errors['field'. $field->temp_id]) ) {
                 unset($errors['field'. $field->temp_id]);
             }
-            $value = '';
+
+			if ( $field->type != 'user_id' ) {
+				$value = '';
+			}
         }
     }
 
