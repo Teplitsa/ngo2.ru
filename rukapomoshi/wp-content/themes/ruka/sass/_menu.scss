@@ -198,6 +198,7 @@
 		}
 		
 		.sub-menu {
+			display: none;
 			position: absolute;
 			left: 0;
 			z-index: 500;
@@ -213,10 +214,16 @@
 			
 			a {
 				white-space: nowrap;
+				padding: 0.25em 1em;
 				&:hover, &:focus, &:active {
-					background: $color-white;		
+					color: $color-white;
+					background: $color-link-one;
 				}
 			}
+		}
+		
+		li:hover .sub-menu {
+			display: block;
 		}
 	} //medium screen
 }

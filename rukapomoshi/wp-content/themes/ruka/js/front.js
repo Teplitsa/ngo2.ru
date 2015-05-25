@@ -47,7 +47,7 @@ jQuery(document).ready(function($){
 		})
 		.on('click', function(event){ //smoth scroll
 			event.preventDefault();
-			var full_url = toplinkTrigger.find('a').attr('href');
+			var full_url = $('#top-link').find('a').attr('href');
 			
 			var parts = full_url.split("#");
 			var trgt = parts[1];

@@ -103,10 +103,8 @@ function is_posts() {
 	if(is_home() || is_category())
 		return true;
 		
-	if(is_post_type_archive('event'))
-		return true;
 		
-	if(is_singular('post') || is_singular('event'))
+	if(is_singular('post'))
 		return true;
 	
 	return false;

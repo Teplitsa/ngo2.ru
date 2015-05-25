@@ -1747,6 +1747,7 @@ p {
       display: block;
       z-index: 1000; }
     .site-nav .sub-menu {
+      display: none;
       position: absolute;
       left: 0;
       z-index: 500;
@@ -1758,9 +1759,13 @@ p {
         float: none;
         text-align: left; }
       .site-nav .sub-menu a {
-        white-space: nowrap; }
+        white-space: nowrap;
+        padding: 0.25em 1em; }
         .site-nav .sub-menu a:hover, .site-nav .sub-menu a:focus, .site-nav .sub-menu a:active {
-          background: #ffffff; } }
+          color: #ffffff;
+          background: #C80F20; }
+    .site-nav li:hover .sub-menu {
+      display: block; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }

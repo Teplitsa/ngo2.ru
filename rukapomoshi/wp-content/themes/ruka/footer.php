@@ -17,20 +17,10 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 		
 	
 <div id="bottombar" class="widget-area"><div class="container">	
-	<div class="frame">
-		
-		<div class="bit md-6">
-			<div class="frame">
-				<div class="bit sm-6"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
-				<div class="bit sm-6"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
-			</div>
-		</div>
-		<div class="bit md-6">
-			
-			<div class="widget-offset"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>
-				
-			
-		</div>
+	<div class="frame">			
+		<div class="bit sm-6 md-4"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
+		<div class="bit sm-6 md-4"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
+		<div class="bit sm-12 md-4 lg-3 lg-offset-1"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>		
 	</div>	
 </div></div><!-- .container #bottombar -->
 	
