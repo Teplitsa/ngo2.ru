@@ -124,6 +124,18 @@
 			}
 		}
 	}
+	
+	.sub-menu {
+		
+		a {
+			text-transform: none;
+			color: $color-link-one;
+			&:hover, &:focus, &:active {
+				color: $color-link-two;
+			}
+		}
+	}
+	
 	.search-trigger {
 		display: none;
 	}
@@ -148,7 +160,7 @@
 		
 		li {
 			float: left;
-			
+			position: relative;
 		}
 		
 		#search-toggle {
@@ -183,6 +195,28 @@
 		.toggled .search-holder {
 			display: block;
 			z-index: 1000;
+		}
+		
+		.sub-menu {
+			position: absolute;
+			left: 0;
+			z-index: 500;
+			min-width: 100%;
+			background: rgba(255,255,255, 0.95);
+			border: 1px solid $color-link-one;
+			border-top-width: 4px;
+			
+			li {
+				float: none;
+				text-align: left;
+			}
+			
+			a {
+				white-space: nowrap;
+				&:hover, &:focus, &:active {
+					background: $color-white;		
+				}
+			}
 		}
 	} //medium screen
 }

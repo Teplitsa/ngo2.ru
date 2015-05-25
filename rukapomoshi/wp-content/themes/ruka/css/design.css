@@ -1697,6 +1697,11 @@ p {
     @media screen and (min-width: 1000px) {
       .site-nav li a {
         padding: 0.2em 1.1em; } }
+  .site-nav .sub-menu a {
+    text-transform: none;
+    color: #C80F20; }
+    .site-nav .sub-menu a:hover, .site-nav .sub-menu a:focus, .site-nav .sub-menu a:active {
+      color: #0F3F76; }
   .site-nav .search-trigger {
     display: none; }
   .site-nav .search-holder {
@@ -1715,7 +1720,8 @@ p {
     .site-nav .main-menu {
       float: right; }
     .site-nav li {
-      float: left; }
+      float: left;
+      position: relative; }
     .site-nav #search-toggle {
       position: absolute;
       top: 0;
@@ -1739,7 +1745,22 @@ p {
       display: none; }
     .site-nav .toggled .search-holder {
       display: block;
-      z-index: 1000; } }
+      z-index: 1000; }
+    .site-nav .sub-menu {
+      position: absolute;
+      left: 0;
+      z-index: 500;
+      min-width: 100%;
+      background: rgba(255, 255, 255, 0.95);
+      border: 1px solid #C80F20;
+      border-top-width: 4px; }
+      .site-nav .sub-menu li {
+        float: none;
+        text-align: left; }
+      .site-nav .sub-menu a {
+        white-space: nowrap; }
+        .site-nav .sub-menu a:hover, .site-nav .sub-menu a:focus, .site-nav .sub-menu a:active {
+          background: #ffffff; } }
 
 .site-nav.toggled .site-navigation-area {
   display: block; }
