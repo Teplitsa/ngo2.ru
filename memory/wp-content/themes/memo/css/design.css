@@ -1806,7 +1806,10 @@ body.page-template-default .site-content .container {
 .tpl-story .tags {
   background: #E7792B;
   color: #ffffff;
-  padding: 0.1em 0.5em; }
+  padding: 5px 12px;
+  padding:  0.5rem 1.2rem; }
+  .tpl-story .tags i {
+    margin-right: 5px; }
   .tpl-story .tags a {
     font-size: 11px;
     font-size: 1.1rem;
