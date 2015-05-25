@@ -265,7 +265,7 @@ function ruka_posted_on() {
 	$sep = ruka_get_sep();
 	
 	if(!empty($cat))
-		$cat = $sep.strip_tags($cat, '<span>');
+		$cat = $sep.$cat;
 ?>
 	<time class="date"><?php echo esc_html(get_the_date());?></time><?php
 	echo $cat;	
@@ -275,7 +275,7 @@ endif;
 
 function ruka_get_sep() {
 	
-	return "<span class='sep'>//</span>";
+	return "<span class='sep'>|</span>";
 }
 
 

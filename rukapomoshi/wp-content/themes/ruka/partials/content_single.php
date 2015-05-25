@@ -16,6 +16,9 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 			<h2 class="screen-reader-text wac-go-to-hell">Полный текст публикации</h2>
 		<?php } ?>	
 		
+		<?php if(is_singular('post')) { ?>
+			<div class="entry-meta"><?php ruka_posted_on();?></div>
+		<?php } ?>
 	</header>
 		
 	<div class="entry-summary"><?php the_excerpt();?></div>
