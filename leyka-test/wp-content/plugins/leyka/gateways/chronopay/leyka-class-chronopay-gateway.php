@@ -220,10 +220,14 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
         }
 
         // Store donation data - rebill payment:
-        if(
-            leyka_options()->opt('chronopay_card_rebill_product_id_'.$currency_string) &&
-            $_POST['product_id'] == leyka_options()->opt('chronopay_card_rebill_product_id_'.$currency_string)
-        ) {
+        if(apply_filters(
+            'leyka_chronopay_callback_is_recurring',
+            (
+                leyka_options()->opt('chronopay_card_rebill_product_id_'.$currency_string) &&
+                $_POST['product_id'] == leyka_options()->opt('chronopay_card_rebill_product_id_'.$currency_string)
+            ),
+            $_POST['product_id']
+        )) {
 
             if($transaction_type == 'Purchase') { // Initial rebill payment
 
