@@ -1,7 +1,7 @@
 <?php
 
-class FrmNotification{
-    public function __construct(){
+class FrmNotification {
+	public function __construct() {
         if ( ! defined('ABSPATH') ) {
             die('You are not allowed to call this page directly.');
         }
@@ -9,7 +9,7 @@ class FrmNotification{
     }
 
     public static function trigger_email($action, $entry, $form) {
-        if ( defined('WP_IMPORTING') ) {
+		if ( defined( 'WP_IMPORTING' ) && WP_IMPORTING  ) {
             return;
         }
 
@@ -51,7 +51,7 @@ class FrmNotification{
             //Don't allow empty From
 			if ( $f == 'from' && empty( $notification[ $f ] ) ) {
 				$notification[ $f ] = '[admin_email]';
-            } else if ( in_array($f, array( 'email_to', 'cc', 'bcc', 'reply_to', 'from')) ) {
+			} else if ( in_array( $f, array( 'email_to', 'cc', 'bcc', 'reply_to', 'from' ) ) ) {
 				//Remove brackets
                 //Add a space in case there isn't one
 				$notification[ $f ] = str_replace( '<', ' ', $notification[ $f ] );
@@ -315,7 +315,7 @@ class FrmNotification{
         $header[]       = 'From: ' . $atts['from'];
 
         //Allow for cc and bcc arrays
-        $array_fields = array( 'CC' => $atts['cc'], 'BCC' => $atts['bcc']);
+		$array_fields = array( 'CC' => $atts['cc'], 'BCC' => $atts['bcc'] );
 		$cc = array( 'CC' => array(), 'BCC' => array() );
         foreach ( $array_fields as $key => $a_field ) {
             if ( empty($a_field) ) {
@@ -374,11 +374,11 @@ class FrmNotification{
         do_action('frm_notification', $recipient, $atts['subject'], $message);
 
         if ( $sent ) {
-            $sent_to = array_merge( (array)$atts['to_email'], (array) $atts['cc'], (array) $atts['bcc']);
+			$sent_to = array_merge( (array) $atts['to_email'], (array) $atts['cc'], (array) $atts['bcc'] );
             $sent_to = array_filter( $sent_to );
             if ( apply_filters('frm_echo_emails', false) ) {
                 $temp = str_replace('<', '&lt;', $sent_to);
-                echo implode(', ', (array) $temp);
+				echo ' ' . FrmAppHelper::kses( implode(', ', (array) $temp ) );
             }
             return $sent_to;
         }

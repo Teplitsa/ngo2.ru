@@ -44,7 +44,7 @@
                         $linked_form = FrmDb::get_var( $wpdb->prefix .'frm_fields', array( 'id' => $f->field_options['form_select'] ), 'form_id' );
                         if ( ! in_array( $linked_form, $linked_forms ) ) {
                             $linked_forms[] = $linked_form;
-                            $linked_fields = FrmField::getAll( array( 'fi.type not' => FrmFieldsHelper::no_save_fields(), 'fi.form_id' => $linked_form) );
+							$linked_fields = FrmField::getAll( array( 'fi.type not' => FrmFieldsHelper::no_save_fields(), 'fi.form_id' => $linked_form ) );
                             $ldfe = '';
 							if ( $linked_fields ) {
 								foreach ( $linked_fields as $linked_field ) {
@@ -67,34 +67,6 @@
         <ul class="frm_code_list">
         <?php
         $col = 'one';
-        $entry_shortcodes = array(
-            'id'        => __( 'Entry ID', 'formidable' ),
-            'key'       => __( 'Entry Key', 'formidable' ),
-            'post_id'   => __( 'Post ID', 'formidable' ),
-            'ip'        => __( 'User IP', 'formidable' ),
-            'created-at' => __( 'Entry created', 'formidable' ),
-            'updated-at' => __( 'Entry updated', 'formidable' ),
-            ''          => '',
-            'siteurl'   => __( 'Site URL', 'formidable' ),
-            'sitename'  => __( 'Site Name', 'formidable' ),
-        );
-
-        if ( ! FrmAppHelper::pro_is_installed() ) {
-            unset($entry_shortcodes['post_id']);
-        }
-
-		if ( $settings_tab ) {
-            $entry_shortcodes['default-message'] = __( 'Default Msg', 'formidable' );
-            $entry_shortcodes['default-html'] = __( 'Default HTML', 'formidable' );
-            $entry_shortcodes['default-plain'] = __( 'Default Plain', 'formidable' );
-        } else {
-            $entry_shortcodes['detaillink'] = __( 'Detail Link', 'formidable' );
-            $entry_shortcodes['editlink location="front" label="Edit" page_id=x'] = __( 'Edit Entry Link', 'formidable' );
-            $entry_shortcodes['evenodd'] = __( 'Even/Odd', 'formidable' );
-            $entry_shortcodes['entry_count'] = __( 'Entry Count', 'formidable' );
-        }
-
-
 		foreach ( $entry_shortcodes as $skey => $sname ) {
 			if ( empty( $skey ) ) {
                  $col = 'one';
@@ -104,7 +76,7 @@
         ?>
         <li class="frm_col_<?php echo esc_attr( $col ) ?>">
             <a href="javascript:void(0)" class="frmbutton button <?php
-            echo ( in_array( $skey, array( 'siteurl', 'sitename', 'entry_count') ) ) ? 'show_before_content show_after_content' : '';
+			echo ( in_array( $skey, array( 'siteurl', 'sitename', 'entry_count' ) ) ) ? 'show_before_content show_after_content' : '';
             echo ( strpos( $skey, 'default-' ) === 0 ) ? 'hide_frm_not_email_subject' : '';
             ?> frm_insert_code" data-code="<?php echo esc_attr( $skey ) ?>"><?php echo esc_html( $sname ) ?></a>
         </li>

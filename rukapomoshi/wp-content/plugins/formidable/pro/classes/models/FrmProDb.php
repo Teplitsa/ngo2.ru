@@ -2,7 +2,7 @@
 
 class FrmProDb{
 
-    public static function upgrade(){
+	public static function upgrade() {
         global $wpdb;
         $db_version = FrmAppHelper::$pro_db_version; // this is the version of the database we're moving to
         $old_db_version = get_option('frmpro_db_version');
@@ -41,7 +41,7 @@ class FrmProDb{
         update_option('frmpro_db_version', $db_version);
     }
 
-    public static function uninstall(){
+	public static function uninstall() {
         if ( !current_user_can('administrator') ) {
             $frm_settings = FrmAppHelper::get_settings();
             wp_die($frm_settings->admin_permission);

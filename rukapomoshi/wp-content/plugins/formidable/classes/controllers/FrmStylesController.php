@@ -35,8 +35,8 @@ class FrmStylesController {
                 'menu_name' => __( 'Style', 'formidable' ),
                 'edit' => __( 'Edit' ),
                 'add_new_item' => __( 'Create a New Style', 'formidable' ),
-                'edit_item' => __( 'Edit Style', 'formidable' )
-            )
+				'edit_item'    => __( 'Edit Style', 'formidable' ),
+			),
         ) );
     }
 
@@ -53,7 +53,7 @@ class FrmStylesController {
         wp_enqueue_script('jquery-ui-datepicker');
 
         $version = FrmAppHelper::plugin_version();
-        wp_enqueue_script('jquery-frm-themepicker', FrmAppHelper::plugin_url() .'/js/jquery/jquery-ui-themepicker.js', array( 'jquery'), $version);
+		wp_enqueue_script( 'jquery-frm-themepicker', FrmAppHelper::plugin_url() . '/js/jquery/jquery-ui-themepicker.js', array( 'jquery' ), $version );
 
         wp_enqueue_style('jquery-ui-base', FrmAppHelper::jquery_ui_base_url() .'/themes/base/ui.all.css');
         wp_enqueue_style('frm-custom-theme', admin_url('admin-ajax.php') .'?action=frmpro_css');
@@ -91,8 +91,10 @@ class FrmStylesController {
     public static function save() {
         $frm_style = new FrmStyle();
         $message = '';
-        $post_id = ( $_POST && isset($_POST['ID']) ) ? $_POST['ID'] : false;
-        if ( $post_id !== false && isset($_POST['frm_style']) && wp_verify_nonce($_POST['frm_style'], 'frm_style_nonce') ) {
+		$post_id = FrmAppHelper::get_post_param( 'ID', false, 'sanitize_title' );
+		$style_nonce = FrmAppHelper::get_post_param( 'frm_style', '', 'sanitize_text_field' );
+
+		if ( $post_id !== false && wp_verify_nonce( $style_nonce, 'frm_style_nonce' ) ) {
             $id = $frm_style->update($post_id);
             if ( empty($post_id) && ! empty($id) ) {
                 // set the post id to the new style so it will be loaded for editing
@@ -123,6 +125,10 @@ class FrmStylesController {
         include(FrmAppHelper::plugin_path() .'/classes/views/styles/show.php');
     }
 
+	/**
+	 * @param string $message
+	 * @param array $forms
+	 */
     private static function manage($message = '', $forms = array()) {
         $frm_style = new FrmStyle();
         $styles = $frm_style->get_all();
@@ -136,7 +142,8 @@ class FrmStylesController {
     }
 
     private static function manage_styles() {
-        if ( ! $_POST || ! isset($_POST['style']) || ! isset($_POST['frm_manage_style']) || ! wp_verify_nonce($_POST['frm_manage_style'], 'frm_manage_style_nonce') ) {
+		$style_nonce = FrmAppHelper::get_post_param( 'frm_manage_style', '', 'sanitize_text_field' );
+		if ( ! $_POST || ! isset( $_POST['style'] ) || ! wp_verify_nonce( $style_nonce, 'frm_manage_style_nonce' ) ) {
             return self::manage();
         }
 
@@ -150,7 +157,7 @@ class FrmStylesController {
 
             $form->options['custom_style'] = $_POST['style'][ $form->id ];
 
-            $wpdb->update($wpdb->prefix .'frm_forms', array( 'options' => maybe_serialize($form->options)), array( 'id' => $form->id));
+			$wpdb->update( $wpdb->prefix . 'frm_forms', array( 'options' => maybe_serialize( $form->options ) ), array( 'id' => $form->id ) );
             unset($form);
         }
 
@@ -175,8 +182,9 @@ class FrmStylesController {
         $frm_style = new FrmStyle();
 
         $message = '';
-        $post_id = ( $_POST && isset($_POST['ID']) ) ? $_POST['ID'] : false;
-        if ( isset($_POST['frm_custom_css']) && wp_verify_nonce($_POST['frm_custom_css'], 'frm_custom_css_nonce') ) {
+		$post_id = FrmAppHelper::get_post_param( 'ID', false, 'sanitize_text_field' );
+		$nonce = FrmAppHelper::get_post_param( 'frm_custom_css', '', 'sanitize_text_field' );
+		if ( wp_verify_nonce( $nonce, 'frm_custom_css_nonce' ) ) {
             $frm_style->update($post_id);
             $message = __( 'Your styling settings have been saved.', 'formidable' );
         }
@@ -262,7 +270,7 @@ class FrmStylesController {
 
     public static function include_style_section($atts, $sec) {
         extract($atts);
-        $current_tab = isset($_GET['page-tab']) ? $_GET['page-tab'] : 'default';
+		$current_tab = FrmAppHelper::simple_get( 'page-tab', 'sanitize_title', 'default' );
         include(FrmAppHelper::plugin_path() .'/classes/views/styles/_'. $sec['args'] .'.php');
     }
 

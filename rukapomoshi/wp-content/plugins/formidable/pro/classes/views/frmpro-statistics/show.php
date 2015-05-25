@@ -39,10 +39,10 @@
                 $submitted_user_ids = FrmEntryMeta::get_entry_metas_for_field($field->id, '', '', array( 'unique' => true));
                 $not_submitted = array_diff($user_ids, $submitted_user_ids); ?>
             <p><?php _e( 'Percent of users submitted', 'formidable' ) ?>: <?php echo round((count($submitted_user_ids) / count($user_ids)) *100, 2) ?>%</p>
-            <form action="<?php echo admin_url('user-edit.php') ?>" method="get">
-            <p><?php _e( 'Users with no entry:', 'formidable' ) ?><br/>
+			<form action="<?php echo esc_url( admin_url( 'user-edit.php' ) ) ?>" method="get">
+            <p><?php esc_html_e( 'Users with no entry:', 'formidable' ) ?><br/>
 				<?php wp_dropdown_users( array( 'include' => $not_submitted, 'name' => 'user_id')) ?>
-				<input type="submit" name="Go" value="<?php esc_attr_e( 'View Profile', 'formidable' ) ?>" class="button-secondary" />
+				<input type="submit" value="<?php esc_attr_e( 'View Profile', 'formidable' ) ?>" class="button-secondary" />
 			</p>
             </form>
             <?php } ?>

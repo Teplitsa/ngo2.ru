@@ -142,7 +142,7 @@ class FrmProAppHelper{
         return $date_str;
     }
 
-    public static function convert_date($date_str, $from_format, $to_format){
+	public static function convert_date( $date_str, $from_format, $to_format ) {
         if ( 'db' == $to_format ) {
 			$frmpro_settings = self::get_settings();
             $to_format = $frmpro_settings->date_format;
@@ -157,7 +157,7 @@ class FrmProAppHelper{
         $date_elements = array();
 
         $p_keys = array_keys( $base_struc );
-        foreach ( $p_keys as $p_key ){
+		foreach ( $p_keys as $p_key ) {
             if ( ! empty( $date_str_parts[ $p_key ] ) ) {
                 $date_elements[ $base_struc[ $p_key ] ] = $date_str_parts[ $p_key ];
             } else {
@@ -173,7 +173,7 @@ class FrmProAppHelper{
         return date( $to_format, $dummy_ts );
     }
 
-    public static function get_edit_link($id){
+	public static function get_edit_link( $id ) {
         $output = '';
     	if ( current_user_can('administrator') ) {
 			$output = '<a href="' . esc_url( admin_url() .'?page=formidable-entries&frm_action=edit&id=' . $id ) . '">' . __( 'Edit', 'formidable' ) . '</a>';
@@ -182,7 +182,7 @@ class FrmProAppHelper{
     	return $output;
     }
 
-    public static function rewriting_on(){
+	public static function rewriting_on() {
       $permalink_structure = get_option('permalink_structure');
 
       return ( $permalink_structure && ! empty( $permalink_structure ) );
@@ -211,7 +211,7 @@ class FrmProAppHelper{
     }
 	*/
 
-    public static function get_custom_post_types(){
+	public static function get_custom_post_types() {
         $custom_posts = get_post_types( array(), 'object');
         foreach ( array( 'revision', 'attachment', 'nav_menu_item') as $unset) {
             unset($custom_posts[$unset]);
@@ -219,7 +219,7 @@ class FrmProAppHelper{
         return $custom_posts;
     }
 
-    public static function get_custom_taxonomy($post_type, $field){
+	public static function get_custom_taxonomy( $post_type, $field ) {
         $taxonomies = get_object_taxonomies($post_type);
         if ( ! $taxonomies ) {
             return false;
@@ -240,7 +240,7 @@ class FrmProAppHelper{
         }
     }
 
-    public static function sort_by_array($array, $order_array){
+	public static function sort_by_array( $array, $order_array ) {
         $array = (array) $array;
         $order_array = (array) $order_array;
         $ordered = array();
@@ -254,7 +254,7 @@ class FrmProAppHelper{
     }
 
 
-    public static function reset_keys($arr){
+	public static function reset_keys( $arr ) {
         $new_arr = array();
 		if ( empty( $arr ) ) {
             return $new_arr;
@@ -267,7 +267,7 @@ class FrmProAppHelper{
         return $new_arr;
     }
 
-    public static function filter_where($entry_ids, $args){
+	public static function filter_where( $entry_ids, $args ) {
         global $wpdb;
 
         $defaults = array(
@@ -563,7 +563,7 @@ class FrmProAppHelper{
      * Let WordPress process the uploads
      * @param int $field_id
      */
-    public static function upload_file($field_id){
+	public static function upload_file( $field_id ) {
         require_once(ABSPATH . 'wp-admin/includes/file.php');
         require_once(ABSPATH . 'wp-admin/includes/image.php');
         require_once(ABSPATH . 'wp-admin/includes/media.php');
@@ -617,7 +617,7 @@ class FrmProAppHelper{
     }
 
     //Upload files into "formidable" subdirectory
-    public static function upload_dir($uploads){
+	public static function upload_dir( $uploads ) {
         $relative_path = apply_filters('frm_upload_folder', 'formidable' );
         $relative_path = untrailingslashit($relative_path);
 
@@ -630,7 +630,7 @@ class FrmProAppHelper{
         return $uploads;
     }
 
-    public static function get_rand($length){
+	public static function get_rand( $length ) {
         $all_g = "ABCDEFGHIJKLMNOPQRSTWXZ";
         $pass = "";
         for($i=0;$i<$length;$i++) {
@@ -640,7 +640,7 @@ class FrmProAppHelper{
     }
 
     /* Genesis Integration */
-    public static function load_genesis(){
+	public static function load_genesis() {
         // Add classes to view pagination
         add_filter('frm_pagination_class', 'FrmProAppHelper::gen_pagination_class');
         add_filter('frm_prev_page_label', 'FrmProAppHelper::gen_prev_label');
@@ -650,41 +650,41 @@ class FrmProAppHelper{
 		add_filter( 'frm_page_dots_class', 'FrmProAppHelper::gen_dots_class', 1 );
     }
 
-    public static function gen_pagination_class($class){
+	public static function gen_pagination_class( $class ) {
         $class .= ' archive-pagination pagination';
         return $class;
     }
 
-    public static function gen_prev_label(){
+	public static function gen_prev_label() {
         return apply_filters( 'genesis_prev_link_text', '&#x000AB;' . __( 'Previous Page', 'formidable' ) );
     }
 
-    public static function gen_next_label(){
+	public static function gen_next_label() {
         return apply_filters( 'genesis_next_link_text', __( 'Next Page', 'formidable' ) . '&#x000BB;' );
     }
 
-    public static function gen_prev_class($class){
+	public static function gen_prev_class( $class ) {
         $class .= ' pagination-previous';
         return $class;
     }
 
-    public static function gen_next_class($class){
+	public static function gen_next_class( $class ) {
         $class .= ' pagination-next';
         return $class;
     }
 
-    public static function gen_dots_class($class){
+	public static function gen_dots_class( $class ) {
         $class = 'pagination-omission';
         return $class;
     }
     /* End Genesis */
 
-    public static function import_csv($path, $form_id, $field_ids, $entry_key=0, $start_row=2, $del=',', $max=250) {
+	public static function import_csv( $path, $form_id, $field_ids, $entry_key = 0, $start_row = 2, $del = ',', $max = 250 ) {
         _deprecated_function( __FUNCTION__, '1.07.05', 'FrmProXMLHelper::import_csv()' );
         return FrmProXMLHelper::import_csv($path, $form_id, $field_ids, $entry_key, $start_row, $del, $max);
     }
 
-    public static function get_user_id_param($user_id){
+	public static function get_user_id_param( $user_id ) {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmAppHelper::get_user_id_param' );
         return FrmAppHelper::get_user_id_param($user_id);
     }
@@ -694,12 +694,12 @@ class FrmProAppHelper{
         return FrmAppHelper::get_formatted_time($date, $date_format, $time_format);
     }
 
-    public static function get_current_form_id(){
+	public static function get_current_form_id() {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmEntriesHelper::get_current_form_id' );
         return FrmEntriesHelper::get_current_form_id();
     }
 
-    public static function get_shortcodes($content, $form_id){
+	public static function get_shortcodes( $content, $form_id ) {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmFieldsHelper::get_shortcodes' );
         return FrmFieldsHelper::get_shortcodes($content, $form_id);
     }

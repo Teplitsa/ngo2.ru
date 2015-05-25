@@ -26,7 +26,7 @@ class FrmProEntryMeta{
      * @return array $values
      *
      */
-    public static function prepare_data_before_db( $values, $field_id, $entry_id ){
+	public static function prepare_data_before_db( $values, $field_id, $entry_id ) {
         // If confirmation field, exit now
         if ( ! is_numeric( $field_id ) ) {
             return $values;
@@ -34,6 +34,9 @@ class FrmProEntryMeta{
 
         // Get the field object
         $field = FrmField::getOne($field_id);
+		if ( ! $field ) {
+			return $values;
+		}
 
         // If a file upload field, upload file and get the media ID
         if ( $field->type == 'file' ) {
@@ -128,7 +131,7 @@ class FrmProEntryMeta{
         if ( empty($args['parent_field_id']) && ! isset($_POST['item_meta'][$field->id]) ) {
             return $errors;
         }
-        
+
 		if ( ( ( $field->type != 'tag' && $value == 0 ) || ( $field->type == 'tag' && $value == '' ) ) && isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] == 'post_category' && $field->required == '1' ) {
             $frm_settings = FrmAppHelper::get_settings();
 			$errors['field' . $field->temp_id ] = ( ! isset( $field->field_options['blank'] ) || $field->field_options['blank'] == '' || $field->field_options['blank'] == 'Untitled cannot be blank' ) ? $frm_settings->blank_msg : $field->field_options['blank'];
@@ -136,7 +139,7 @@ class FrmProEntryMeta{
 
         //Don't require fields hidden with shortcode fields="25,26,27"
         global $frm_vars;
-        if ( isset($frm_vars['show_fields']) && ! empty($frm_vars['show_fields']) && is_array($frm_vars['show_fields']) && $field->required == '1' && isset($errors['field'. $field->temp_id]) && ! in_array($field->id, $frm_vars['show_fields']) && ! in_array($field->field_key, $frm_vars['show_fields'])){
+		if ( self::is_field_hidden_by_shortcode( $field, $errors ) ) {
             unset($errors['field'. $field->temp_id]);
             $value = '';
         }
@@ -350,12 +353,19 @@ class FrmProEntryMeta{
 
         //Don't require fields hidden with shortcode fields="25,26,27"
         global $frm_vars;
-        if ( isset($frm_vars['show_fields']) && ! empty($frm_vars['show_fields']) && is_array($frm_vars['show_fields']) && $field->required == '1' && ! in_array($field->id, $frm_vars['show_fields']) && ! in_array($field->field_key, $frm_vars['show_fields'])){
+		if ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && is_array( $frm_vars['show_fields'] ) && $field->required == '1' && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) ) {
             unset($errors['field'. $field->temp_id]);
             $value = '';
         }
     }
 
+	/**
+	 * @since 2.0.6
+	 */
+	private static function is_field_hidden_by_shortcode( $field, $errors ) {
+		global $frm_vars;
+		return ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && is_array( $frm_vars['show_fields'] ) && $field->required == '1' && isset( $errors[ 'field' . $field->temp_id ] ) && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) );
+	}
     /**
      * Don't require a conditionally hidden field
      */
@@ -389,7 +399,10 @@ class FrmProEntryMeta{
             if ( isset($errors['field'. $field->temp_id]) ) {
                 unset($errors['field'. $field->temp_id]);
             }
-            $value = '';
+
+			if ( $field->type != 'user_id' ) {
+				$value = '';
+			}
         }
     }
 
@@ -495,7 +508,7 @@ class FrmProEntryMeta{
         if ( $field->type != 'number' ) {
             return;
         }
-        
+
         if ( ! is_numeric($value) ) {
             $errors['field'. $field->temp_id] = FrmFieldsHelper::get_error_msg($field, 'invalid');
         }
@@ -512,7 +525,6 @@ class FrmProEntryMeta{
 		            $errors['field'. $field->temp_id] = __( 'Please select a lower number', 'formidable' );
 		        }
 		    }
-
 		}
     }
 
@@ -756,7 +768,7 @@ class FrmProEntryMeta{
 
             // Make sure to only get post metas that are linked to this form
 			$query['e.form_id'] = $field->form_id;
-        } else if ( $field->field_options['post_field'] != 'post_category'){
+		} else if ( $field->field_options['post_field'] != 'post_category' ) {
 			// If field is a non-category post field
 			$get_field = 'p.' . sanitize_title( $field->field_options['post_field'] );
 			$get_table = $wpdb->posts . ' p INNER JOIN ' . $wpdb->prefix . 'frm_items e ON p.ID=e.post_id';

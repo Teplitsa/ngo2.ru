@@ -21,14 +21,14 @@
     <input type="hidden" name="frm_action" value="update_settings" />
 
         <div class="meta-box-sortables">
-        <div class="categorydiv postbox">
+        <div class="categorydiv postbox" id="frm-categorydiv">
         <h3 class="hndle"><span><?php echo __( 'Form Settings', 'formidable' ) ?></span></h3>
         <div class="inside frm-help-tabs">
         <div id="contextual-help-back"></div>
         <div id="contextual-help-columns">
         <div class="contextual-help-tabs">
         <ul class="frm-category-tabs frm-form-setting-tabs">
-            <?php $a = isset($_GET['t']) ? $_GET['t'] : 'advanced_settings'; ?>
+			<?php $a = FrmAppHelper::simple_get( 't', 'sanitize_title', 'advanced_settings' ); ?>
         	<li <?php echo ($a == 'advanced_settings') ? 'class="tabs active"' : '' ?>><a href="#advanced_settings"><?php _e( 'General', 'formidable' ) ?></a></li>
         	<li <?php echo ($a == 'email_settings') ? 'class="tabs active"' : '' ?>><a href="#email_settings"><?php _e( 'Form Actions', 'formidable' ); ?></a></li>
             <li <?php echo ($a == 'html_settings') ? 'class="tabs active"' : '' ?>><a href="#html_settings"><?php _e( 'Customize HTML', 'formidable' ) ?></a></li>
@@ -226,9 +226,9 @@
 		<?php foreach ( $sections as $sec_name => $section ) { ?>
             <div id="<?php echo esc_attr( $sec_name ) ?>_settings" class="tabs-panel <?php echo ($a == $sec_name .'_settings') ? ' frm_block' : ' frm_hidden'; ?>"><?php
 			if ( isset( $section['class'] ) ) {
-                call_user_func( array($section['class'], $section['function']), $values);
+				call_user_func( array( $section['class'], $section['function'] ), $values );
 			} else {
-                call_user_func((isset($section['function']) ? $section['function'] : $section), $values);
+				call_user_func( ( isset( $section['function'] ) ? $section['function'] : $section ), $values );
             } ?>
             </div>
         <?php } ?>

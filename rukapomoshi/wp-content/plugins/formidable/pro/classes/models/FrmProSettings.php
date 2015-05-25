@@ -15,7 +15,7 @@ class FrmProSettings extends FrmSettings{
     /**
      * @return array
      */
-    function default_options(){
+	function default_options() {
         return array(
             'edit_msg'          => __( 'Your submission was successfully saved.', 'formidable' ),
             'update_value'      => __( 'Update', 'formidable' ),
@@ -31,7 +31,7 @@ class FrmProSettings extends FrmSettings{
         $this->fill_with_defaults();
     }
 
-    function update($params){
+	function update( $params ) {
         $this->date_format = $params['frm_date_format'];
         $this->get_cal_date();
 
@@ -55,7 +55,7 @@ class FrmProSettings extends FrmSettings{
 		}
 	}
 
-    function store(){
+	function store() {
         // Save the posted value in the database
         update_option( $this->option_name, $this);
 

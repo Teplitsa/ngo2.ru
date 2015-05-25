@@ -78,7 +78,7 @@ class FrmProNotification{
 	* Since 2.0
 	* Called by add_attachments in FrmProNotification
 	*/
-	private static function add_to_attachments( &$attachments, $file_id ){
+	private static function add_to_attachments( &$attachments, $file_id ) {
 		if ( empty( $file_id ) ) {
 			continue;
 		}
@@ -97,7 +97,7 @@ class FrmProNotification{
     }
 
     //send update email notification
-    public static function entry_updated($entry_id, $form_id){
+	public static function entry_updated( $entry_id, $form_id ) {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmFormActionsController::trigger_actions("update", '. $form_id .', '. $entry_id .', "email")');
         FrmFormActionsController::trigger_actions('update', $form_id, $entry_id, 'email');
     }

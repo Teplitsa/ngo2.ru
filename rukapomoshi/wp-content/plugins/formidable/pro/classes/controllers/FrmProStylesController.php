@@ -34,7 +34,7 @@ class FrmProStylesController extends FrmStylesController{
     }
 
     public static function destroy() {
-        $id = (int) $_GET['id'];
+		$id = FrmAppHelper::simple_get( 'id', 'absint' );
 
         $frm_style = new FrmStyle();
         $frm_style->destroy($id);

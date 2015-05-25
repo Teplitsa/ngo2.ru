@@ -39,7 +39,7 @@ if ( $stat != floor( $stat ) ) {
     $stat = (float) ($n .'.'. $d);
 }
 
-for($i=1; $i<=$max; $i++){
+for ( $i = 1; $i <= $max; $i++ ) {
     // check if this is a half
     $class = ( $d && ($i-1) == $n ) ? ' frm_half_star' : '';
 

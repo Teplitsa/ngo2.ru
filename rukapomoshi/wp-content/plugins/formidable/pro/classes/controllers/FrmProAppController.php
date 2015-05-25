@@ -20,14 +20,14 @@ class FrmProAppController{
         return $tables;
     }
 
-    public static function set_get($atts){
+	public static function set_get( $atts ) {
 		foreach ( $atts as $att => $val ) {
             $_GET[$att] = $val;
             unset($att, $val);
         }
     }
 
-    public static function load_genesis(){
+	public static function load_genesis() {
         //trigger Genesis hooks for integration
         FrmProAppHelper::load_genesis();
     }

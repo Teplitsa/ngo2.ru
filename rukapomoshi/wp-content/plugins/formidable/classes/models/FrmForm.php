@@ -3,7 +3,7 @@ if ( ! defined('ABSPATH') ) {
     die('You are not allowed to call this page directly.');
 }
 
-class FrmForm{
+class FrmForm {
 
     /**
      * @return int|boolean id on success or false on failure
@@ -25,12 +25,7 @@ class FrmForm{
         );
 
         $options = array();
-
-        $defaults = FrmFormsHelper::get_default_opts();
-		foreach ( $defaults as $var => $default ) {
-			$options[ $var ] = isset( $values['options'][ $var ] ) ? $values['options'][ $var ] : $default;
-            unset( $var, $default );
-        }
+		FrmFormsHelper::fill_form_options( $options, $values );
 
         $options['before_html'] = isset($values['options']['before_html']) ? $values['options']['before_html'] : FrmFormsHelper::get_default_html('before');
         $options['after_html'] = isset($values['options']['after_html']) ? $values['options']['after_html'] : FrmFormsHelper::get_default_html('after');
@@ -100,7 +95,7 @@ class FrmForm{
             FrmField::duplicate($id, $form_id, $copy_keys, $blog_id);
 
             // update form settings after fields are created
-            do_action('frm_after_duplicate_form', $form_id, $new_values, array( 'old_id' => $id));
+			do_action( 'frm_after_duplicate_form', $form_id, $new_values, array( 'old_id' => $id ) );
             return $form_id;
         }
 
@@ -118,7 +113,7 @@ class FrmForm{
 
         if ( $new_opts != $values['options'] ) {
             global $wpdb;
-            $wpdb->update($wpdb->prefix .'frm_forms', array( 'options' => maybe_serialize($new_opts)), array( 'id' => $form_id));
+			$wpdb->update( $wpdb->prefix . 'frm_forms', array( 'options' => maybe_serialize( $new_opts ) ), array( 'id' => $form_id ) );
         }
     }
 
@@ -177,11 +172,7 @@ class FrmForm{
         }
 
         $options = array();
-
-        $defaults = FrmFormsHelper::get_default_opts();
-		foreach ( $defaults as $var => $default ) {
-			$options[ $var ] = isset( $values['options'][ $var ] ) ? $values['options'][ $var ] : $default;
-        }
+		FrmFormsHelper::fill_form_options( $options, $values );
 
         $options['custom_style'] = isset($values['options']['custom_style']) ? $values['options']['custom_style'] : 0;
         $options['before_html'] = isset($values['options']['before_html']) ? $values['options']['before_html'] : FrmFormsHelper::get_default_html('before');
@@ -239,12 +230,12 @@ class FrmForm{
 				if ( isset( $values['field_options'][ 'custom_html_' . $field_id ] ) ) {
 					$field->field_options['custom_html'] = isset( $values['field_options'][ 'custom_html_' . $field_id ] ) ? $values['field_options'][ 'custom_html_' . $field_id ] : ( isset( $field->field_options['custom_html'] ) ? $field->field_options['custom_html'] : FrmFieldsHelper::get_default_html( $field->type ) );
                     $field->field_options = apply_filters('frm_update_form_field_options', $field->field_options, $field, $values);
-                    FrmField::update($field_id, array( 'field_options' => $field->field_options));
+					FrmField::update( $field_id, array( 'field_options' => $field->field_options ) );
                 } else if ( $field->type == 'hidden' || $field->type == 'user_id' ) {
                     $prev_opts = $field->field_options;
                     $field->field_options = apply_filters('frm_update_form_field_options', $field->field_options, $field, $values);
                     if ( $prev_opts != $field->field_options ) {
-                        FrmField::update($field_id, array( 'field_options' => $field->field_options));
+						FrmField::update( $field_id, array( 'field_options' => $field->field_options ) );
                     }
                     unset($prev_opts);
                 }
@@ -255,7 +246,7 @@ class FrmForm{
             }
 
             //updating the form
-            foreach ( array( 'size', 'max', 'label', 'invalid', 'blank', 'classes') as $opt ) {
+			foreach ( array( 'size', 'max', 'label', 'invalid', 'blank', 'classes' ) as $opt ) {
 				$field->field_options[ $opt ] = isset( $values['field_options'][ $opt . '_' . $field_id ] ) ? trim( $values['field_options'][ $opt . '_' . $field_id ] ) : '';
             }
 
@@ -290,7 +281,7 @@ class FrmForm{
             return self::trash($id);
         }
 
-        $statuses  = array( 'published', 'draft', 'trash');
+		$statuses  = array( 'published', 'draft', 'trash' );
         if ( ! in_array( $status, $statuses ) ) {
             return false;
         }
@@ -304,7 +295,7 @@ class FrmForm{
 
 			$query_results = $wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_forms SET status = %s ' . $where['where'], $where['values'] ) );
         } else {
-            $query_results = $wpdb->update( $wpdb->prefix .'frm_forms', array( 'status' => $status), array( 'id' => $id));
+			$query_results = $wpdb->update( $wpdb->prefix . 'frm_forms', array( 'status' => $status ), array( 'id' => $id ) );
         }
 
         if ( $query_results ) {
@@ -333,8 +324,8 @@ class FrmForm{
         global $wpdb;
         $query_results = $wpdb->update(
             $wpdb->prefix .'frm_forms',
-            array( 'status' => 'trash', 'options' => serialize($options)),
-            array( 'id' => $id)
+			array( 'status' => 'trash', 'options' => serialize( $options ) ),
+			array( 'id' => $id )
         );
 
         if ( $query_results ) {
@@ -347,7 +338,7 @@ class FrmForm{
     /**
      * @return int|boolean
      */
-    public static function destroy( $id ){
+	public static function destroy( $id ) {
         global $wpdb;
 
         $form = self::getOne($id);
@@ -356,7 +347,7 @@ class FrmForm{
         }
 
         // Disconnect the entries from this form
-        $entries = FrmDb::get_col( $wpdb->prefix .'frm_items', array( 'form_id' => $id) );
+		$entries = FrmDb::get_col( $wpdb->prefix . 'frm_items', array( 'form_id' => $id ) );
         foreach ( $entries as $entry_id ) {
             FrmEntry::destroy($entry_id);
             unset($entry_id);
@@ -404,7 +395,7 @@ class FrmForm{
      * @param string $key
      * @return int form id
      */
-    public static function &getIdByKey( $key ){
+	public static function &getIdByKey( $key ) {
         $id = FrmDb::get_var( 'frm_forms', array( 'form_key' => sanitize_title( $key ) ) );
         return $id;
     }
@@ -413,7 +404,7 @@ class FrmForm{
      * @param int $id
      * @return string form key
      */
-    public static function &getKeyById($id){
+	public static function &getKeyById( $id ) {
         $id = (int) $id;
         $cache = FrmAppHelper::check_cache($id, 'frm_form');
         if ( $cache ) {
@@ -464,43 +455,30 @@ class FrmForm{
     }
 
     /**
-     * @return array of objects
+     * @return object|array of objects
      */
-    public static function getAll( $where = array(), $order_by = '', $limit = '' ){
-        global $wpdb;
-
-        if ( is_numeric($limit) ) {
-            $limit = ' LIMIT '. $limit;
-        }
-
-        $query = 'SELECT * FROM ' . $wpdb->prefix .'frm_forms' . FrmAppHelper::prepend_and_or_where(' WHERE ', $where) . FrmAppHelper::esc_order($order_by) . FrmAppHelper::esc_limit($limit);
-
-        if ( $limit == ' LIMIT 1' || $limit == 1 ) {
-            if ( is_array($where) && ! empty($where) ) {
-                $results = FrmDb::get_row($wpdb->prefix .'frm_forms', $where, '*', array( 'order_by' => $order_by) );
-            } else {
-				// the query has already been prepared if this is not an array
-                $results = $wpdb->get_row($query);
-            }
-
-			if ( $results ) {
-                wp_cache_set($results->id, $results, 'frm_form');
-                $results->options = maybe_unserialize($results->options);
-            }
+	public static function getAll( $where = array(), $order_by = '', $limit = '' ) {
+		if ( is_array( $where ) && ! empty( $where ) ) {
+			$results = FrmDb::get_results( 'frm_forms', $where, '*', array( 'order_by' => $order_by, 'limit' => $limit ) );
 		} else {
-            if ( is_array($where) && ! empty($where) ) {
-                $results = FrmDb::get_results( $wpdb->prefix .'frm_forms', $where, '*', compact('order_by', 'limit') );
-            } else {
-                $results = $wpdb->get_results($query);
-            }
+			global $wpdb;
 
-			if ( $results ) {
-				foreach ( $results as $result ) {
-					wp_cache_set( $result->id, $result, 'frm_form' );
-					$result->options = maybe_unserialize( $result->options );
-				}
-            }
-        }
+			// the query has already been prepared if this is not an array
+			$query = 'SELECT * FROM ' . $wpdb->prefix . 'frm_forms' . FrmAppHelper::prepend_and_or_where( ' WHERE ', $where ) . FrmAppHelper::esc_order( $order_by ) . FrmAppHelper::esc_limit( $limit );
+			$results = $wpdb->get_results( $query );
+		}
+
+		if ( $results ) {
+			foreach ( $results as $result ) {
+				wp_cache_set( $result->id, $result, 'frm_form' );
+				$result->options = maybe_unserialize( $result->options );
+			}
+		}
+
+		if ( $limit == ' LIMIT 1' || $limit == 1 ) {
+			// return the first form object if we are only getting one form
+			$results = reset( $results );
+		}
 
         return stripslashes_deep($results);
     }
@@ -535,7 +513,7 @@ class FrmForm{
 
         $results = (array) FrmDb::get_results( 'frm_forms', array( 'or' => 1, 'parent_form_id' => null, 'parent_form_id <' => 0 ), 'status, is_template' );
 
-    	$statuses = array( 'published', 'draft', 'template', 'trash');
+		$statuses = array( 'published', 'draft', 'template', 'trash' );
     	$counts = array_fill_keys( $statuses, 0 );
 
     	foreach ( $results as $row ) {
@@ -576,7 +554,7 @@ class FrmForm{
     /**
      * @return array of errors
      */
-    public static function validate( $values ){
+	public static function validate( $values ) {
         $errors = array();
 
         return apply_filters('frm_validate_form', $errors, $values);

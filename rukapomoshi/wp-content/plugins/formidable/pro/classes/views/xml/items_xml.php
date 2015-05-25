@@ -34,7 +34,7 @@ foreach ( $entries as $entry ) {
 <?php
         $metas = FrmDb::get_results( $wpdb->prefix .'frm_item_metas', array( 'item_id' => $entry->id), 'meta_value, field_id' );
 
-		foreach ( $metas as $meta ){ ?>
+		foreach ( $metas as $meta ) { ?>
 		<item_meta>
 		    <field_id><?php echo $meta->field_id ?></field_id>
 		    <meta_value><?php

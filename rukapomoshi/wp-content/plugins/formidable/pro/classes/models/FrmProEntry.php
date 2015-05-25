@@ -1,81 +1,7 @@
 <?php
 class FrmProEntry{
 
-    public static function pre_validate($errors, $values){
-        global $frm_vars;
-
-        $user_ID = get_current_user_id();
-        $params = (isset($frm_vars['form_params']) && is_array($frm_vars['form_params']) && isset($frm_vars['form_params'][$values['form_id']])) ? $frm_vars['form_params'][$values['form_id']] : FrmEntriesController::get_params($values['form_id']);
-
-		if ( $params['action'] != 'create' ) {
-			if ( FrmProFormsHelper::going_to_prev( $values['form_id'] ) ) {
-                add_filter('frm_continue_to_create', '__return_false');
-                $errors = array();
-            } else if ( FrmProFormsHelper::saving_draft() ) {
-                //$errors = array();
-            }
-            return $errors;
-        }
-
-        $form = FrmForm::getOne($values['form_id']);
-        $form_options = maybe_unserialize($form->options);
-
-        global $wpdb;
-
-        $can_submit = true;
-		if ( isset( $form_options['single_entry'] ) && $form_options['single_entry'] ) {
-            $admin_entry = FrmAppHelper::is_admin();
-
-			if ( $form_options['single_entry_type'] == 'cookie' && isset( $_COOKIE['frm_form' . $form->id . '_' . COOKIEHASH ] ) ) {
-                $can_submit = $admin_entry ? true : false;
-			} else if ( $form_options['single_entry_type'] == 'ip' ) {
-                if ( ! $admin_entry ) {
-                    $prev_entry = FrmEntry::getAll( array( 'it.ip' => FrmAppHelper::get_ip_address() ), '', 1 );
-                    if ( $prev_entry ) {
-                        $can_submit = false;
-                    }
-                }
-            } else if ( ( $form_options['single_entry_type'] == 'user' || ( isset($form->options['save_draft']) && $form->options['save_draft'] == 1 ) ) && ! $form->editable ) {
-                if ( $user_ID ) {
-                    $meta = FrmProEntriesHelper::check_for_user_entry( $user_ID, $form, ( $form_options['single_entry_type'] != 'user' ) );
-                }
-
-                if ( isset($meta) && $meta ) {
-                    $can_submit = false;
-                }
-            }
-            unset($admin_entry);
-
-            if ( ! $can_submit ) {
-                $frmpro_settings = new FrmProSettings();
-                $k = is_numeric($form_options['single_entry_type']) ? 'field'. $form_options['single_entry_type'] : 'single_entry';
-                $errors[$k] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-                return $errors;
-            }
-        }
-        unset($can_submit);
-
-        if ( ( ( $_POST && isset($_POST['frm_page_order_'. $form->id]) ) || FrmProFormsHelper::going_to_prev($form->id) ) && ! FrmProFormsHelper::saving_draft() ) {
-            add_filter('frm_continue_to_create', '__return_false');
-        } else if ( $form->editable && isset($form_options['single_entry']) && $form_options['single_entry'] && $form_options['single_entry_type'] == 'user' && $user_ID && ! FrmAppHelper::is_admin() ) {
-            $meta = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'user_id' => $user_ID, 'form_id' => $form->id) );
-
-            if ( $meta ) {
-                $frmpro_settings = new FrmProSettings();
-                $errors['single_entry'] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-            }
-        }
-
-        if ( FrmProFormsHelper::going_to_prev($values['form_id']) ) {
-            $errors = array();
-        }
-
-        return $errors;
-    }
-
-    public static function validate($params, $fields, $form, $title, $description){
+	public static function validate( $params, $fields, $form, $title, $description ) {
         global $frm_vars;
 
         $frm_settings = FrmAppHelper::get_settings();
@@ -341,7 +267,7 @@ class FrmProEntry{
      * @param string $location If Other vals are not cleared by JavaScript when selection is changed, value should be cleared in this function. Other vals are not cleared with JavaScript on the back-end.
      * @return array $values
      */
-    public static function mod_other_vals( $values = false, $location = 'front' ){
+	public static function mod_other_vals( $values = false, $location = 'front' ) {
         $set_post = false;
         if ( ! $values ) {
             $values = $_POST;
@@ -411,7 +337,7 @@ class FrmProEntry{
      * @param array $values - posted values
      * @return array $values
      */
-    public static function mod_conf_vals( &$values = false, $location, $set_post = false ){
+	public static function mod_conf_vals( &$values = false, $location, $set_post = false ) {
 		// Check if we are saving or creating an entry
 		if ( $location != 'front' || ! isset( $values['item_meta'] ) ) {
 			return;
@@ -582,7 +508,7 @@ class FrmProEntry{
                 $value = (array) $value;
 
                 // change text to numeric ids while importing
-                if ( defined('WP_IMPORTING') ){
+				if ( defined('WP_IMPORTING') ) {
                     foreach ( $value as $k => $val ) {
                         if ( empty($val) ) {
                             continue;
@@ -950,7 +876,7 @@ class FrmProEntry{
         }
     }
 
-    public static function create_comment($entry_id, $form_id){
+	public static function create_comment( $entry_id, $form_id ) {
         $comment_post_ID = isset($_POST['comment_post_ID']) ? (int) $_POST['comment_post_ID'] : 0;
 
         $post = get_post($comment_post_ID);
@@ -1015,7 +941,7 @@ class FrmProEntry{
     }
 
 	//If page size is set for views, only get the current page of entries
-	public static function get_view_page( $current_p, $p_size, $where, $args ){
+	public static function get_view_page( $current_p, $p_size, $where, $args ) {
 		//Make sure values are ints for use in DB call
 		$current_p = (int) $current_p;
 		$p_size = (int) $p_size;
@@ -1032,7 +958,7 @@ class FrmProEntry{
     }
 
 	//Get ordered and filtered entries for Views
-    public static function get_view_results($where, $args){
+	public static function get_view_results( $where, $args ) {
         global $wpdb;
 
 		$defaults = array(
@@ -1273,7 +1199,12 @@ class FrmProEntry{
         $entries = $final_order;
     }
 
-    public static function get_field($field='is_draft', $id){
+	public static function pre_validate( $errors, $values ) {
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProFormsHelper::can_submit_form_now' );
+		return FrmProFormsHelper::can_submit_form_now( $errors, $values );
+    }
+
+	public static function get_field( $field = 'is_draft', $id ) {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmProEntriesHelper::get_field');
         return FrmProEntriesHelper::get_field($field, $id);
     }

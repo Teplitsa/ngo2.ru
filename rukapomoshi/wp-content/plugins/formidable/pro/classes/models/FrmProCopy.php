@@ -8,7 +8,7 @@ class FrmProCopy{
         return $prefix .'frmpro_copies';
     }
 
-    public static function create( $values ){
+	public static function create( $values ) {
         global $wpdb, $blog_id;
 
         $exists = $wpdb->query( 'DESCRIBE '. self::table_name() );
@@ -21,7 +21,7 @@ class FrmProCopy{
         $new_values['blog_id'] = $blog_id;
         $new_values['form_id'] = isset($values['form_id']) ? (int) $values['form_id']: null;
         $new_values['type'] = isset($values['type']) ? $values['type']: 'form'; //options here are: form, display
-        if ($new_values['type'] == 'form'){
+		if ( $new_values['type'] == 'form' ) {
             $form_copied = FrmForm::getOne($new_values['form_id']);
             $new_values['copy_key'] = $form_copied->form_key;
         }else{
@@ -43,10 +43,10 @@ class FrmProCopy{
         }
     }
 
-    public static function destroy( $id ){
-      global $wpdb;
-      return $wpdb->delete(self::table_name(), array( 'id' => $id));
-    }
+	public static function destroy( $id ) {
+		global $wpdb;
+		return $wpdb->delete( self::table_name(), array( 'id' => $id ) );
+	}
 
 	public static function getAll( $where = array(), $order_by = '', $limit = '' ) {
 		$method = ( $limit == ' LIMIT 1' ) ? 'row' : 'results';

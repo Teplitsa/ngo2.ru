@@ -1,11 +1,10 @@
 <?php
 class FrmProForm{
 
-    public static function update_options($options, $values){
+	public static function update_options( $options, $values ) {
         $defaults = FrmProFormsHelper::get_default_opts();
         unset($defaults['logged_in']);
         unset($defaults['editable']);
-        unset($defaults['notification']);
 
         foreach ( $defaults as $opt => $default ) {
             $options[$opt] = (isset($values['options'][$opt])) ? $values['options'][$opt] : $default;
@@ -197,10 +196,10 @@ class FrmProForm{
         return $new_opts;
     }
 
-    public static function validate( $errors, $values ){
+	public static function validate( $errors, $values ) {
         /*
         if (isset($values['item_meta'])){
-            foreach($values['item_meta'] as $key => $value){
+			foreach( $values['item_meta'] as $key => $value ) {
                 $field = FrmField::getOne($key);
                 if ($field && $field->type == 'hidden' and empty($value))
                     $errors[] = __( 'Hidden fields must have a value.', 'formidable' );
@@ -221,7 +220,7 @@ class FrmProForm{
             }
         }
 
-        if (isset($values['options']['auto_responder'])){
+		if ( isset( $values['options']['auto_responder'] ) ) {
             if ( ! isset($values['options']['ar_email_message']) || $values['options']['ar_email_message'] == '' ) {
                 $errors[] = __( 'Please insert a message for your auto responder.', 'formidable' );
             }

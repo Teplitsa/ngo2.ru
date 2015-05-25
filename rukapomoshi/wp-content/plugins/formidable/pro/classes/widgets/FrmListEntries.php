@@ -144,7 +144,7 @@ class FrmListEntries extends WP_Widget {
 						$items = FrmEntry::getAll( array( 'it.id' => $entry_ids, 'it.form_id' => (int) $display->frm_form_id ), $order_by, $limit );
 					}
 
-                    if ($items){
+					if ( $items ) {
                         echo '<ul>';
 						foreach ( $items as $item ) {
                             $url_id = $display->frm_type == 'id' ? $item->id : $item->item_key;

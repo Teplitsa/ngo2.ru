@@ -42,7 +42,7 @@ class FrmFieldsHelper {
             'user_id'   => __( 'User ID (hidden)', 'formidable' ),
             'password'  => __( 'Password', 'formidable' ),
             'html'      => __( 'HTML', 'formidable' ),
-            'tag'       => __( 'Tags', 'formidable' )
+			'tag'       => __( 'Tags', 'formidable' ),
             //'address' => 'Address' //Address line 1, Address line 2, City, State/Providence, Postal Code, Select Country
             //'city_selector' => 'US State/County/City selector',
             //'full_name' => 'First and Last Name',
@@ -90,9 +90,16 @@ class FrmFieldsHelper {
             return $field['type'] == 'checkbox' || ( $field['type'] == 'data' && isset($field['data_type']) && $field['data_type'] == 'checkbox' ) || self::is_multiple_select( $field );
         } else {
 			// For field object
-            return $field->type == 'checkbox' || ( $field->type == 'data' && $field->field_options['data_type'] == 'checkbox' ) || self::is_multiple_select($field);
+			return $field->type == 'checkbox' || ( $field->type == 'data' && isset( $field->field_options['data_type'] ) && $field->field_options['data_type'] == 'checkbox' ) || self::is_multiple_select($field);
         }
     }
+
+	/**
+	 * @since 2.0.6
+	 */
+	public static function is_required_field( $field ) {
+		return $field['required'] != '0';
+	}
 
     /**
      * If $field is numeric, get the field object
@@ -170,8 +177,8 @@ class FrmFieldsHelper {
     }
 
     public static function setup_edit_vars( $record, $doing_ajax = false ) {
-        $values = array( 'id' => $record->id, 'form_id' => $record->form_id);
-        $defaults = array( 'name' => $record->name, 'description' => $record->description);
+		$values = array( 'id' => $record->id, 'form_id' => $record->form_id );
+		$defaults = array( 'name' => $record->name, 'description' => $record->description );
         $default_opts = array(
             'field_key' => $record->field_key, 'type' => $record->type,
 			'default_value' => $record->default_value, 'field_order' => $record->field_order,
@@ -214,7 +221,7 @@ class FrmFieldsHelper {
 
         $values['custom_html'] = (isset($record->field_options['custom_html'])) ? $record->field_options['custom_html'] : self::get_default_html($record->type);
 
-        return apply_filters('frm_setup_edit_field_vars', $values, array( 'doing_ajax' => $doing_ajax));
+		return apply_filters( 'frm_setup_edit_field_vars', $values, array( 'doing_ajax' => $doing_ajax ) );
     }
 
     public static function get_default_field_opts( $type, $field, $limit = false ) {
@@ -269,8 +276,8 @@ class FrmFieldsHelper {
         $default_settings = $frm_settings->default_options();
 
         $defaults = array(
-            'unique_msg' => array( 'full' => $default_settings['unique_msg'], 'part' => $field->name.' '. __( 'must be unique', 'formidable' )),
-            'invalid'   => array( 'full' => __( 'This field is invalid', 'formidable' ), 'part' => $field->name.' '. __( 'is invalid', 'formidable' ))
+			'unique_msg' => array( 'full' => $default_settings['unique_msg'], 'part' => $field->name . ' ' . __( 'must be unique', 'formidable' ) ),
+			'invalid'   => array( 'full' => __( 'This field is invalid', 'formidable' ), 'part' => $field->name . ' ' . __( 'is invalid', 'formidable' ) ),
         );
 
         $msg = ( $field->field_options[ $error ] == $defaults[ $error ]['full'] || empty( $field->field_options[ $error ] ) ) ? $defaults[ $error ]['part'] : $field->field_options[ $error ];
@@ -285,9 +292,9 @@ class FrmFieldsHelper {
 
 	public static function get_default_html( $type = 'text' ) {
 		if ( apply_filters( 'frm_normal_field_type_html', true, $type ) ) {
-            $input = (in_array($type, array( 'radio', 'checkbox', 'data'))) ? '<div class="frm_opt_container">[input]</div>' : '[input]';
+			$input = ( in_array( $type, array( 'radio', 'checkbox', 'data' ) ) ) ? '<div class="frm_opt_container">[input]</div>' : '[input]';
             $for = '';
-            if ( ! in_array( $type, array( 'radio', 'checkbox', 'data', 'scale') ) ) {
+			if ( ! in_array( $type, array( 'radio', 'checkbox', 'data', 'scale' ) ) ) {
                 $for = 'for="field_[key]"';
             }
 
@@ -341,7 +348,7 @@ DEFAULT_HTML;
         $html = str_replace('[key]', $field['field_key'], $html);
 
         //replace [description] and [required_label] and [error]
-        $required = ($field['required'] == '0') ? '' : $field['required_indicator'];
+		$required = self::is_required_field( $field ) ? $field['required_indicator'] : '';
         if ( ! is_array( $errors ) ) {
             $errors = array();
         }
@@ -361,7 +368,7 @@ DEFAULT_HTML;
         }
 
         //replace [required_class]
-        $required_class = ($field['required'] == '0') ? '' : ' frm_required_field';
+        $required_class = self::is_required_field( $field ) ? ' frm_required_field' : '';
         $html = str_replace('[required_class]', $required_class, $html);
 
         //replace [label_position]
@@ -373,7 +380,7 @@ DEFAULT_HTML;
         $html = str_replace('[field_name]', $field['name'], $html);
 
         //replace [error_class]
-		$error_class = isset ( $errors[ 'field' . $field_id ] ) ? ' frm_blank_field' : '';
+		$error_class = isset( $errors[ 'field' . $field_id ] ) ? ' frm_blank_field' : '';
 		self::get_more_field_classes( $error_class, $field, $field_id, $html );
 		if ( $field['type'] == 'html' && strpos( $html, '[error_class]' ) === false ) {
 			// there is no error_class shortcode to use for addign fields
@@ -382,7 +389,7 @@ DEFAULT_HTML;
         $html = str_replace('[error_class]', $error_class, $html);
 
         //replace [entry_key]
-        $entry_key = ( $_GET && isset($_GET['entry']) ) ? $_GET['entry'] : '';
+        $entry_key = FrmAppHelper::simple_get( 'entry', 'sanitize_title' );
         $html = str_replace('[entry_key]', $entry_key, $html);
 
         //replace [input]
@@ -392,7 +399,7 @@ DEFAULT_HTML;
 
         foreach ( $shortcodes[0] as $short_key => $tag ) {
             $atts = shortcode_parse_atts( $shortcodes[2][ $short_key ] );
-            $tag = self::get_shortcode_tag($shortcodes, $short_key, array( 'conditional' => false, 'conditional_check' => false));
+			$tag = self::get_shortcode_tag( $shortcodes, $short_key, array( 'conditional' => false, 'conditional_check' => false ) );
 
             $replace_with = '';
 
@@ -441,10 +448,9 @@ DEFAULT_HTML;
             $html = apply_filters('frm_replace_shortcodes', $html, $field, array( 'errors' => $errors, 'form' => $form ));
         }
 
-        // remove [collapse_this] when running the free version
-		if ( preg_match( '/\[(collapse_this)\]/s', $html ) ) {
-			$html = str_replace( '[collapse_this]', '', $html );
-        }
+		self::remove_collapse_shortcode( $html );
+
+		$html = do_shortcode( $html );
 
         return $html;
     }
@@ -466,7 +472,7 @@ DEFAULT_HTML;
 		}
 
 		//Add classes to inline confirmation field (if it doesn't already have classes set)
-		if ( isset ( $field['conf_field'] ) && $field['conf_field'] == 'inline' && ! $field['classes'] ) {
+		if ( isset( $field['conf_field'] ) && $field['conf_field'] == 'inline' && ! $field['classes'] ) {
 			$error_class .= ' frm_first_half';
 		}
 
@@ -491,7 +497,7 @@ DEFAULT_HTML;
 			// If this is a repeating section that should be hidden with exclude_fields or fields shortcode, hide it
 			if ( $field['repeat'] ) {
 				global $frm_vars;
-				if ( isset( $frm_vars['show_fields'] ) && ! empty ( $frm_vars['show_fields'] ) && ! in_array( $field['id'], $frm_vars['show_fields'] ) && ! in_array( $field['field_key'], $frm_vars['show_fields'] ) ) {
+				if ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) && ! in_array( $field['id'], $frm_vars['show_fields'] ) && ! in_array( $field['field_key'], $frm_vars['show_fields'] ) ) {
 					$error_class .= ' frm_hidden';
 				}
 			}
@@ -518,7 +524,7 @@ DEFAULT_HTML;
     }
 
     public static function get_shortcode_tag($shortcodes, $short_key, $args) {
-        $args = wp_parse_args($args, array( 'conditional' => false, 'conditional_check' => false, 'foreach' => false));
+		$args = wp_parse_args( $args, array( 'conditional' => false, 'conditional_check' => false, 'foreach' => false ) );
         if ( ( $args['conditional'] || $args['foreach'] ) && ! $args['conditional_check'] ) {
             $args['conditional_check'] = true;
         }
@@ -547,6 +553,16 @@ DEFAULT_HTML;
         return $tag;
     }
 
+	/**
+	 * Remove [collapse_this] if it's still included after all processing
+	 * @since 2.0.8
+	 */
+	private static function remove_collapse_shortcode( &$html ) {
+		if ( preg_match( '/\[(collapse_this)\]/s', $html ) ) {
+			$html = str_replace( '[collapse_this]', '', $html );
+		}
+	}
+
     public static function display_recaptcha($field) {
         $frm_settings = FrmAppHelper::get_settings();
         $lang = apply_filters('frm_recaptcha_lang', $frm_settings->re_lang, $field);
@@ -573,9 +589,9 @@ DEFAULT_HTML;
             $opt = apply_filters('frm_field_label_seen', $opt, $opt_key, $field);
 
             // If this is an "Other" option, get the HTML for it
-            if ( FrmAppHelper::is_other_opt( $opt_key ) ) {
+			if ( self::is_other_opt( $opt_key ) ) {
                 // Get string for Other text field, if needed
-                $other_val = FrmAppHelper::get_other_val( $opt_key, $field );
+				$other_val = self::get_other_val( compact( 'opt_key', 'field' ) );
                 require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/other-option.php');
             } else {
                 require(FrmAppHelper::plugin_path() .'/classes/views/frm-fields/single-option.php');
@@ -836,7 +852,7 @@ DEFAULT_HTML;
                 case 'updated_by':
                 case 'updated-by':
                     $this_tag = str_replace('-', '_', $tag);
-                    $replace_with = self::get_display_value($entry->{$this_tag}, (object) array( 'type' => 'user_id'), $atts);
+					$replace_with = self::get_display_value( $entry->{$this_tag}, (object) array( 'type' => 'user_id' ), $atts );
                     unset($this_tag);
                 break;
 
@@ -1006,15 +1022,250 @@ DEFAULT_HTML;
         }
     }
 
-    public static function show_onfocus_js($clear_on_focus){ ?>
-    <a href="javascript:void(0)" class="frm_bstooltip <?php echo ($clear_on_focus) ? '' : 'frm_inactive_icon '; ?>frm_default_val_icons frm_action_icon frm_reload_icon frm_icon_font" title="<?php echo esc_attr($clear_on_focus ? __( 'Clear default value when typing', 'formidable' ) : __( 'Do not clear default value when typing', 'formidable' )); ?>"></a>
-    <?php
+    /**
+    * Check if current field option is an "other" option
+    *
+    * @since 2.0.6
+    *
+    * @param string $opt_key
+    * @return boolean Returns true if current field option is an "Other" option
+    */
+    public static function is_other_opt( $opt_key ) {
+        return $opt_key && strpos( $opt_key, 'other' ) !== false;
     }
 
-    public static function show_default_blank_js($default_blank){ ?>
-    <a href="javascript:void(0)" class="frm_bstooltip <?php echo $default_blank ? '' : 'frm_inactive_icon '; ?>frm_default_val_icons frm_action_icon frm_error_icon frm_icon_font" title="<?php echo $default_blank ? esc_attr( 'Default value will NOT pass form validation', 'formidable' ) : esc_attr( 'Default value will pass form validation', 'formidable' ); ?>"></a>
-    <?php
+    /**
+    * Get value that belongs in "Other" text box
+    *
+    * @since 2.0.6
+    *
+    * @param array $args
+    */
+    public static function get_other_val( $args ) {
+		$defaults = array(
+			'opt_key' => 0, 'field' => array(),
+			'parent' => false, 'pointer' => false,
+		);
+		$args = wp_parse_args( $args, $defaults );
+
+		$opt_key = $args['opt_key'];
+		$field = $args['field'];
+		$parent = $args['parent'];
+		$pointer = $args['pointer'];
+		$other_val = '';
+
+		// If option is an "other" option and there is a value set for this field,
+		// check if the value belongs in the current "Other" option text field
+		if ( ! FrmFieldsHelper::is_other_opt( $opt_key ) || ! isset( $field['value'] ) || ! $field['value'] ) {
+			return $other_val;
+		}
+
+		// Check posted vals before checking saved values
+
+		// For fields inside repeating sections - note, don't check if $pointer is true because it will often be zero
+		if ( $parent && isset( $_POST['item_meta'][ $parent ][ $pointer ]['other'][ $field['id'] ] ) ) {
+			if ( FrmFieldsHelper::is_field_with_multiple_values( $field ) ) {
+				$other_val = isset( $_POST['item_meta'][ $parent ][ $pointer ]['other'][ $field['id'] ][ $opt_key ] ) ? sanitize_text_field( $_POST['item_meta'][ $parent ][ $pointer ]['other'][ $field['id'] ][ $opt_key ] ) : '';
+			} else {
+				$other_val = sanitize_text_field( $_POST['item_meta'][ $parent ][ $pointer ]['other'][ $field['id'] ] );
+			}
+			return $other_val;
+
+		} else if ( isset( $field['id'] ) && isset( $_POST['item_meta']['other'][ $field['id'] ] ) ) {
+			// For normal fields
+
+			if ( FrmFieldsHelper::is_field_with_multiple_values( $field ) ) {
+				$other_val = isset( $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] ) ? sanitize_text_field( $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] ) : '';
+			} else {
+				$other_val = sanitize_text_field( $_POST['item_meta']['other'][ $field['id'] ] );
+			}
+			return $other_val;
+		}
+
+		// For checkboxes
+		if ( $field['type'] == 'checkbox' && is_array( $field['value'] ) ) {
+			// Check if there is an "other" val in saved value and make sure the
+			// "other" val is not equal to the Other checkbox option
+			if ( isset( $field['value'][ $opt_key ] ) && $field['options'][ $opt_key ] != $field['value'][ $opt_key ] ) {
+				$other_val = $field['value'][ $opt_key ];
+			}
+		} else {
+			/**
+			 * For radio buttons and dropdowns
+			 * Check if saved value equals any of the options. If not, set it as the other value.
+			 */
+			foreach ( $field['options'] as $opt_key => $opt_val ) {
+				$temp_val = is_array( $opt_val ) ? $opt_val['value'] : $opt_val;
+				// Multi-select dropdowns - key is not preserved
+				if ( is_array( $field['value'] ) ) {
+					$o_key = array_search( $temp_val, $field['value'] );
+					if ( isset( $field['value'][ $o_key ] ) ) {
+						unset( $field['value'][ $o_key ], $o_key );
+					}
+				} else if ( $temp_val == $field['value'] ) {
+					// For radio and regular dropdowns
+					return '';
+				} else {
+					$other_val = $field['value'];
+				}
+				unset( $opt_key, $opt_val, $temp_val );
+			}
+			// For multi-select dropdowns only
+			if ( is_array( $field['value'] ) && ! empty( $field['value'] ) ) {
+				$other_val = reset( $field['value'] );
+			}
+		}
+
+		return $other_val;
     }
+
+    /**
+    * Check if there is a saved value for the "Other" text field. If so, set it as the $other_val.
+    * Intended for front-end use
+    *
+    * @since 2.0.6
+    *
+    * @param array $args should include field, opt_key and field name
+    * @param boolean $other_opt
+    * @param string $checked
+    * @return string $other_val
+    */
+    public static function prepare_other_input( $args, &$other_opt, &$checked ) {
+		//Check if this is an "Other" option
+		if ( ! self::is_other_opt( $args['opt_key'] ) ) {
+			return;
+		}
+
+		$other_opt = true;
+		$other_args = array();
+
+		self::set_other_name( $args, $other_args );
+		self::set_other_value( $args, $other_args );
+
+		if ( $other_args['value'] ) {
+			$checked = 'checked="checked" ';
+		}
+
+        return $other_args;
+    }
+
+	/**
+	 * @param array $args
+	 * @param array $other_args
+	 * @since 2.0.6
+	 */
+	private static function set_other_name( $args, &$other_args ) {
+		//Set up name for other field
+		$other_args['name'] = str_replace( '[]', '', $args['field_name'] );
+		$other_args['name'] = preg_replace('/\[' . $args['field']['id'] . '\]$/', '', $other_args['name']);
+		$other_args['name'] = $other_args['name'] . '[other]' . '[' . $args['field']['id'] . ']';
+
+		//Converts item_meta[field_id] => item_meta[other][field_id] and
+		//item_meta[parent][0][field_id] => item_meta[parent][0][other][field_id]
+		if ( self::is_field_with_multiple_values( $args['field'] ) ) {
+			$other_args['name'] .= '[' . $args['opt_key'] . ']';
+		}
+	}
+
+	/**
+	 * Find the parent and pointer, and get text for "other" text field
+	 * @param array $args
+	 * @param array $other_args
+	 *
+	 * @since 2.0.6
+	 */
+	private static function set_other_value( $args, &$other_args ) {
+		$parent = $pointer = '';
+
+		// Check for parent ID and pointer
+		$temp_array = explode( '[', $args['field_name'] );
+
+		// Count should only be greater than 3 if inside of a repeating section
+		if ( count( $temp_array ) > 3 ) {
+			$parent = str_replace( ']', '', $temp_array[1] );
+			$pointer = str_replace( ']', '', $temp_array[2]);
+		}
+
+		// Get text for "other" text field
+		$other_args['value'] = self::get_other_val( array( 'opt_key' => $args['opt_key'], 'field' => $args['field'], 'parent' => $parent, 'pointer' => $pointer ) );
+	}
+
+	/**
+	 * If this field includes an other option, show it
+	 * @param $args array
+	 * @since 2.0.6
+	 */
+	public static function include_other_input( $args ) {
+        if ( ! $args['other_opt'] ) {
+        	return;
+		}
+
+		$classes = array( 'frm_other_input' );
+		if ( ! $args['checked'] || trim( $args['checked'] ) == '' ) {
+			// hide the field if the other option is not selected
+			$classes[] = 'frm_pos_none';
+		}
+		if ( $args['field']['type'] == 'select' && $args['field']['multiple'] ) {
+			$classes[] = 'frm_other_full';
+		}
+
+		// Set up HTML ID for Other field
+		$other_id = self::get_other_field_html_id( $args['field']['type'], $args['html_id'], $args['opt_key'] );
+
+		?><input type="text" id="<?php echo esc_attr( $other_id ) ?>" class="<?php echo sanitize_text_field( implode( ' ', $classes ) ) ?>" <?php
+		echo ( $args['read_only'] ? ' readonly="readonly" disabled="disabled"' : '' );
+		?> name="<?php echo esc_attr( $args['name'] ) ?>" value="<?php echo esc_attr( $args['value'] ); ?>" /><?php
+	}
+
+	/**
+	* Get the HTML id for an "Other" text field
+	* Note: This does not affect fields in repeating sections
+	*
+	* @since 2.0.08
+	* @param string $type - field type
+	* @param string $html_id
+	* @param string|boolean $opt_key
+	* @return string $other_id
+	*/
+	public static function get_other_field_html_id( $type, $html_id, $opt_key = false ){
+		$other_id = $html_id;
+
+		// If hidden radio field, add an opt key of 0
+		if ( $type == 'radio' && $opt_key === false ) {
+			$opt_key = 0;
+		}
+
+		if ( $opt_key !== false ) {
+			$other_id .= '-' . $opt_key;
+		}
+
+		$other_id .= '-otext';
+
+		return $other_id;
+	}
+
+	public static function show_onfocus_js( $is_selected ) {
+		$atts = array(
+			'icon'        => 'frm_reload_icon',
+			'message'     => $is_selected ? __( 'Clear default value when typing', 'formidable' ) : __( 'Do not clear default value when typing', 'formidable' ),
+			'is_selected' => $is_selected,
+		);
+		self::show_icon_link_js( $atts );
+	}
+
+	public static function show_default_blank_js( $is_selected ) {
+		$atts = array(
+			'icon'        => 'frm_error_icon',
+			'message'     => $is_selected ? __( 'Default value will NOT pass form validation', 'formidable' ) : __( 'Default value will pass form validation', 'formidable' ),
+			'is_selected' => $is_selected,
+		);
+		self::show_icon_link_js( $atts );
+	}
+
+	public static function show_icon_link_js( $atts ) {
+		$atts['icon'] .= $atts['is_selected'] ? ' ' : ' frm_inactive_icon ';
+		?><a href="javascript:void(0)" class="frm_bstooltip <?php echo esc_attr( $atts['icon'] ); ?>frm_default_val_icons frm_action_icon frm_icon_font" title="<?php echo esc_attr( $atts['message'] ); ?>"></a><?php
+	}
 
     public static function switch_field_ids($val) {
         global $frm_duplicate_ids;

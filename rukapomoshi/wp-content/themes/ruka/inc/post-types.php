@@ -4,27 +4,27 @@ if( !function_exists('ruka_custom_content') ) {
 function ruka_custom_content(){
 
     /** Existing post types settings: */
-    add_post_type_support('page', array('excerpt'));
+    //add_post_type_support('page', array('excerpt'));
 	deregister_taxonomy_for_object_type('post_tag', 'post');
 	
 	
     /** Post types: */
    	register_post_type('programm', array(
         'labels' => array(
-            'name'               => __('Programmes', 'ruka'),
-            'singular_name'      => __('Programm', 'ruka'),
-            'menu_name'          => __('Programmes', 'ruka'),
-            'name_admin_bar'     => __('Add programm', 'ruka'),
-            'add_new'            => __('Add new programm', 'ruka'),
-            'add_new_item'       => __('Add programm', 'ruka'),
-            'new_item'           => __('New programm', 'ruka'),
-            'edit_item'          => __('Edit programm', 'ruka'),
-            'view_item'          => __('View programm', 'ruka'),
-            'all_items'          => __('All programmes', 'ruka'),
-            'search_items'       => __('Search programmes', 'ruka'),
-            'parent_item_colon'  => __('Parent programm', 'ruka'),
-            'not_found'          => __('No programmes found', 'ruka'),
-            'not_found_in_trash' => __('No programmes found in Trash', 'ruka'),
+            'name'               => 'Программы',
+            'singular_name'      => 'Программа',
+            'menu_name'          => 'Программы',
+            'name_admin_bar'     => 'Программы',
+            'add_new'            => 'Добавить новую',
+            'add_new_item'       => 'Добавить новую',
+            'new_item'           => 'Новая программа',
+            'edit_item'          => 'Редактировать',
+            'view_item'          => 'Просмотреть',
+            'all_items'          => 'Все программы',
+            'search_items'       => 'Поиск',
+            'parent_item_colon'  => 'Родительская',
+            'not_found'          => 'Программы не найдены',
+            'not_found_in_trash' => 'В Корзине программы не найдены',
         ),
         'public'             => true,
         'exclude_from_search'=> false,

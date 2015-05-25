@@ -1,5 +1,5 @@
 <?php
-class FrmStyle{
+class FrmStyle {
     public $number = false;	// Unique ID number of the current instance.
 	public $id = 0; // the id of the post
 
@@ -31,16 +31,7 @@ class FrmStyle{
     }
 
     public function save($settings) {
-        $settings['post_content'] = FrmAppHelper::prepare_and_encode( $settings['post_content'] );
-
-	    if ( empty($settings['ID']) ) {
-            unset($settings['ID']);
-        }
-
-        // delete all styling caches
-        FrmAppHelper::cache_delete_group('frm_styles');
-
-		return FrmAppHelper::save_json_post( $settings );
+		return FrmAppHelper::save_settings( $settings, 'frm_styles' );
     }
 
     public function duplicate($id) {
@@ -86,7 +77,7 @@ class FrmStyle{
             $default_settings = $this->get_defaults();
 
             foreach ( $default_settings as $setting => $default ) {
-                if ( strpos($setting, 'color') !== false || in_array($setting, array( 'error_bg', 'error_border', 'error_text')) ) {
+				if ( strpos( $setting, 'color' ) !== false || in_array( $setting, array( 'error_bg', 'error_border', 'error_text' ) ) ) {
                     //if is a color
 					$new_instance['post_content'][ $setting ] = str_replace( '#', '', $new_instance['post_content'][ $setting ] );
 				} else if ( in_array( $setting, array( 'submit_style', 'important_style', 'auto_width' ) ) && ! isset( $new_instance['post_content'][ $setting ] ) ) {
@@ -310,7 +301,7 @@ class FrmStyle{
 	    return $settings;
 	}
 
-    public function get_defaults(){
+	public function get_defaults() {
         return array(
             'theme_css'         => 'ui-lightness',
             'theme_name'        => 'UI Lightness',

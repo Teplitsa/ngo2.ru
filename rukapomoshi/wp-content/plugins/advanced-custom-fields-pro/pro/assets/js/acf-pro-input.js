@@ -357,8 +357,8 @@
 			$html.removeClass('acf-clone');
 			
 			
-			// enable inputs (ignore inputs hidden by conditional logic)
-			$html.find('input, textarea, select').not('.acf-clhi').removeAttr('disabled');
+			// enable inputs (ignore inputs disabled for life)
+			$html.find('input, textarea, select').not('.acf-disabled').removeAttr('disabled');
 			
 			
 			// add row
@@ -405,10 +405,6 @@
 			}
 			
 			
-			// trigger change to allow attachment save
-			this.$input.trigger('change');
-				
-			
 			// action for 3rd party customization
 			acf.do_action('remove', $tr);
 			
@@ -416,6 +412,10 @@
 			// animate out tr
 			acf.remove_tr( $tr, function(){
 				
+				// trigger change to allow attachment save
+				self.$input.trigger('change');
+			
+			
 				// render
 				self.doFocus($field).render();
 				
@@ -871,8 +871,8 @@
 				$html = $( html );
 			
 			
-			// enable inputs (ignore inputs hidden by conditional logic)
-			$html.find('input, textarea, select').not('.acf-clhi').removeAttr('disabled');
+			// enable inputs (ignore inputs disabled for life)
+			$html.find('input, textarea, select').not('.acf-disabled').removeAttr('disabled');
 			
 							
 			// hide no values message
@@ -910,6 +910,10 @@
 		
 		remove: function( e ){
 			
+			// reference
+			var self = this;
+			
+			
 			// vars
 			var $layout	= e.$el.closest('.layout');
 			
@@ -933,10 +937,6 @@
 			}
 			
 			
-			// trigger change
-			this.$input.trigger('change');
-			
-			
 			// action for 3rd party customization
 			acf.do_action('remove', $layout);
 			
@@ -944,6 +944,10 @@
 			// remove
 			acf.remove_el( $layout, function(){
 				
+				// trigger change to allow attachment save
+				self.$input.trigger('change');
+			
+			
 				if( end_height > 0 ) {
 				
 					$message.show();
@@ -1636,7 +1640,8 @@
 			
 			
 			// reference
-			var self = this;
+			var self = this,
+				$field = this.$field;
 			
 			
 			// popup
@@ -1656,6 +1661,10 @@
 					var atts = attachment.attributes;
 					
 					
+					// focus
+					self.doFocus($field);
+							
+							
 					// is image already in gallery?
 					if( self.get_attachment(atts.id).exists() ) {
 					

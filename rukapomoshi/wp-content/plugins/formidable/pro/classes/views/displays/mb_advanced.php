@@ -34,7 +34,7 @@
                 <div class="frm_logic_rows">
             <?php
 			foreach ( $post->frm_order_by as $order_key => $order_by_field ) {
-				if ( isset( $post->frm_order[ $order_key ] ) && isset( $post->frm_order_by[ $order_key ] ) ){
+				if ( isset( $post->frm_order[ $order_key ] ) && isset( $post->frm_order_by[ $order_key ] ) ) {
                 	FrmProDisplaysController::add_order_row($order_key, $post->frm_form_id, $order_by_field, $post->frm_order[$order_key]);
 				}
 			}
@@ -79,7 +79,7 @@
         <td>
             <?php
             /*
-            if ( FrmProAppHelper::rewriting_on() && $frmpro_settings->permalinks){ ?>
+			if ( FrmProAppHelper::rewriting_on() && $frmpro_settings->permalinks ) { ?>
                 <select id="type" name="type">
                     <option value="id" <?php selected($post->frm_type, 'id') ?>><?php _e( 'ID', 'formidable' ); ?></option>
                     <option value="display_key" <?php selected($post->frm_type, 'display_key') ?>><?php _e( 'Key', 'formidable' ); ?></option>
@@ -135,7 +135,7 @@
                 <?php _e( 'Copy these display settings to other blogs when Formidable Pro is activated. <br/>Note: Use only field keys in the content box(es) above.', 'formidable' ) ?></label>
             </td>
         </tr>
-        <?php }else if ($post->frm_copy){ ?>
+		<?php } else if ( $post->frm_copy ) { ?>
         <input type="hidden" id="copy" name="options[copy]" value="1" />
         <?php }
     } ?>

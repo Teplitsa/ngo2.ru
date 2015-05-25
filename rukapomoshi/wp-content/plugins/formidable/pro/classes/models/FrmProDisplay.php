@@ -34,7 +34,7 @@ class FrmProDisplay{
         }
         $meta['options']['copy'] = false;
 
-        if ($blog_id){
+		if ( $blog_id ) {
             $old_form = FrmForm::getOne($values->frm_form_id, $blog_id);
             $new_form = FrmForm::getOne($old_form->form_key);
             $meta['form_id'] = $new_form->id;
@@ -51,7 +51,7 @@ class FrmProDisplay{
         return $post_ID;
     }
 
-    public static function update( $id, $values ){
+	public static function update( $id, $values ) {
         $new_values = array();
         $new_values['frm_param'] = isset($values['param']) ? sanitize_title_with_dashes($values['param']) : '';
 
@@ -62,7 +62,7 @@ class FrmProDisplay{
 			}
         }
 
-        if (isset($values['options'])){
+		if ( isset( $values['options'] ) ) {
             $new_values['frm_options'] = array();
 			foreach ( $values['options'] as $key => $value ) {
 				$new_values['frm_options'][ $key ] = $value;
@@ -179,14 +179,14 @@ class FrmProDisplay{
      *              2. published
      *              3. form has posts/entry is linked to a post
      */
-    public static function get_auto_custom_display($args){
+	public static function get_auto_custom_display( $args ) {
         $defaults = array( 'post_id' => false, 'form_id' => false, 'entry_id' => false);
         $args = wp_parse_args( $args, $defaults );
 
         global $wpdb;
 
         if ( $args['form_id'] ) {
-            $display_ids = FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $args['form_id']), 'post_ID' );
+            $display_ids = self::get_display_ids_by_form( $args['form_id'] );
 
             if ( ! $display_ids ) {
                 return false;
@@ -235,10 +235,16 @@ class FrmProDisplay{
         return $display;
     }
 
-    public static function get_form_custom_display($form_id){
+	public static function get_display_ids_by_form( $form_id ) {
+		global $wpdb;
+		return FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $form_id ), 'post_ID' );
+	}
+
+	public static function get_form_custom_display( $form_id ) {
         global $wpdb;
 
-        $display_ids = FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => 'frm_form_id', 'meta_value' => $form_id), 'post_ID' );
+        $display_ids = self::get_display_ids_by_form( $form_id );
+
         if ( ! $display_ids ) {
             return false;
         }

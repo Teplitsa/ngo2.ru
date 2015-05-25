@@ -4,20 +4,14 @@ class FrmSettingsController {
 
     public static function menu() {
 		// Make sure admins can see the menu items
-		if ( current_user_can( 'administrator' ) && ! current_user_can( 'frm_change_settings' ) ) {
-			$role = get_role( 'administrator' );
-			$frm_roles = FrmAppHelper::frm_capabilities();
-			foreach ( $frm_roles as $frm_role => $frm_role_description ) {
-				$role->add_cap( $frm_role );
-			}
-		}
+		FrmAppHelper::force_capability( 'frm_change_settings' );
 
-        add_submenu_page('formidable', 'Formidable | '. __( 'Global Settings', 'formidable' ), __( 'Global Settings', 'formidable' ), 'frm_change_settings', 'formidable-settings', 'FrmSettingsController::route');
+        add_submenu_page( 'formidable', 'Formidable | ' . __( 'Global Settings', 'formidable' ), __( 'Global Settings', 'formidable' ), 'frm_change_settings', 'formidable-settings', 'FrmSettingsController::route' );
     }
 
     public static function license_box() {
-        $a = isset($_GET['t']) ? $_GET['t'] : 'general_settings';
-        include(FrmAppHelper::plugin_path() .'/classes/views/frm-settings/license_box.php');
+		$a = FrmAppHelper::simple_get( 't', 'sanitize_title', 'general_settings' );
+        include( FrmAppHelper::plugin_path() . '/classes/views/frm-settings/license_box.php' );
     }
 
     public static function display_form( $errors = array(), $message = '' ) {
@@ -28,11 +22,11 @@ class FrmSettingsController {
 
         $uploads = wp_upload_dir();
         $target_path = $uploads['basedir'] . '/formidable/css';
-        $sections = apply_filters('frm_add_settings_section', array());
+        $sections = apply_filters( 'frm_add_settings_section', array() );
 
-        $captcha_lang = FrmAppHelper::locales('captcha');
+        $captcha_lang = FrmAppHelper::locales( 'captcha' );
 
-        require(FrmAppHelper::plugin_path() .'/classes/views/frm-settings/form.php');
+        require( FrmAppHelper::plugin_path() . '/classes/views/frm-settings/form.php' );
     }
 
     public static function process_form( $stop_load = false ) {
@@ -40,7 +34,8 @@ class FrmSettingsController {
 
         $frm_settings = FrmAppHelper::get_settings();
 
-        if ( ! isset( $_POST['process_form'] ) || ! wp_verify_nonce( $_POST['process_form'], 'process_form_nonce' ) ) {
+		$process_form = FrmAppHelper::get_post_param( 'process_form', '', 'sanitize_text_field' );
+		if ( ! wp_verify_nonce( $process_form, 'process_form_nonce' ) ) {
             wp_die( $frm_settings->admin_permission );
         }
 

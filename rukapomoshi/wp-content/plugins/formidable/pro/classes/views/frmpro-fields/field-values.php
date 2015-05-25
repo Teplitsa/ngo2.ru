@@ -6,13 +6,13 @@ if ( ! isset($new_field) || ! $new_field ) { ?>
 }
 
 if ( ! isset($is_settings_page) ) {
-    $is_settings_page = ( $_GET && isset($_GET['frm_action']) && $_GET['frm_action'] == 'settings' ) ? true : false;
+	$is_settings_page = ( FrmAppHelper::simple_get( 'frm_action' ) == 'settings' );
     $anything = $is_settings_page ? '' : __( 'Anything', 'formidable' );
 }
 
-if ($new_field->type == 'data'){
+if ( $new_field->type == 'data' ) {
 
-    if (isset($new_field->field_options['form_select']) && is_numeric($new_field->field_options['form_select'])){
+	if ( isset( $new_field->field_options['form_select'] ) && is_numeric( $new_field->field_options['form_select'] ) ) {
         $new_entries = FrmEntryMeta::getAll( array( 'it.field_id' => (int) $new_field->field_options['form_select'] ), '', ' LIMIT 300', true);
     }
 

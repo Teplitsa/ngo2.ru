@@ -17,7 +17,7 @@ class FrmProEntryMetaHelper{
             $value = maybe_unserialize($value);
         }
 
-        switch($field->type){
+		switch ( $field->type ) {
             case 'user_id':
                 $value = FrmProFieldsHelper::get_display_name($value);
                 break;
@@ -39,16 +39,22 @@ class FrmProEntryMetaHelper{
                 $value = FrmProFieldsHelper::get_date($value);
         }
 
-        if (is_array($value)){
-            $new_value = '';
-            foreach ( $value as $val ) {
+		if ( is_array( $value ) ) {
+			$new_value = '';
+			foreach ( $value as $val ) {
 				if ( is_array( $val ) ) {
-                    $new_value .= implode(', ', $val) . "\n";
+					// This will affect checkboxes inside of repeating sections
+					$new_value .= implode( ', ', $val ) . "\n";
 				}
-            }
-            if ($new_value != '')
-                $value = $new_value;
-        }
+			}
+
+			if ( $new_value != '' ) {
+				$value = $new_value;
+			} else {
+				// Only keep non-empty values in array
+				$value = array_filter( $value );
+			}
+		}
 
         return $value;
     }
@@ -134,7 +140,7 @@ class FrmProEntryMetaHelper{
         return $value;
     }
 
-    public static function get_post_value($post_id, $post_field, $custom_field, $atts){
+	public static function get_post_value( $post_id, $post_field, $custom_field, $atts ) {
         if ( ! $post_id ) {
             return '';
         }
@@ -193,7 +199,7 @@ class FrmProEntryMetaHelper{
 
 				if ( $atts['show'] == 'id' ) {
                     $value = implode($atts['sep'], $cat_ids);
-				} else if ( $atts['truncate'] ){
+				} else if ( $atts['truncate'] ) {
                     $value = implode($atts['sep'], $names);
 				} else {
                     $value = $cat_ids;

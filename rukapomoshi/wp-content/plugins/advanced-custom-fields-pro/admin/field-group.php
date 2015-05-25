@@ -909,7 +909,7 @@ class acf_admin_field_group {
 	/*
 	*  ajax_render_field_settings
 	*
-	*  This function can be accessed via an AJAX action and will return the result from the acf_render_field_settings function
+	*  This function will return HTML containing the field's settings based on it's new type
 	*
 	*  @type	function (ajax)
 	*  @date	30/09/13
@@ -936,7 +936,7 @@ class acf_admin_field_group {
 		
 		
 		// verify nonce
-		if( ! wp_verify_nonce($options['nonce'], 'acf_nonce') ) {
+		if( !wp_verify_nonce($options['nonce'], 'acf_nonce') ) {
 		
 			die(0);
 			
@@ -944,7 +944,7 @@ class acf_admin_field_group {
 		
 		
 		// required
-		if( ! $options['type'] ) {
+		if( !$options['type'] ) {
 		
 			die(0);
 			
@@ -962,7 +962,7 @@ class acf_admin_field_group {
 		
 		
 		// render
-		acf_render_field_settings( $field );
+		do_action("acf/render_field_settings/type={$field['type']}", $field);
 		
 		
 		// die

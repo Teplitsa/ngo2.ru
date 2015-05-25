@@ -4,7 +4,7 @@ class FrmProSettingsController{
 
     public static function license_box(){
         global $frm_update;
-        $a = isset($_GET['t']) ? $_GET['t'] : 'general_settings';
+		$a = FrmAppHelper::simple_get( 't', 'sanitize_title', 'general_settings' );
         remove_action('frm_before_settings', 'FrmSettingsController::license_box');
         include(FrmAppHelper::plugin_path() .'/pro/classes/views/settings/license_box.php');
     }

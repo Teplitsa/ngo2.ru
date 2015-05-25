@@ -95,11 +95,14 @@ if ( isset( $values['open_editable'] ) && empty( $values['open_editable'] ) ) {
     <td colspan="2"><label for="save_draft"><input type="checkbox" name="options[save_draft]" id="save_draft" value="1"<?php echo ($values['save_draft']) ? ' checked="checked"' : ''; ?> /> <?php _e( 'Allow logged-in users to save drafts', 'formidable' ) ?></label>
     </td>
 </tr>
-<?php if (is_multisite()){ ?>
-    <?php if (is_super_admin()){ ?>
+<?php
+if ( is_multisite() ) {
+	if ( is_super_admin() ) { ?>
         <tr><td colspan="2">
         <label for="copy"><input type="checkbox" name="options[copy]" id="copy" value="1" <?php echo ($values['copy'])? ' checked="checked"' : ''; ?> /> <?php _e( 'Copy this form to other blogs when Formidable Forms is activated', 'formidable' ) ?></label></td></tr>
-    <?php }else if ($values['copy']){ ?>
+	<?php
+	} else if ( $values['copy'] ) { ?>
         <input type="hidden" name="options[copy]" id="copy" value="1" />
-    <?php }
+    <?php
     }
+}

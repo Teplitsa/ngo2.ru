@@ -2,7 +2,7 @@
 
 class FrmProCopiesController{
 
-    public static function install(){
+	public static function install() {
         FrmProCopy::install();
     }
 
@@ -12,7 +12,7 @@ class FrmProCopiesController{
         self::install();
     }
 
-    public static function save_copied_display($id, $values){
+	public static function save_copied_display( $id, $values ) {
         global $wpdb, $blog_id;
         $wpdb->delete(FrmProCopy::table_name(), array( 'form_id' => $id, 'type' => 'display', 'blog_id' => $blog_id));
 
@@ -21,7 +21,7 @@ class FrmProCopiesController{
         }
     }
 
-    public static function save_copied_form($id, $values){
+	public static function save_copied_form( $id, $values ) {
         global $blog_id, $wpdb;
         if ( isset($values['options']['copy']) ) {
             FrmProCopy::create( array( 'form_id' => $id, 'type' => 'form'));
@@ -30,7 +30,7 @@ class FrmProCopiesController{
         }
     }
 
-    public static function destroy_copied_display($id){
+	public static function destroy_copied_display( $id ) {
         global $blog_id, $wpdb;
         $copies = FrmProCopy::getAll( array( 'blog_id' => $blog_id, 'form_id' => $id, 'type' => 'display'));
 		foreach ( $copies as $copy ) {
@@ -39,7 +39,7 @@ class FrmProCopiesController{
         }
     }
 
-    public static function destroy_copied_form($id){
+	public static function destroy_copied_form( $id ) {
         global $blog_id, $wpdb;
         $copies = FrmProCopy::getAll( array( 'blog_id' => $blog_id, 'form_id' => $id, 'type' => 'form'));
 		foreach ( $copies as $copy ) {
@@ -47,7 +47,7 @@ class FrmProCopiesController{
 		}
     }
 
-    public static function delete_copy_rows($blog_id, $drop){
+	public static function delete_copy_rows( $blog_id, $drop ) {
         $blog_id = (int) $blog_id;
         if ( ! $drop || ! $blog_id ) {
             return;

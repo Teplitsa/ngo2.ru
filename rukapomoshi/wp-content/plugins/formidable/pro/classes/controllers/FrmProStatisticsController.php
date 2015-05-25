@@ -112,7 +112,7 @@ class FrmProStatisticsController{
 
                 // add an untruncated tooltip
                 if ( isset($vals['tooltips'][$lkey]) ) {
-					$row['tooltip'] = $vals['tooltips'][$lkey] .': '. $row[1];
+					$row['tooltip'] = wordwrap( $vals['tooltips'][ $lkey ] . ': ' . $row[1], 50, "\r\n" );
                 }
 
                 $vals['rows'][] = $row;
@@ -430,7 +430,7 @@ class FrmProStatisticsController{
                     continue;
                 }
                 // If field option is "other" option
-                if ( FrmAppHelper::is_other_opt( $opt_key ) ) {
+				if ( FrmFieldsHelper::is_other_opt( $opt_key ) ) {
 
                     // For radio button field, combine all extra counts/totals into one "Other" count/total
                     if ( $field->type == 'radio' || $field->type == 'select' ) {

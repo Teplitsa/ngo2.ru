@@ -86,7 +86,7 @@ class FrmFormsListHelper extends FrmListHelper {
 	public function get_bulk_actions() {
 	    $actions = array();
 
-	    if ( in_array($this->status, array( '', 'published')) ) {
+		if ( in_array( $this->status, array( '', 'published' ) ) ) {
 	        $actions['bulk_create_template'] = __( 'Create Template', 'formidable' );
 	    }
 
@@ -146,7 +146,7 @@ class FrmFormsListHelper extends FrmListHelper {
         } else {
             foreach ( $forms as $form ) {
 		        $args['id'] = $form->id; ?>
-			<li><a href="<?php echo esc_url( add_query_arg( $args, $base ) ); ?>" tabindex="-1"><?php echo empty( $form->name ) ? __( '(no title)' ) : FrmAppHelper::truncate( $form->name, 33 ); ?></a></li>
+			<li><a href="<?php echo esc_url( add_query_arg( $args, $base ) ); ?>" tabindex="-1"><?php echo esc_html( empty( $form->name ) ? __( '(no title)' ) : FrmAppHelper::truncate( $form->name, 33 ) ); ?></a></li>
 			<?php
 			    unset($form);
 			}
@@ -252,9 +252,9 @@ class FrmFormsListHelper extends FrmListHelper {
 					$val = '<abbr title="' . esc_attr( date( 'Y/m/d g:i:s A', strtotime( $item->created_at ) ) ) . '">' . $date . '</abbr>';
 					break;
 				case 'shortcode':
-					$val = '<input type="text" readonly="readonly" class="frm_select_box" value="' . esc_attr( "[formidable id=' . $item->id .']" ) . '" /><br/>';
+					$val = '<input type="text" readonly="readonly" class="frm_select_box" value="' . esc_attr( '[formidable id=' . $item->id .']' ) . '" /><br/>';
 				    if ( 'excerpt' == $mode ) {
-						$val .= '<input type="text" readonly="readonly" class="frm_select_box" value="' . esc_attr( "[formidable key=' . $item->form_key . ']" ) . '" />';
+						$val .= '<input type="text" readonly="readonly" class="frm_select_box" value="' . esc_attr( '[formidable key=' . $item->form_key . ']' ) . '" />';
 				    }
 			        break;
 			    case 'entries':

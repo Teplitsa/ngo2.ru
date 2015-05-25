@@ -57,27 +57,11 @@ class FrmProFormActionsController{
 
         $form = FrmForm::getOne($form_id);
 
-        $notification = (isset($form->options['notification']) && isset($form->options['notification'][$key])) ? $form->options['notification'][$key] : array();
-
-        if ( ! isset($notification['conditions']) ) {
-            $notification['conditions'] = array();
-        }
-
-        if ( isset($notification['conditions'][$meta_name]) ) {
-            $condition = $notification['conditions'][$meta_name];
-        } else {
-            $condition = array( 'hide_field_cond' => '==', 'hide_field' => '');
-        }
-
-        if ( ! isset($condition['hide_field_cond']) ) {
-            $condition['hide_field_cond'] = '==';
-        }
-
         FrmProFormsController::include_logic_row( array(
             'form_id' => $form->id,
             'form' => $form,
             'meta_name' => $meta_name,
-            'condition' => $condition,
+			'condition' => array( 'hide_field_cond' => '==', 'hide_field' => '' ),
             'key' => $key,
             'name'  => 'frm_' . $type .'_action['. $key .'][post_content][conditions]['. $meta_name .']',
         ));

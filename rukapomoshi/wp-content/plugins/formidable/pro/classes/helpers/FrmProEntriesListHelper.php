@@ -2,7 +2,7 @@
 
 class FrmProEntriesListHelper extends FrmEntriesListHelper {
 
-	function get_bulk_actions(){
+	function get_bulk_actions() {
         $actions = array( 'bulk_delete' => __( 'Delete'));
 
         if ( ! current_user_can('frm_delete_entries') ) {

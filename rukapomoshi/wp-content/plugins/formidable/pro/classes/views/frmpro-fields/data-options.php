@@ -32,10 +32,11 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
     echo $value = FrmEntryMeta::get_entry_meta_by_field($field['hide_opt'], $field['form_select']); ?>
     <input type="hidden" value="<?php echo esc_attr( $value ) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
 <?php } else if ( $field['data_type'] == 'data' && is_numeric( $field['hide_field'] ) && is_numeric( $field['form_select'] ) ) {
+	$get_id = FrmAppHelper::simple_get( 'id' );
 	if ( $_POST && isset( $_POST['item_meta'] ) ) {
 		$observed_field_val = $_POST['item_meta'][ $field['hide_field'] ];
-	} else if ( $_GET && isset( $_GET['id'] ) ) {
-		$observed_field_val = FrmEntryMeta::get_entry_meta_by_field( $_GET['id'], $field['hide_field'] );
+	} else if ( $get_id ) {
+		$observed_field_val = FrmEntryMeta::get_entry_meta_by_field( $get_id, $field['hide_field'] );
 	}
 
     if ( isset( $observed_field_val ) && is_numeric( $observed_field_val ) ) {
@@ -49,11 +50,12 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <?php } else if ( $field['data_type'] == 'data' && ! is_array($field['value']) ) { ?>
 <p><?php echo $field['value']; ?></p>
 <input type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
-<?php }else if ($field['data_type'] == 'text' && is_numeric($field['form_select'])){
+<?php } else if ( $field['data_type'] == 'text' && is_numeric( $field['form_select'] ) ) {
+	$get_id = FrmAppHelper::simple_get( 'id' );
 	if ( $_POST && isset( $_POST['item_meta'] ) ) {
 		$observed_field_val = $_POST['item_meta'][ $field['hide_field'] ];
-	} else if ( $_GET && isset( $_GET['id'] ) ) {
-		$observed_field_val = FrmEntryMeta::get_entry_meta_by_field( $_GET['id'], $field['hide_field'] );
+	} else if ( $get_id ) {
+		$observed_field_val = FrmEntryMeta::get_entry_meta_by_field( $get_id, $field['hide_field'] );
 	}
 
 	if ( isset( $observed_field_val ) && is_numeric( $observed_field_val ) ) {
@@ -65,16 +67,20 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <input type="text" value="<?php echo esc_attr( $value ) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
 
 <?php
-}else if ($field['data_type'] == 'checkbox'){
+} else if ( $field['data_type'] == 'checkbox' ) {
     $checked_values = $field['value'];
 
     if ( ! empty($field['options']) ) {
 		foreach ( $field['options'] as $opt_key => $opt ) {
             $checked = ( ( ! is_array($field['value']) && $field['value'] == $opt_key ) || ( is_array($field['value']) && in_array($opt_key, $field['value']) ) ) ? ' checked="true"' : ''; ?>
-<div class="<?php echo apply_filters( 'frm_checkbox_class', 'frm_checkbox', $field, $opt_key ) ?>"><label for="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>"><input type="checkbox" name="<?php echo esc_attr( $field_name ) ?>[]"  id="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>" value="<?php echo esc_attr( $opt_key ) ?>" <?php
+<div class="<?php echo esc_attr( apply_filters( 'frm_checkbox_class', 'frm_checkbox', $field, $opt_key ) ) ?>">
+	<label for="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>">
+		<input type="checkbox" name="<?php echo esc_attr( $field_name ) ?>[]"  id="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>" value="<?php echo esc_attr( $opt_key ) ?>" <?php
     echo $checked . $disabled .' ';
     do_action( 'frm_field_input_html', $field );
-?> /> <?php echo $opt ?></label></div>
+?> /> <?php echo $opt ?>
+	</label>
+</div>
 <?php   }
     } else if ( ! empty( $field['value'] ) ) {
         foreach ( (array) $field['value'] as $v ) { ?>
@@ -82,14 +88,18 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <?php   }
     }//else echo 'There are no options';
 
-}else if ($field['data_type'] == 'radio'){
+} else if ( $field['data_type'] == 'radio' ) {
     if ( ! empty($field['options']) ) {
         foreach ( $field['options'] as $opt_key => $opt ) {
             $checked = ($field['value'] == $opt_key) ? ' checked="checked"' : '';?>
-<div class="<?php echo apply_filters('frm_radio_class', 'frm_radio', $field, $opt_key) ?>"><label for="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>"><input type="radio" name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>" value="<?php echo esc_attr( $opt_key ) ?>" <?php
+<div class="<?php echo esc_attr( apply_filters( 'frm_radio_class', 'frm_radio', $field, $opt_key ) ) ?>">
+	<label for="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>">
+		<input type="radio" name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>" value="<?php echo esc_attr( $opt_key ) ?>" <?php
     echo $checked . $disabled .' ';
-    do_action( 'frm_field_input_html', $field )
-?> /> <?php echo $opt ?></label></div>
+    do_action( 'frm_field_input_html', $field );
+?> /> <?php echo $opt ?>
+	</label>
+</div>
 <?php
         }
 	} else if ( ! empty( $field['value'] ) ) { ?>

@@ -90,10 +90,11 @@ class FrmFieldsController {
 		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
 
         if ( ! $field_id || ! $form_id ) {
-            return;
+            wp_die();
         }
 
-        FrmField::update( $field_id, compact('form_id') );
+		$updated = FrmField::update( $field_id, compact( 'form_id' ) );
+		echo absint( $updated );
 
         wp_die();
     }
@@ -118,7 +119,7 @@ class FrmFieldsController {
         }
 
 		FrmField::update( $id, array( $field => $value ) );
-        echo stripslashes($value);
+		echo stripslashes( wp_kses_post( $value ) );
         wp_die();
     }
 
@@ -160,17 +161,17 @@ class FrmFieldsController {
         global $wpdb;
 
 		$field_id = FrmAppHelper::get_post_param( 'field_id', 0, 'absint' );
+		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
+
 		$copy_field = FrmField::getOne( $field_id );
         if ( ! $copy_field ) {
             wp_die();
         }
 
-		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
-
         do_action('frm_duplicate_field', $copy_field, $form_id);
         do_action('frm_duplicate_field_'. $copy_field->type, $copy_field, $form_id);
 
-        $values = array();
+        $values = array( 'id' => $form_id );
         FrmFieldsHelper::fill_field( $values, $copy_field, $form_id );
 
 		$field_count = FrmDb::get_count( $wpdb->prefix .'frm_fields fi LEFT JOIN '. $wpdb->prefix .'frm_forms fr ON (fi.form_id = fr.id)', array( 'or' => 1, 'fr.id' => $form_id, 'fr.parent_form_id' => $form_id ) );
@@ -332,14 +333,14 @@ class FrmFieldsController {
         $response = array( 'other' => true );
 
         //If the deleted option is an "other" option
-        if ( FrmAppHelper::is_other_opt( $opt_key ) ) {
+		if ( FrmFieldsHelper::is_other_opt( $opt_key ) ) {
             //Assume all other options are gone, unless proven otherwise
             $other = false;
 
             //Check if all other options are really gone
             foreach ( $options as $o_key => $o_val ) {
                 //If there is still an other option in the field, set other to true
-                if ( FrmAppHelper::is_other_opt( $o_key ) ) {
+				if ( FrmFieldsHelper::is_other_opt( $o_key ) ) {
                     $other = true;
                     break;
                 }
@@ -350,13 +351,13 @@ class FrmFieldsController {
             if ( false === $other ) {
                 $field_options = maybe_unserialize( $field->field_options );
                 $field_options['other'] = 0;
-                FrmField::update( $_POST['field_id'], array( 'field_options' => maybe_serialize( $field_options ) ) );
+				FrmField::update( $field_id, array( 'field_options' => maybe_serialize( $field_options ) ) );
                 $response = array( 'other' => false );
             }
         }
         echo json_encode( $response );
 
-        FrmField::update( $_POST['field_id'], array( 'options' => maybe_serialize( $options ) ) );
+		FrmField::update( $field_id, array( 'options' => maybe_serialize( $options ) ) );
 
         wp_die();
     }
@@ -471,11 +472,10 @@ class FrmFieldsController {
 
     public static function update_order() {
         check_ajax_referer( 'frm_ajax', 'nonce' );
-        if ( isset($_POST) && isset($_POST['frm_field_id']) ) {
-			foreach ( $_POST['frm_field_id'] as $position => $item ) {
-				FrmField::update( $item, array( 'field_order' => $position ) );
-			}
-        }
+		$fields = FrmAppHelper::get_post_param( 'frm_field_id' );
+		foreach ( (array) $fields as $position => $item ) {
+			FrmField::update( absint( $item ), array( 'field_order' => absint( $position ) ) );
+		}
         wp_die();
     }
 
@@ -539,13 +539,11 @@ class FrmFieldsController {
 
         $class = apply_filters('frm_field_classes', implode(' ', $class), $field);
 
-        if ( ! empty($class) ) {
-			$add_html['class'] = 'class="' . esc_attr( trim( $class ) ) . '"';
-        }
+		FrmFormsHelper::add_html_attr( $class, 'class', $add_html );
 
         self::add_shortcodes_to_html($field, $add_html);
 
-        $add_html = implode(' ', $add_html);
+		$add_html = ' ' . implode( ' ', $add_html ) . '  ';
 
         if ( $echo ) {
             echo $add_html;
@@ -650,7 +648,7 @@ class FrmFieldsController {
             $add_html['placeholder'] = 'placeholder="'. esc_attr($field['default_value']) .'"';
             wp_enqueue_script('jquery-placeholder');
         } else if ( ! $frm_settings->use_html ) {
-            $val = str_replace( array("\r\n", "\n"), '\r', addslashes(str_replace('&#039;', "'", esc_attr($field['default_value']))));
+			$val = str_replace( array( "\r\n", "\n" ), '\r', addslashes( str_replace( '&#039;', "'", esc_attr( $field['default_value'] ) ) ) );
             $add_html['data-frmval'] = 'data-frmval="'. esc_attr($val) .'"';
             $class[] = 'frm_toggle_default';
 

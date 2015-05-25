@@ -26,7 +26,7 @@ if ( $display['default_value'] ) { ?>
 <?php
 }
 
-if ($field['type'] == 'data'){
+if ( $field['type'] == 'data' ) {
 ?>
 <tr><td><label><?php _e( 'Display as', 'formidable' ) ?></label></td>
     <td><select name="field_options[data_type_<?php echo $field['id'] ?>]" class="frm_toggle_mult_sel">
@@ -45,7 +45,7 @@ if ($field['type'] == 'data'){
         unset($current_field_id);
 }
 
-if ($display['type'] == 'select' or $field['type'] == 'data'){ ?>
+if ( $display['type'] == 'select' || $field['type'] == 'data' ) { ?>
 <tr id="frm_multiple_cont_<?php echo $field['id'] ?>" <?php echo ( $field['type'] == 'data' && (! isset($field['data_type']) || $field['data_type'] != 'select' ) ) ? ' class="frm_hidden"' : ''; ?>>
     <td><?php _e( 'Multiple select', 'formidable' ) ?></td>
     <td><label for="multiple_<?php echo $field['id'] ?>"><input type="checkbox" name="field_options[multiple_<?php echo $field['id'] ?>]" id="multiple_<?php echo $field['id'] ?>" value="1" <?php echo ( isset( $field['multiple'] ) && $field['multiple'] ) ? 'checked="checked"' : ''; ?> />
@@ -199,13 +199,13 @@ if ($display['type'] == 'select' or $field['type'] == 'data'){ ?>
     <tr><td><label><?php _e( 'Range', 'formidable' ) ?></label></td>
         <td>
             <select name="field_options[minnum_<?php echo $field['id'] ?>]">
-                <?php for( $i=0; $i<10; $i++ ){
+				<?php for ( $i = 0; $i < 10; $i++ ) {
                     $selected = (isset($field['minnum']) && $field['minnum'] == $i)? ' selected="selected"':''; ?>
                 <option value="<?php echo $i ?>"<?php echo $selected; ?>><?php echo $i ?></option>
                 <?php } ?>
             </select> <?php _e( 'to', 'formidable' ) ?>
             <select name="field_options[maxnum_<?php echo $field['id'] ?>]">
-                <?php for( $i=1; $i<=20; $i++ ){
+				<?php for( $i = 1; $i <= 20; $i++ ) {
                     $selected = (isset($field['maxnum']) && $field['maxnum'] == $i)? ' selected="selected"':''; ?>
                 <option value="<?php echo $i ?>"<?php echo $selected; ?>><?php echo $i ?></option>
                 <?php } ?>

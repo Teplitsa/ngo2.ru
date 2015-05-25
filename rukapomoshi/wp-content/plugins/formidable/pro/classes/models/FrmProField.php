@@ -1,7 +1,7 @@
 <?php
 class FrmProField {
 
-    public static function create($field_data){
+	public static function create( $field_data ) {
 
         if ( $field_data['field_options']['label'] != 'none' ) {
             $field_data['field_options']['label'] = '';
@@ -20,7 +20,7 @@ class FrmProField {
             return $field_data;
         }
 
-        switch($field_data['type']){
+		switch( $field_data['type'] ) {
             case 'scale':
                 $field_data['options'] = serialize(range(1,10));
                 $field_data['field_options']['minnum'] = 1;
@@ -86,7 +86,7 @@ class FrmProField {
         return $field_options;
     }
 
-    public static function duplicate($values){
+	public static function duplicate( $values ) {
         global $frm_duplicate_ids;
         if ( empty($frm_duplicate_ids) || empty($values['field_options']) ) {
             return $values;
@@ -151,7 +151,7 @@ class FrmProField {
         return $values;
     }
 
-    public static function delete($id){
+	public static function delete( $id ) {
         $field = FrmField::getOne($id);
 		if ( empty( $field ) ) {
 			return;

@@ -2,7 +2,7 @@
 
 class FrmProDisplaysHelper{
 
-    public static function setup_new_vars(){
+	public static function setup_new_vars() {
         $values = array();
         $defaults = self::get_default_opts();
 		foreach ( $defaults as $var => $default ) {
@@ -46,7 +46,7 @@ class FrmProDisplaysHelper{
         return $values;
     }
 
-    public static function get_default_opts(){
+	public static function get_default_opts() {
 
         return array(
             'name' => '', 'description' => '', 'display_key' => '',
@@ -65,7 +65,8 @@ class FrmProDisplaysHelper{
 
     public static function is_edit_view_page() {
         global $pagenow;
-        return is_admin() && $pagenow == 'edit.php' && isset($_GET['post_type']) && $_GET['post_type'] == FrmProDisplaysController::$post_type;
+		$post_type = FrmAppHelper::simple_get( 'post_type', 'sanitize_title' );
+		return is_admin() && $pagenow == 'edit.php' && $post_type == FrmProDisplaysController::$post_type;
     }
 
     public static function prepare_duplicate_view( &$post ) {

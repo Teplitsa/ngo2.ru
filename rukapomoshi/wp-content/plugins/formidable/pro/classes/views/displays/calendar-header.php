@@ -7,7 +7,7 @@ foreach ( $month_names as $mkey => $mname ) {
 }
 
 ?></select> <select class="frmcal-dropdown" onchange="window.location='<?php echo esc_url( remove_query_arg( 'frmcal-year', add_query_arg( array( 'frmcal-month' => $month ) ) ) ) ?>&amp;frmcal-year='+this.value+'#frmcal-<?php echo esc_attr( $display->ID ) ?>';"><?php
-for ($i=($year-5); $i<=($year+5); $i++){
+for ( $i = ( $year - 5 ); $i <= ( $year + 5 ); $i++ ) {
 	echo '<option value="' . esc_attr( $i ) . '"' . ( $i == $year ? ' selected="selected"' : '' ) . '>' . $i . '</option>';
 }
 unset($i);

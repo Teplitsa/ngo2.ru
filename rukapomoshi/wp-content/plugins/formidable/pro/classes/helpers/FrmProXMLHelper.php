@@ -73,7 +73,7 @@ class FrmProXMLHelper{
 	    return $imported;
     }
 
-	public static function import_csv($path, $form_id, $field_ids, $entry_key=0, $start_row=2, $del=',', $max=250){
+	public static function import_csv( $path, $form_id, $field_ids, $entry_key = 0, $start_row = 2, $del = ',', $max = 250 ) {
         if ( ! defined('WP_IMPORTING') ) {
             define('WP_IMPORTING', true);
         }
@@ -326,7 +326,7 @@ class FrmProXMLHelper{
     }
 
     public static function get_date($value) {
-        if ( ! empty($value) ){
+		if ( ! empty($value) ) {
             $value = date('Y-m-d', strtotime($value));
         }
 
