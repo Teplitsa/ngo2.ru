@@ -1523,20 +1523,14 @@ body.page-template-default .site-content .container {
   font-size: 3.2rem;
   font-weight: 100; }
 
-.page-template-page-stories {
-  /*.section-header  {
-  	.section-title {
-  		background: rgba(255,255,255, 0.95);
-  		display: inline-block;
-  		padding: 0 1em 0.2em;
-  		margin-top: -15px;
-  	}
-  	
-  }
-  
-  .bg {
-  	top: 20px;
-  }*/ }
+.page-template-page-stories .section-header {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+  .page-template-page-stories .section-header .section-title {
+    /*background: rgba(255,255,255, 0.95);
+    display: inline-block;
+    padding: 0 1em 0.2em;
+    margin-top: -15px;*/ }
 
 #bottombar {
   background: #f5f5f5;
@@ -1788,6 +1782,38 @@ body.page-template-default .site-content .container {
   font-size: 1.2rem; }
 
 /* posts */
+.tpl-story .card-content {
+  padding: 12px;
+  padding: 1.2rem;
+  border: 1px solid #eeeeee;
+  border-bottom: none; }
+.tpl-story .entry-header {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+.tpl-story .entry-title {
+  font-weight: bold;
+  font-family: "Cambria-Bold", Cambria, Georgia, serif;
+  font-size: 21px;
+  font-size: 2.1rem;
+  color: #2d2d2d;
+  line-height: 1.15; }
+  .tpl-story .entry-title a {
+    color: #2d2d2d; }
+    .tpl-story .entry-title a:hover, .tpl-story .entry-title a:focus, .tpl-story .entry-title a:active {
+      color: #E7792B; }
+.tpl-story .entry-summary {
+  font-style: italic; }
+.tpl-story .tags {
+  background: #E7792B;
+  color: #ffffff;
+  padding: 0.1em 0.5em; }
+  .tpl-story .tags a {
+    font-size: 11px;
+    font-size: 1.1rem;
+    color: #ffffff;
+    font-style: italic;
+    text-transform: uppercase; }
+
 /* home */
 
 /*# sourceMappingURL=design.css.map */

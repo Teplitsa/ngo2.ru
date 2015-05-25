@@ -140,19 +140,21 @@ body.page-template-default .site-content {
 }
 
 .page-template-page-stories {
-	/*.section-header  {
+	.section-header  {
+		@include rem('margin-bottom', $base*1.5);
+		
 		.section-title {
-			background: rgba(255,255,255, 0.95);
+			/*background: rgba(255,255,255, 0.95);
 			display: inline-block;
 			padding: 0 1em 0.2em;
-			margin-top: -15px;
+			margin-top: -15px;*/
 		}
 		
 	}
 	
 	.bg {
-		top: 20px;
-	}*/
+		
+	}
 }
 
 

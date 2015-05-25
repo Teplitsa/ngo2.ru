@@ -50,7 +50,9 @@ $sidebar-width: 280px;
 	}
 	
 	@include rem('font-size', $size);
-	color: $color-text-black;	
+	color: $color-text-black;
+	line-height: 1.15;
+	
 	a {
 		color: $color-text-black;
 		&:hover, &:focus, &:active {
