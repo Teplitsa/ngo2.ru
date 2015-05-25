@@ -71,12 +71,16 @@ jQuery(document).ready(function($){
                 $parent = $iframe.parent(),
                 do_resize = false;
             if($parent.hasClass('embed-content'))
-                do_resize = true;            
-            else {                
+                do_resize = true;
+			else {                
                 
                 $parent = $iframe.parents('.entry-content');
                 if($parent.length)
                     do_resize = true;
+					
+				$parent_leyka = $iframe.parents('.leyka-embed-preview');
+				 if($parent_leyka.length)
+                    do_resize = false;
             }
 
             if(do_resize) {

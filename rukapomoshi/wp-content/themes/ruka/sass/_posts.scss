@@ -271,3 +271,6 @@
 }
 
 
+.frm_submit input {
+	@include button($color-link-one, 13px);
+}

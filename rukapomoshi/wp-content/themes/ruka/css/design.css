@@ -2208,6 +2208,24 @@ p {
     .press-block li a:hover, .press-block li a:focus, .press-block li a:active {
       color: #C80F20; }
 
+.frm_submit input {
+  display: inline-block;
+  background: #C80F20;
+  color: #ffffff;
+  font-size: 13px;
+  font-size: 1.3rem;
+  font-family: "Arimo", sans-serif;
+  text-transform: uppercase;
+  padding: 0.55em 1.2em;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s; }
+  .frm_submit input:visited {
+    background: #C80F20;
+    color: #ffffff; }
+  .frm_submit input:hover {
+    background: #990b18;
+    color: #ffffff; }
+
 /*---------------------------------------------------------
  Widgets (_widgets.scss)
 -------------------------------------------------------- */

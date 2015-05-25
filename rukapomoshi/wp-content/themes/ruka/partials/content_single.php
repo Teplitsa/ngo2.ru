@@ -4,7 +4,9 @@
  */
 
 $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail') : true;
-
+if(is_singular('leyka_campaign')){
+	$show_thumb = false;
+}
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>

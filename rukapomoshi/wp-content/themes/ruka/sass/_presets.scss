@@ -128,7 +128,7 @@ $sidebar-width: 280px;
 	@include rem('font-size', $size);
 	font-family: $sans;
 	text-transform: uppercase;
-	padding: 0.5em 1.2em 0.5em;
+	padding: 0.55em 1.2em;
 	@include transition-all(0.3s);
 	
 	&:visited {
