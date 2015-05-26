@@ -2,7 +2,7 @@
 
 /** Document template **/
 
-$css = (is_singular()) ? ' bit sm-6 md-4' : '';
+$css = ' bit md-4';
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-document card'.$css); ?>>
@@ -11,9 +11,7 @@ $css = (is_singular()) ? ' bit sm-6 md-4' : '';
 <div class="post-inner">
 	<a href="<?php the_permalink();?>" class="thumbnail-link">
 	<?php
-		$attr = array(
-			'alt' => sprintf(__('Thumbnail for - %s', 'memo'), get_the_title()),
-		);
+		$attr = array('alt' => sprintf(__('Thumbnail for - %s', 'memo'), get_the_title()));
 		the_post_thumbnail('post-thumbnail', $attr);
 	?>
 	</a>
@@ -27,7 +25,7 @@ $css = (is_singular()) ? ' bit sm-6 md-4' : '';
 		
 	</div>
 	
-	<?php echo get_the_term_list(get_the_ID(), 'post_tag', '<div class="tags"><i class="fa fa-tags"></i>', ', ', '</div>'); ?>
+	<?php echo get_the_term_list(get_the_ID(), 'post_tag', '<div class="tags"><i class="fa fa-tags"></i>', ' ', '</div>'); ?>
 </div>
 
 </article><!-- #post-## -->

@@ -12,7 +12,7 @@ get_header(); ?>
 
 <?php get_template_part('partials/title', 'section');?>	
 
-<?php if(is_post_type_archive(array('document', 'book')) || is_home() || is_tax('place')) { ?>
+<?php if(is_home() || is_tax('place')) { ?>
 <div class="complex-loop content-area <?php echo $card_loop;?>">
 	
 	<?php if(is_home() || is_tax('place')) { ?>
@@ -47,8 +47,40 @@ get_header(); ?>
 </div>
 <?php
 	}
-	else {
-		
+	elseif(is_tag()) {
+?>
+
+	<div class="complex-loop content-area"><div class="frame">
+		<?php
+			if(have_posts()){
+				while(have_posts()){
+					the_post();
+					get_template_part( 'partials/content');
+				}
+			}
+		?>
+		</div>
+		<?php memo_paging_nav(); ?>
+	</div>
+<?php
+	}
+	elseif(is_post_type_archive(array('document', 'book'))) {
+?>
+<div class="complex-loop content-area <?php echo $card_loop;?>">
+	<div class="frame">
+	<?php
+		if(have_posts()){
+			while(have_posts()){
+				the_post();
+				get_template_part( 'partials/content', get_post_type() );
+			}
+		}
+	?>
+	</div>
+
+	<?php memo_paging_nav(); ?>
+</div>
+<?php
 	}
 ?>
 

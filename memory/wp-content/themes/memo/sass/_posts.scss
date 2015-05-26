@@ -159,9 +159,7 @@
 		@include rem('padding', $base 0);
 		font-style: italic;
 		font-size: 1.2em;
-	}
-	
-	
+	}	
 }
 
 .single-footer {
@@ -383,15 +381,40 @@
 	
 	@include for(medium-screens){
 		.post-inner {
-			border-color: $color-white;
+			border-color: $color-white;		
+			height: 100%;
+			position: relative;			
 		}
 		
+		.card-content {						
+			padding-bottom: 30px + $base/2;				
+		}
+		
+		.tags {
+			height: 30px;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			
+			a {
+				display: none;
+				&:nth-of-type(3) {
+					display: inline;
+				}
+				&:nth-of-type(1), &:nth-of-type(2) {
+					display: inline;
+					&:after {
+						content: ',';
+					}
+				}
+			}
+		}	
 	}
 }
 
 .post-type-archive .paging-navigation {
-	background: rgba(255, 255, 255, 0.95);
-	
+	background: rgba(255, 255, 255, 0.95);	
 }
 
 // single doc
@@ -406,6 +429,23 @@
 	
 	.document-footer {
 		@include rem('margin-top', $base);
+	}	
+}
+
+
+//book
+.tpl-book {
+	@extend .tpl-document;
+	
+	.entry-meta {
+		text-transform: uppercase;
+		@include rem('font-size', 12px);
+		margin-top: 2px;
 	}
 	
+	@include for(medium-screens) {
+		.mf-8 {
+			padding-left: 0;
+		}
+	}
 }

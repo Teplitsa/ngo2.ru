@@ -18,33 +18,20 @@ function memo_request_corrected($query) {
 	if(is_search()){
 		
 		$per = get_option('posts_per_page');
-		if($per < 25) {
-			$query->query_vars['posts_per_page'] = 5; // 25
+		if($per < 25) {			
+			$query->set('posts_per_page', 5); // 25
 		}
 	}
 	elseif(is_home()){
-		$query->query_vars['orderby'] = 'title';
-		$query->query_vars['order'] = 'ASC';
+		$query->set('orderby', 'title');
+		$query->set('order', 'ASC');
+		//$query->set('posts_per_page', 99); // 25
+	}
+	elseif(is_tag()){
+		$query->set('post_type', array('document', 'book'));
 	}
 	
 	//var_dump($query->query_vars);
-	
-	/*if(is_tag() && $query->is_main_query()){
-		//var_dump($query->query_vars);
-		
-		$query->query_vars['post_type'] = array('post', 'event', 'material');
-	}
-	elseif((is_post_type_archive('element') ) && $query->is_main_query()){
-		$query->query_vars['orderby'] = 'menu_order';
-		$query->query_vars['order'] = 'ASC';
-		
-	}
-	elseif((is_post_type_archive('member') || is_tax('membercat')) && $query->is_main_query()){
-		$query->query_vars['orderby'] = 'meta_value';
-		$query->query_vars['meta_key'] = 'brand_name';
-		$query->query_vars['order'] = 'ASC';
-		$query->query_vars['posts_per_page'] = 24;
-	}*/
 	
 	
 } 

@@ -117,6 +117,7 @@ p,ul,ol,dl,blockquote {
 //page-like body
 body.page-template-page-fullw .site-content,
 body.page-template-page-karta .site-content,
+body.archive.tag .site-content,
 body.tax-place .site-content,
 body.blog .site-content,
 body.single .site-content,
@@ -170,6 +171,19 @@ body.page-template-default .site-content {
 .post-type-archive-book,
 .post-type-archive-document {
 	@include boxed-header();
+}
+
+.archive.tag {
+	.section-header {
+		@include rem('margin-bottom', $base*1.5);
+	}
+	
+	.section-title {
+		margin-top: -15px;
+		i {
+			margin-right: 5px;
+		}
+	}
 }
 
 .tax-place,

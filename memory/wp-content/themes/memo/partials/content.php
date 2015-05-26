@@ -2,9 +2,11 @@
 /**
  * @package bb
  */
+
+$css = (is_tag()) ? ' bit md-4' : '';
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post'.$css); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'memo');?></div>
 
 <div class="post-inner">

@@ -1497,6 +1497,7 @@ p {
 
 body.page-template-page-fullw .site-content .container,
 body.page-template-page-karta .site-content .container,
+body.archive.tag .site-content .container,
 body.tax-place .site-content .container,
 body.blog .site-content .container,
 body.single .site-content .container,
@@ -1554,6 +1555,14 @@ body.page-template-default .site-content .container {
     display: inline-block;
     padding: 0 1em 0.2em;
     margin-top: -15px; } }
+
+.archive.tag .section-header {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+.archive.tag .section-title {
+  margin-top: -15px; }
+  .archive.tag .section-title i {
+    margin-right: 5px; }
 
 .tax-place .section-header,
 .blog .section-header {
@@ -2109,54 +2118,72 @@ body.page-template-default .site-content .container {
     font-weight: bold;
     padding: 2px; }
 
-.tpl-document {
+.tpl-document, .tpl-book {
   margin-bottom: 30px;
   margin-bottom: 3rem; }
-  .tpl-document .post-inner {
+  .tpl-document .post-inner, .tpl-book .post-inner {
     background: #f9f9f9;
     border: 1px solid #eeeeee;
     border-bottom: none; }
-  .tpl-document .entry-header {
+  .tpl-document .entry-header, .tpl-book .entry-header {
     margin-bottom: 24px;
     margin-bottom: 2.4rem; }
-  .tpl-document .entry-title {
+  .tpl-document .entry-title, .tpl-book .entry-title {
     font-weight: bold;
     font-family: "Cambria-Bold", Cambria, Georgia, serif;
     font-size: 21px;
     font-size: 2.1rem;
     color: #2d2d2d;
     line-height: 1.15; }
-    .tpl-document .entry-title a {
+    .tpl-document .entry-title a, .tpl-book .entry-title a {
       color: #2d2d2d; }
-      .tpl-document .entry-title a:hover, .tpl-document .entry-title a:focus, .tpl-document .entry-title a:active {
+      .tpl-document .entry-title a:hover, .tpl-book .entry-title a:hover, .tpl-document .entry-title a:focus, .tpl-book .entry-title a:focus, .tpl-document .entry-title a:active, .tpl-book .entry-title a:active {
         color: #E7792B; }
-  .tpl-document .entry-summary {
+  .tpl-document .entry-summary, .tpl-book .entry-summary {
     font-style: italic; }
     @media screen and (min-width: 800px) {
-      .tpl-document .entry-summary {
+      .tpl-document .entry-summary, .tpl-book .entry-summary {
         font-size: 12px;
         font-size: 1.2rem; } }
-  .tpl-document .card-content {
+  .tpl-document .card-content, .tpl-book .card-content {
     padding: 12px;
     padding: 1.2rem; }
-  .tpl-document .tags {
+  .tpl-document .tags, .tpl-book .tags {
     background: #E7792B;
     color: #ffffff;
     padding: 4px 12px;
     padding:  0.4rem 1.2rem; }
-    .tpl-document .tags i {
+    .tpl-document .tags i, .tpl-book .tags i {
       margin-right: 5px; }
-    .tpl-document .tags a {
+    .tpl-document .tags a, .tpl-book .tags a {
       font-size: 12px;
       font-size: 1.2rem;
       color: #ffffff; }
-      .tpl-document .tags a:hover, .tpl-document .tags a:focus, .tpl-document .tags a:active {
+      .tpl-document .tags a:hover, .tpl-book .tags a:hover, .tpl-document .tags a:focus, .tpl-book .tags a:focus, .tpl-document .tags a:active, .tpl-book .tags a:active {
         text-decoration: underline; }
-  .tpl-document:nth-of-type(even) .tags {
+  .tpl-document:nth-of-type(even) .tags, .tpl-book:nth-of-type(even) .tags {
     background: #2d2d2d; }
   @media screen and (min-width: 800px) {
-    .tpl-document .post-inner {
-      border-color: #ffffff; } }
+    .tpl-document .post-inner, .tpl-book .post-inner {
+      border-color: #ffffff;
+      height: 100%;
+      position: relative; }
+    .tpl-document .card-content, .tpl-book .card-content {
+      padding-bottom: 42px; }
+    .tpl-document .tags, .tpl-book .tags {
+      height: 30px;
+      width: 100%;
+      position: absolute;
+      bottom: 0;
+      left: 0; }
+      .tpl-document .tags a, .tpl-book .tags a {
+        display: none; }
+        .tpl-document .tags a:nth-of-type(3), .tpl-book .tags a:nth-of-type(3) {
+          display: inline; }
+        .tpl-document .tags a:nth-of-type(1), .tpl-book .tags a:nth-of-type(1), .tpl-document .tags a:nth-of-type(2), .tpl-book .tags a:nth-of-type(2) {
+          display: inline; }
+          .tpl-document .tags a:nth-of-type(1):after, .tpl-book .tags a:nth-of-type(1):after, .tpl-document .tags a:nth-of-type(2):after, .tpl-book .tags a:nth-of-type(2):after {
+            content: ','; } }
 
 .post-type-archive .paging-navigation {
   background: rgba(255, 255, 255, 0.95); }
@@ -2175,6 +2202,15 @@ body.page-template-default .site-content .container {
 .tpl-document-full .document-footer {
   margin-top: 24px;
   margin-top: 2.4rem; }
+
+.tpl-book .entry-meta {
+  text-transform: uppercase;
+  font-size: 12px;
+  font-size: 1.2rem;
+  margin-top: 2px; }
+@media screen and (min-width: 800px) {
+  .tpl-book .mf-8 {
+    padding-left: 0; } }
 
 /* home */
 

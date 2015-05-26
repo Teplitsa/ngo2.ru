@@ -31,6 +31,11 @@ if(is_singular(array('post', 'book', 'document'))) {
 			echo "</a></span>";
 		}
 	}
+	elseif(is_tag()){
+		$prefix = '<i class="fa fa-tag"></i>';
+		
+		single_term_title($prefix);
+	}
 	elseif(is_post_type_archive('document')) {
 		
 		echo memo_get_post_type_archive_title('document');
