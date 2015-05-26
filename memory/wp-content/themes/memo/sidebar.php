@@ -10,6 +10,6 @@
 
 <div id="secondary" class="widget-area bit md-4" role="complementary">
 	<div class="sidebar-wide">
-		<?php dynamic_sidebar( 'right-sidebar' ); ?>
+		<div class="frame"><?php dynamic_sidebar( 'right-sidebar' ); ?></div>
 	</div>
 </div><!-- #secondary -->

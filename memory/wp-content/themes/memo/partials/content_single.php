@@ -53,14 +53,15 @@
 				
 				<div class="widget">
 					<h3 class="widget-title">Фото</h3>
-					<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 3);?></div>
+					<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 2);?></div>
 				</div>
 				
+				<?php dynamic_sidebar( 'story-sidebar' ); ?>
 			</div>
 		</div>
 	</div>
 	
-	<footer class="document-footer">
+	<footer class="document-footer single-footer">
 		<div class="frame">
 			<div class="bit sm-7 md-9">
 				<span class="pubdate"><i class="fa fa-calendar"></i> <time><?php the_date();?></time></span>

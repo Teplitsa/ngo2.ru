@@ -54,7 +54,11 @@ function memo_widgets_init() {
 		'right' => array(
 						'name' => 'Правая колонка',
 						'description' => 'Общая боковая колонка справа'
-					),		
+					),
+		'story' => array(
+						'name' => 'Правая колонка - Записи',
+						'description' => 'Боковая колонка справа на страницах записей'
+					),	
 		//'header' => array(
 		//				'name' => 'Шапка сайта',
 		//				'description' => 'Динамическая область в шапке сайта'
@@ -85,7 +89,10 @@ function memo_widgets_init() {
 		
 		if(false !== strpos($id, 'footer')){
 			$before = '<div id="%1$s" class="widget bottom %2$s">';
-		}		
+		}
+		elseif($id == 'right'){
+			$before = '<div id="%1$s" class="widget bottom %2$s bit sm-6 md-12">';
+		}
 		
 		register_sidebar(array(
 			'name' => $sb['name'],

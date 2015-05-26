@@ -114,7 +114,8 @@ p,ul,ol,dl,blockquote {
 	}	
 }
 
-//page-like
+//page-like body
+body.single .site-content,
 body.page-template-default .site-content {
 	
 	.container {
@@ -123,7 +124,7 @@ body.page-template-default .site-content {
 	}
 }
 
-
+//section header
 .section-header {
 	
 	.section-title {
@@ -157,6 +158,9 @@ body.page-template-default .site-content {
 	@include boxed-header();
 }
 
+.single .section-header {
+	@include crumb-header();
+}
 
 #bottombar {
 	background: $color-secondary;

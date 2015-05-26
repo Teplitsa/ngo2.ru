@@ -16,3 +16,7 @@
 .textwidget {
 	@include rem('font-size', 12px);
 }
+
+.general-button {
+	@include button($color-link-one, 13px); 
+}

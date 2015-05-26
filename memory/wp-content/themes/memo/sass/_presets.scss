@@ -43,6 +43,8 @@ $rule: 	 1px solid $color-border-normal;
 $sidebar-width: 280px;
 
 //Mixins
+
+// TITLES
 @mixin post-title($size: 16px) {
 	font: {		
 		weight: bold;
@@ -73,39 +75,17 @@ $sidebar-width: 280px;
 	margin-bottom: 1.5em;
 }
 
-
-/*@mixin lead {
-	font: {
-		family: $titleFont;
-		size: 18px;
-	}
-	line-height: $tightLH;
-	color: $titleDarkC;
-	@include smart-margin($pMargin);
-}*/
-
-@mixin logo-frame {	
-	height: 0;
-	padding-bottom: 65%;
-	position: relative;
-	width: 100%;
-	span,
-	a {
-		display: inline-block;
-		height: 100%;
-		position: absolute;
-		width: 100%;		
-		text-align: center;
-		img {
-			display: inline;
-			height: auto;
-			max-height: 98%;
-			max-width: 100%;
-			vertical-align: middle;
-			width: auto;
-		}
-	}	
+@mixin single-page-title($size : 36px){
+	@include rem('font-size', $size);			
+	line-height: 1.15;
+	font-weight: bold;
+	color: $color-text-black;
+	word-break: break-word;
+	-ms-word-break: break-word;
 }
+
+
+// SECTION HEADER
 
 //boxed section header
 @mixin boxed-header{
@@ -124,15 +104,29 @@ $sidebar-width: 280px;
 	}
 }
 
-/** button **/
+//single section header
+@mixin crumb-header {
+	color: $color-link-one;
+	@include rem('margin-bottom', 5px);
+	
+	a {
+		font-weight: 600;
+		text-transform:  uppercase;
+		@include rem('font-size', 13px);
+	}
+}
+
+
+// BUTTONS
 @mixin button($color, $size : 14px) {
 	display: inline-block;
 	background: $color;
 	color: $color-white;	
 	@include rem('font-size', $size);
 	font-family: $sans;
+	font-weight: bold;
 	text-transform: uppercase;
-	padding: 0.5em 1.2em 0.5em;
+	padding: 0.5em 1.2em;
 	@include transition-all(0.3s);
 	
 	&:visited {
@@ -156,71 +150,6 @@ $sidebar-width: 280px;
 	margin: 0;	
 }
 
-/** label */
-@mixin label($color) {
-	display: inline-block;
-	background: $color;
-	color: $color-white !important;	
-	font-size: inherit;
-	font-family: $sans;	
-	padding: 0.25em 1em 0.25em;
-	@include border-radius(3px);	
-}
-
-
-/** thumbnail **/
-@mixin avatar($padding : 9px, $max_width : 100%){
-	display: block;
-	width: 100%;
-	max-width: $max_width;
-	border: 1px solid $color-border-normal;
-	padding: $padding;
-	text-align: center;
-	img {
-		max-width: 100%;
-		height: auto;
-		vertical-align: middle;
-	}
-}
-
-
-
-/* menu reset */
-@mixin menu-reset {
-	list-style-type: none;
-	padding: 0;
-	margin: 0;
-	@include clearfix;
-	
-	li {
-		list-style-type: none;
-		outline: none;
-		position: relative;
-	}
-		
-	li > a {
-		display: inline-block;
-		outline: none;				
-		@include transition-all(0.3s);	
-	}	
-}
-
-@mixin menu-toggle-button($bg, $color) {
-	display: inline-block;
-	color: $color;
-	border: 0; //reset
-	background-color: $bg;
-	cursor: pointer;	
-	@include rem('padding', 9px 15px);
-	@include rem('font-size', 18px);
-	@include border-radius(4px);		
-	@include transition-all(0.3s);
-	&:hover {
-		background-color: lighten($bg, 30%);
-	}	
-}
-
-
 @mixin ghost-button($color, $size : 18px) {
 	display: inline-block;
 	color: transparentize($color, 0.15);
@@ -241,15 +170,61 @@ $sidebar-width: 280px;
 	}	
 }
 
-@mixin single-page-title($size : 40px){
-	@include rem('font-size', $size);			
-	line-height: 1.2;
-	font-weight: bold;
-	@include rem('margin-bottom', $size);	
-	word-break: break-word;
-	-ms-word-break: break-word;
+
+// ELEMENTS
+@mixin logo-frame {	
+	height: 0;
+	padding-bottom: 65%;
+	position: relative;
+	width: 100%;
+	span,
+	a {
+		display: inline-block;
+		height: 100%;
+		position: absolute;
+		width: 100%;		
+		text-align: center;
+		img {
+			display: inline;
+			height: auto;
+			max-height: 98%;
+			max-width: 100%;
+			vertical-align: middle;
+			width: auto;
+		}
+	}	
 }
 
-.screen-reader-text  {
-	display: none;
+
+// label 
+@mixin label($color) {
+	display: inline-block;
+	background: $color;
+	color: $color-white !important;	
+	font-size: inherit;
+	font-family: $sans;	
+	padding: 0.25em 1em 0.25em;
+	@include border-radius(3px);	
 }
+
+
+// thumbnail 
+@mixin avatar($padding : 9px, $max_width : 100%){
+	display: block;
+	width: 100%;
+	max-width: $max_width;
+	border: 1px solid $color-border-normal;
+	padding: $padding;
+	text-align: center;
+	img {
+		max-width: 100%;
+		height: auto;
+		vertical-align: middle;
+	}
+}
+
+
+
+
+
+
