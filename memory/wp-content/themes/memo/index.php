@@ -5,13 +5,15 @@
  */
 
 global $wp_query;
- 
+
+
+$card_loop = (is_post_type_archive(array('document', 'book'))) ? ' card-board' : '';
 get_header(); ?>
 
 <?php get_template_part('partials/title', 'section');?>	
 
 <?php if(is_post_type_archive(array('document', 'book')) || is_home() || is_tax('place')) { ?>
-<div class="complex-loop content-area">
+<div class="complex-loop content-area <?php echo $card_loop;?>">
 	
 	<?php if(is_home() || is_tax('place')) { ?>
 		<div class="tag-nav"><?php memo_tags_widget();?></div>

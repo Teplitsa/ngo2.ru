@@ -115,6 +115,8 @@ p,ul,ol,dl,blockquote {
 }
 
 //page-like body
+body.page-template-page-fullw .site-content,
+body.page-template-page-karta .site-content,
 body.tax-place .site-content,
 body.blog .site-content,
 body.single .site-content,
@@ -165,7 +167,6 @@ body.page-template-default .site-content {
 	}	
 }
 
-
 .post-type-archive-book,
 .post-type-archive-document {
 	@include boxed-header();
@@ -184,6 +185,13 @@ body.page-template-default .site-content {
 .single .section-header {
 	@include crumb-header();
 }
+
+.single-leyka_campaign .section-header,
+.page .section-header {
+	@include rem('margin-bottom', $base);
+}
+
+
 
 #bottombar {
 	background: $color-secondary;

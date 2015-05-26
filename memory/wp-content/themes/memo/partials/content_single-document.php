@@ -25,7 +25,7 @@
 		</div>
 	</div>
 	
-	<footer class="document-footer">
+	<footer class="document-footer single-footer">
 		<div class="frame">
 			<div class="bit sm-7 md-9">
 				<span class="pubdate"><i class="fa fa-calendar"></i> <time><?php the_date();?></time></span>

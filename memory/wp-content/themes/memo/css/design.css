@@ -1495,6 +1495,8 @@ p {
     .site-content .container {
       z-index: 10; } }
 
+body.page-template-page-fullw .site-content .container,
+body.page-template-page-karta .site-content .container,
 body.tax-place .site-content .container,
 body.blog .site-content .container,
 body.single .site-content .container,
@@ -1570,6 +1572,11 @@ body.page-template-default .site-content .container {
     text-transform: uppercase;
     font-size: 13px;
     font-size: 1.3rem; }
+
+.single-leyka_campaign .section-header,
+.page .section-header {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
 
 #bottombar {
   background: #f5f5f5;
@@ -1875,6 +1882,8 @@ body.page-template-default .site-content .container {
     color: #ffffff;
     font-style: italic;
     text-transform: uppercase; }
+    .tpl-story .tags a:hover, .tpl-story .tags a:focus, .tpl-story .tags a:active {
+      text-decoration: underline; }
 .tpl-story:nth-of-type(even) .tags {
   background: #2d2d2d; }
 @media screen and (min-width: 800px) {
@@ -2029,7 +2038,7 @@ body.page-template-default .site-content .container {
   .tagscloud-widget .post-inner {
     height: 100%;
     position: relative;
-    min-height: 36px; }
+    min-height: 37px; }
   .tagscloud-widget .widget-icon {
     position: absolute;
     top: 0;
@@ -2063,6 +2072,9 @@ body.page-template-default .site-content .container {
     background: transparent;
     padding: 4px 40px 4px 8px;
     background: #ffffff; }
+  .tag-nav .tagscloud-widget .widget-icon {
+    top: 0;
+    right: 0; }
 
 .tpl-post {
   margin-bottom: 24px;
@@ -2082,18 +2094,72 @@ body.page-template-default .site-content .container {
         color: #E7792B; }
   .tpl-post .entry-summary {
     font-size: 12px;
-    font-size: 1.2rem; }
+    font-size: 1.2rem;
+    font-style: italic; }
 
 .paging-navigation {
-  border-top: 1px solid #dfdfdf;
-  padding: 12px 0;
-  padding:  1.2rem 0;
   margin-top: 36px;
   margin-top: 3.6rem;
   text-align: right; }
+  .paging-navigation .pagination {
+    border-top: 1px solid #dfdfdf;
+    padding: 12px 24px;
+    padding:  1.2rem 2.4rem; }
   .paging-navigation .page-numbers {
     font-weight: bold;
     padding: 2px; }
+
+.tpl-document {
+  margin-bottom: 30px;
+  margin-bottom: 3rem; }
+  .tpl-document .post-inner {
+    background: #f9f9f9;
+    border: 1px solid #eeeeee;
+    border-bottom: none; }
+  .tpl-document .entry-header {
+    margin-bottom: 24px;
+    margin-bottom: 2.4rem; }
+  .tpl-document .entry-title {
+    font-weight: bold;
+    font-family: "Cambria-Bold", Cambria, Georgia, serif;
+    font-size: 21px;
+    font-size: 2.1rem;
+    color: #2d2d2d;
+    line-height: 1.15; }
+    .tpl-document .entry-title a {
+      color: #2d2d2d; }
+      .tpl-document .entry-title a:hover, .tpl-document .entry-title a:focus, .tpl-document .entry-title a:active {
+        color: #E7792B; }
+  .tpl-document .entry-summary {
+    font-style: italic; }
+    @media screen and (min-width: 800px) {
+      .tpl-document .entry-summary {
+        font-size: 12px;
+        font-size: 1.2rem; } }
+  .tpl-document .card-content {
+    padding: 12px;
+    padding: 1.2rem; }
+  .tpl-document .tags {
+    background: #E7792B;
+    color: #ffffff;
+    padding: 4px 12px;
+    padding:  0.4rem 1.2rem; }
+    .tpl-document .tags i {
+      margin-right: 5px; }
+    .tpl-document .tags a {
+      font-size: 12px;
+      font-size: 1.2rem;
+      color: #ffffff; }
+      .tpl-document .tags a:hover, .tpl-document .tags a:focus, .tpl-document .tags a:active {
+        text-decoration: underline; }
+  .tpl-document:nth-of-type(even) .tags {
+    background: #2d2d2d; }
+  @media screen and (min-width: 800px) {
+    .tpl-document .post-inner {
+      border-color: #ffffff; } }
+
+.post-type-archive .paging-navigation {
+  background: rgba(255, 255, 255, 0.95); }
 
 /* home */
 

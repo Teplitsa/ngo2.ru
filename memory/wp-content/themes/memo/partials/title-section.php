@@ -39,6 +39,11 @@ if(is_singular(array('post', 'book', 'document'))) {
 		
 		echo memo_get_post_type_archive_title('book');
 	}
+	elseif(is_singular('leyka_campaign')) {
+		global $post;
+		
+		echo get_the_title($post);
+	}
 	elseif(is_page()) {
 		global $post;
 		

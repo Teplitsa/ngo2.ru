@@ -90,9 +90,7 @@ function memo_widgets_init() {
 		if(false !== strpos($id, 'footer')){
 			$before = '<div id="%1$s" class="widget bottom %2$s">';
 		}
-		elseif($id == 'right'){
-			$before = '<div id="%1$s" class="widget bottom %2$s bit sm-6 md-12">';
-		}
+		
 		
 		register_sidebar(array(
 			'name' => $sb['name'],

@@ -22,8 +22,7 @@
 	}
 	
 	.entry-summary {
-		font-style: italic;
-		
+		font-style: italic;		
 	}
 	
 	.tags {		
@@ -40,6 +39,9 @@
 			color: $color-white;
 			font-style: italic;
 			text-transform: uppercase;
+			&:hover, &:focus, &:active {
+				text-decoration: underline;		
+			}
 		}
 	}
 	
@@ -236,7 +238,7 @@
 	.post-inner {
 		height: 100%;		
 		position: relative;
-		min-height: 36px;
+		min-height: 37px;
 	}
 	
 	.widget-icon {
@@ -288,6 +290,11 @@
 			padding: 4px 40px 4px 8px;
 			background: $color-white;
 		}
+		
+		.widget-icon {		
+			top: 0;
+			right: 0;
+		}
 	}
 }
 
@@ -301,16 +308,88 @@
 	
 	.entry-summary {
 		@include rem('font-size', 12px);
+		font-style: italic;
 	}
 }
 
 .paging-navigation {
-	border-top: 1px solid $color-border-normal;
-	@include rem('padding', $base/2 0);
 	@include rem('margin-top', $base*1.5);
 	text-align: right;
+	
+	.pagination {
+		border-top: 1px solid $color-border-normal;
+		@include rem('padding', $base/2 $base);
+	}
+		
 	.page-numbers {
 		font-weight: bold;
 		padding: 2px;
 	}
+}
+
+
+//documents
+.tpl-document {
+	@include rem('margin-bottom', $gut);
+	
+	.post-inner {
+		background: #f9f9f9;
+		border: 1px solid $color-border-light;
+		border-bottom: none;
+	}
+	
+	.entry-header {
+		@include rem('margin-bottom', $base);
+	}
+	
+	.entry-title {
+		@include post-title(21px);
+	}
+	
+	.entry-summary {		
+		font-style: italic;
+		@include for(medium-screens){
+			@include rem('font-size', 12px);		
+		}
+	}
+	
+	.card-content {
+		@include rem('padding', $base/2);
+	}
+	
+	.tags {
+		background: $color-link-one;
+		color: $color-white;
+		@include rem('padding', 4px $base/2);
+		
+		i {
+			margin-right: 5px;
+		}
+		
+		a {
+			@include rem('font-size', 12px);
+			color: $color-white;
+			&:hover, &:focus, &:active {
+				text-decoration: underline;		
+			}
+		}
+	}
+	
+	&:nth-of-type(even){
+		.tags {
+			background: $color-text-black;
+		}
+	}
+	
+	@include for(medium-screens){
+		.post-inner {
+			border-color: $color-white;
+		}
+		
+	}
+}
+
+.post-type-archive .paging-navigation {
+	background: rgba(255, 255, 255, 0.95);
+	
 }
