@@ -150,6 +150,9 @@ body.page-template-default .site-content {
 			margin-top: -15px;*/
 		}
 		
+		.all-link {
+			@include rem('margin-top', 5px);
+		}
 	}
 	
 	.bg {

@@ -4,3 +4,47 @@
 
 
 
+.tpl-story {
+	
+	.card-content {
+		@include rem('padding', $base/2);
+		border: 1px solid $color-border-light;
+		border-bottom: none;
+	}
+	
+	.entry-header {
+		@include rem('margin-bottom', $base);
+	}
+	
+	.entry-title {
+		@include post-title(21px);
+	}
+	
+	.entry-summary {
+		font-style: italic;
+		
+	}
+	
+	.tags {		
+		background: $color-link-one;
+		color: $color-white;
+		@include rem('padding', 4px $base/2);
+		
+		i {
+			margin-right: 5px;
+		}
+		
+		a {
+			@include rem('font-size', 11px);
+			color: $color-white;
+			font-style: italic;
+			text-transform: uppercase;
+		}
+	}
+	
+	&:nth-of-type(even){
+		.tags {
+			background: $color-text;
+		}
+	}
+}

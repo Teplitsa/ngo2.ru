@@ -1531,6 +1531,9 @@ body.page-template-default .site-content .container {
     display: inline-block;
     padding: 0 1em 0.2em;
     margin-top: -15px;*/ }
+  .page-template-page-stories .section-header .all-link {
+    margin-top: 5px;
+    margin-top: 0.5rem; }
 
 #bottombar {
   background: #f5f5f5;
@@ -1806,8 +1809,8 @@ body.page-template-default .site-content .container {
 .tpl-story .tags {
   background: #E7792B;
   color: #ffffff;
-  padding: 5px 12px;
-  padding:  0.5rem 1.2rem; }
+  padding: 4px 12px;
+  padding:  0.4rem 1.2rem; }
   .tpl-story .tags i {
     margin-right: 5px; }
   .tpl-story .tags a {

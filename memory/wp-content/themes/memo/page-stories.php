@@ -36,6 +36,10 @@ get_header(); ?>
 		wp_reset_postdata();
 	?>
 	</div>
+	
+	<div class="loop-nav">
+		<a href="<?php echo get_permalink($archive);?>">Всего историй <b><?php echo intval($query->found_posts); ?></b> &raquo;</a>
+	</div>
 </div>
 
 <?php get_footer(); ?>
