@@ -482,3 +482,31 @@ function memo_document_attached_gallery($post_id, $columns){
 	
 	return $html;
 }
+
+function memo_book_read_link($post_id){
+	
+	if(!function_exists('get_field'))
+		return '';
+	
+	$type = get_field('publication_type', $post_id);
+	$html = '';
+	
+	if($type == 'file'){
+		$file = get_field('publication_file', $post_id);
+		if(empty($file))
+			return '';
+		
+		$file = wp_get_attachment_url($file);
+		$html = "<a href='{$file}' target='_blank'>Читать полностью (скачать)&raquo;</a>";
+	}
+	elseif($type == 'link') {
+		$link = get_field('publication_link', $post_id);
+		if(empty($link))
+			return '';
+		
+		$link = esc_url($link);
+		$html = "<a href='{$link}' target='_blank'>Читать полностью (ссылка)&raquo;</a>";
+	}
+		
+	return $html;
+}

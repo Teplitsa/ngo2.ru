@@ -7,23 +7,23 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
 
-			<section class="error-404 not-found">
-				<header class="page-header">
-					<h1 class="page-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'memo' ); ?></h1>
-				</header><!-- .page-header -->
+<?php get_template_part('partials/title', 'section');?>
+<div class="complex-page content-area fullwidth">
+	
+	<section class="error-404 not-found">
+		<header class="page-header">
+			<h1 class="page-title">К сожалению, запрошенная страница не найдена, возможно она была перемещена.</h1>
+		</header><!-- .page-header -->
 
-				<div class="page-content">
-					<p><?php _e( 'It looks like nothing was found at this location.', 'memo' ); ?></p>
+		<div class="page-content">
+			<p>Пожалуйста, воспользуйтесь поиском или меню для навигации по сайту.</p>
 
-					
+			<?php $src = get_template_directory_uri().'/img/nf-pic.jpg'; ?>
+			<div class="nf-pic"><img src="<?php echo $src;?>"></div>
 
-				</div><!-- .page-content -->
-			</section><!-- .error-404 -->
+		</div><!-- .page-content -->
+	</section><!-- .error-404 -->
 
-		</main><!-- #main -->
-	</div><!-- #primary -->
-
+</div>
 <?php get_footer(); ?>

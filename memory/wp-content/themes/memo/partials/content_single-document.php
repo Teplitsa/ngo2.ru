@@ -31,6 +31,7 @@
 		</div>
 		
 		<div class="bit md-7">
+			<div class="entry-summary"><?php the_excerpt();?></div>
 			<div class="entry-content"><?php the_content();?></div>
 		</div>
 	</div>

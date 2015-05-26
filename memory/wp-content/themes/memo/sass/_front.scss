@@ -115,6 +115,7 @@ p,ul,ol,dl,blockquote {
 }
 
 //page-like body
+body.error404 .site-content,
 body.search .site-content,
 body.page-template-page-fullw .site-content,
 body.page-template-page-karta .site-content,
@@ -174,6 +175,7 @@ body.page-template-default .site-content {
 	@include boxed-header();
 }
 
+.error404,
 .search,
 .archive.tag {
 	.section-header {
@@ -265,6 +267,22 @@ body.page-template-default .site-content {
 }
 
 .page-template-page-karta .map-holder {
-  margin-left: -30px;
-  margin-right: -30px;
+	margin-left: -30px;
+	margin-right: -30px;
+}
+
+
+//error 404
+.error404 .section-title {
+	max-width: 790px;
+	margin: 0 auto;
+}
+
+.error-404 {
+	max-width: 790px;
+	margin: 0 auto;
+	
+	.page-title {
+		@include rem('font-size', 18px);
+	}
 }

@@ -1495,6 +1495,7 @@ p {
     .site-content .container {
       z-index: 10; } }
 
+body.error404 .site-content .container,
 body.search .site-content .container,
 body.page-template-page-fullw .site-content .container,
 body.page-template-page-karta .site-content .container,
@@ -1557,13 +1558,16 @@ body.page-template-default .site-content .container {
     padding: 0 1em 0.2em;
     margin-top: -15px; } }
 
+.error404 .section-header,
 .search .section-header,
 .archive.tag .section-header {
   margin-bottom: 36px;
   margin-bottom: 3.6rem; }
+.error404 .section-title,
 .search .section-title,
 .archive.tag .section-title {
   margin-top: -15px; }
+  .error404 .section-title i,
   .search .section-title i,
   .archive.tag .section-title i {
     margin-right: 5px; }
@@ -1639,6 +1643,17 @@ body.page-template-default .site-content .container {
 .page-template-page-karta .map-holder {
   margin-left: -30px;
   margin-right: -30px; }
+
+.error404 .section-title {
+  max-width: 790px;
+  margin: 0 auto; }
+
+.error-404 {
+  max-width: 790px;
+  margin: 0 auto; }
+  .error-404 .page-title {
+    font-size: 18px;
+    font-size: 1.8rem; }
 
 /*---------------------------------------------------------
  Menu main (_menu.scss)
@@ -1875,7 +1890,7 @@ body.page-template-default .site-content .container {
   font-size: 21px;
   font-size: 2.1rem;
   color: #2d2d2d;
-  line-height: 1.15; }
+  line-height: 1.1; }
   .tpl-story .entry-title a {
     color: #2d2d2d; }
     .tpl-story .entry-title a:hover, .tpl-story .entry-title a:focus, .tpl-story .entry-title a:active {
@@ -2098,7 +2113,7 @@ body.page-template-default .site-content .container {
     font-size: 16px;
     font-size: 1.6rem;
     color: #2d2d2d;
-    line-height: 1.15;
+    line-height: 1.1;
     margin-bottom: 12px;
     margin-bottom: 1.2rem; }
     .tpl-post .entry-title a {
@@ -2138,7 +2153,7 @@ body.page-template-default .site-content .container {
     font-size: 21px;
     font-size: 2.1rem;
     color: #2d2d2d;
-    line-height: 1.15; }
+    line-height: 1.1; }
     .tpl-document .entry-title a, .tpl-book .entry-title a {
       color: #2d2d2d; }
       .tpl-document .entry-title a:hover, .tpl-book .entry-title a:hover, .tpl-document .entry-title a:focus, .tpl-book .entry-title a:focus, .tpl-document .entry-title a:active, .tpl-book .entry-title a:active {
@@ -2192,10 +2207,10 @@ body.page-template-default .site-content .container {
 .post-type-archive .paging-navigation {
   background: rgba(255, 255, 255, 0.95); }
 
-.tpl-document-full .entry-header {
+.tpl-document-full .entry-header, .tpl-book-full .entry-header {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
-.tpl-document-full .entry-title {
+.tpl-document-full .entry-title, .tpl-book-full .entry-title {
   font-size: 36px;
   font-size: 3.6rem;
   line-height: 1.15;
@@ -2203,7 +2218,12 @@ body.page-template-default .site-content .container {
   color: #2d2d2d;
   word-break: break-word;
   -ms-word-break: break-word; }
-.tpl-document-full .document-footer {
+.tpl-document-full .entry-summary, .tpl-book-full .entry-summary {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem;
+  font-style: italic;
+  font-size: 1.2em; }
+.tpl-document-full .document-footer, .tpl-book-full .document-footer {
   margin-top: 24px;
   margin-top: 2.4rem; }
 
@@ -2216,6 +2236,17 @@ body.page-template-default .site-content .container {
   .tpl-book .mf-8 {
     padding-left: 0; } }
 
+.tpl-book-full .entry-meta {
+  text-transform: uppercase;
+  margin-top: 2px; }
+.tpl-book-full .download-link {
+  margin-top: 24px;
+  margin-top: 2.4rem;
+  padding: 0.2em;
+  background: #f5f5f5; }
+  .tpl-book-full .download-link a {
+    font-weight: bold; }
+
 .tpl-search {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
@@ -2225,7 +2256,7 @@ body.page-template-default .site-content .container {
     font-size: 16px;
     font-size: 1.6rem;
     color: #2d2d2d;
-    line-height: 1.15;
+    line-height: 1.1;
     margin-bottom: 3px;
     margin-bottom: 0.3rem; }
     .tpl-search .entry-title a {

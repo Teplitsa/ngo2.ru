@@ -29,11 +29,11 @@ $read_link = '';
 			<div class="entry-summary"><?php the_excerpt();?></div>
 			<div class="entry-content"><?php the_content();?></div>
 			
-			<div class="download-link"><a href="<?php echo $read_link;?>" target="_blank">Читать полностью &raquo;</a></div>
+			<div class="download-link"><?php echo memo_book_read_link(get_the_ID());?></div>
 		</div>
 	</div>
 	
-	<footer class="document-footer">
+	<footer class="document-footer single-footer">
 		<div class="frame">
 			<div class="bit sm-7 md-9">
 				<span class="pubdate"><i class="fa fa-calendar"></i> <time><?php the_date();?></time></span>
