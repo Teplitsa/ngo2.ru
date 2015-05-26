@@ -393,3 +393,19 @@
 	background: rgba(255, 255, 255, 0.95);
 	
 }
+
+// single doc
+.tpl-document-full {
+	.entry-header {
+		@include rem('margin-bottom', $base);
+	}
+	
+	.entry-title {
+		@include single-page-title(36px);
+	}
+	
+	.document-footer {
+		@include rem('margin-top', $base);
+	}
+	
+}

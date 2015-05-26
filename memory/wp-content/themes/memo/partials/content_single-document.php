@@ -17,7 +17,17 @@
 	<div class="frame">
 		<div class="bit md-5">
 			<!-- img / gallery -->
-			<?php the_post_thumbnail('full');?>
+			<div class="entry-media">
+		<?php
+			$type = (function_exists('get_field')) ? get_field('doc_img_type') : '';
+			if($type == 'single' || $type == ''){
+				echo memo_document_attached_img(get_the_ID());
+			}
+			else {
+				echo memo_document_attached_gallery(get_the_ID(), 3);
+			}			
+		?>
+			</div>
 		</div>
 		
 		<div class="bit md-7">

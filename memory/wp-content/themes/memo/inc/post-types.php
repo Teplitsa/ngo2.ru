@@ -34,35 +34,7 @@ function memo_custom_content(){
         'rewrite'               => array('slug' => 'place'),
     ));
 	
-	register_taxonomy('type', 'document', array(
-        'hierarchical'          => false,
-        'labels'                => array(
-            'name'                       => 'Типы документов',
-            'singular_name'              => 'Тип документа',
-            'search_items'               => 'Поиск типов',
-            'popular_items'              => 'Популярные типы',
-            'all_items'                  => 'Все типы документов',
-            'parent_item'                => null,
-            'parent_item_colon'          => null,
-            'edit_item'                  => 'Редактировать тип',
-            'update_item'                => 'Обновить тип',
-            'add_new_item'               => 'Добавить новый тип',
-            'new_item_name'              => 'Название нового типа',
-            'separate_items_with_commas' => 'Введите типы, разделяя их запятыми',
-            'add_or_remove_items'        => 'Добавить/удалить типы',
-            'choose_from_most_used'      => 'Выбрать из часто используемых',
-            'not_found'                  => 'Типы не найдены',
-            'menu_name'                  => 'Типы документов',
-        ),
-        'show_ui'               => true,
-        'show_admin_column'     => true,
-        'update_count_callback' => '_update_post_term_count',
-        'query_var'             => true,
-        'rewrite'               => array('slug' => 'type'),
-    ));
-
-
-    // Remove category taxonomy for Posts PT:
+	// Remove category taxonomy for Posts PT:
    deregister_taxonomy_for_object_type('category', 'post');
    deregister_taxonomy_for_object_type('post_tag', 'post');
 	
@@ -164,7 +136,7 @@ function memo_custom_content(){
         'hierarchical'       => false,
         'menu_position'      => 5,
 		'menu_icon'          => 'dashicons-media-default',
-        'taxonomies'         => array('post_tag', 'type'),
+        'taxonomies'         => array('post_tag'),
         'supports'           => array('title', 'editor', 'thumbnail', 'excerpt',)
     ));
 

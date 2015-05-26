@@ -372,7 +372,7 @@ function memo_tags_widget(){
 
 function memo_post_attached_gallery($post_id, $columns) {
 	
-	$gallery = (function_exists('get_field')) ? get_field('entry_gallery') : '';
+	$gallery = (function_exists('get_field')) ? get_field('entry_gallery', $post_id) : '';
 	if(empty($gallery))
 		return '';
 	
@@ -381,7 +381,61 @@ function memo_post_attached_gallery($post_id, $columns) {
 		$ids[] = $g['id'];
 	}
 	
-	 $args = array(
+	$args = array(
+        'post_type'   => 'attachment',
+        'post_status' => 'inherit',
+        'orderby'     => 'post__in',
+        'order'       => 'ASC',
+        'post_mime_type' => 'image',
+        'post__in'     => $ids,
+        'posts_per_page' => -1
+    );
+	
+	$columns = intval($columns);
+
+    if($columns == 0 || $columns > 8)
+        $columns = 5;
+		
+	$query = new WP_Query($args);
+	
+    if(empty($query->posts))
+        return ''; //no attachments
+	
+	return lam_lightbox_gallery_output($query->posts, $columns);
+}
+
+function memo_document_attached_img($post_id) {
+	
+	$img = (function_exists('get_field')) ? get_field('document_scan', $post_id) : 0;
+	if($img == 0){
+		$img = get_post_thumbnail_id($post_id);
+	}
+	
+	if(!$img)
+		return '';
+	
+	$att = get_post($img);
+	
+	$url = wp_get_attachment_url($att->ID);
+	$img = wp_get_attachment_image($att->ID, 'full');
+	$caption = esc_attr(trim($att->post_excerpt.' '.$att->post_content));
+	
+	return "<a href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a>";
+}
+
+
+function memo_document_attached_gallery($post_id, $columns){
+		
+	$gallery = (function_exists('get_field')) ? get_field('doc_gallery', $post_id) : '';
+	if(empty($gallery))
+		return '';
+	
+	$ids = array();
+	foreach($gallery as $g){
+		$ids[] = $g['id'];
+	}
+	
+	$args = array(
         'post_type'   => 'attachment',
         'post_status' => 'inherit',
         'orderby'     => 'post__in',
@@ -401,5 +455,42 @@ function memo_post_attached_gallery($post_id, $columns) {
     if(empty($query->posts))
         return $out; //no attachments
 	
-	return lam_lightbox_gallery_output($query->posts, $columns);
+	$html = '';
+	
+	$att = get_post($query->posts[0]);
+	unset($query->posts[0]);
+	$items = $query->posts;	
+	$gallery_ref = uniqid('gallery-');
+	
+	
+	
+	$url = wp_get_attachment_url($att->ID);
+	$img = wp_get_attachment_image($att->ID, 'full');
+	$caption = esc_attr(trim($att->post_excerpt.' '.$att->post_content));
+	
+	$html = "<div class='full-img'><a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a></div>";
+	
+	$html .= "<div class='gallery-img lam-gallery'><ul class='lam-clearfix cols-{$columns}'>";
+	
+	foreach($items as $picture) {
+		
+		$caption = esc_attr(trim($att->post_excerpt.' '.$att->post_content));		
+		$attr = array(
+			'title' => '',
+			'alt' => (!empty($title)) ? $caption : ''
+		);
+		
+        $img = wp_get_attachment_image($picture->ID, 'post-thumbnail', false, $attr);
+        $url = wp_get_attachment_url($picture->ID);
+        
+
+        // HTML for lightbox
+        $html .= '<li>';
+        $html .= "<a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a>";
+        $html .= '</li>';
+    }
+	
+	$html .= "</ul></div>";
+	
+	return $html;
 }

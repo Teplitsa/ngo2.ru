@@ -2161,6 +2161,21 @@ body.page-template-default .site-content .container {
 .post-type-archive .paging-navigation {
   background: rgba(255, 255, 255, 0.95); }
 
+.tpl-document-full .entry-header {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+.tpl-document-full .entry-title {
+  font-size: 36px;
+  font-size: 3.6rem;
+  line-height: 1.15;
+  font-weight: bold;
+  color: #2d2d2d;
+  word-break: break-word;
+  -ms-word-break: break-word; }
+.tpl-document-full .document-footer {
+  margin-top: 24px;
+  margin-top: 2.4rem; }
+
 /* home */
 
 /*# sourceMappingURL=design.css.map */
