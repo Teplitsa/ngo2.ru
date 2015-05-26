@@ -44,7 +44,34 @@
 	
 	&:nth-of-type(even){
 		.tags {
-			background: $color-text;
+			background: $color-text-black;
 		}
+	}
+}
+
+.loop-nav {
+	@include rem('margin-top', $base*1.5);
+	text-align: center;
+	position: relative;
+	z-index: 1;
+	background: transparent;
+	
+	&:before {
+		content: '';
+		display: block;
+		width: 100%;
+		height: 1px;
+		background: $color-border-normal;
+		position: absolute;
+		top: 50%;
+		left: 0;
+		z-index: -1;
+	}
+	
+	a {
+		display: inline-block;
+		padding: 0.1em 1em;
+		background: $color-white;
+		z-index: 20;
 	}
 }

@@ -30,7 +30,7 @@ get_header(); ?>
 		while ($query->have_posts() ) {
 			$query->the_post();
 			
-			//to-do add tags
+			//to-do add tags widget
 			get_template_part( 'partials/content', 'story');
 		}
 		wp_reset_postdata();
