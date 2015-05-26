@@ -26,8 +26,9 @@ get_header(); ?>
 
 <div class="loop-holder card-board">
 	<div class="frame">
-		<div class="bit md-4"><?php memo_tags_widget();?></div>
-	<?php		
+	<?php
+		memo_tags_widget();
+	
 		while ($query->have_posts() ) {
 			$query->the_post();
 			

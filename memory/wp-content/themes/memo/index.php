@@ -10,8 +10,12 @@ get_header(); ?>
 
 <?php get_template_part('partials/title', 'section');?>	
 
-<?php if(is_post_type_archive(array('document', 'book')) || is_home()) { ?>
+<?php if(is_post_type_archive(array('document', 'book')) || is_home() || is_tax('place')) { ?>
 <div class="complex-loop content-area">
+	
+	<?php if(is_home() || is_tax('place')) { ?>
+		<div class="tag-nav"><?php memo_tags_widget();?></div>
+	<?php } ?>
 	<div class="frame">
 	<?php
 		if(have_posts()){
@@ -24,11 +28,8 @@ get_header(); ?>
 					echo "</div>";
 				}
 				
-				if($count == 1)
-					echo "<div class='bit md-4'>";
-				
-				if(is_home() && $col == 3){
-					memo_tags_widget();
+				if($count == 1){
+					echo "<div class='bit md-4'>";					
 				}
 				
 				the_post();

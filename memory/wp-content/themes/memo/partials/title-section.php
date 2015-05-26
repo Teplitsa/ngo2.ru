@@ -19,6 +19,18 @@ if(is_singular(array('post', 'book', 'document'))) {
 		if($p)
 			echo get_the_title($p);
 	}
+	if(is_tax('place')){
+		
+		single_term_title();
+				
+		$p = get_post(get_option('page_for_posts'));
+		if($p){
+			
+			echo "<span><a href='".get_permalink($p)."'>";
+			echo get_the_title($p);
+			echo "</a></span>";
+		}
+	}
 	elseif(is_post_type_archive('document')) {
 		
 		echo memo_get_post_type_archive_title('document');

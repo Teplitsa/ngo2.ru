@@ -231,5 +231,86 @@
 
 //posts archive
 .tagscloud-widget {
-	background: #f9f9f9;
+	@include rem('margin-bottom', $gut);
+	
+	.post-inner {
+		height: 100%;		
+		position: relative;
+		min-height: 36px;
+	}
+	
+	.widget-icon {
+		position: absolute;
+		top: 0;
+		right: 0;
+		
+		i {
+			background: $color-link-one;
+			color: $color-white;
+			width: 36px;
+			height: 36px;
+			line-height: 36px;
+			text-align: center;
+			font-size: 25px;
+			
+		}
+	}
+	
+	.widget-cloud-content {
+		a {
+			display: inline-block;
+			padding: 1px 4px;
+		}
+	}
+}
+
+.tagscloud-widget.card {
+	.post-inner  {
+		background: #f9f9f9;
+		border: 1px solid $color-border-light;
+		padding: 10px 43px 10px 10px;
+	}
+	
+	.widget-icon {		
+		top: 3px;
+		right: 3px;
+	}
+}
+
+.tag-nav {
+	.tagscloud-widget {
+		@include rem('margin-bottom', $base*1.5);
+		border: 1px solid $color-border-normal;
+		padding: 4px;
+		
+		.post-inner {
+			background: transparent;			
+			padding: 4px 40px 4px 8px;
+			background: $color-white;
+		}
+	}
+}
+
+.tpl-post {
+	@include rem('margin-bottom', $base);
+	
+	.entry-title {
+		@include post-title($size: 16px);
+		@include rem('margin-bottom', $base/2);
+	}
+	
+	.entry-summary {
+		@include rem('font-size', 12px);
+	}
+}
+
+.paging-navigation {
+	border-top: 1px solid $color-border-normal;
+	@include rem('padding', $base/2 0);
+	@include rem('margin-top', $base*1.5);
+	text-align: right;
+	.page-numbers {
+		font-weight: bold;
+		padding: 2px;
+	}
 }
