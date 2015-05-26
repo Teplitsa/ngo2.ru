@@ -104,7 +104,7 @@ p,ul,ol,dl,blockquote {
 			background: transparent url(../img/bg.jpg) no-repeat center top;
 			background-size: cover;
 			position: absolute;
-			top: 0;
+			top: 20px;
 			left: 0;
 			z-index: 1;
 		}
@@ -134,30 +134,27 @@ body.page-template-default .site-content {
 	}
 }
 
-//boxed section header
-@mixin boxed-header{
+.page-template-page-stories {
+	@include boxed-header();
 	
+	.all-link {
+		@include rem('margin-top', 5px);
+		@include for(medium-screens) {
+			display: inline-block;
+			margin: 0;
+			
+			a {
+				display: block;
+				position: relative;
+				top: -12px;
+			}
+		}
+	}	
 }
 
-.page-template-page-stories {
-	.section-header  {
-		@include rem('margin-bottom', $base*1.5);
-		
-		.section-title {
-			/*background: rgba(255,255,255, 0.95);
-			display: inline-block;
-			padding: 0 1em 0.2em;
-			margin-top: -15px;*/
-		}
-		
-		.all-link {
-			@include rem('margin-top', 5px);
-		}
-	}
-	
-	.bg {
-		
-	}
+.post-type-archive-book,
+.post-type-archive-document {
+	@include boxed-header();
 }
 
 

@@ -24,7 +24,7 @@ get_header(); ?>
 	</div>
 </header>
 
-<div class="loop-holder">
+<div class="loop-holder card-board">
 	<div class="frame">
 	<?php
 		while ($query->have_posts() ) {

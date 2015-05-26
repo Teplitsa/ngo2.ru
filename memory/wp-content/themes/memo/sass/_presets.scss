@@ -107,6 +107,22 @@ $sidebar-width: 280px;
 	}	
 }
 
+//boxed section header
+@mixin boxed-header{
+	.section-header  {
+		@include rem('margin-bottom', $base*1.5);
+		position: relative;		
+	}
+	
+	@include for(medium-screens) {
+		.section-title {
+			background: rgba(255,255,255, 0.95);
+			display: inline-block;
+			padding: 0 1em 0.2em;
+			margin-top: -15px;
+		}
+	}
+}
 
 /** button **/
 @mixin button($color, $size : 14px) {

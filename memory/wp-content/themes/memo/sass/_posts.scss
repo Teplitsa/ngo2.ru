@@ -8,6 +8,7 @@
 	
 	.card-content {
 		@include rem('padding', $base/2);
+		background: #f9f9f9;
 		border: 1px solid $color-border-light;
 		border-bottom: none;
 	}
@@ -45,6 +46,38 @@
 	&:nth-of-type(even){
 		.tags {
 			background: $color-text-black;
+		}
+	}
+	
+	@include for(medium-screens) {
+		@include rem('margin-bottom', $gut);
+		
+		.post-inner {
+			height: 100%;
+			position: relative;
+			
+		}
+		
+		.card-content {			
+			border-color: $color-white;
+			padding-bottom: 30px + $base/2;
+			height: 100%;
+			
+		}
+		
+		.tags {
+			height: 30px;
+			width: 100%;
+			position: absolute;
+			bottom: 0;
+			left: 0;
+		}
+		.entry-summary {
+			@include rem('font-size', 12px);
+		}
+		
+		.md-7 {
+			padding-left: 0;
 		}
 	}
 }
