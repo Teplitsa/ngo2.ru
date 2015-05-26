@@ -47,13 +47,33 @@ get_header(); ?>
 </section>
 
 <section class="home-section home-blocks">
-	
+	<?php if(function_exists('have_rows')) { if(have_rows('home_blocks', $home_id)) { ?>
 	<div class="frame">
+	<?php
+		while(have_rows('home_blocks', $home_id)){
+			the_row();
+			
+			$title = get_sub_field('hb_title');
+			$desc = get_sub_field('hb_desc');  
+			$url = get_sub_field('hb_link');
+			$url = (!empty($url)) ? esc_url($url) : $url;
+			
+			$img_id = get_sub_field('hb_img');
+			$img = wp_get_attachment_image($img_id, 'post-thumbnail');			
+	?>
 		<div class="bit md-4 home-block">
 			<div class="post-inner">
-				
+				<a href="<?php echo $url;?>">
+					<div class="hb-image"><?php echo $img;?></div>
+					<div class="nb-header">
+						<h3><?php echo $title;?></h3>
+						<div class="desc"><?php echo $desc;?></div>
+					</div>
+				</a>				
 			</div>
 		</div>
+	<?php } ?>
 	</div>
+	<?php  }} //endif ?>
 </section>
 <?php get_footer(); ?>
