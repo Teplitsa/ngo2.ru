@@ -1,5 +1,5 @@
 <?php
-	// Exit if accessed directly
+	// Exit if accessed directly 
 	if (! defined('DUPLICATOR_INIT')) {
 		$_baseURL =  strlen($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] :$_SERVER['HTTP_HOST'];
 		$_baseURL =  "http://" . $_baseURL;
@@ -75,6 +75,7 @@
 	div.dup-step1-modes {padding:0px 15px 0 0px;}
 	div#dup-step1-dbconn {margin:auto; text-align:center; margin:15px 0 20px 0px}
 	input#dup-step1-dbconn-btn {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer}
+	input#dup-step1-dbport-btn {font-size:11px; height:20px; border:1px solid gray; border-radius:3px; cursor:pointer; width:85px}
 	div.dup-db-test label{display:inline-block; width:150px; font-weight:bold; white-space:nowrap;}
 	div.dup-db-test small{display:block; margin:5px 0 5px 0px; font-style:italic; color:#444}
 	div#dbconn-test-msg {font-size:12px}

@@ -100,6 +100,9 @@ class PLL_Admin extends PLL_Base {
 	 */
 	public function admin_enqueue_scripts() {
 		$screen = get_current_screen();
+		if (empty($screen))
+			return;
+			
 		$suffix = defined('SCRIPT_DEBUG') && SCRIPT_DEBUG ? '' : '.min';
 
 		// for each script:
@@ -110,7 +113,8 @@ class PLL_Admin extends PLL_Base {
 		// FIXME: check if I can load more scripts in footer
 		$scripts = array(
 			'admin' => array( array('settings_page_mlang'), array('jquery', 'wp-ajax-response', 'postbox'), 1 , 0),
-			'post'  => array( array('post', 'media', 'async-upload', 'edit'),  array('jquery', 'wp-ajax-response', 'inline-edit-post', 'post', 'jquery-ui-autocomplete'), 0 , 0),
+			'post'  => array( array('post', 'media', 'async-upload', 'edit'),  array('jquery', 'wp-ajax-response', 'post', 'jquery-ui-autocomplete'), 0 , 1),
+			'media' => array( array('upload'), array('jquery'), 0 , 1),
 			'term'  => array( array('edit-tags'), array('jquery', 'wp-ajax-response', 'jquery-ui-autocomplete'), 0, 1),
 			'user'  => array( array('profile', 'user-edit'), array('jquery'), 0 , 0),
 		);
@@ -120,15 +124,12 @@ class PLL_Admin extends PLL_Base {
 				wp_enqueue_script('pll_'.$script, POLYLANG_URL .'/js/'.$script.$suffix.'.js', $v[1], POLYLANG_VERSION, $v[3]);
 
 		wp_enqueue_style('polylang_admin', POLYLANG_URL .'/css/admin'.$suffix.'.css', array(), POLYLANG_VERSION);
-
-		// backward compatibility WP < 3.8
-		// don't load this for old versions
-		if (version_compare($GLOBALS['wp_version'], '3.8alpha' , '>='))
-			wp_enqueue_style('polylang_admin_mobi', POLYLANG_URL .'/css/admin-mobi'.$suffix.'.css', array(), POLYLANG_VERSION);
 	}
 
 	/*
 	 * sets pll_ajax_backend on all backend ajax request
+	 * takes care to situations where the ajax request has no options.data thanks to ScreenfeedFr
+	 * see: https://wordpress.org/support/topic/ajaxprefilter-may-not-work-as-expected
 	 *
 	 * @since 1.4
 	 */
@@ -148,11 +149,11 @@ class PLL_Admin extends PLL_Base {
 	if (typeof jQuery != 'undefined') {
 		(function($){
 			$.ajaxPrefilter(function (options, originalOptions, jqXHR) {
-				if (typeof options.data == 'string') {
-					options.data = '<?php echo $str;?>'+options.data;
+				if ( typeof options.data === 'undefined' ) {
+					options.data = options.type === "get" ? '<?php echo $str;?>' : {<?php echo $arr;?>};
 				}
 				else {
-					options.data = $.extend(options.data, {<?php echo $arr;?>});
+					options.data = typeof options.data === "string" ? '<?php echo $str;?>'+options.data : $.extend(options.data, {<?php echo $arr;?>});
 				}
 			});
 		})(jQuery)
@@ -293,8 +294,6 @@ class PLL_Admin extends PLL_Base {
 		foreach (array_merge(array($all_item), $this->model->get_languages_list()) as $lang) {
 			if ($selected->slug == $lang->slug)
 				continue;
-
-			$img = empty($lang->flag) ? '' : (false !== strpos($lang->flag, 'img') ? $lang->flag . '&nbsp;' : $lang->flag);
 
 			$wp_admin_bar->add_menu(array(
 				'parent' => 'languages',

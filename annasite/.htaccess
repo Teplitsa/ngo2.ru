@@ -8,5 +8,4 @@ RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule . /annasite/index.php [L]
 </IfModule>
 
-Options -Indexes
 # END WordPress
