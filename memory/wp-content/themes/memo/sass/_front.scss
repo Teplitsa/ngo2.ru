@@ -153,6 +153,7 @@ body.page-template-default .site-content {
 	}	
 }
 
+.blog,
 .post-type-archive-book,
 .post-type-archive-document {
 	@include boxed-header();

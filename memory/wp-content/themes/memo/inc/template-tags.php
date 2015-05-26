@@ -351,8 +351,9 @@ function memo_get_post_type_archive_title($post_type) {
 
 function memo_tags_widget(){
 	
+	$css = (is_page('stories')) ? 'bit md-4' : '';
 ?>
-	<div class="tagscloud-widget">
+	<div class="tagscloud-widget card <?php echo $css;?>">
 		<div class="post-inner">
 			<div class="widget-icon"><i class="fa fa-map-marker"></i></div>
 			<div class="widget-cloud-content">

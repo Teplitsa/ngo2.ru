@@ -169,12 +169,12 @@ jQuery(document).ready(function($){
 	
 	
 	// Equal height blocks eq-item	
-	imagesLoaded('.card-board', function(){
-		$('.tpl-story').responsiveEqualHeightGrid();		
+	imagesLoaded('.card-board, .related-posts', function(){
+		$('.card-board .card, .related-posts .card').responsiveEqualHeightGrid();		
 	});
 	
 	$(window).resize(function(){
-		$('.card-board .tpl-story').responsiveEqualHeightGrid();
+		$('.card-board .card, .related-posts .card').responsiveEqualHeightGrid();
 	});
 	
 	

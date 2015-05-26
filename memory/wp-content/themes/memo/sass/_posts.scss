@@ -165,18 +165,26 @@
 .single-footer {
 	border-top: 1px solid $color-border-normal;
 	border-bottom: 1px solid $color-border-normal;
+	@include rem('padding', 5px 0);
 	
 	.pubdate {
-		margin-right: 5px;
+		margin-right: 20px;
+		line-height: 27px;
 		
 		i {
 			color: $color-text-light;
 			margin-right: 5px;
 		}
+		time {
+			@include rem('font-size', 11px);
+			color: $color-text
+		}
 	}
 	
 	.tags {
 		color: $color-link-one;
+		line-height: 27px;
+		
 		i {
 			margin-right: 5px;
 		}
@@ -187,4 +195,41 @@
 			text-transform: uppercase;
 		}
 	}
+}
+
+.post-navigation {
+	text-align: right;
+	
+	.nav-previous,
+	.nav-next {
+		display: inline-block;
+		margin-left: 6px;
+	}
+	
+	a {
+		display: inline-block;
+		padding: 7px ;
+		line-height: 1;
+		font-weight: bold;
+		background: $color-link-one;
+		color: $color-white;
+		@include transition(all 0.35s);
+		
+		&:hover, &:focus, &:active {
+			background: darken($color-link-one, 10%);		
+		}
+	}
+}
+
+.related-posts {
+	@include rem('margin-top', $base*1.5);
+	.aside-title {
+		@include widget-title(14px);
+	}
+}
+
+
+//posts archive
+.tagscloud-widget {
+	background: #f9f9f9;
 }

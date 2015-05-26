@@ -4,6 +4,7 @@
  */
 
 
+global $post;
 
 ?>
 
@@ -33,6 +34,9 @@
 			<div class="entry-summary">
 		<?php
 			$intro = (function_exists('get_field')) ? get_field('annotation_full') : '';
+			if(empty($intro)){
+				$intro = wp_trim_words($post->post_content, 65);
+			}
 			echo apply_filters('memo_the_content', $intro);
 		?>
 			</div>

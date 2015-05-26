@@ -3,7 +3,7 @@
 
 $css = (is_singular()) ? ' bit md-4' : '';
 ?>
-<article id="post-<?php the_ID(); ?>" <?php post_class('tpl-story'.$css); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('tpl-story card'.$css); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'memo');?></div>
 
 <div class="post-inner">

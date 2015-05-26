@@ -39,6 +39,7 @@ get_header(); ?>
 		}
 	?>
 	</div>
+	
 	<?php memo_paging_nav(); ?>
 </div>
 <?php

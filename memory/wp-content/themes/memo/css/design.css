@@ -1530,12 +1530,14 @@ body.page-template-default .site-content .container {
         position: relative;
         top: -12px; } }
 
+.blog .section-header,
 .post-type-archive-book .section-header,
 .post-type-archive-document .section-header {
   margin-bottom: 36px;
   margin-bottom: 3.6rem;
   position: relative; }
 @media screen and (min-width: 800px) {
+  .blog .section-title,
   .post-type-archive-book .section-title,
   .post-type-archive-document .section-title {
     background: rgba(255, 255, 255, 0.95);
@@ -1951,14 +1953,22 @@ body.page-template-default .site-content .container {
 
 .single-footer {
   border-top: 1px solid #dfdfdf;
-  border-bottom: 1px solid #dfdfdf; }
+  border-bottom: 1px solid #dfdfdf;
+  padding: 5px 0;
+  padding:  0.5rem 0; }
   .single-footer .pubdate {
-    margin-right: 5px; }
+    margin-right: 20px;
+    line-height: 27px; }
     .single-footer .pubdate i {
       color: #999999;
       margin-right: 5px; }
+    .single-footer .pubdate time {
+      font-size: 11px;
+      font-size: 1.1rem;
+      color: #444; }
   .single-footer .tags {
-    color: #E7792B; }
+    color: #E7792B;
+    line-height: 27px; }
     .single-footer .tags i {
       margin-right: 5px; }
     .single-footer .tags a {
@@ -1966,6 +1976,36 @@ body.page-template-default .site-content .container {
       font-size: 1.1rem;
       font-style: italic;
       text-transform: uppercase; }
+
+.post-navigation {
+  text-align: right; }
+  .post-navigation .nav-previous,
+  .post-navigation .nav-next {
+    display: inline-block;
+    margin-left: 6px; }
+  .post-navigation a {
+    display: inline-block;
+    padding: 7px;
+    line-height: 1;
+    font-weight: bold;
+    background: #E7792B;
+    color: #ffffff;
+    -webkit-transition: all 0.35s;
+    transition: all 0.35s; }
+    .post-navigation a:hover, .post-navigation a:focus, .post-navigation a:active {
+      background: #c86017; }
+
+.related-posts {
+  margin-top: 36px;
+  margin-top: 3.6rem; }
+  .related-posts .aside-title {
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    font-size: 14px;
+    font-size: 1.4rem;
+    color: #2d2d2d;
+    text-transform: uppercase;
+    margin-bottom: 1.5em; }
 
 /* home */
 

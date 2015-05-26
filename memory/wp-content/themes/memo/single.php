@@ -22,11 +22,12 @@ get_header(); ?>
 	//related
 	$num = 6;
 	$tax = (is_singular('post')) ? 'place' : 'post_tag';
-	$r_query = frl_get_related_query($post, $tax, $num); 
+	$r_query = frl_get_related_query($post, $tax, $num);
+		
 	if($r_query && $r_query->have_posts()){
 ?>
 	<aside class="related-posts entry-relations">
-		<h3 class="aside-title">Еще по теме</h3>
+		<h3 class="aside-title"><?php echo (is_singular('post')) ? 'Еще истории' : 'Еще материалы';?></h3>
 	<?php
 		echo "<div class='frame'>";
 			
