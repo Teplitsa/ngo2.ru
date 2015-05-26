@@ -82,6 +82,26 @@ get_header(); ?>
 </div>
 <?php
 	}
+	elseif(is_search()) {
+?>
+	<div class="frame">
+		<div class="content-area search-result bit md-8">
+		<?php
+			if(have_posts()){
+				while(have_posts()){
+					the_post();
+					get_template_part( 'partials/content', 'search');
+				}
+			}
+		?>
+		
+		<?php memo_paging_nav(); ?>
+		</div>
+		
+		<?php get_sidebar();?>
+	</div>
+<?php
+	}
 ?>
 
 <?php get_footer(); ?>

@@ -449,3 +449,21 @@
 		}
 	}
 }
+
+
+//search
+.tpl-search {
+	@include rem('margin-bottom', $base);
+	
+	.entry-title {		
+		@include post-title(16px);
+		@include rem('margin-bottom', 3px);
+	}
+	
+	cite {
+		display: block;
+		@include rem('margin-bottom', $base/4);
+		color: $color-text-light;
+		font-size: 0.9em;
+	}
+}

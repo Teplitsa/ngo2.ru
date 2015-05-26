@@ -16,6 +16,7 @@ function memo_request_corrected($query) {
 	
 
 	if(is_search()){
+		$query->set('post_type', array('document', 'book', 'post', 'page'));
 		
 		$per = get_option('posts_per_page');
 		if($per < 25) {			

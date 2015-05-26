@@ -115,6 +115,7 @@ p,ul,ol,dl,blockquote {
 }
 
 //page-like body
+body.search .site-content,
 body.page-template-page-fullw .site-content,
 body.page-template-page-karta .site-content,
 body.archive.tag .site-content,
@@ -173,6 +174,7 @@ body.page-template-default .site-content {
 	@include boxed-header();
 }
 
+.search,
 .archive.tag {
 	.section-header {
 		@include rem('margin-bottom', $base*1.5);

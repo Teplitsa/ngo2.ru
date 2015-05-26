@@ -1495,6 +1495,7 @@ p {
     .site-content .container {
       z-index: 10; } }
 
+body.search .site-content .container,
 body.page-template-page-fullw .site-content .container,
 body.page-template-page-karta .site-content .container,
 body.archive.tag .site-content .container,
@@ -1556,11 +1557,14 @@ body.page-template-default .site-content .container {
     padding: 0 1em 0.2em;
     margin-top: -15px; } }
 
+.search .section-header,
 .archive.tag .section-header {
   margin-bottom: 36px;
   margin-bottom: 3.6rem; }
+.search .section-title,
 .archive.tag .section-title {
   margin-top: -15px; }
+  .search .section-title i,
   .archive.tag .section-title i {
     margin-right: 5px; }
 
@@ -2211,6 +2215,29 @@ body.page-template-default .site-content .container {
 @media screen and (min-width: 800px) {
   .tpl-book .mf-8 {
     padding-left: 0; } }
+
+.tpl-search {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+  .tpl-search .entry-title {
+    font-weight: bold;
+    font-family: "Cambria-Bold", Cambria, Georgia, serif;
+    font-size: 16px;
+    font-size: 1.6rem;
+    color: #2d2d2d;
+    line-height: 1.15;
+    margin-bottom: 3px;
+    margin-bottom: 0.3rem; }
+    .tpl-search .entry-title a {
+      color: #2d2d2d; }
+      .tpl-search .entry-title a:hover, .tpl-search .entry-title a:focus, .tpl-search .entry-title a:active {
+        color: #E7792B; }
+  .tpl-search cite {
+    display: block;
+    margin-bottom: 6px;
+    margin-bottom: 0.6rem;
+    color: #999999;
+    font-size: 0.9em; }
 
 /* home */
 
