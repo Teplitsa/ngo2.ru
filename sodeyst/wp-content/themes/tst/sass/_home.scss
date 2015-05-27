@@ -3,7 +3,20 @@
 .home-section.intro {
 	padding-top: 4px;
 	
-	//slider
+	//text
+	.intro-text {
+		margin: $base*1.5 auto;
+		width: 90%;
+		max-width: 665px;
+		font-size: 1.5em;
+		line-height: 1.285;
+		text-align: center;
+	}
+}
+
+
+.metaslider {
+	//slider nav
 	.flex-direction-nav a {
 		opacity: 1;
 		text-indent: 0;
@@ -40,8 +53,10 @@
 		
 	}
 	
-	.metaslider .caption-wrap {
+	//caption
+	.slides .caption-wrap {
 		display: none;
+		
 		@include for(medium-screens) {
 			display: block;
 			opacity: 1;
@@ -59,16 +74,6 @@
 				
 			}
 		}
-	}
-	
-	//text
-	.intro-text {
-		margin: $base*1.5 auto;
-		width: 90%;
-		max-width: 665px;
-		font-size: 1.5em;
-		line-height: 1.285;
-		text-align: center;
 	}
 }
 

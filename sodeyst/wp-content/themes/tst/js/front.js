@@ -170,12 +170,12 @@ jQuery(document).ready(function($){
 	
 	
 	// Equal height blocks eq-item	
-	imagesLoaded('#primary', function(){
-		$('.eq-item').responsiveEqualHeightGrid();		
+	imagesLoaded('.events-gallery', function(){
+		$('.events-gallery .tpl-event-in-gallery').responsiveEqualHeightGrid();		
 	});
 	
 	$(window).resize(function(){
-		$('.eq-item').responsiveEqualHeightGrid();
+		$('.events-gallery .tpl-event-in-gallery').responsiveEqualHeightGrid();
 	});
     
 });

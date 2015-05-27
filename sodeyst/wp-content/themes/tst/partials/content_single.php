@@ -33,6 +33,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 	
 	<div class="entry-content"><?php the_content(); ?></div><!-- .entry-content -->
 	
+	<?php if(!is_singular('leyka_campaign')) { ?>
 	<footer class="entry-footer">
 		<div class="frame">
 			<div class="bit sm-7 md-9">
@@ -42,7 +43,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 			<div class="bit sm-5 md-3"><?php tst_post_nav(); ?></div>
 		</div>
 	</footer>
-	
+	<?php } ?>
 </article><!-- #post-## -->
 
 <?php

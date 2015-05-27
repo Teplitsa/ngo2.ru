@@ -157,6 +157,7 @@ p,ul,ol,dl,blockquote {
 	.page-template-default .site-main { margin-right: $col/2; }
 	.single .site-main { margin-right: $col/2; }
 	.sidebar-wide { margin-left: $col/2; }
+	.page-template-page-events .site-main { margin-right: $col/2; }
 }
 
 
@@ -244,4 +245,79 @@ p,ul,ol,dl,blockquote {
 			padding-top: 10px;
 		}
 	}
+}
+
+//events page
+.page-template-page-events {	
+	
+	.metaslider .slides .caption-wrap {
+		background: transparentize($color-link-one, 0.1);
+		font-size: 1.2em;
+		padding: 0.3em 1em;
+		
+		.caption {
+			b {
+				display: block;
+				margin-bottom: 2px;
+			}
+		}
+	}
+	
+	.events-content {
+		@include rem('margin', $base*1.5 0);
+	}
+	
+	.events-gallery {
+		h3 {
+			@include widget-title(14px);
+			span {
+				display: inline-block;
+				margin-left: 6px;
+				font-size: 0.9em;
+				color: $color-link-one-dark;				
+			}
+			a {
+				text-transform: none;
+				color: $color-link-one-dark;
+				&:hover, &:focus, &:active {
+					color: $color-link-three;
+				}
+			}
+		}
+	}
+}
+
+.tpl-event-in-gallery {
+	@include rem('margin-bottom', $gut);
+	
+	.event-inner {
+		height: 100%;		
+	}
+	
+	.thumbnail-link {
+		position: relative;
+		time {
+			display: inline-block;
+			background: transparentize($color-link-two, 0.1);
+			color: $color-white;
+			font-weight: bold;
+			padding: 0.2em 1em;
+			position: absolute;
+			top: 10px;
+			left: 0;
+		}
+	}
+	
+	.entry-title {
+		@include post-title(17px);
+		margin: 0.9em 0 0.75em;
+	}
+	
+	.entry-summary {
+		font-size: 0.85em;		
+	}
+}
+
+#share-campaign-area {
+	display: none;
 }

@@ -264,3 +264,23 @@
 		}
 	}	
 }
+
+
+//search
+.tpl-search {
+	@include rem('margin-bottom', $base*1.5);
+	
+	.entry-header {
+		@include rem('margin-bottom', $base/2);
+	}
+	
+	.entry-title {
+		font-size: 1.4em;
+		line-height: 1.2;
+	}
+	
+	cite {
+		color: $color-text-light;
+		font-size: 0.9em;
+	}
+}

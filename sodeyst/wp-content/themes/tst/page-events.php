@@ -50,6 +50,7 @@ get_header(); ?>
 						<time><?php echo tst_event_date($ep);?></time>
 					</a>					
 					<h4 class="entry-title"><a href="<?php echo get_permalink($ep);?>"><?php echo get_the_title($ep);?></a></h4>
+					<div class="entry-summary"><?php echo tst_event_excerpt($ep, 20);?></div>
 				</div>
 				</div>	
 			<?php } ?>

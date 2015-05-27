@@ -8,40 +8,21 @@
  */
 
 /* CPT Filters */
-//add_action('parse_query', 'tst_request_corrected');
+add_action('parse_query', 'tst_request_corrected');
 function tst_request_corrected($query) {
 	
-	if(is_admin())
+	if(is_admin() || !$query->is_main_query())
 		return;
 	
-	if(is_search() && $query->is_main_query()){
+	if(is_search()){
 		
 		$per = get_option('posts_per_page');
-		if($per < 25) {
-			$query->query_vars['posts_per_page'] = 15; // 25
+		if($per < 15) {
+			$query->set('posts_per_page', 15);
 		}
 	}
 	
-	//var_dump($query->query_vars);
-	
-	/*if(is_tag() && $query->is_main_query()){
-		//var_dump($query->query_vars);
-		
-		$query->query_vars['post_type'] = array('post', 'event', 'material');
-	}
-	elseif((is_post_type_archive('element') ) && $query->is_main_query()){
-		$query->query_vars['orderby'] = 'menu_order';
-		$query->query_vars['order'] = 'ASC';
-		
-	}
-	elseif((is_post_type_archive('member') || is_tax('membercat')) && $query->is_main_query()){
-		$query->query_vars['orderby'] = 'meta_value';
-		$query->query_vars['meta_key'] = 'brand_name';
-		$query->query_vars['order'] = 'ASC';
-		$query->query_vars['posts_per_page'] = 24;
-	}*/
-	
-	
+
 } 
 
 
@@ -398,5 +379,14 @@ function tst_event_date($cpost = null){
 	return date('d.m.Y', strtotime($date));
 }
 
+function tst_event_excerpt($cpost = null, $words = 35){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+	
+	$text = (!empty($cpost->post_excerpt)) ? $cpost->post_excerpt : $cpost->post_content;
+	return wp_trim_words($text, $words);	
+}
 
 
