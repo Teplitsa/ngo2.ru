@@ -1,1 +1,83 @@
 /* home */
+.page-template-page-home {
+	
+	.site-header {
+		@include rem('margin-bottom', $base);		
+	}
+	
+	.bg {
+		top: 15%;
+		@include for(large-screens) {
+			top: 20%;
+		}
+	}
+}
+
+
+.home-section.intro {
+	padding-top: 4px;
+	
+	//slider
+	.flex-direction-nav a {
+		opacity: 1;
+		text-indent: 0;
+		top: 45%;
+		left: -16px;
+		color: rgba(0,0,0, 0);
+		background: transparent;
+		
+		&:after {
+			content:"\f053";
+			display:block;
+			font: normal 38px/1 FontAwesome;
+			color: transparentize($color-link-one, 0.15); 
+			@include transition(all 0.35s);
+			
+			webkit-font-smoothing:antialiased;
+			-moz-osx-font-smoothing:grayscale;
+			position: absolute;
+		}		
+	}
+	
+	.flex-direction-nav a:hover {
+		&:after {
+			color: $color-link-one;
+			text-shadow: 1px 1px 1px rgba(0,0,0, 0.65);
+		}
+	}
+	
+	.flex-direction-nav .flex-next {
+		left: auto;
+		right: -16px;
+		&:after {
+			content:"\f054";
+		}
+		
+	}
+	
+	.metaslider .caption-wrap {
+		display: none;
+		@include for(medium-screens) {
+			display: block;
+			opacity: 1;
+			background: rgba(0,0,0, 0.5);
+			color: $color-white;
+			font-family: $heading;
+			font-size: 1.05em;
+			line-height: 1.1;
+			@include rem('padding', $base/2);
+			width: 65%;
+			bottom: 10px;
+			left: 10px;
+			
+			.caption {
+				
+			}
+		}
+	}
+	
+	//text
+	.intro-text {
+		
+	}
+}

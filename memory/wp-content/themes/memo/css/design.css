@@ -1644,6 +1644,13 @@ body.page-template-default .site-content .container {
   margin-left: -30px;
   margin-right: -30px; }
 
+.leaflet-control-attribution a {
+  color: #E7792B; }
+  .leaflet-control-attribution a:visited {
+    color: #E7792B; }
+  .leaflet-control-attribution a:hover, .leaflet-control-attribution a:focus, .leaflet-control-attribution a:active {
+    color: #aa0000; }
+
 .error404 .section-title {
   max-width: 790px;
   margin: 0 auto; }
@@ -2271,5 +2278,57 @@ body.page-template-default .site-content .container {
     font-size: 0.9em; }
 
 /* home */
+.page-template-page-home .site-header {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+.page-template-page-home .bg {
+  top: 15%; }
+  @media screen and (min-width: 1000px) {
+    .page-template-page-home .bg {
+      top: 20%; } }
+
+.home-section.intro {
+  padding-top: 4px; }
+  .home-section.intro .flex-direction-nav a {
+    opacity: 1;
+    text-indent: 0;
+    top: 45%;
+    left: -16px;
+    color: transparent;
+    background: transparent; }
+    .home-section.intro .flex-direction-nav a:after {
+      content: "\f053";
+      display: block;
+      font: normal 38px/1 FontAwesome;
+      color: rgba(231, 121, 43, 0.85);
+      -webkit-transition: all 0.35s;
+      transition: all 0.35s;
+      webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      position: absolute; }
+  .home-section.intro .flex-direction-nav a:hover:after {
+    color: #E7792B;
+    text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.65); }
+  .home-section.intro .flex-direction-nav .flex-next {
+    left: auto;
+    right: -16px; }
+    .home-section.intro .flex-direction-nav .flex-next:after {
+      content: "\f054"; }
+  .home-section.intro .metaslider .caption-wrap {
+    display: none; }
+    @media screen and (min-width: 800px) {
+      .home-section.intro .metaslider .caption-wrap {
+        display: block;
+        opacity: 1;
+        background: rgba(0, 0, 0, 0.5);
+        color: #ffffff;
+        font-family: "Cambria-Bold", Cambria, Georgia, serif;
+        font-size: 1.05em;
+        line-height: 1.1;
+        padding: 12px;
+        padding: 1.2rem;
+        width: 65%;
+        bottom: 10px;
+        left: 10px; } }
 
 /*# sourceMappingURL=design.css.map */
