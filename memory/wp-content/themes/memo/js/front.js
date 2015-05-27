@@ -176,12 +176,13 @@ jQuery(document).ready(function($){
 	$(window).resize(function(){
 		$('.card-board .card, .related-posts .card').responsiveEqualHeightGrid();
 	});
-	
-	
+
+
 	/** Map page */
     if($('#map').length) {
 
-        var map = L.map('map').setView([59.54, 30.90], 13); // set to the Tosno coords
+        var map = L.map('map', {scrollWheelZoom: false}).setView([59.54, 30.90], 13), // set to the Tosno coords
+            markers_clustered = new L.MarkerClusterGroup();
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
@@ -195,21 +196,27 @@ jQuery(document).ready(function($){
             markers[i].modern_photo = typeof markers[i].modern_photo != 'undefined' && markers[i].modern_photo ?
                 '<img src="'+markers[i].modern_photo+'">' : '';
 
-            L.marker([markers[i].lat, markers[i].lng], {
+            markers_clustered.addLayer(
+                L.marker([markers[i].lat, markers[i].lng], {
                 title: markers[i].addr,
                 alt: markers[i].addr
-            }).addTo(map).bindPopup(
-                markers[i].history_photo+
-                markers[i].modern_photo+
-                '<br><br>'+
-                markers[i].text
-            );
+            }).bindPopup(
+                '<div class="map-photos">' +
+                    '<div class="map-photo">'+markers[i].history_photo+'</div>'+
+                    '<div class="map-photo">'+markers[i].modern_photo+'</div>'+
+                '</div>'+
+                '<div class="map-address">'+markers[i].addr+'</div>'+
+                '<div class="map-text">'+markers[i].text+'</div>'
+            ));
         }
+
+        markers_clustered.addTo(map);
     }
-	
+
 	/* Home page */
-	if($('#home_intro').length){
-		$('#home_intro').find('.wrap').lettering('words');
+    var $home_intro = $('#home_intro');
+	if($home_intro.length) {
+        $home_intro.find('.wrap').lettering('words');
 	}
     
 });

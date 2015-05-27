@@ -136,7 +136,7 @@ function memo_scripts() {
 	// Fresco
 	wp_enqueue_style(
 		'memo-fresco',
-		$theme_dir_url . '/css/fresco.css',
+		$theme_dir_url.'/css/fresco.css',
 		array(),
 		MEMO_VERSION
 	);
@@ -146,6 +146,9 @@ function memo_scripts() {
 
         wp_enqueue_style('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.css');
         $style_dependencies[] = 'leaflet';
+
+        wp_enqueue_style('leaflet-clustering', $theme_dir_url.'/css/MarkerCluster.css');
+        $style_dependencies[] = 'leaflet-clustering';
     }
 		
 	// Stylesheet
@@ -200,9 +203,13 @@ function memo_scripts() {
 
         wp_enqueue_script('leaflet', 'http://cdn.leafletjs.com/leaflet-0.7.3/leaflet.js');
         $script_dependencies[] = 'leaflet';
+
+        wp_enqueue_script('leaflet-clustering', $theme_dir_url.'/js/leaflet.markercluster.js', array('leaflet'));
+        $script_dependencies[] = 'leaflet-clustering';
     }
-	
-	if(is_front_page()){		
+
+	if(is_front_page()) {
+
 		wp_enqueue_script(
 			'memo-lettering',
 			$theme_dir_url . '/js/jquery.lettering.js',
@@ -214,7 +221,7 @@ function memo_scripts() {
 	
 	wp_enqueue_script(
 		'memo-front',
-		$theme_dir_url . '/js/front.js',
+		$theme_dir_url.'/js/front.js',
 		$script_dependencies,
 		MEMO_VERSION,
 		true
