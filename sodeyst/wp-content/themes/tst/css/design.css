@@ -1707,7 +1707,7 @@ section.error-404 h1 {
   margin-bottom: 0.3em; }
 
 .widget.newsletter p {
-  margin-bottom: 5px; }
+  margin: 0 0 5px; }
 .widget.newsletter input[type="text"],
 .widget.newsletter input[type="email"] {
   border-color: #2d2d2d;
@@ -1753,7 +1753,7 @@ section.error-404 h1 {
     background: #2d2d2d;
     color: #ffffff; }
   .widget.newsletter input[type="submit"]:hover, .widget.newsletter input[type="submit"]:focus, .widget.newsletter input[type="submit"]:active {
-    background: #9CCD52;
+    background: #056937;
     color: #ffffff; }
 
 /*---------------------------------------------------------

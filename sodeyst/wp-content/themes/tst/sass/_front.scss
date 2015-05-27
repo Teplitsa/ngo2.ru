@@ -333,7 +333,7 @@ section.error-404 {
 
 
 .widget.newsletter {
-	p { margin-bottom: 5px;	}
+	p { margin: 0 0 5px;	}
 	
 	input[type="text"],
 	input[type="email"] {
@@ -352,6 +352,6 @@ section.error-404 {
 	}
 	
 	input[type="submit"] {
-		@include fixed-button($color-text-black, $color-link-two, 13px);
+		@include fixed-button($color-text-black, $color-link-three, 13px);
 	}
 }
