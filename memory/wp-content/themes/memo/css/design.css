@@ -1594,6 +1594,9 @@ body.page-template-default .site-content .container {
 .page .section-header {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
+.single-leyka_campaign .section-title,
+.page .section-title {
+  margin-top: -15px; }
 
 #bottombar {
   background: #f5f5f5;
@@ -1650,6 +1653,32 @@ body.page-template-default .site-content .container {
     color: #E7792B; }
   .leaflet-control-attribution a:hover, .leaflet-control-attribution a:focus, .leaflet-control-attribution a:active {
     color: #aa0000; }
+
+.leaflet-popup-content-wrapper {
+  border-radius: 4px;
+  font-size: 12px;
+  font-size: 1.2rem; }
+  .leaflet-popup-content-wrapper .map-photos {
+    width: 300px;
+    background: #f5f5f5;
+    margin-bottom: 10px; }
+    .leaflet-popup-content-wrapper .map-photos::after {
+      clear: both;
+      content: "";
+      display: table; }
+  .leaflet-popup-content-wrapper .map-photo {
+    float: left;
+    width: 48%;
+    margin-left: 4%;
+    min-height: 1px; }
+    .leaflet-popup-content-wrapper .map-photo:first-child {
+      margin-left: 0; }
+    .leaflet-popup-content-wrapper .map-photo img {
+      max-width: 100%;
+      height: auto; }
+  .leaflet-popup-content-wrapper .map-address {
+    font-weight: bold;
+    margin-bottom: 4px; }
 
 .error404 .section-title {
   max-width: 790px;

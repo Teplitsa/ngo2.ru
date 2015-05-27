@@ -204,10 +204,12 @@ body.page-template-default .site-content {
 	@include crumb-header();
 }
 
-.single-leyka_campaign .section-header,
-.page .section-header {
-	@include rem('margin-bottom', $base);
+.single-leyka_campaign, 
+.page {
+	.section-header { @include rem('margin-bottom', $base); }
+	.section-title { margin-top: -15px; }
 }
+
 
 
 
@@ -281,6 +283,38 @@ body.page-template-default .site-content {
 			color: $color-link-two;
 		}
 		
+	}
+}
+
+.leaflet-popup-content-wrapper {
+	border-radius: 4px;
+	@include rem('font-size', 12px);
+	
+	.map-photos{
+		width: 300px;
+		@include clearfix;
+		background: $color-secondary;
+		margin-bottom: 10px;
+	}
+	
+	.map-photo {
+		float: left;
+		width: 48%;
+		margin-left: 4%;
+		min-height: 1px;
+		&:first-child {
+			margin-left: 0;
+		}
+		
+		img {
+			max-width: 100%;
+			height: auto;
+		}
+	}
+	
+	.map-address {
+		font-weight: bold;
+		margin-bottom: 4px;
 	}
 }
 
