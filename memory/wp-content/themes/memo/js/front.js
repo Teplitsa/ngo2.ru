@@ -182,7 +182,7 @@ jQuery(document).ready(function($){
     if($('#map').length) {
 
         var map = L.map('map', {scrollWheelZoom: false}).setView([59.54, 30.90], 13), // set to the Tosno coords
-            markers_clustered = new L.MarkerClusterGroup();
+            markers_clustered = new L.MarkerClusterGroup({maxClusterRadius: 40});
 
         L.tileLayer('http://{s}.tile.osm.org/{z}/{x}/{y}.png', {
             attribution: 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, <a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>',
