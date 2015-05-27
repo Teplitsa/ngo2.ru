@@ -100,22 +100,6 @@ svg:not(:root) {
 /*---------------------------------------------------------
  Presets (_presets.scss)
 -------------------------------------------------------- */
-/*@mixin lead {
-	font: {
-		family: $titleFont;
-		size: 18px;
-	}
-	line-height: $tightLH;
-	color: $titleDarkC;
-	@include smart-margin($pMargin);
-}*/
-/** button **/
-/** label */
-/** thumbnail **/
-/* menu reset */
-.screen-reader-text {
-  display: none; }
-
 /*---------------------------------------------------------
  Mixins (_utility.scss)
 -------------------------------------------------------- */

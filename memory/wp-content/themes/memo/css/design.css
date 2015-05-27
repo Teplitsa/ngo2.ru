@@ -2282,6 +2282,7 @@ body.page-template-default .site-content .container {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
 .page-template-page-home .bg {
+  height: 745px;
   top: 15%; }
   @media screen and (min-width: 1000px) {
     .page-template-page-home .bg {
@@ -2330,5 +2331,25 @@ body.page-template-default .site-content .container {
         width: 65%;
         bottom: 10px;
         left: 10px; } }
+  .home-section.intro .intro-text {
+    font-size: 21px;
+    font-size: 2.1rem;
+    font-weight: bold;
+    max-width: 930px;
+    margin: 36px auto 48px;
+    text-align: center;
+    line-height: 1.55;
+    color: #ffffff; }
+    .home-section.intro .intro-text .wrap {
+      display: inlin-block;
+      background: rgba(231, 121, 43, 0.85); }
+      .home-section.intro .intro-text .wrap span {
+        padding: 0 4px; }
+
+.home-posts .loop-nav {
+  margin: 24px 0 48px;
+  margin:  2.4rem 0 4.8rem; }
+  .home-posts .loop-nav a {
+    font-weight: bold; }
 
 /*# sourceMappingURL=design.css.map */

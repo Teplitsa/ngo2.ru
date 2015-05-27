@@ -6,6 +6,7 @@
 	}
 	
 	.bg {
+		height: 745px;
 		top: 15%;
 		@include for(large-screens) {
 			top: 20%;
@@ -78,6 +79,31 @@
 	
 	//text
 	.intro-text {
+		@include rem('font-size', 21px);
+		font-weight: bold;
+		max-width: 930px;
+		margin: $base*1.5 auto $base*2;
+		text-align: center;
+		line-height: 1.55;
+		color: $color-white;
 		
+		.wrap {
+			display: inlin-block;
+			background: transparentize($color-link-one, 0.15);
+			
+			span {
+				padding: 0 4px;
+			}
+		}
+		span {
+			
+		}
 	}
 }
+
+.home-posts {
+	.loop-nav {
+		@include rem('margin', $base/2 0 $base*1.5);		
+	}
+}
+

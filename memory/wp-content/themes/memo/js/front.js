@@ -206,5 +206,10 @@ jQuery(document).ready(function($){
             );
         }
     }
+	
+	/* Home page */
+	if($('#home_intro').length){
+		$('#home_intro').find('.wrap').lettering('words');
+	}
     
 });

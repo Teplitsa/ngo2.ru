@@ -202,6 +202,16 @@ function memo_scripts() {
         $script_dependencies[] = 'leaflet';
     }
 	
+	if(is_front_page()){		
+		wp_enqueue_script(
+			'memo-lettering',
+			$theme_dir_url . '/js/jquery.lettering.js',
+			$script_dependencies,
+			'0.7.0',
+			true
+		);
+	}
+	
 	wp_enqueue_script(
 		'memo-front',
 		$theme_dir_url . '/js/front.js',

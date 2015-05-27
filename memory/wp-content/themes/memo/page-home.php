@@ -10,13 +10,17 @@ global $post;
 $home_id = $post->ID;
 get_header(); ?>
 
-<section class="home-section intro">
-<?php
-	while(have_posts()){
-		the_post();
-		the_content();
-	}
-?>
+<section id="home_intro" class="home-section intro">
+	<?php
+		$slider = (function_exists('get_field')) ? get_field('home_slider', $home_id) : '';
+		if(!empty($slider)){
+			echo do_shortcode($slider);
+		}
+		
+		while(have_posts()){ the_post();
+	?>
+		<div class="intro-text"><span class="wrap"><?php the_content(); ?></span></div>
+	<?php } ?>
 </section>
 
 <section class="home-section home-posts">
@@ -40,6 +44,7 @@ get_header(); ?>
 		</div>
 		
 		<div class="loop-nav">
+			<?php $archive = get_post(get_option('page_for_posts')); ?>
 			<a href="<?php echo get_permalink($archive);?>">Всего историй <b><?php echo intval($query->found_posts); ?></b> &raquo;</a>
 		</div>
 	</div>
