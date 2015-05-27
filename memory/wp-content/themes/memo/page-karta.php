@@ -28,7 +28,7 @@ get_header(); ?>
 						'lat' => $coords['lat'],
 						'lng' => $coords['lng'],
 						'addr' => $marker->post_title,
-						'text' => $marker->post_content,
+						'text' => get_permalink($marker),
 						'history_photo' => ($history_url[0]) ? $history_url[0] : '',
 						'modern_photo' => ($modern_url[0]) ? $modern_url[0] : '',
 					);
