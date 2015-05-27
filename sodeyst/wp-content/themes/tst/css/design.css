@@ -645,15 +645,14 @@ Alerts (_semantics.scss)
 .entry-content h2 {
   font-size: 1.8em; }
 .entry-content h3 {
-  font-size: 1.6em; }
+  font-size: 1.8em; }
 .entry-content h4 {
-  font-size: 1.4em; }
+  font-size: 1.6em; }
 .entry-content h5 {
-  font-size: 1.2em;
-  font-weight: 400; }
+  font-size: 1.4em; }
 .entry-content h6 {
   margin-bottom: 18px;
-  font-size: 0.9em;
+  font-size: 1em;
   text-transform: uppercase; }
 .entry-content h1 + h1, .entry-content h1 + h2, .entry-content h1 + h3, .entry-content h1 + h4, .entry-content h1 + h5, .entry-content h1 + h6,
 .entry-content h2 + h1, .entry-content h2 + h2, .entry-content h2 + h3, .entry-content h2 + h4, .entry-content h2 + h5, .entry-content h2 + h6,
@@ -666,7 +665,7 @@ Alerts (_semantics.scss)
   margin: 2.5em 0;
   padding: 0 80px 0 0;
   position: relative;
-  color: #666666; }
+  color: #2d2d2d; }
   .entry-content blockquote:before {
     content: "\f122";
     font: 64px/1 dashicons;

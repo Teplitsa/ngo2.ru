@@ -361,18 +361,17 @@ Alerts (_semantics.scss)
 	
 	h2 { font-size: 1.8em; }
 	
-	h3 { font-size: 1.6em; }
+	h3 { font-size: 1.8em; }
 	
-	h4 { font-size: 1.4em; }
+	h4 { font-size: 1.6em; }
 	
 	h5 { 
-		font-size: 1.2em; 
-		font-weight: 400;
+		font-size: 1.4em; 		
 	}
 	
 	h6 {
 		margin-bottom: $base*0.75;
-		font-size: 0.9em;		
+		font-size: 1em;		
 		text-transform: uppercase;
 	}
 	
@@ -389,7 +388,7 @@ Alerts (_semantics.scss)
 		margin: 2.5em 0;
 		padding: 0 80px 0 0;
 		position: relative;
-		color: $color-text-semi;
+		color: $color-text-black;
 	   
 		&:before {
 			content: "\f122";
