@@ -11,14 +11,17 @@ $home_id = $post->ID;
 get_header(); ?>
 
 <section class="home-section intro">
-<?php
-	while(have_posts()){
-		the_post();
-		the_content();
-	}
-?>
+	<?php
+		$slider = (function_exists('get_field')) ? get_field('home_slider', $home_id) : '';
+		if(!empty($slider)){
+			echo do_shortcode($slider);
+		}
+		
+		while(have_posts()){ the_post();
+	?>
+		<div class="intro-text"><?php the_content(); ?></div>
+	<?php } ?>
 </section>
-
 </div><!-- .site-wrap -->
 
 <section class="home-section home-blocks">

@@ -387,5 +387,16 @@ function tst_event_meta($cpost = null) {
 
 }
 
+function tst_event_date($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+	$date = (function_exists('get_field')) ? get_field('event-date', $cpost->ID) : $cpost->post_date;
+	
+	return date('d.m.Y', strtotime($date));
+}
+
 
 
