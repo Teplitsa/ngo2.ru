@@ -11,26 +11,32 @@ get_header(); ?>
 		
 		
 		<section class="map-holder">
-			<div id="map" style="height: 520px;"></div>
+			<div id="map" style="height: 520px;"></div>		
 			
-			<script type="text/javascript">
-				<?php $markers = array();
+			<?php
+				$markers = array();
 				foreach(get_posts(array('post_type' => 'marker')) as $marker) {
 	
 					$coords = get_field('coords', $marker->ID);
-					$history = get_field('history_photo', $marker->ID);
+					$history = get_field('history_photo', $marker->ID); 
+					$history_url = wp_get_attachment_image_src($history, 'marker'); 
+					
 					$modern = get_field('modern_photo', $marker->ID);
+					$modern_url = wp_get_attachment_image_src($modern, 'marker');
 	
 					$markers[] = array(
 						'lat' => $coords['lat'],
 						'lng' => $coords['lng'],
 						'addr' => $marker->post_title,
 						'text' => $marker->post_content,
-						'history_photo' => $history['sizes']['portrait'],
-						'modern_photo' => $modern['sizes']['portrait'],
+						'history_photo' => ($history_url[0]) ? $history_url[0] : '',
+						'modern_photo' => ($modern_url[0]) ? $modern_url[0] : '',
 					);
-				}?>
-				var markers = <?php echo json_encode($markers);?>;
+					
+				}
+			?>			
+			<script type="text/javascript">	
+				var markers = <?php echo json_encode($markers); ?>;
 			</script>
 		</section>
 		

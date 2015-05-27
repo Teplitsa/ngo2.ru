@@ -64,19 +64,15 @@ get_header(); ?>
 			$url = (!empty($url)) ? esc_url($url) : $url;
 			
 			$img_id = get_sub_field('hb_img');
-			$img = wp_get_attachment_image($img_id, 'post-thumbnail');			
+			$img = wp_get_attachment_url($img_id);			
 	?>
-		<div class="bit md-4 home-block">
-			<div class="post-inner">
-				<a href="<?php echo $url;?>">
-					<div class="hb-image"><?php echo $img;?></div>
-					<div class="nb-header">
-						<h3><?php echo $title;?></h3>
-						<div class="desc"><?php echo $desc;?></div>
-					</div>
-				</a>				
+		<div class="bit md-4 home-block"><a href="<?php echo $url;?>">		
+			<div class="post-inner" style="background-image: url(<?php echo $img;?>);">	</div>
+			<div class="nb-header">
+				<h3><span><?php echo $title;?></span></h3>
+				<div class="desc"><span><?php echo $desc;?></span></div>
 			</div>
-		</div>
+		</a></div>
 	<?php } ?>
 	</div>
 	<?php  }} //endif ?>

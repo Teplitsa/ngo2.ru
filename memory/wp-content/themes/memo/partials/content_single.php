@@ -55,10 +55,15 @@ global $post;
 					<div class="widget-content">Здесь будет плеер</div>
 				</div>
 				
-				<div class="widget">
-					<h3 class="widget-title">Фото</h3>
-					<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 2);?></div>
-				</div>
+				<?php
+					$gallery =  memo_post_attached_gallery(get_the_ID(), 2);
+					if(!empty($gallery)) {
+				?>
+					<div class="widget">
+						<h3 class="widget-title">Фото</h3>
+						<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 2);?></div>
+					</div>
+				<?php } ?>
 				
 				<?php dynamic_sidebar( 'story-sidebar' ); ?>
 			</div>

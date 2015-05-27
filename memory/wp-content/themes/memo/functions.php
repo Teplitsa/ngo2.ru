@@ -28,7 +28,7 @@ function memo_setup() {
 	set_post_thumbnail_size(320, 210, true ); // regular thumbnails
 	add_image_size('portrait', 222, 280, true ); // logo thumbnail 	
 	add_image_size('embed', 590, 350, true ); // fixed size for embedding
-	//add_image_size('long', 640, 280, true ); // long thumbnail for pages
+	add_image_size('marker', 220, 180, true ); // 
 
 	// Menus
 	register_nav_menus(array(
