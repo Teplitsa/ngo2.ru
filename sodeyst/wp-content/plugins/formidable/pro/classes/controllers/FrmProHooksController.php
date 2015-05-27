@@ -62,7 +62,6 @@ class FrmProHooksController{
 		add_shortcode('frm-alt-color', 'FrmProEntriesController::change_row_color');
 
         // Trigger entry model
-        add_filter('frm_validate_entry', 'FrmProEntry::pre_validate', 15, 2);
         add_action('frm_validate_form_creation', 'FrmProEntry::validate', 10, 5);
         add_filter('frm_pre_create_entry', 'FrmProEntry::mod_other_vals', 10, 1);
         add_filter('frm_pre_update_entry', 'FrmProEntry::mod_other_vals', 10, 1);
@@ -104,6 +103,8 @@ class FrmProHooksController{
         add_filter('frm_conditional_shortcodes', 'FrmProFormsController::conditional_options');
         add_filter('frm_user_shortcodes', 'FrmProFormsController::user_options');
 
+		add_filter( 'frm_validate_entry', 'FrmProFormsHelper::can_submit_form_now', 15, 2 );
+
         // trigger form model
         add_filter('frm_validate_form', 'FrmProFormsController::validate', 10, 2);
 
@@ -136,6 +137,12 @@ class FrmProHooksController{
         add_action('post_submitbox_misc_actions', 'FrmProDisplaysController::submitbox_actions');
         add_action('add_meta_boxes', 'FrmProDisplaysController::add_meta_boxes');
         add_action('save_post', 'FrmProDisplaysController::save_post');
+		add_action( 'frm_destroy_form', 'FrmProDisplaysController::delete_views_for_form' );
+
+		add_filter( 'manage_edit-frm_display_columns', 'FrmProDisplaysController::manage_columns' );
+		add_filter( 'manage_edit-frm_display_sortable_columns', 'FrmProDisplaysController::sortable_columns' );
+		add_filter( 'get_user_option_manageedit-frm_displaycolumnshidden', 'FrmProDisplaysController::hidden_columns' );
+		add_action( 'manage_frm_display_posts_custom_column', 'FrmProDisplaysController::manage_custom_columns', 10, 2 );
 
         // Entries Controller
         add_action('admin_init', 'FrmProEntriesController::admin_js', 1);

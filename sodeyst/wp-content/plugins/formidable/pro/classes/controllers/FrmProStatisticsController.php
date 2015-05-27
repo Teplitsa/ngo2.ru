@@ -112,7 +112,7 @@ class FrmProStatisticsController{
 
                 // add an untruncated tooltip
                 if ( isset($vals['tooltips'][$lkey]) ) {
-					$row['tooltip'] = $vals['tooltips'][$lkey] .': '. $row[1];
+					$row['tooltip'] = wordwrap( $vals['tooltips'][ $lkey ] . ': ' . $row[1], 50, "\r\n" );
                 }
 
                 $vals['rows'][] = $row;

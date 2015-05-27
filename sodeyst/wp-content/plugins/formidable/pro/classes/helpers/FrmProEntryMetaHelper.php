@@ -40,18 +40,21 @@ class FrmProEntryMetaHelper{
         }
 
 		if ( is_array( $value ) ) {
-            $new_value = '';
-            foreach ( $value as $val ) {
+			$new_value = '';
+			foreach ( $value as $val ) {
 				if ( is_array( $val ) ) {
-                    $new_value .= implode(', ', $val) . "\n";
+					// This will affect checkboxes inside of repeating sections
+					$new_value .= implode( ', ', $val ) . "\n";
 				}
-            }
-            if ($new_value != '')
-                $value = $new_value;
+			}
 
-			// Only keep non-empty values in array
-			$value = array_filter( $value );
-        }
+			if ( $new_value != '' ) {
+				$value = $new_value;
+			} else {
+				// Only keep non-empty values in array
+				$value = array_filter( $value );
+			}
+		}
 
         return $value;
     }

@@ -1,80 +1,6 @@
 <?php
 class FrmProEntry{
 
-	public static function pre_validate( $errors, $values ) {
-        global $frm_vars;
-
-        $user_ID = get_current_user_id();
-        $params = (isset($frm_vars['form_params']) && is_array($frm_vars['form_params']) && isset($frm_vars['form_params'][$values['form_id']])) ? $frm_vars['form_params'][$values['form_id']] : FrmEntriesController::get_params($values['form_id']);
-
-		if ( $params['action'] != 'create' ) {
-			if ( FrmProFormsHelper::going_to_prev( $values['form_id'] ) ) {
-                add_filter('frm_continue_to_create', '__return_false');
-                $errors = array();
-            } else if ( FrmProFormsHelper::saving_draft() ) {
-                //$errors = array();
-            }
-            return $errors;
-        }
-
-        $form = FrmForm::getOne($values['form_id']);
-        $form_options = maybe_unserialize($form->options);
-
-        global $wpdb;
-
-        $can_submit = true;
-		if ( isset( $form_options['single_entry'] ) && $form_options['single_entry'] ) {
-            $admin_entry = FrmAppHelper::is_admin();
-
-			if ( $form_options['single_entry_type'] == 'cookie' && isset( $_COOKIE['frm_form' . $form->id . '_' . COOKIEHASH ] ) ) {
-                $can_submit = $admin_entry ? true : false;
-			} else if ( $form_options['single_entry_type'] == 'ip' ) {
-                if ( ! $admin_entry ) {
-                    $prev_entry = FrmEntry::getAll( array( 'it.ip' => FrmAppHelper::get_ip_address() ), '', 1 );
-                    if ( $prev_entry ) {
-                        $can_submit = false;
-                    }
-                }
-            } else if ( ( $form_options['single_entry_type'] == 'user' || ( isset($form->options['save_draft']) && $form->options['save_draft'] == 1 ) ) && ! $form->editable ) {
-                if ( $user_ID ) {
-                    $meta = FrmProEntriesHelper::check_for_user_entry( $user_ID, $form, ( $form_options['single_entry_type'] != 'user' ) );
-                }
-
-                if ( isset($meta) && $meta ) {
-                    $can_submit = false;
-                }
-            }
-            unset($admin_entry);
-
-            if ( ! $can_submit ) {
-                $frmpro_settings = new FrmProSettings();
-                $k = is_numeric($form_options['single_entry_type']) ? 'field'. $form_options['single_entry_type'] : 'single_entry';
-                $errors[$k] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-                return $errors;
-            }
-        }
-        unset($can_submit);
-
-        if ( ( ( $_POST && isset($_POST['frm_page_order_'. $form->id]) ) || FrmProFormsHelper::going_to_prev($form->id) ) && ! FrmProFormsHelper::saving_draft() ) {
-            add_filter('frm_continue_to_create', '__return_false');
-        } else if ( $form->editable && isset($form_options['single_entry']) && $form_options['single_entry'] && $form_options['single_entry_type'] == 'user' && $user_ID && ! FrmAppHelper::is_admin() ) {
-            $meta = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'user_id' => $user_ID, 'form_id' => $form->id) );
-
-            if ( $meta ) {
-                $frmpro_settings = new FrmProSettings();
-                $errors['single_entry'] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-            }
-        }
-
-        if ( FrmProFormsHelper::going_to_prev($values['form_id']) ) {
-            $errors = array();
-        }
-
-        return $errors;
-    }
-
 	public static function validate( $params, $fields, $form, $title, $description ) {
         global $frm_vars;
 
@@ -1271,6 +1197,11 @@ class FrmProEntry{
     	}
 
         $entries = $final_order;
+    }
+
+	public static function pre_validate( $errors, $values ) {
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProFormsHelper::can_submit_form_now' );
+		return FrmProFormsHelper::can_submit_form_now( $errors, $values );
     }
 
 	public static function get_field( $field = 'is_draft', $id ) {

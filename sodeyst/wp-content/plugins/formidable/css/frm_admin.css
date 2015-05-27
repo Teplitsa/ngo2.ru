@@ -451,6 +451,10 @@ form label.frm_primary_label input{font-size:12px;}
 	width:auto;
 }
 
+.frm_inner_field_container {
+	margin-bottom:10px;
+}
+
 .frm_conf_inline .frm_inner_field_container,
 .frm_conf_inline .frm_inner_conf_container{
 	width:192px;
@@ -591,7 +595,6 @@ label input[type="checkbox"], label input[type="radio"]{vertical-align:baseline;
 }
 
 .frm_posttax_opt_list p.howto{
-	margin-top:25px;
 	font-size:12px;
 }
 .frm_border_bottom{
@@ -783,7 +786,10 @@ table td, .form-table tr td{vertical-align:top;}
 	margin-bottom:10px;
 	text-align:center;
 }
-
+.recaptcha_placeholder{
+	border:1px solid #d3d3d3;
+	width:300px;
+}
 .frm_sorting .frm_rte textarea{
 	width:653px;background:#fff; margin:1px 0; border:1px solid #dfdfdf; border-top:none; 
 	-moz-border-radius:0; -webkit-border-radius:0; border-radius:0;
@@ -810,6 +816,7 @@ table td, .form-table tr td{vertical-align:top;}
 li.ui-state-default.edit_field_type_divider .frm-show-click{
 	display:none;
 }
+
 .frm-show-hover,
 .frm_single_visible_hover,
 li.ui-state-default.edit_field_type_divider .frm-show-hover{
@@ -836,6 +843,7 @@ li.ui-state-default.edit_field_type_divider .frm-show-hover{
 li.ui-state-default.selected .frm-show-click,
 li.ui-state-default.selected.edit_field_type_divider .frm-show-click{
 	display:inline;
+	vertical-align:top;
 }
 .frm_field_box:not(.edit_field_type_divider):hover > .frm-show-hover,
 .frm_field_box .divider_section_only:hover > .frm-show-hover,
@@ -843,6 +851,13 @@ li.ui-state-default.selected > .frm-show-hover,
 li.ui-state-default.selected.edit_field_type_divider .divider_section_only .frm-show-hover{
 	opacity:100;
 	*visibility:visible;
+}
+
+li.ui-state-default.selected .frm-show-click.frm_import_options {
+	vertical-align:middle;
+    padding: 10px 5px 12px;
+    background: #fbfbfb;
+    border: solid 1px #ebebeb;
 }
 
 .frm_sorting span.ui-icon{width:16px;}
@@ -1340,6 +1355,7 @@ span.howto{display:inline;}
 .frm_sorting li.ui-state-default.selected > .widget,
 .frm_sorting li.ui-state-default.selected.edit_field_type_divider .divider_section_only .widget{
 	display:block;
+	margin-top: 15px;
 }
 
 #new_fields{
@@ -2048,6 +2064,11 @@ Responsive Design
 
 @media only screen and (max-width: 1200px) {
 	.frm_drag_inst{font-size: 30px;}
+
+  	li.ui-state-default.selected .frm-show-click.frm_import_options {
+  		background: none;
+		border:none;
+	}
 }
 @media only screen and (max-width: 1050px) {
 	.frm_drag_inst{font-size: 20px;}
