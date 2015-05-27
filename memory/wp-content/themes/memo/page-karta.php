@@ -18,10 +18,10 @@ get_header(); ?>
 				foreach(get_posts(array('post_type' => 'marker')) as $marker) {
 	
 					$coords = get_field('coords', $marker->ID);
-					$history = get_field('history_photo', $marker->ID); 
+					$history = (function_exists('get_field')) ? get_field('history_photo', $marker->ID) : ''; 
 					$history_url = wp_get_attachment_image_src($history, 'marker'); 
 					
-					$modern = get_field('modern_photo', $marker->ID);
+					$modern = (function_exists('get_field')) ? get_field('modern_photo', $marker->ID) : '' ;
 					$modern_url = wp_get_attachment_image_src($modern, 'marker');
 	
 					$markers[] = array(

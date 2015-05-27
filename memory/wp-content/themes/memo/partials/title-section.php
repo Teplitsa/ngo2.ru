@@ -10,7 +10,7 @@ global $post;
 <header class="section-header">
 
 <?php
-if(is_singular(array('post', 'book', 'document'))) {
+if(is_singular(array('post', 'book', 'document', 'marker'))) {
 	echo memo_breadcrumbs();	
 } else { ?>
 <h1 class="section-title"><?php

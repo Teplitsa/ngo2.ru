@@ -491,3 +491,22 @@
 		font-size: 0.9em;
 	}
 }
+
+//markers
+.tpl-marker-full {
+	
+	.entry-header {
+		@include rem('margin-bottom', $base*1.5);
+	}
+	.entry-title {
+		@include single-page-title(36px);
+	}
+	
+	.entry-media {
+		@include rem('margin-bottom', $base);
+	}
+	
+	.entry-columns {
+		@include rem('margin-bottom', $base*1.5);
+	}
+}

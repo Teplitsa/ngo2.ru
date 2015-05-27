@@ -292,7 +292,7 @@ function memo_breadcrumbs(){
 	
 	if(!is_single())
 		return '';
-		
+	
 	$links = array();
 	if(is_singular('post')) {
 		$p = get_post(get_option('page_for_posts'));
@@ -316,6 +316,13 @@ function memo_breadcrumbs(){
 		if(!empty($pt_name)){
 			$links[] = "&lt; <a href='".$pt_link."'>".$pt_name."</a>";
 		}
+	}
+	elseif(is_singular('marker')){
+		
+		$p = get_page_by_path('karta'); 
+		if($p){
+			$links[] = "&lt; <a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
+		}	
 	}
 	
 	$sep = memo_get_sep();

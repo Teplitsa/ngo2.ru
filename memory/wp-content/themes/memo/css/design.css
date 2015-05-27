@@ -1661,7 +1661,8 @@ body.page-template-default .site-content .container {
   .leaflet-popup-content-wrapper .map-photos {
     width: 300px;
     background: #f5f5f5;
-    margin-bottom: 10px; }
+    margin-bottom: 10px;
+    padding: 4px; }
     .leaflet-popup-content-wrapper .map-photos::after {
       clear: both;
       content: "";
@@ -1674,7 +1675,7 @@ body.page-template-default .site-content .container {
     .leaflet-popup-content-wrapper .map-photo:first-child {
       margin-left: 0; }
     .leaflet-popup-content-wrapper .map-photo img {
-      max-width: 100%;
+      width: 100%;
       height: auto; }
   .leaflet-popup-content-wrapper .map-address {
     font-weight: bold;
@@ -2308,6 +2309,24 @@ body.page-template-default .site-content .container {
     margin-bottom: 0.6rem;
     color: #999999;
     font-size: 0.9em; }
+
+.tpl-marker-full .entry-header {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
+.tpl-marker-full .entry-title {
+  font-size: 36px;
+  font-size: 3.6rem;
+  line-height: 1.15;
+  font-weight: bold;
+  color: #2d2d2d;
+  word-break: break-word;
+  -ms-word-break: break-word; }
+.tpl-marker-full .entry-media {
+  margin-bottom: 24px;
+  margin-bottom: 2.4rem; }
+.tpl-marker-full .entry-columns {
+  margin-bottom: 36px;
+  margin-bottom: 3.6rem; }
 
 /* home */
 .page-template-page-home .site-header {

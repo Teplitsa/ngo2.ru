@@ -206,7 +206,7 @@ jQuery(document).ready(function($){
                     '<div class="map-photo">'+markers[i].modern_photo+'</div>'+
                 '</div>'+
                 '<div class="map-address">'+markers[i].addr+'</div>'+
-                '<div class="map-link"><a href="'+markers[i].text+'">Подробнее</a></div>'
+                '<div class="map-link"><a href="'+markers[i].text+'">Подробнее&nbsp;&raquo;</a></div>'
             ));
         }
 
