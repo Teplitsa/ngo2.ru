@@ -15,7 +15,7 @@ function tst_custom_widgets(){
 	unregister_widget('WP_Widget_Recent_Posts');
 	unregister_widget('WP_Widget_Tag_Cloud');
 	unregister_widget('WP_Widget_RSS');
-	//unregister_widget('WP_Widget_Search');
+	unregister_widget('WP_Widget_Search');
 	unregister_widget('FrmListEntries');
 	
 	

@@ -11,26 +11,24 @@
 
 html .mceContentBody {
 	font-size: 100%;
-	max-width: 620px;
+	max-width: 690px;
 }
 
 body {
-	background-color: #color-white;
+	background-color: $color-white;
 	text-rendering: optimizeLegibility;
-	@include rem('font-size', 16px);
+	@include rem('font-size', 14px);
 	line-height: 1.5;
 	color: $color-text;
-	font-family: $sans;
-	margin: 10px;
+	font-family: $sans;	
+	margin: 15px;
 }
 
 a {
-	color: $color-link-one;	
-	text-decoration: none; //reset
-	&:visited {
-		color: $color-link-one; }
-	&:hover {
-		color: darken($color-link-one, 15%); }
+	color: $color-link-one-dark;	
+	text-decoration: none; 
+	&:visited { color: $color-link-one; }
+	&:hover, &:focus, &:active { color: $color-link-three; }	
 }
 
 p {
@@ -54,8 +52,10 @@ p,ul,ol,dl,blockquote {
 @include post-content-defaults;
 
 h1,  h2,  h3,  h4,  h5,  h6 {
-	margin: $base 0 $base;
-	font-weight: 700;
+	&:first-of-type {
+		margin-top: $base*0.75;
+	}
+	margin: $base*0.75 0 $base*0.75;	
 }
 
 //media

@@ -38,7 +38,7 @@ function tst_setup() {
 	));
 
 	// Editor style
-	//add_editor_style(array('css/editor-style.css'));
+	add_editor_style(array('css/editor-style.css'));
 }
 endif; // tst_setup
 add_action( 'after_setup_theme', 'tst_setup' );

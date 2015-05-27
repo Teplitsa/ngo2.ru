@@ -654,15 +654,14 @@ Alerts (_semantics.scss)
 .entry-content h2 {
   font-size: 1.8em; }
 .entry-content h3 {
-  font-size: 1.6em; }
+  font-size: 1.8em; }
 .entry-content h4 {
-  font-size: 1.4em; }
+  font-size: 1.6em; }
 .entry-content h5 {
-  font-size: 1.2em;
-  font-weight: 400; }
+  font-size: 1.4em; }
 .entry-content h6 {
   margin-bottom: 18px;
-  font-size: 0.9em;
+  font-size: 1em;
   text-transform: uppercase; }
 .entry-content h1 + h1, .entry-content h1 + h2, .entry-content h1 + h3, .entry-content h1 + h4, .entry-content h1 + h5, .entry-content h1 + h6,
 .entry-content h2 + h1, .entry-content h2 + h2, .entry-content h2 + h3, .entry-content h2 + h4, .entry-content h2 + h5, .entry-content h2 + h6,
@@ -675,7 +674,7 @@ Alerts (_semantics.scss)
   margin: 2.5em 0;
   padding: 0 80px 0 0;
   position: relative;
-  color: #666666; }
+  color: #2d2d2d; }
   .entry-content blockquote:before {
     content: "\f122";
     font: 64px/1 dashicons;
@@ -834,25 +833,25 @@ Alerts (_semantics.scss)
 
 html .mceContentBody {
   font-size: 100%;
-  max-width: 620px; }
+  max-width: 690px; }
 
 body {
-  background-color: #color-white;
+  background-color: #ffffff;
   text-rendering: optimizeLegibility;
-  font-size: 16px;
-  font-size: 1.6rem;
+  font-size: 14px;
+  font-size: 1.4rem;
   line-height: 1.5;
   color: #333;
   font-family: "Arimo", sans-serif;
-  margin: 10px; }
+  margin: 15px; }
 
 a {
-  color: #F6A235;
+  color: #F2A012;
   text-decoration: none; }
   a:visited {
     color: #F6A235; }
-  a:hover {
-    color: #d57c09; }
+  a:hover, a:focus, a:active {
+    color: #056937; }
 
 p {
   margin-bottom: base/2;
@@ -875,18 +874,17 @@ h2 {
   font-size: 1.8em; }
 
 h3 {
-  font-size: 1.6em; }
+  font-size: 1.8em; }
 
 h4 {
-  font-size: 1.4em; }
+  font-size: 1.6em; }
 
 h5 {
-  font-size: 1.2em;
-  font-weight: 400; }
+  font-size: 1.4em; }
 
 h6 {
   margin-bottom: 18px;
-  font-size: 0.9em;
+  font-size: 1em;
   text-transform: uppercase; }
 
 h1 + h1, h1 + h2, h1 + h3, h1 + h4, h1 + h5, h1 + h6,
@@ -901,7 +899,7 @@ blockquote {
   margin: 2.5em 0;
   padding: 0 80px 0 0;
   position: relative;
-  color: #666666; }
+  color: #2d2d2d; }
   blockquote:before {
     content: "\f122";
     font: 64px/1 dashicons;
@@ -1085,8 +1083,9 @@ div.wp-video-shortcode {
     padding:  0.8rem 1.5rem; }
 
 h1, h2, h3, h4, h5, h6 {
-  margin: 24px 0 24px;
-  font-weight: 700; }
+  margin: 18px 0 18px; }
+  h1:first-of-type, h2:first-of-type, h3:first-of-type, h4:first-of-type, h5:first-of-type, h6:first-of-type {
+    margin-top: 18px; }
 
 .wp-caption {
   background: transparent;

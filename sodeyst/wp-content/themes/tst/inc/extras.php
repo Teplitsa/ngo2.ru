@@ -341,18 +341,9 @@ function deregister_taxonomy_for_object_type( $taxonomy, $object_type) {
 endif;
 
 
-add_filter('wpseo_title', 'hmap_wpseo_title_correction');
-function tst_wpseo_title_correction($title){
-	
-	//if(is_singular('attack')){		
-	//	$a_title = hmap_attack_title();
-	//	$title = str_replace('[[attack_title]]', $a_title, $title);
-	//}
-	
-	return $title;
-}
 
-//add_filter('the_content', 'ruka_http_the_content', 100);
+
+//add_filter('the_content', 'tst_http_the_content', 100);
 function tst_http_the_content($html){
 	
 	if(false !== strpos($html, 'http:')){

@@ -1706,6 +1706,56 @@ section.error-404 h1 {
   font-size: 1.5em;
   margin-bottom: 0.3em; }
 
+.widget.newsletter p {
+  margin-bottom: 5px; }
+.widget.newsletter input[type="text"],
+.widget.newsletter input[type="email"] {
+  border-color: #2d2d2d;
+  border-radius: 0px;
+  background: transparent;
+  padding: 4px; }
+  .widget.newsletter input[type="text"]:focus,
+  .widget.newsletter input[type="email"]:focus {
+    background: #ffffff; }
+  .widget.newsletter input[type="text"]::-webkit-input-placeholder,
+  .widget.newsletter input[type="email"]::-webkit-input-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]::-moz-placeholder,
+  .widget.newsletter input[type="email"]::-moz-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]:-moz-placeholder,
+  .widget.newsletter input[type="email"]:-moz-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]:-ms-input-placeholder,
+  .widget.newsletter input[type="email"]:-ms-input-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+.widget.newsletter input[type="submit"] {
+  display: inline-block;
+  background: #2d2d2d;
+  color: #ffffff;
+  font-size: 13px;
+  font-size: 1.3rem;
+  font-family: "Arimo", sans-serif;
+  text-transform: uppercase;
+  padding: 0.5em 1.2em 0.5em;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  cursor: pointer;
+  border: none;
+  margin: 0; }
+  .widget.newsletter input[type="submit"]:visited {
+    background: #2d2d2d;
+    color: #ffffff; }
+  .widget.newsletter input[type="submit"]:hover, .widget.newsletter input[type="submit"]:focus, .widget.newsletter input[type="submit"]:active {
+    background: #9CCD52;
+    color: #ffffff; }
+
 /*---------------------------------------------------------
  Menu main (_menu.scss)
 -------------------------------------------------------- */
