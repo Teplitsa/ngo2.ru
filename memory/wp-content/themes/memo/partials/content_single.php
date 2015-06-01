@@ -50,38 +50,43 @@ global $post;
 		<div class="bit md-4">
 			<div class="column-inner side">
 				
+				<?php $audios = get_field('audio');
+				if($audios) {?>
 				<div class="widget">
 					<h3 class="widget-title">Аудио</h3>
-                    <?php if( !empty($_GET['test']) ) echo '<pre>'.print_r(get_field('audio'), 1).'</pre>';?>
 					<div class="widget-content">
                     <?php
-                        $audios = get_field('audio');
                         if(count($audios) > 1) {
 
                             $ids = array();
                             foreach($audios as $audio) {
-                                $ids[] = $audio['audio-file']['ID'];
+								if( !empty($audio['audio-file']['ID']) ) {
+									$ids[] = $audio['audio-file']['ID'];
+								}
                             }
 
-                            echo do_shortcode('[playlist type="audio" ids="'.implode(',', $ids).'" artists="0"]');
+							if($ids) {
+								echo do_shortcode('[playlist type="audio" ids="'.implode(',', $ids).'" artists="0"]');
+							}
 
-                        } elseif(count($audios) == 1) {
+                        } elseif(count($audios) == 1 && !empty($audios[0]['audio-file']['url'])) {
                             echo do_shortcode('[audio src="'.$audios[0]['audio-file']['url'].'"]');
                         }
                     ?>
                     </div>
 				</div>
+				<?php }?>
 				
 				<?php
-					$gallery =  memo_post_attached_gallery(get_the_ID(), 2);
-					if(!empty($gallery)) {
+					$gallery = memo_post_attached_gallery(get_the_ID(), 2);
+					if($gallery) {
 				?>
 					<div class="widget">
 						<h3 class="widget-title">Фото</h3>
 						<div class="widget-content"><?php echo memo_post_attached_gallery(get_the_ID(), 2);?></div>
 					</div>
-				<?php } ?>
-				
+				<?php }?>
+
 				<?php dynamic_sidebar( 'story-sidebar' ); ?>
 			</div>
 		</div>
