@@ -52,7 +52,24 @@ global $post;
 				
 				<div class="widget">
 					<h3 class="widget-title">Аудио</h3>
-					<div class="widget-content">Здесь будет плеер</div>
+                    <?php if( !empty($_GET['test']) ) echo '<pre>'.print_r(get_field('audio'), 1).'</pre>';?>
+					<div class="widget-content">
+                    <?php
+                        $audios = get_field('audio');
+                        if(count($audios) > 1) {
+
+                            $ids = array();
+                            foreach($audios as $audio) {
+                                $ids[] = $audio['audio-file']['ID'];
+                            }
+
+                            echo do_shortcode('[playlist type="audio" ids="'.implode(',', $ids).'" artists="0"]');
+
+                        } elseif(count($audios) == 1) {
+                            echo do_shortcode('[audio src="'.$audios[0]['audio-file']['url'].'"]');
+                        }
+                    ?>
+                    </div>
 				</div>
 				
 				<?php
