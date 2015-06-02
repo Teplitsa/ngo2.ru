@@ -131,6 +131,7 @@ $sidebar-width: 280px;
 	text-transform: uppercase;
 	padding: 0.5em 1.2em 0.5em;
 	@include transition-all(0.3s);
+	border: none;
 	
 	&:visited {
 		background: $color;

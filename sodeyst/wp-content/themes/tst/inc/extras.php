@@ -140,7 +140,7 @@ function tst_print_top_link(){
 	
 <?php endif; 
 }
-add_action('wp_footer', 'tst_print_top_link');
+//add_action('wp_footer', 'tst_print_top_link');
 
 
 /**

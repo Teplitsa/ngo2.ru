@@ -60,15 +60,17 @@ p,ul,ol,dl,blockquote {
 	
 	.textwidget {
 		position: relative;
-		border: 1px solid  $color-border-normal;
-		padding: 1em;
-		@include rem('font-size', 12px);
+		//border: 1px solid  $color-border-normal;
+		padding: 1em 0 1em 0;
+		@include rem('font-size', 13px);
+		line-height: 1.45;
 		text-align: right;
 		
 		p { margin: 0; }
 		
 		.icon {
-			width: 40px;
+			display: none;
+			/*width: 40px;
 			height: 40px;
 			text-align: center;
 			border-radius: 50%;
@@ -82,7 +84,7 @@ p,ul,ol,dl,blockquote {
 			i {
 				font-size: 21px;
 				line-height: 38px;
-			}
+			}*/
 		}
 	}
 	
@@ -180,16 +182,6 @@ p,ul,ol,dl,blockquote {
 	@include rem('padding', $base);
 	@include rem('margin-top', $base*2.5);
 	
-	&:before {
-		content: '';
-		display: block;
-		width: 100%;
-		height: 6px;
-		background: $color-border-light;
-		position: absolute;
-		top: -10px;
-		left: 0;
-	}
 	
 	a {		
 		border-bottom: 1px dotted;
@@ -202,8 +194,14 @@ p,ul,ol,dl,blockquote {
 	}
 	
 	.button {
-		@include ghost-button($color-text-black, 12px);
-		padding: 0.4em 1.4em;	
+		//@include ghost-button($color-text-black, 12px);
+		@include fixed-button($color-text-black, $color-link-three, 12px);
+		padding: 0.4em 1.4em;
+		
+		&:hover, &:focus, &:active {
+			border: none;
+			text-decoration: none;
+		}
 	}
 }
 
@@ -332,26 +330,3 @@ section.error-404 {
 }
 
 
-.widget.newsletter {
-	p { margin: 0 0 5px;	}
-	
-	input[type="text"],
-	input[type="email"] {
-		border-color: $color-text-black;
-		border-radius: 0px;
-		background: transparent;
-		padding: 4px;
-		&:focus {
-			background: $color-white;
-		}
-		
-		@include placeholder {
-			color: $color-text;
-			font-size: 0.9em;
-		}
-	}
-	
-	input[type="submit"] {
-		@include fixed-button($color-text-black, $color-link-three, 13px);
-	}
-}

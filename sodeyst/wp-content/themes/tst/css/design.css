@@ -1375,6 +1375,7 @@ LAM Galleries (_modules.scss)
   padding: 0.5em 1.2em 0.5em;
   -webkit-transition: all 0.3s;
   transition: all 0.3s;
+  border: none;
   border-radius: 0px;
   box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
   cursor: pointer;
@@ -1471,27 +1472,30 @@ p {
   display: none; }
 .site-header .textwidget {
   position: relative;
-  border: 1px solid #dfdfdf;
-  padding: 1em;
-  font-size: 12px;
-  font-size: 1.2rem;
+  padding: 1em 0 1em 0;
+  font-size: 13px;
+  font-size: 1.3rem;
+  line-height: 1.45;
   text-align: right; }
   .site-header .textwidget p {
     margin: 0; }
   .site-header .textwidget .icon {
-    width: 40px;
+    display: none;
+    /*width: 40px;
     height: 40px;
     text-align: center;
     border-radius: 50%;
-    background: #dfdfdf;
-    color: #ffffff;
+    background: $color-border-normal;
+    color: $color-white;
     z-index: 10;
     position: absolute;
     left: -20px;
-    top: -20px; }
-    .site-header .textwidget .icon i {
-      font-size: 21px;
-      line-height: 38px; }
+    top: -20px;
+    
+    i {
+    	font-size: 21px;
+    	line-height: 38px;
+    }*/ }
 @media screen and (min-width: 800px) {
   .site-header {
     padding-bottom: 15px;
@@ -1573,15 +1577,6 @@ p {
     background-repeat: no-repeat;
     background-position: right bottom;
     background-size: contain; }
-  #bottombar:before {
-    content: '';
-    display: block;
-    width: 100%;
-    height: 6px;
-    background: #eeeeee;
-    position: absolute;
-    top: -10px;
-    left: 0; }
   #bottombar a {
     border-bottom: 1px dotted;
     color: #2d2d2d; }
@@ -1590,22 +1585,31 @@ p {
       border-bottom: 1px solid; }
   #bottombar .button {
     display: inline-block;
-    color: rgba(45, 45, 45, 0.85);
-    border: 2px solid rgba(45, 45, 45, 0.85);
-    background-color: transparent;
-    cursor: pointer;
-    text-transform: uppercase;
-    font-family: "Arimo", sans-serif;
-    padding: 0.4em 1.8em 0.4em;
+    background: #2d2d2d;
+    color: #ffffff;
     font-size: 12px;
     font-size: 1.2rem;
+    font-family: "Arimo", sans-serif;
+    text-transform: uppercase;
+    padding: 0.5em 1.2em 0.5em;
     -webkit-transition: all 0.3s;
     transition: all 0.3s;
+    border: none;
+    border-radius: 0px;
+    box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+    cursor: pointer;
+    border: none;
+    margin: 0;
     padding: 0.4em 1.4em; }
+    #bottombar .button:visited {
+      background: #2d2d2d;
+      color: #ffffff; }
     #bottombar .button:hover, #bottombar .button:focus, #bottombar .button:active {
-      border: 2px solid #2d2d2d;
-      color: #2d2d2d;
-      background: rgba(45, 45, 45, 0.1); }
+      background: #056937;
+      color: #ffffff; }
+    #bottombar .button:hover, #bottombar .button:focus, #bottombar .button:active {
+      border: none;
+      text-decoration: none; }
 
 .site-footer {
   padding: 19.2px 0 28.8px;
@@ -1706,56 +1710,6 @@ section.error-404 h1 {
   font-size: 1.5em;
   margin-bottom: 0.3em; }
 
-.widget.newsletter p {
-  margin: 0 0 5px; }
-.widget.newsletter input[type="text"],
-.widget.newsletter input[type="email"] {
-  border-color: #2d2d2d;
-  border-radius: 0px;
-  background: transparent;
-  padding: 4px; }
-  .widget.newsletter input[type="text"]:focus,
-  .widget.newsletter input[type="email"]:focus {
-    background: #ffffff; }
-  .widget.newsletter input[type="text"]::-webkit-input-placeholder,
-  .widget.newsletter input[type="email"]::-webkit-input-placeholder {
-    color: #333;
-    font-size: 0.9em; }
-  .widget.newsletter input[type="text"]::-moz-placeholder,
-  .widget.newsletter input[type="email"]::-moz-placeholder {
-    color: #333;
-    font-size: 0.9em; }
-  .widget.newsletter input[type="text"]:-moz-placeholder,
-  .widget.newsletter input[type="email"]:-moz-placeholder {
-    color: #333;
-    font-size: 0.9em; }
-  .widget.newsletter input[type="text"]:-ms-input-placeholder,
-  .widget.newsletter input[type="email"]:-ms-input-placeholder {
-    color: #333;
-    font-size: 0.9em; }
-.widget.newsletter input[type="submit"] {
-  display: inline-block;
-  background: #2d2d2d;
-  color: #ffffff;
-  font-size: 13px;
-  font-size: 1.3rem;
-  font-family: "Arimo", sans-serif;
-  text-transform: uppercase;
-  padding: 0.5em 1.2em 0.5em;
-  -webkit-transition: all 0.3s;
-  transition: all 0.3s;
-  border-radius: 0px;
-  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
-  cursor: pointer;
-  border: none;
-  margin: 0; }
-  .widget.newsletter input[type="submit"]:visited {
-    background: #2d2d2d;
-    color: #ffffff; }
-  .widget.newsletter input[type="submit"]:hover, .widget.newsletter input[type="submit"]:focus, .widget.newsletter input[type="submit"]:active {
-    background: #056937;
-    color: #ffffff; }
-
 /*---------------------------------------------------------
  Menu main (_menu.scss)
 -------------------------------------------------------- */
@@ -1769,11 +1723,7 @@ section.error-404 h1 {
   margin: 0;
   padding: 0;
   float: right;
-  /*.vk a {
-  	background: #3C6792;
-  }
-  
-  .facebook a {
+  /*.facebook a {
   	background: #3D549A;
   }
   
@@ -1816,6 +1766,8 @@ section.error-404 h1 {
       line-height: 30px; }
       .social-menu li i span {
         display: none; }
+  .social-menu .vk a {
+    background: #3C6792; }
 
 .top-nav {
   position: relative;
@@ -2002,6 +1954,76 @@ section.error-404 h1 {
   display: inline-block;
   text-transform: uppercase; }
 
+.widget.newsletter p {
+  margin: 0 0 5px; }
+.widget.newsletter input[type="text"],
+.widget.newsletter input[type="email"] {
+  border-color: #2d2d2d;
+  border-radius: 0px;
+  background: transparent;
+  padding: 4px; }
+  .widget.newsletter input[type="text"]:focus,
+  .widget.newsletter input[type="email"]:focus {
+    background: #ffffff; }
+  .widget.newsletter input[type="text"]::-webkit-input-placeholder,
+  .widget.newsletter input[type="email"]::-webkit-input-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]::-moz-placeholder,
+  .widget.newsletter input[type="email"]::-moz-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]:-moz-placeholder,
+  .widget.newsletter input[type="email"]:-moz-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+  .widget.newsletter input[type="text"]:-ms-input-placeholder,
+  .widget.newsletter input[type="email"]:-ms-input-placeholder {
+    color: #333;
+    font-size: 0.9em; }
+
+.sidebar-wide .widget.newsletter input[type="submit"] {
+  display: inline-block;
+  background: #F6A235;
+  color: #ffffff;
+  font-size: 13px;
+  font-size: 1.3rem;
+  font-family: "Arimo", sans-serif;
+  text-transform: uppercase;
+  padding: 0.5em 1.2em 0.5em;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s;
+  border: none;
+  border-radius: 0px;
+  box-shadow: 0px 0px 0px 0px rgba(255, 255, 255, 0);
+  cursor: pointer;
+  border: none;
+  margin: 0; }
+  .sidebar-wide .widget.newsletter input[type="submit"]:visited {
+    background: #F6A235;
+    color: #ffffff; }
+  .sidebar-wide .widget.newsletter input[type="submit"]:hover, .sidebar-wide .widget.newsletter input[type="submit"]:focus, .sidebar-wide .widget.newsletter input[type="submit"]:active {
+    background: #056937;
+    color: #ffffff; }
+
+#bottombar .widget.newsletter input[type="submit"] {
+  display: inline-block;
+  color: rgba(45, 45, 45, 0.85);
+  border: 2px solid rgba(45, 45, 45, 0.85);
+  background-color: transparent;
+  cursor: pointer;
+  text-transform: uppercase;
+  font-family: "Arimo", sans-serif;
+  padding: 0.4em 1.8em 0.4em;
+  font-size: 13px;
+  font-size: 1.3rem;
+  -webkit-transition: all 0.3s;
+  transition: all 0.3s; }
+  #bottombar .widget.newsletter input[type="submit"]:hover, #bottombar .widget.newsletter input[type="submit"]:focus, #bottombar .widget.newsletter input[type="submit"]:active {
+    border: 2px solid #2d2d2d;
+    color: #2d2d2d;
+    background: rgba(45, 45, 45, 0.1); }
+
 /* posts */
 .tpl-post {
   margin-bottom: 36px;
@@ -2048,10 +2070,7 @@ section.error-404 h1 {
     max-height: 100%; }
 
 .paging-navigation {
-  border-top: 4px solid #eeeeee;
-  padding-top: 8px;
-  padding-top: 0.8rem;
-  text-align: right; }
+  text-align: left; }
   .paging-navigation span, .paging-navigation a {
     font-size: 18px;
     font-size: 1.8rem;
