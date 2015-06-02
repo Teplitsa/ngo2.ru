@@ -1918,7 +1918,7 @@ body.page-template-default .site-content .container {
 .tpl-story .card-content {
   padding: 12px;
   padding: 1.2rem;
-  background: #f9f9f9;
+  background: #f5f5f5;
   border: 1px solid #eeeeee;
   border-bottom: none; }
 .tpl-story .entry-header {
@@ -2124,12 +2124,24 @@ body.page-template-default .site-content .container {
     padding: 1px 4px; }
 
 .tagscloud-widget.card .post-inner {
+  position: relative;
   background: #f9f9f9;
-  border: 1px solid #eeeeee;
-  padding: 10px 43px 10px 10px; }
+  padding: 10px 53px 40px 10px; }
 .tagscloud-widget.card .widget-icon {
   top: 3px;
   right: 3px; }
+.tagscloud-widget.card .widget-cloud-content a {
+  padding: 2px 6px; }
+@media screen and (min-width: 800px) {
+  .tagscloud-widget.card .post-inner:after {
+    content: '';
+    display: block;
+    width: 100%;
+    height: 30px;
+    background: #E7792B;
+    position: absolute;
+    bottom: 0;
+    left: 0; } }
 
 .tag-nav .tagscloud-widget {
   margin-bottom: 36px;
@@ -2333,11 +2345,7 @@ body.page-template-default .site-content .container {
   margin-bottom: 24px;
   margin-bottom: 2.4rem; }
 .page-template-page-home .bg {
-  height: 745px;
-  top: 15%; }
-  @media screen and (min-width: 1000px) {
-    .page-template-page-home .bg {
-      top: 17%; } }
+  top: 3%; }
 
 .home-section.intro {
   padding-top: 4px; }

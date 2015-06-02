@@ -8,7 +8,7 @@
 	
 	.card-content {
 		@include rem('padding', $base/2);
-		background: #f9f9f9;
+		background: $color-secondary;
 		border: 1px solid $color-border-light;
 		border-bottom: none;
 	}
@@ -265,15 +265,40 @@
 }
 
 .tagscloud-widget.card {
+	
+	
+	
 	.post-inner  {
+		position: relative;
 		background: #f9f9f9;
-		border: 1px solid $color-border-light;
-		padding: 10px 43px 10px 10px;
+		//border: 1px solid $color-border-light;
+		padding: 10px 53px 40px 10px;
 	}
 	
 	.widget-icon {		
 		top: 3px;
 		right: 3px;
+	}
+	
+	.widget-cloud-content {
+		a {			
+			padding: 2px 6px;
+		}
+	}
+	
+	@include for(medium-screens){
+		
+		.post-inner:after {
+			content: '';
+			display: block;
+			width: 100%;
+			height: 30px;
+			background: $color-link-one;
+			position: absolute;
+			bottom: 0;
+			left: 0;			
+		}
+		
 	}
 }
 
