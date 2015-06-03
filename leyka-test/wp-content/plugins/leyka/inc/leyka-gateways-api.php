@@ -224,40 +224,7 @@ abstract class Leyka_Gateway {
 
         $this->_initialize_pm_list();
         do_action('leyka_init_pm_list', $this);
-
-//        $this->_initialize_pm_options();
-//        $this->_set_pm_activity();
     }
-
-//    protected function _set_pm_activity() {
-//
-//        $all_active_pm_list = leyka_options()->opt('pm_available');
-//        $own_active_pm_list = array();
-//        for($i=0; $i<count($all_active_pm_list); $i++) {
-//
-//            if( !empty($all_active_pm_list[$i]) && stristr($all_active_pm_list[$i], $this->_id.'-') !== false )
-//                $own_active_pm_list[] = str_replace($this->_id.'-', '', $all_active_pm_list[$i]);
-//        }
-//
-//        foreach($this->_payment_methods as $pm_id => $pm) {
-//
-//            /** @var $pm Leyka_Payment_Method */
-//            if(in_array($pm_id, $own_active_pm_list) && !$pm->is_active)
-//                $pm->set_activity(true);
-//            else if( !in_array($pm_id, $own_active_pm_list) && $pm->is_active )
-//                $pm->set_activity(false);
-//        }
-//    }
-
-//    protected function _initialize_pm_options() {
-//
-//        foreach($this->_payment_methods as $pm) {
-//
-//            /** @var $pm Leyka_Payment_Method */
-//            $pm->initialize_options();
-//            $this->_payment_methods[$pm->id] = $pm;
-//        }
-//    }
 
     protected function _initialize_options() {
 
@@ -425,6 +392,8 @@ abstract class Leyka_Payment_Method {
 
     protected function __construct() {
 
+        $this->_submit_label = __('Donate', 'leyka'); /** @todo Will add some option or filter here */
+
         $this->_initialize_attributes();
         $this->_initialize_options();
     }
@@ -439,7 +408,14 @@ abstract class Leyka_Payment_Method {
             case 'is_active': $param = $this->_active; break;
             case 'label':
             case 'title':
-            case 'name': $param = apply_filters('leyka_get_pm_label', $this->_label, $this); break;
+            case 'name':
+                $param = leyka_options()->opt_safe($this->full_id.'_label');
+                return apply_filters(
+                    'leyka_get_pm_label',
+                    $param && $param != $this->_label ? $param : $this->_label,
+                    $this
+                );
+                break;
             case 'label_backend':
             case 'title_backend':
             case 'name_backend': $param = $this->_label_backend ? $this->_label_backend : $this->_label;

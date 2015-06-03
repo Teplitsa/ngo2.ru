@@ -187,7 +187,7 @@ $options_meta = apply_filters('leyka_core_options_meta', array(
         'validation_rules' => array(), // List of regexp?..
     ),
     'pm_order' => array(
-        'type' => 'text', // html, rich_html, select, radio, checkbox, multi_checkbox
+        'type' => 'text', // It's intentionally of text type :) Option contains a serialized string of an array
         'default' => '', // PM will be ordered just as their gateways were added
         'title' => __('Payment methods order on donation forms', 'leyka'),
         'description' => '',

@@ -101,7 +101,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                 </div>
             <?php }?>
             </div><!-- #pm-settings-wrapper -->
-           
+
         </div><!-- #active-pm-settings -->
     </div><!-- .active-pm-panel -->
 

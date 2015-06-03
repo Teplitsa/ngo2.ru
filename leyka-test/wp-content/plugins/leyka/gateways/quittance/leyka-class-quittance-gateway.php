@@ -138,24 +138,19 @@ class Leyka_Bank_Order extends Leyka_Payment_Method {
 
     private $_quittance_html = '';
 
-    protected static $_instance = null;  // PM is always a singleton
+    protected static $_instance;
 
     protected function _initialize_attributes() {
 
         $this->_quittance_html = file_get_contents(LEYKA_PLUGIN_DIR.'gateways/quittance/bank_order.html');
 
         $this->_id = 'bank_order';
-
         $this->_gateway_id = 'quittance';
 
         $this->_label_backend = __('Bank order quittance', 'leyka');
         $this->_label = __('Bank order quittance', 'leyka');
 
         $this->_description = leyka_options()->opt_safe('bank_order_description');
-
-        $this->_support_global_fields = true; /** @todo Do we even need this field?? */
-
-        $this->_custom_fields = array();
 
         $this->_icons = apply_filters('leyka_icons_'.$this->_gateway_id.'_'.$this->_id, array(
             LEYKA_PLUGIN_BASE_URL.'gateways/quittance/icons/sber_s.png',
