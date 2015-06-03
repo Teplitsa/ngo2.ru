@@ -1723,7 +1723,11 @@ section.error-404 h1 {
   margin: 0;
   padding: 0;
   float: right;
-  /*.facebook a {
+  /*.vk a {
+  	background: #3C6792;
+  }
+  
+  .facebook a {
   	background: #3D549A;
   }
   
@@ -1766,8 +1770,6 @@ section.error-404 h1 {
       line-height: 30px; }
       .social-menu li i span {
         display: none; }
-  .social-menu .vk a {
-    background: #3C6792; }
 
 .top-nav {
   position: relative;
