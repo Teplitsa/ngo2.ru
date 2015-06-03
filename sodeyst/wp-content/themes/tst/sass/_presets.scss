@@ -166,9 +166,12 @@ $sidebar-width: 280px;
 
 @mixin ghost-button($color, $size : 18px) {
 	display: inline-block;
+	
 	color: transparentize($color, 0.15);
 	border: 2px solid transparentize($color, 0.15); 
-	background-color: transparent;
+	background: transparentize($color, 0.9);
+	
+	border-radius: 0px;
 	cursor: pointer;
 	text-transform: uppercase;
 	font-family: $sans;	
@@ -180,7 +183,7 @@ $sidebar-width: 280px;
 	&:hover, &:focus, &:active {
 		border: 2px solid $color; 
 		color: $color;
-		background: transparentize($color, 0.9);
+		background: transparentize($color, 0.8);
 	}	
 }
 

@@ -22,13 +22,14 @@
 <div class="site-wrap">
 	<a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 	
-	<nav id="top_nav" class="top-nav"><div class="nav-panel">
-		<span class="screen-reader-text"><?php _e( 'Social menu', 'tst' ); ?></span>
-		<?php wp_nav_menu(array('theme_location' => 'social', 'container' => false, 'menu_class' => 'social-menu')); ?>			
+	<nav id="top_nav" class="top-nav"><div class="nav-panel"><span class="screen-reader-text"><?php _e( 'Social menu', 'tst' ); ?></span>
+
 		<div id="search-toggle">
 			<div class="search-trigger"><i class="fa fa-search"></i></div>
 			<div class="search-holder"><?php get_search_form();?></div>
 		</div>
+		
+		<?php wp_nav_menu(array('theme_location' => 'social', 'container' => false, 'menu_class' => 'social-menu')); ?>					
 			
 	</div></nav>
 	

@@ -192,6 +192,18 @@ function tst_scripts() {
 	
 	$script_dependencies[] = 'tst-grids';
 	
+	if(is_front_page()) {
+
+		wp_enqueue_script(
+			'tst-lettering',
+			$theme_dir_url . '/js/jquery.lettering.js',
+			$script_dependencies,
+			'0.7.0',
+			true
+		);
+		$script_dependencies[] = 'tst-lettering';
+	}
+	
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',

@@ -59,33 +59,13 @@ p,ul,ol,dl,blockquote {
 	.widget { display: none; }
 	
 	.textwidget {
-		position: relative;
-		//border: 1px solid  $color-border-normal;
+		position: relative;		
 		padding: 1em 0 1em 0;
-		@include rem('font-size', 13px);
-		line-height: 1.45;
+		@include rem('font-size', 14px);
+		line-height: 1.35;
 		text-align: right;
 		
-		p { margin: 0; }
-		
-		.icon {
-			display: none;
-			/*width: 40px;
-			height: 40px;
-			text-align: center;
-			border-radius: 50%;
-			background: $color-border-normal;
-			color: $color-white;
-			z-index: 10;
-			position: absolute;
-			left: -20px;
-			top: -20px;
-			
-			i {
-				font-size: 21px;
-				line-height: 38px;
-			}*/
-		}
+		p { margin: 0; }		
 	}
 	
 	@include for(medium-screens) {

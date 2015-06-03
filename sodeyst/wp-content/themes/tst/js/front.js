@@ -127,27 +127,27 @@ jQuery(document).ready(function($){
     
 	// search toggle
 	var searchArea = $('#search-toggle');
-	searchArea.on('click', '.search-trigger', function(e){
-		e.preventDefault();
-		if (searchArea.hasClass('toggled')) { 
-            //remove
-            searchArea.find('.search-holder').slideUp('fast', function(){
-				searchArea.removeClass('toggled');
-				searchArea.find('.search-holder').removeAttr('style');
-				searchArea.find('.search-trigger').find('.fa').removeClass('fa-times-circle').addClass('fa-search');
-			});
-            
-        }
-        else { 
-            //add
-            searchArea.find('.search-holder').slideDown('fast', function(){
-				searchArea.addClass('toggled');
-				searchArea.find('.search-holder').removeAttr('style');
-				searchArea.find('.search-trigger').find('.fa').removeClass('fa-search').addClass('fa-times-circle');
-			});
-            
-        }
-	});
+//	searchArea.on('click', '.search-trigger', function(e){
+//		e.preventDefault();
+//		if (searchArea.hasClass('toggled')) { 
+//            //remove
+//            searchArea.find('.search-holder').slideUp('fast', function(){
+//				searchArea.removeClass('toggled');
+//				searchArea.find('.search-holder').removeAttr('style');
+//				searchArea.find('.search-trigger').find('.fa').removeClass('fa-times-circle').addClass('fa-search');
+//			});
+//            
+//        }
+//        else { 
+//            //add
+//            searchArea.find('.search-holder').slideDown('fast', function(){
+//				searchArea.addClass('toggled');
+//				searchArea.find('.search-holder').removeAttr('style');
+//				searchArea.find('.search-trigger').find('.fa').removeClass('fa-search').addClass('fa-times-circle');
+//			});
+//            
+//        }
+//	});
 	
     
     // Center logos 
@@ -178,4 +178,9 @@ jQuery(document).ready(function($){
 		$('.events-gallery .tpl-event-in-gallery').responsiveEqualHeightGrid();
 	});
     
+	// Home page
+    var $home_intro = $('#home_intro');
+	if($home_intro.length) {
+        $home_intro.find('.wrap').lettering('words');
+	}
 });
