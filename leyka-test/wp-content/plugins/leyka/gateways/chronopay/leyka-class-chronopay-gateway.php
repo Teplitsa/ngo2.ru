@@ -133,7 +133,7 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 			'usd' => 'USD',
 			'eur' => 'EUR'
 		);
-
+		
 		return isset($chronopay_currencies[$leyka_currency_id]) ?
             $chronopay_currencies[$leyka_currency_id] : 'RUB';
 	}
@@ -260,10 +260,12 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
                     'donor_email' => $init_recurrent_payment->donor_email,
                     'amount' => $init_recurrent_payment->amount,
                     'currency' => $init_recurrent_payment->currency,
+                    'gateway_response' => $_POST,
 
                     'chronopay_customer_id' => $customer_id,
 //                    '' => '',
                 ));
+                $donation->add_gateway_response($_POST);
 
                 Leyka_Donation_Management::send_all_emails($donation_id);
             }
