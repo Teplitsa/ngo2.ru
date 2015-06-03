@@ -49,6 +49,8 @@ function leyka_save_settings($tab_name) {
 
             if(isset($_POST["leyka_$name"]) && leyka_options()->opt($name) != $_POST["leyka_$name"]) {
                 leyka_options()->opt($name, esc_attr(stripslashes($_POST["leyka_$name"])));
+
+//                echo '<pre>' . print_r(leyka_options()->opt($name), 1) . '</pre>';
             }
         }
     }
