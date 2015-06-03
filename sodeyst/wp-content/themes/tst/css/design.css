@@ -1227,7 +1227,7 @@ LAM Galleries (_modules.scss)
  Search (_modules.scss)
 -------------------------------------------------------- */
 .searchform {
-  border: 2px solid #dfdfdf;
+  border: 2px solid #ffffff;
   position: relative;
   height: 30px; }
   .searchform, .searchform * {
@@ -1241,10 +1241,10 @@ LAM Galleries (_modules.scss)
     line-height: 14px;
     line-height: 1.4rem;
     border: none;
-    color: #dfdfdf;
+    color: #ffffff;
     border-radius: 0px; }
     .searchform .search-field:focus {
-      background: rgba(255, 255, 255, 0.85);
+      background: #ffffff;
       color: #333; }
   .searchform .submit-icon {
     background: transparent;
@@ -1256,7 +1256,7 @@ LAM Galleries (_modules.scss)
     -webkit-transition: all 0.3s;
     transition: all 0.3s; }
     .searchform .submit-icon .fa {
-      color: #dfdfdf;
+      color: #ffffff;
       position: absolute;
       top: 4px;
       left: 6px;
@@ -1278,12 +1278,10 @@ LAM Galleries (_modules.scss)
       box-shadow: none;
       text-shadow: none; }
 
-.searchform.focus {
-  border-color: #056937; }
-  .searchform.focus .submit-icon .fa {
-    color: #056937; }
-    .searchform.focus .submit-icon .fa:hover {
-      color: #068144; }
+.searchform.focus .submit-icon .fa {
+  color: #056937; }
+  .searchform.focus .submit-icon .fa:hover {
+    color: #068144; }
 
 #primary .search-holder {
   margin-bottom: 36px; }
@@ -1452,15 +1450,12 @@ p {
     margin-bottom: 0; }
 
 /* structure */
-.site-wrap {
+.site-wrap,
+.container {
   width: 85%;
   max-width: 978px;
-  margin: 0 auto; }
-
-.body-top {
-  width: 100%;
-  height: 8px;
-  background: #9CCD52; }
+  margin: 0 auto;
+  position: relative; }
 
 .site-header .site-logo {
   background: transparent url(../img/sign.png) no-repeat left center;
@@ -1472,7 +1467,6 @@ p {
   display: none; }
 .site-header .textwidget {
   position: relative;
-  padding: 1em 0 1em 0;
   font-size: 14px;
   font-size: 1.4rem;
   line-height: 1.35;
@@ -1481,18 +1475,19 @@ p {
     margin: 0; }
 @media screen and (min-width: 800px) {
   .site-header {
-    padding-bottom: 15px;
-    padding-bottom: 1.5rem; }
+    padding-bottom: 10px;
+    padding-bottom: 1rem; }
+    .site-header .site-branding {
+      margin-top: -15px; }
     .site-header .widget {
       display: block;
-      padding-top: 24px;
-      padding-top: 2.4rem; } }
+      padding-top: 18px;
+      padding-top: 1.8rem;
+      margin: 0; } }
 @media screen and (min-width: 1000px) {
   .site-header .widget {
-    padding-top: 28px;
-    padding-top: 2.8rem; }
-  .site-header .textwidget .icon {
-    left: 5px; } }
+    padding-top: 24px;
+    padding-top: 2.4rem; } }
 
 .section-header {
   background-color: #9CCD52;
@@ -1755,22 +1750,20 @@ section.error-404 h1 {
         display: none; }
 
 .top-nav {
-  position: relative;
-  position: relative;
-  top: -2px;
-  z-index: 10; }
-  .top-nav::after {
+  border-top: 6px solid #9CCD52; }
+  .top-nav .nav-panel::after {
     clear: both;
     content: "";
     display: table; }
-  .top-nav .nav-panel,
-  .top-nav #search-toggle,
-  .top-nav ul {
+  .top-nav .social-menu {
     float: right; }
-
-#search-toggle {
-  position: relative; }
-  #search-toggle .search-trigger {
+  .top-nav .search-holder {
+    background: #9CCD52;
+    padding-bottom: 6px;
+    display: none; }
+  .top-nav .search-trigger {
+    float: right;
+    display: block;
     font-size: 18px;
     background: #9CCD52;
     color: #ffffff;
@@ -1780,18 +1773,10 @@ section.error-404 h1 {
     cursor: pointer;
     -webkit-transition: all 0.35s;
     transition: all 0.35s; }
-    #search-toggle .search-trigger:hover, #search-toggle .search-trigger:focus, #search-toggle .search-trigger:active {
+    .top-nav .search-trigger:hover, .top-nav .search-trigger:focus, .top-nav .search-trigger:active {
       background: #056937; }
-  #search-toggle .search-holder {
-    border: 1px solid #ffffff;
-    background: #ffffff;
-    width: 250px;
-    position: absolute;
-    top: -1px;
-    right: 39px;
-    z-index: 10; }
 
-#search-toggle.toggled .search-holder {
+#top_nav.toggled .search-holder {
   display: block; }
 
 .site-nav {
@@ -1868,6 +1853,9 @@ section.error-404 h1 {
       .site-nav .help-button a {
         background: #F6A235;
         color: #ffffff;
+        border: 1px solid rgba(246, 162, 53, 0.5);
+        box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.65);
+        border-radius: 2px;
         @inlcude transition(all 0.35s);
         position: absolute;
         top: -18px;

@@ -1,36 +1,4 @@
-/* Top link Plugin by David Walsh (http://davidwalsh.name/jquery-top-link)
-  rewritten by @foralien to be safely used in no-conflict mode */
-
-(function($) {
- 
-	$.fn.topLink = function(settings) {
-	    var config = {
-	    	'min'       : 400,
-	    	'fadeSpeed' : 200
-	    };
- 
-		if (settings) $.extend(config, settings);
- 
-		this.each(function() {
-       		//listen for scroll
-			var el = $(this);
-			el.hide(); //in case the user forgot
-			
-			$(window).scroll(function() {
-				if($(window).scrollTop() >= settings.min){
-					el.fadeIn(settings.fadeSpeed);
-					
-				} else {
-					el.fadeOut(settings.fadeSpeed);
-				}
-			});			
-    	});
- 
-    	return this; 
-	};
- 
-})(jQuery);
-
+/* actions */
 jQuery(document).ready(function($){
     
     //has js
@@ -39,31 +7,6 @@ jQuery(document).ready(function($){
     // Window width 
 	var windowWidth = $('#top').width();	
 
-	// Top link	 
-	var toplinkTrigger = $('#top-link');
-
-	if( windowWidth > 600 ) {
-		toplinkTrigger
-		.topLink({ //appearance
-			min: 400,
-			fadeSpeed: 500
-			
-		})
-		.on('click', function(event){ //smoth scroll
-			event.preventDefault();
-			var full_url = toplinkTrigger.find('a').attr('href');
-			
-			var parts = full_url.split("#");
-			var trgt = parts[1];
-			
-			var target_offset = $("#"+trgt).offset();
-			var target_top = target_offset.top;
-			
-				
-			$('html, body').animate({scrollTop:target_top}, 900);
-		});    
-	}
-   
 
     // Resize all embed media iframes to fit the page width
     var resize_embed_media = function(){
@@ -126,28 +69,28 @@ jQuery(document).ready(function($){
 	});
     
 	// search toggle
-	var searchArea = $('#search-toggle');
-//	searchArea.on('click', '.search-trigger', function(e){
-//		e.preventDefault();
-//		if (searchArea.hasClass('toggled')) { 
-//            //remove
-//            searchArea.find('.search-holder').slideUp('fast', function(){
-//				searchArea.removeClass('toggled');
-//				searchArea.find('.search-holder').removeAttr('style');
-//				searchArea.find('.search-trigger').find('.fa').removeClass('fa-times-circle').addClass('fa-search');
-//			});
-//            
-//        }
-//        else { 
-//            //add
-//            searchArea.find('.search-holder').slideDown('fast', function(){
-//				searchArea.addClass('toggled');
-//				searchArea.find('.search-holder').removeAttr('style');
-//				searchArea.find('.search-trigger').find('.fa').removeClass('fa-search').addClass('fa-times-circle');
-//			});
-//            
-//        }
-//	});
+	var searchArea = $('#top_nav');
+	searchArea.on('click', '.search-trigger', function(e){
+		e.preventDefault();
+		if (searchArea.hasClass('toggled')) { 
+            //remove
+            searchArea.find('.search-holder').slideUp('normal', function(){
+				searchArea.removeClass('toggled');
+				searchArea.find('.search-holder').removeAttr('style');
+				searchArea.find('.search-trigger').find('.fa').removeClass('fa-times-circle').addClass('fa-search');
+			});
+            
+        }
+        else { 
+            //add
+            searchArea.find('.search-holder').slideDown('normal', function(){
+				searchArea.addClass('toggled');
+				searchArea.find('.search-holder').removeAttr('style');
+				searchArea.find('.search-trigger').find('.fa').removeClass('fa-search').addClass('fa-times-circle');
+			});
+            
+        }
+	});
 	
     
     // Center logos 

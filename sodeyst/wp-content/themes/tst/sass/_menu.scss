@@ -72,29 +72,25 @@
 
 // top nav
 .top-nav {
-	@include clearfix;
-	position: relative;
-	position: relative;
-	top: -2px;
-	z-index: 10;
+	border-top: 6px solid $color-link-two;
 	
-	.nav-panel,
-	#search-toggle,
-	ul {
-		float: right;		
+	
+	.nav-panel { @include clearfix; }
+	.social-menu { float: right; }
+	.search-holder {
+		background: $color-link-two;
+		padding-bottom: 6px;
+		display: none;
 	}
-		
-}
-
-#search-toggle {
-	position: relative;
 	
 	.search-trigger {
+		float: right;
+		display: block;
 		font-size: 18px;
 		background: $color-link-two;
 		color: $color-white;
 		width: 34px;
-		height: 30px;			
+		height: 30px;		
 		text-align: center;
 		cursor: pointer;
 		@include transition(all 0.35s);
@@ -103,20 +99,11 @@
 			background: $color-link-three;
 		}
 	}
-	
-	.search-holder {
-		//display: none;
-		border: 1px solid $color-white;
-		background: $color-white;
-		width: 250px;
-		position: absolute;
-		top: -1px;
-		right: 39px;
-		z-index: 10;
-	}
 }
 
-#search-toggle.toggled .search-holder { display: block; }
+
+
+#top_nav.toggled .search-holder { display: block; }
 
 
 //menu
@@ -223,6 +210,10 @@
 			a {
 				background: $color-link-one;
 				color: $color-white;
+				border: 1px solid transparentize($color-link-one, 0.5);
+				box-shadow: 1px 1px 3px rgba(0,0,0, 0.65);
+				border-radius: 2px;
+				
 				@inlcude transition(all 0.35s);
 				position: absolute;
 				top: -18px;

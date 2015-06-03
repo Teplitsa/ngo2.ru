@@ -130,7 +130,7 @@ LAM Galleries (_modules.scss)
 		-webkit-box-sizing: border-box;
 		box-sizing: border-box;
 	}
-	border: 2px solid $color-border-normal;
+	border: 2px solid $color-white;
 	position: relative;
 	height: 30px; 
 
@@ -141,10 +141,10 @@ LAM Galleries (_modules.scss)
 		@include rem('font-size', 12px);
 		@include rem('line-height', 14px);
 		border: none;
-		color: $color-border-normal;
+		color: $color-white;
 		@include border-radius(0px);
 		&:focus {			
-			background: rgba(255,255,255, 0.85);
+			background: $color-white;
 			color: $color-text;
 		}
 	}
@@ -159,7 +159,7 @@ LAM Galleries (_modules.scss)
 		@include transition-all(0.3s);
 				
 		.fa {
-			color: $color-border-normal;
+			color: $color-white;
 			position: absolute;
 			top: 4px;
 			left: 6px;
@@ -191,7 +191,7 @@ LAM Galleries (_modules.scss)
 }
 
 .searchform.focus {
-	border-color: $color-link-three;
+	
 	.submit-icon .fa {
 		color: $color-link-three;
 		&:hover {
