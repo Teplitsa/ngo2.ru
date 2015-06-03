@@ -60,6 +60,9 @@
 		
 	}
 	
+	.flexslider:hover .flex-next { right: -16px;}
+	.flexslider:hover .flex-prev { left: -16px;}
+	
 	//caption
 	.slides .caption-wrap {
 		display: none;

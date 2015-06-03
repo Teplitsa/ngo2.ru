@@ -168,12 +168,13 @@ p,ul,ol,dl,blockquote {
 	
 	.button {
 		//@include ghost-button($color-text-black, 12px);
-		@include fixed-button($color-text-black, $color-link-three, 12px);
+		@include fixed-button($color-text-black, $color-white, 12px);		
 		padding: 0.4em 1.4em;
 		
 		&:hover, &:focus, &:active {
 			border: none;
 			text-decoration: none;
+			color: $color-text-black;
 		}
 	}
 }
