@@ -25,7 +25,8 @@ jQuery(document).ready(function($){
         var $gateways_accordion = $('#pm-settings-wrapper');
         $gateways_accordion.accordion({
             heightStyle: 'content',
-            header: '.gateway-settings > h3'
+            header: '.gateway-settings > h3',
+            collapsible: true
         });
 
         /** Gateways & PM folding on click by the active PM checkboxes. Also PM ordering */

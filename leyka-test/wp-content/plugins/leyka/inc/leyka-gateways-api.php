@@ -36,6 +36,9 @@ function leyka_get_pm_list($activity = null, $currency = false, $sorted = true) 
         foreach($pm_order as $pm) {
 
             $pm = leyka_get_pm_by_id(str_replace(array('&amp;', '&'), '', $pm), true);
+            if( !$pm ) {
+                continue;
+            }
 
             if( (!$activity || $pm->active == $activity) && (!$currency || $pm->has_currency_support($currency)) ) {
                 $pm_list[] = $pm;
@@ -222,39 +225,39 @@ abstract class Leyka_Gateway {
         $this->_initialize_pm_list();
         do_action('leyka_init_pm_list', $this);
 
-        $this->_initialize_pm_options();
-        $this->_set_pm_activity();
+//        $this->_initialize_pm_options();
+//        $this->_set_pm_activity();
     }
 
-    protected function _set_pm_activity() {
+//    protected function _set_pm_activity() {
+//
+//        $all_active_pm_list = leyka_options()->opt('pm_available');
+//        $own_active_pm_list = array();
+//        for($i=0; $i<count($all_active_pm_list); $i++) {
+//
+//            if( !empty($all_active_pm_list[$i]) && stristr($all_active_pm_list[$i], $this->_id.'-') !== false )
+//                $own_active_pm_list[] = str_replace($this->_id.'-', '', $all_active_pm_list[$i]);
+//        }
+//
+//        foreach($this->_payment_methods as $pm_id => $pm) {
+//
+//            /** @var $pm Leyka_Payment_Method */
+//            if(in_array($pm_id, $own_active_pm_list) && !$pm->is_active)
+//                $pm->set_activity(true);
+//            else if( !in_array($pm_id, $own_active_pm_list) && $pm->is_active )
+//                $pm->set_activity(false);
+//        }
+//    }
 
-        $all_active_pm_list = leyka_options()->opt('pm_available');
-        $own_active_pm_list = array();
-        for($i=0; $i<count($all_active_pm_list); $i++) {
-            
-            if( !empty($all_active_pm_list[$i]) && stristr($all_active_pm_list[$i], $this->_id.'-') !== false )
-                $own_active_pm_list[] = str_replace($this->_id.'-', '', $all_active_pm_list[$i]);
-        }
-
-        foreach($this->_payment_methods as $pm_id => $pm) {
-
-            /** @var $pm Leyka_Payment_Method */
-            if(in_array($pm_id, $own_active_pm_list) && !$pm->is_active)
-                $pm->set_activity(true);
-            else if( !in_array($pm_id, $own_active_pm_list) && $pm->is_active )
-                $pm->set_activity(false);
-        }
-    }
-
-    protected function _initialize_pm_options() {
-
-        foreach($this->_payment_methods as $pm) {
-
-            /** @var $pm Leyka_Payment_Method */
-            $pm->initialize_pm_options();
-            $this->_payment_methods[$pm->id] = $pm;
-        }
-    }
+//    protected function _initialize_pm_options() {
+//
+//        foreach($this->_payment_methods as $pm) {
+//
+//            /** @var $pm Leyka_Payment_Method */
+//            $pm->initialize_options();
+//            $this->_payment_methods[$pm->id] = $pm;
+//        }
+//    }
 
     protected function _initialize_options() {
 
@@ -390,6 +393,9 @@ abstract class Leyka_Gateway {
  */
 abstract class Leyka_Payment_Method {
 
+    /** @var $_instance Leyka_Payment_Method PM is always a singleton */
+    protected static $_instance;
+
     protected $_id = '';
     protected $_gateway_id = '';
     protected $_active = true;
@@ -404,7 +410,24 @@ abstract class Leyka_Payment_Method {
     protected $_default_currency = '';
     protected $_options = array();
 
-    abstract public function __construct(array $params = array());
+    public final static function get_instance() {
+
+        if(null == static::$_instance) {
+
+            static::$_instance = new static();
+            static::$_instance->_initialize_options();
+        }
+
+        return static::$_instance;
+    }
+
+    final protected function __clone() {}
+
+    protected function __construct() {
+
+        $this->_initialize_attributes();
+        $this->_initialize_options();
+    }
 
     public function __get($param) {
 
@@ -437,6 +460,8 @@ abstract class Leyka_Payment_Method {
         return $param;
     }
 
+    abstract protected function _initialize_attributes();
+
     public function has_currency_support($currency = false) {
 
         if( !$currency ) {
@@ -450,9 +475,9 @@ abstract class Leyka_Payment_Method {
         }
     }
 
-    abstract protected function _set_pm_options_defaults();
+    abstract protected function _set_options_defaults();
 
-    protected final function _add_pm_options() {
+    protected final function _add_options() {
 
         foreach($this->_options as $option_name => $params) {
 
@@ -462,11 +487,11 @@ abstract class Leyka_Payment_Method {
         }
     }
 
-    public function initialize_pm_options() {
+    protected function _initialize_options() {
 
-        $this->_set_pm_options_defaults();
+        $this->_set_options_defaults();
 
-        $this->_add_pm_options();
+        $this->_add_options();
 
         /** PM frontend label is a special persistent option, universal for each PM */
         if( !leyka_options()->option_exists($this->full_id.'_label') ) {
@@ -482,8 +507,16 @@ abstract class Leyka_Payment_Method {
             ));
         }
 
-        $this->_label = leyka_options()->opt_safe($this->full_id.'_label') ?
-            leyka_options()->opt_safe($this->full_id.'_label') : $this->_label;
+        $custom_label = leyka_options()->opt_safe($this->full_id.'_label');
+        $this->_label = $custom_label && $custom_label != $this->_label ? $custom_label : $this->_label;
+
+        foreach(leyka_options()->opt('pm_available') as $pm_full_id) {
+
+            if($this->full_id == $pm_full_id) {
+                $this->_active = true;
+                break;
+            }
+        }
 
         add_filter('leyka_payment_options_allocation', array($this, 'allocate_pm_options'), 10, 1);
     }
@@ -530,14 +563,5 @@ abstract class Leyka_Payment_Method {
         }
 
         return $options;
-    }
-
-    public function save_settings() {
-    }
-    
-    public function set_activity($is_active) {
-        
-        $this->_active = !!$is_active;
-        $this->save_settings();
     }
 } // Leyka_Payment_Method end
