@@ -30,16 +30,12 @@ jQuery(document).ready(function($){
         });
 
         /** Gateways & PM folding on click by the active PM checkboxes. Also PM ordering */
-        var $pm_order = $('#pm-order-settings').sortable({
-            placeholder: '',
-            update: function(event){
-console.log($(this).sortable('serialize', {
-    key: 'pm_order[]', attribute: 'data-pm-id', expression: /(.+)/
-}));
-                $('input[name="leyka_pm_order"]').val( $(this).sortable('serialize', {
-                    key: 'pm_order[]', attribute: 'data-pm-id', expression: /(.+)/
-                }) );
-            }
+        var $pm_order = $('#pm-order-settings').sortable({placeholder: ''});
+        $pm_order.on('sortupdate', function(event){
+
+            $('input[name="leyka_pm_order"]').val( $(this).sortable('serialize', {
+                key: 'pm_order[]', attribute: 'data-pm-id', expression: /(.+)/
+            }) );
         });
 
         $('.pm-active').click(function(){
@@ -52,13 +48,20 @@ console.log($(this).sortable('serialize', {
             // Show/hide a PM settings:
             $('#pm-'+$this.attr('id')).toggle();
 
+            var $sortable_pm = $('.pm-order[data-pm-id="'+$this.attr('id')+'"]');
+
             // Add/remove a sortable block from the PM order settings:
             if($this.attr('checked')) {
-                $pm_order.append('<li data-pm-id="'+$this.attr('id')+'" class="pm-order">'+$this.data('pm-label')+'</li>');
+
+                if($sortable_pm.length)
+                    $sortable_pm.show();
+                else
+                    $pm_order.append('<li data-pm-id="'+$this.attr('id')+'" class="pm-order">'+$this.data('pm-label')+'</li>');
             } else {
-                $('.pm-order[data-pm-id="'+$this.attr('id')+'"]').remove();
+                $sortable_pm.hide(); //.remove();
             }
             $pm_order.sortable('refresh').sortable('refreshPositions');
+            $pm_order.trigger('sortupdate');
 
             // Show/hide a whole gateway settings if there are no PMs from it selected:
             if( !$gateway_metabox.find('input:checked').length ) {
@@ -71,8 +74,9 @@ console.log($(this).sortable('serialize', {
                 $gateway_settings.show();
                 $gateways_accordion.accordion('refresh');
 
-                $('.pm-order[data-pm-id='+$this.attr('id')+']').show();
+                $sortable_pm.show();
                 $pm_order.sortable('refresh').sortable('refreshPositions');
+                $pm_order.trigger('sortupdate');
             }
         });
 

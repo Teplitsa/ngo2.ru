@@ -14,14 +14,13 @@ function grt_change_pm_labels($label, Leyka_Payment_Method $pm) {
     foreach(leyka_get_gateways() as $gateway) {
 
         if($gateway->id == $pm->gateway_id) {
-            return leyka_options()->opt_safe($pm->full_id.'_label') != $label ?
-                leyka_options()->opt_safe($pm->full_id.'_label') : $label.' (через '.$gateway->name.')';
+            return $label.' (через '.$gateway->name.')';
         }
     }
 
     return $label;
 }
-add_filter('leyka_get_pm_label', 'grt_change_pm_labels', 10, 2);
+add_filter('leyka_get_pm_label_original', 'grt_change_pm_labels', 10, 2);
 
 /** Logo (to support svg) **/
 function grt_logo() {

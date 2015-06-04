@@ -153,10 +153,10 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             }?>
         </ul>
 
-        <?php $pm_order = 'pm_order[]='.implode('&pm_order[]=', $pm_order);
-        leyka_options()->opt('pm_order', $pm_order);?>
+<!--        --><?php //$pm_order = 'pm_order[]='.implode('&pm_order[]=', $pm_order);
+//        leyka_options()->opt('pm_order', $pm_order);?>
 
-        <input type="hidden" name="leyka_pm_order" value="<?php echo $pm_order;?>">
+        <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
 
     </div></div>
 
