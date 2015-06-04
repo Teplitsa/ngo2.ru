@@ -33,7 +33,9 @@ jQuery(document).ready(function($){
         var $pm_order = $('#pm-order-settings').sortable({
             placeholder: '',
             update: function(event){
-
+console.log($(this).sortable('serialize', {
+    key: 'pm_order[]', attribute: 'data-pm-id', expression: /(.+)/
+}));
                 $('input[name="leyka_pm_order"]').val( $(this).sortable('serialize', {
                     key: 'pm_order[]', attribute: 'data-pm-id', expression: /(.+)/
                 }) );
@@ -56,6 +58,7 @@ jQuery(document).ready(function($){
             } else {
                 $('.pm-order[data-pm-id="'+$this.attr('id')+'"]').remove();
             }
+            $pm_order.update();
             $pm_order.sortable('refresh').sortable('refreshPositions');
 
             // Show/hide a whole gateway settings if there are no PMs from it selected:
