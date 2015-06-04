@@ -13,7 +13,7 @@ function leyka_add_gateway_metabox($post, $args) {
 
     <?php foreach($gateway->get_payment_methods() as $pm) {?>
         <div>
-            <input type="checkbox" name="leyka_pm_available[]" value="<?php echo $pm->full_id;?>" class="pm-active" id="<?php echo $pm->full_id;?>" data-pm-label="<?php echo $pm->title_backend;?>" <?php echo in_array($pm->full_id, $pm_active) ? 'checked="checked"' : '';?>>
+            <input type="checkbox" name="leyka_pm_available[]" value="<?php echo $pm->full_id;?>" class="pm-active" id="<?php echo $pm->full_id;?>" data-pm-label="<?php echo $pm->title_backend;?>" data-pm-label-backend="<?php echo $pm->label_backend;?>" <?php echo in_array($pm->full_id, $pm_active) ? 'checked="checked"' : '';?>>
             <label for="<?php echo $pm->full_id;?>"><?php echo $pm->title_backend;?></label>
         </div>
     <?php }?>
@@ -105,19 +105,19 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         </div><!-- #active-pm-settings -->
     </div><!-- .active-pm-panel -->
 
-    <?php function leyka_pm_sortable_option_html(Leyka_Payment_Method $pm) {?>
+    <?php function leyka_pm_sortable_option_html($is_hidden = false, $full_id = '#FID#', $label = '#L#', $label_backend = '#LB#') {?>
 
-        <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
-            <?php echo $pm->label_backend == $pm->label ? '' : $pm->label_backend.'<br>';?>
-            <span class="pm-label" id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
+        <li data-pm-id="<?php echo $full_id;?>" class="pm-order" <?php echo !!$is_hidden ? 'style="display:none"' : '';?>>
+            <?php echo $label_backend == $label ? '' : $label_backend.'<br>';?>
+            <span class="pm-label" id="pm-label-<?php echo $full_id;?>"><?php echo $label;?></span>
                     <span class="pm-label-fields" style="display:none;">
-                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('New label:', 'leyka');?></label>
-                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
-                        <input type="hidden" class="pm-label-field" name="leyka_<?php echo $pm->full_id;?>_label" value="<?php echo $pm->label;?>">
+                        <label for="pm_labels[<?php echo $full_id;?>]"><?php _e('New label:', 'leyka');?></label>
+                        <input type="text" id="pm_labels[<?php echo $full_id;?>]" value="<?php echo $label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
+                        <input type="hidden" class="pm-label-field" name="leyka_<?php echo $full_id;?>_label" value="<?php echo $label;?>">
                         <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
                         <span class="new-pm-label-cancel"><? _e('Cancel', 'leyka');?></span>
                     </span>
-            <span class="pm-change-label" data-pm-id="<?php echo $pm->full_id;?>"><?php _e('Rename', 'leyka');?></span>
+            <span class="pm-change-label" data-pm-id="<?php echo $full_id;?>"><?php _e('Rename', 'leyka');?></span>
         </li>
 
     <?php }?>
@@ -127,7 +127,9 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         <h3 class="panel-title"><?php _e('Payment methods order', 'leyka');?></h3>
         <p class="panel-desc"><?php _e('Drag the elements up or down to change their order in donation forms', 'leyka');?></p>
         <ul id="pm-order-settings">
-            <?php $pm_order = explode('pm_order[]=', leyka_options()->opt('pm_order'));
+            <?php leyka_pm_sortable_option_html(true);
+
+            $pm_order = explode('pm_order[]=', leyka_options()->opt('pm_order'));
             array_shift($pm_order);
 
             foreach($pm_order as $i => &$pm_full_id) {
@@ -136,7 +138,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                 $pm = leyka_get_pm_by_id($pm_full_id, true);
 
                 if($pm && in_array($pm_full_id, $pm_available) ) {
-                    leyka_pm_sortable_option_html($pm);
+                    leyka_pm_sortable_option_html(false, $pm_full_id, $pm->label, $pm->label_backend);
                 } else {
                     unset($pm_order[$i]);
                 }
@@ -147,7 +149,9 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
 
                 if( !array_key_exists($pm_full_id, $pm_order_flipped) ) {
 
-                    leyka_pm_sortable_option_html(leyka_get_pm_by_id($pm_full_id, true));
+                    $pm = leyka_get_pm_by_id($pm_full_id, true);
+                    leyka_pm_sortable_option_html(false, $pm_full_id, $pm->label, $pm->label_backend);
+
                     $pm_order[] = $pm_full_id;
                 }
             }?>

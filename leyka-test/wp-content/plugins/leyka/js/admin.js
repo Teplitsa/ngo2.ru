@@ -30,7 +30,7 @@ jQuery(document).ready(function($){
         });
 
         /** Gateways & PM folding on click by the active PM checkboxes. Also PM ordering */
-        var $pm_order = $('#pm-order-settings').sortable({placeholder: ''});
+        var $pm_order = $('#pm-order-settings').sortable({placeholder: '', items: '> li:visible'});
         $pm_order.on('sortupdate', function(event){
 
             $('input[name="leyka_pm_order"]').val( $(this).sortable('serialize', {
@@ -53,10 +53,18 @@ jQuery(document).ready(function($){
             // Add/remove a sortable block from the PM order settings:
             if($this.attr('checked')) {
 
-                if($sortable_pm.length)
+                if($sortable_pm.length) {
                     $sortable_pm.show();
-                else
-                    $pm_order.append('<li data-pm-id="'+$this.attr('id')+'" class="pm-order">'+$this.data('pm-label')+'</li>');
+                } else {
+
+                    $sortable_pm = $("<div />").append($pm_order.find('.pm-order[data-pm-id="#FID#"]').clone()).html()
+                        .replace(/#FID#/g, $this.attr('id'))
+                        .replace(/#L#/g, $this.data('pm-label'))
+                        .replace(/#LB#/g, $this.data('pm-label-backend'));
+
+                    console.log($sortable_pm);
+                    $pm_order.append($($sortable_pm).show());
+                }
             } else {
                 $sortable_pm.hide(); //.remove();
             }
