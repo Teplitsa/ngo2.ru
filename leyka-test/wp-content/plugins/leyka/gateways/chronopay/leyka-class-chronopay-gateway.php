@@ -15,8 +15,9 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
     protected function _set_options_defaults() {
 
-        if($this->_options) // Create Gateway options, if needed
+        if($this->_options) { // Create Gateway options, if needed
             return;
+        }
 
         $this->_options = array(
             'chronopay_shared_sec' => array(
@@ -58,7 +59,6 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
     protected function _initialize_pm_list() {
 
-        // Instantiate and save each of PM objects, if needed:
         if(empty($this->_payment_methods['chronopay_card'])) {
             $this->_payment_methods['chronopay_card'] = Leyka_Chronopay_Card::get_instance();
         }
@@ -384,7 +384,7 @@ class Leyka_Chronopay_Card extends Leyka_Payment_Method {
 
     protected static $_instance;
 
-    protected function _initialize_attributes() {
+    protected function _set_attributes() {
 
         $this->_id = 'chronopay_card';
         $this->_gateway_id = 'chronopay';
@@ -458,7 +458,7 @@ class Leyka_Chronopay_Card_Rebill extends Leyka_Payment_Method {
 
     protected static $_instance;
 
-    public function _initialize_attributes() {
+    public function _set_attributes() {
 
         $this->_id = 'chronopay_card_rebill';
         $this->_gateway_id = 'chronopay';
@@ -483,8 +483,9 @@ class Leyka_Chronopay_Card_Rebill extends Leyka_Payment_Method {
 
     protected function _set_options_defaults() {
 
-        if($this->_options)
+        if($this->_options) {
             return;
+        }
 
         $this->_options = array(
             'chronopay_card_rebill_description' => array(

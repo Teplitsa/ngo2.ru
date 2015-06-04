@@ -7,7 +7,6 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
 
     protected static $_instance; // Gateway is always a singleton
 
-    /** There are no gateway options */
     protected function _set_options_defaults() {
 
         if($this->_options) // Create Gateway options, if needed
@@ -28,7 +27,7 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
         );
     }
     
-    protected function _set_gateway_attributes() {
+    protected function _set_attributes() {
 
         $this->_id = 'quittance';
         $this->_title = __('Quittances', 'leyka');
@@ -36,7 +35,6 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
 
     protected function _initialize_pm_list() {
 
-        // Instantiate and save each of PM objects, if needed:
         if(empty($this->_payment_methods['bank_order'])) {
             $this->_payment_methods['bank_order'] = Leyka_Bank_Order::get_instance();
         }
@@ -44,8 +42,7 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
 
     public function process_form($gateway_id, $pm_id, $donation_id, $form_data) {
 
-        // Localize a quittance first:
-        $res = load_textdomain('leyka', LEYKA_PLUGIN_DIR.'lang/leyka-'.get_locale().'.mo');
+        load_textdomain('leyka', LEYKA_PLUGIN_DIR.'lang/leyka-'.get_locale().'.mo'); // Localize a quittance first
 
         header('HTTP/1.1 200 OK');
         header('Content-Type: text/html; charset=utf-8');
@@ -111,13 +108,11 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
 
     /** Quittance don't use any specific redirects, so this method is empty. */
     public function submission_redirect_url($current_url, $pm_id) {
-
         return $current_url;
     }
     
     /** Quittance don't have some form data to send to the gateway site */
-    public function submission_form_data($form_data_vars, $pm_id, $donation_id) {     
-                
+    public function submission_form_data($form_data_vars, $pm_id, $donation_id) {
         return $form_data_vars;
     }
 
@@ -130,7 +125,6 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
 
     /** Quittance don't use any specific fields, so this method is empty. */
     public function log_gateway_fields($donation_id) {
-        
     }
 }
 

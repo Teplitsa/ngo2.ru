@@ -113,15 +113,15 @@ abstract class Leyka_Gateway {
 
     protected function __construct() {
 
-        // A gateway icon is an attribute that is persistent for all gateways:
+        // A gateway icon is an attribute that is persistent for all gateways, it's just changing values:
         $this->_icon = apply_filters(
             'leyka_icon_'.$this->_gateway_id,
             file_exists(LEYKA_PLUGIN_DIR."/gateways/{$this->_id}/icons/{$this->_id}.png") ?
                 LEYKA_PLUGIN_BASE_URL."/gateways/{$this->_id}/icons/{$this->_id}.png" :
-                '' /** @todo Set an URL to the anonymous gateway, if needed */
+                '' /** @todo Set an URL to the anonymous gateway icon?? */
         );
 
-        $this->_set_gateway_attributes(); // Create main Gateway's attributes
+        $this->_set_attributes(); // Initialize main Gateway's attributes
 
         $this->_set_options_defaults(); // Set configurable options in admin area
 
@@ -394,9 +394,9 @@ abstract class Leyka_Payment_Method {
 
     protected function __construct() {
 
-        $this->_submit_label = __('Donate', 'leyka'); /** @todo Will add some option or filter here */
+        $this->_submit_label = leyka_options()->opt_safe('donation_submit_text');
 
-        $this->_initialize_attributes();
+        $this->_set_attributes();
         $this->_initialize_options();
     }
 
