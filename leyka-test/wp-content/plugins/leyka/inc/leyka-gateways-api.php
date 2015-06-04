@@ -203,7 +203,7 @@ abstract class Leyka_Gateway {
         return $options;
     }
 
-    abstract protected function _set_gateway_attributes(); // Attributes are constant, like id, title, etc. 
+    abstract protected function _set_attributes(); // Attributes are constant, like id, title, etc.
     abstract protected function _set_options_defaults(); // Options are admin configurable parameters
     abstract protected function _initialize_pm_list(); // PM list is specific for each Gateway
 
@@ -438,7 +438,7 @@ abstract class Leyka_Payment_Method {
         return $param;
     }
 
-    abstract protected function _initialize_attributes();
+    abstract protected function _set_attributes();
 
     public function has_currency_support($currency = false) {
 

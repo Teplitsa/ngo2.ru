@@ -140,7 +140,7 @@ class Leyka_Bank_Order extends Leyka_Payment_Method {
 
     protected static $_instance;
 
-    protected function _initialize_attributes() {
+    protected function _set_attributes() {
 
         $this->_quittance_html = file_get_contents(LEYKA_PLUGIN_DIR.'gateways/quittance/bank_order.html');
 

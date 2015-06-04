@@ -61,12 +61,12 @@ jQuery(document).ready(function($){
                         .replace(/#FID#/g, $this.attr('id'))
                         .replace(/#L#/g, $this.data('pm-label'))
                         .replace(/#LB#/g, $this.data('pm-label-backend'));
+                    $sortable_pm = $($sortable_pm).removeAttr('style');
 
-                    console.log($sortable_pm);
-                    $pm_order.append($($sortable_pm).show());
+                    $pm_order.append($sortable_pm);
                 }
             } else {
-                $sortable_pm.hide(); //.remove();
+                $sortable_pm.hide();
             }
             $pm_order.sortable('refresh').sortable('refreshPositions');
             $pm_order.trigger('sortupdate');
@@ -89,7 +89,7 @@ jQuery(document).ready(function($){
         });
 
         // PM renaming (changing labels) fields:
-        $('.pm-change-label').on('click', function(e){
+        $pm_order.on('click', '.pm-change-label', function(e){
 
             e.preventDefault();
 
@@ -101,7 +101,7 @@ jQuery(document).ready(function($){
             $wrapper.find('.pm-label').hide();
             $wrapper.find('.pm-label-fields').show();
         });
-        $('.new-pm-label-ok,.new-pm-label-cancel').on('click', function(e){
+        $pm_order.on('click', '.new-pm-label-ok,.new-pm-label-cancel', function(e){
 
             e.preventDefault();
 

@@ -7,7 +7,7 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
     protected static $_instance;
 
-    protected function _set_gateway_attributes() {
+    protected function _set_attributes() {
 
         $this->_id = 'chronopay';
         $this->_title = __('Chronopay', 'leyka');
