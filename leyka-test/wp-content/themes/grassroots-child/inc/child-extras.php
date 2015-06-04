@@ -12,9 +12,10 @@ function grt_change_pm_labels($label, Leyka_Payment_Method $pm) {
 //    }
 
     foreach(leyka_get_gateways() as $gateway) {
+
         if($gateway->id == $pm->gateway_id) {
-            return leyka_options()->opt_safe($this->full_id.'_label') != $label ?
-                leyka_options()->opt_safe($this->full_id.'_label') : $label.' (через '.$gateway->name.')';
+            return leyka_options()->opt_safe($pm->full_id.'_label') != $label ?
+                leyka_options()->opt_safe($pm->full_id.'_label') : $label.' (через '.$gateway->name.')';
         }
     }
 

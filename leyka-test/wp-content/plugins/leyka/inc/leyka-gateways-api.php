@@ -67,8 +67,9 @@ function leyka_get_pm_by_id($pm_id, $is_full_id = false) {
 		
 		$id = explode('-', $pm_id);
         $gateway = leyka_get_gateway_by_id(reset($id)); // Otherwise error in PHP 5.4.0
-        if( !$gateway )
+        if( !$gateway ) {
             return false;
+        }
 
         $pm = $gateway->get_payment_method_by_id(end($id));
 
@@ -77,8 +78,9 @@ function leyka_get_pm_by_id($pm_id, $is_full_id = false) {
         foreach(leyka()->get_gateways() as $gateway) { /** @var Leyka_Gateway $gateway */
 
             $pm = $gateway->get_payment_method_by_id($pm_id);
-            if($pm)
+            if($pm) {
                 break;
+            }
         }
     }
 

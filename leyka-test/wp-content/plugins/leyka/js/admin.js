@@ -42,6 +42,9 @@ console.log($(this).sortable('serialize', {
             }
         });
 
+        //$pm_order.trigger('update');
+        //$pm_order.sortable('refresh').sortable('refreshPositions');
+
         $('.pm-active').click(function(){
 
             var $this = $(this),
@@ -58,7 +61,6 @@ console.log($(this).sortable('serialize', {
             } else {
                 $('.pm-order[data-pm-id="'+$this.attr('id')+'"]').remove();
             }
-            $pm_order.update();
             $pm_order.sortable('refresh').sortable('refreshPositions');
 
             // Show/hide a whole gateway settings if there are no PMs from it selected:

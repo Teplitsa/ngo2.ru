@@ -105,6 +105,23 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         </div><!-- #active-pm-settings -->
     </div><!-- .active-pm-panel -->
 
+    <?php function leyka_pm_sortable_option_html(Leyka_Payment_Method $pm) {?>
+
+        <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
+            <?php echo $pm->label_backend == $pm->label ? '' : $pm->label_backend.'<br>';?>
+            <span class="pm-label" id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
+                    <span class="pm-label-fields" style="display:none;">
+                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('New label:', 'leyka');?></label>
+                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
+                        <input type="hidden" class="pm-label-field" name="leyka_<?php echo $pm->full_id;?>_label" value="<?php echo $pm->label;?>">
+                        <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
+                        <span class="new-pm-label-cancel"><? _e('Cancel', 'leyka');?></span>
+                    </span>
+            <span class="pm-change-label" data-pm-id="<?php echo $pm->full_id;?>"><?php _e('Rename', 'leyka');?></span>
+        </li>
+
+    <?php }?>
+
     <div class="pm-order-panel"><div class="panel-content">
 
         <h3 class="panel-title"><?php _e('Payment methods order', 'leyka');?></h3>
@@ -113,23 +130,27 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             <?php $pm_order = explode('pm_order[]=', leyka_options()->opt('pm_order'));
             array_shift($pm_order);
 
-            foreach($pm_order as $pm) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm), true);
-                if( !$pm ) continue;?>
+            foreach($pm_order as $pm_full_id) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm_full_id), true);
 
-                <li data-pm-id="<?php echo $pm->full_id;?>" class="pm-order">
-                    <?php echo $pm->label_backend == $pm->label ? '' : $pm->label_backend.'<br>';?>
-                    <span class="pm-label" id="pm-label-<?php echo $pm->full_id;?>"><?php echo $pm->label;?></span>
-                    <span class="pm-label-fields" style="display:none;">
-                        <label for="pm_labels[<?php echo $pm->full_id;?>]"><?php _e('New label:', 'leyka');?></label>
-                        <input type="text" id="pm_labels[<?php echo $pm->full_id;?>]" value="<?php echo $pm->label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
-                        <input type="hidden" class="pm-label-field" name="leyka_<?php echo $pm->full_id;?>_label" value="<?php echo $pm->label;?>">
-                        <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
-                        <span class="new-pm-label-cancel"><? _e('Cancel', 'leyka');?></span>
-                    </span>
-                    <span class="pm-change-label" data-pm-id="<?php echo $pm->full_id;?>">Переим.</span>
-                </li>
-            <?php }?>
+                if($pm && in_array($pm_full_id, $pm_available) ) {
+                    leyka_pm_sortable_option_html($pm);
+                } else {
+                    unset($pm_order[$pm_full_id]);
+                }
+            }
+
+            foreach($pm_available as $pm_full_id) { // Add to the end of the order all PMs that are out of this order
+
+                if( !in_array($pm_full_id, $pm_order) ) {
+
+                    leyka_pm_sortable_option_html(leyka_get_pm_by_id($pm_full_id, true));
+                    $pm_order[] = $pm_full_id;
+                }
+            }?>
         </ul>
+
+        <?php echo '<pre>' . print_r(leyka_options()->opt('pm_order'), 1) . '</pre>';
+        echo '<pre>' . print_r(implode('&pm_order[]=', $pm_order), 1) . '</pre>';?>
         <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
 
     </div></div>
