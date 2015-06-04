@@ -130,18 +130,22 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             <?php $pm_order = explode('pm_order[]=', leyka_options()->opt('pm_order'));
             array_shift($pm_order);
 
-            foreach($pm_order as $pm_full_id) { $pm = leyka_get_pm_by_id(str_replace('&amp;', '', $pm_full_id), true);
+            foreach($pm_order as $i => &$pm_full_id) {
+
+                $pm_full_id = str_replace('&amp;', '', $pm_full_id);
+                $pm = leyka_get_pm_by_id($pm_full_id, true);
 
                 if($pm && in_array($pm_full_id, $pm_available) ) {
                     leyka_pm_sortable_option_html($pm);
                 } else {
-                    unset($pm_order[$pm_full_id]);
+                    unset($pm_order[$i]);
                 }
             }
 
+            $pm_order_flipped = array_flip($pm_order); // Somehow in_array() working incorrectly for no reason :((
             foreach($pm_available as $pm_full_id) { // Add to the end of the order all PMs that are out of this order
 
-                if( !in_array($pm_full_id, $pm_order) ) {
+                if( !array_key_exists($pm_full_id, $pm_order_flipped) ) {
 
                     leyka_pm_sortable_option_html(leyka_get_pm_by_id($pm_full_id, true));
                     $pm_order[] = $pm_full_id;
@@ -149,9 +153,10 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             }?>
         </ul>
 
-        <?php echo '<pre>' . print_r(leyka_options()->opt('pm_order'), 1) . '</pre>';
-        echo '<pre>' . print_r(implode('&pm_order[]=', $pm_order), 1) . '</pre>';?>
-        <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
+        <?php $pm_order = 'pm_order[]='.implode('&pm_order[]=', $pm_order);
+        leyka_options()->opt('pm_order', $pm_order);?>
+
+        <input type="hidden" name="leyka_pm_order" value="<?php echo $pm_order;?>">
 
     </div></div>
 

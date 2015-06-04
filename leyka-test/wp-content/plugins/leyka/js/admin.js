@@ -42,9 +42,6 @@ console.log($(this).sortable('serialize', {
             }
         });
 
-        //$pm_order.trigger('update');
-        //$pm_order.sortable('refresh').sortable('refreshPositions');
-
         $('.pm-active').click(function(){
 
             var $this = $(this),

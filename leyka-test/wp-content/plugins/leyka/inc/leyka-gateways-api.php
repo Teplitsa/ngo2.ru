@@ -412,11 +412,11 @@ abstract class Leyka_Payment_Method {
             case 'title':
             case 'name':
                 $param = leyka_options()->opt_safe($this->full_id.'_label');
-                return apply_filters(
+                return !has_filter('leyka_get_pm_label') ? apply_filters(
                     'leyka_get_pm_label',
                     $param && $param != $this->_label ? $param : $this->_label,
                     $this
-                );
+                ): $param && $param != $this->_label ? $param : $this->_label;
                 break;
             case 'label_backend':
             case 'title_backend':
