@@ -254,7 +254,7 @@ class Leyka_Payment_Form {
 	}
 	
 	function get_pm_label() {
-        /** @todo Maybe, we need to throw an ex in case when PM label is empty for some reason */
+
         return $this->_pm->label ? $this->_pm->label : '';
 	}
 	
@@ -668,7 +668,6 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
  **/
 function leyka_get_donation_form($echo = true) {
 
-	/** @todo Maybe, it should accept campaign ID as param? */
 	if( !is_singular(Leyka_Campaign_Management::$post_type) )
 		return '';
 		

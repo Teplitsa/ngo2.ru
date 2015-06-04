@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Leyka Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 08:25:09+00:00\n"
-"PO-Revision-Date: Thu Jun 04 2015 17:50:26 GMT+0300\n"
+"PO-Revision-Date: Thu Jun 04 2015 17:41:18 GMT+0300\n"
 "Last-Translator: ahaenor <ahaenor@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Russian\n"
@@ -2674,19 +2674,17 @@ msgstr "Например, Благотворительное пожертвов�
 
 #: ../inc/leyka-options-meta.php:181
 msgid "Payment methods available on donation forms"
-msgstr "Доступные способы платежей\n"
+msgstr ""
 
 #: ../inc/leyka-options-meta.php:182
 msgid ""
 "Check out payment methods through that you'd want to receive a donation "
 "payments."
 msgstr ""
-"Отметьте способы платежей, с помощью которых вы намерены принимать "
-"пожертвования.\n"
 
 #: ../inc/leyka-options-meta.php:192
 msgid "Payment methods order on donation forms"
-msgstr "Порядок способов платежа на формах пожертвований"
+msgstr ""
 
 #: ../inc/leyka-options-meta.php:203
 msgid "Automatically refresh currency rates"
@@ -3222,13 +3220,11 @@ msgstr ""
 
 #: ../inc/leyka-options-meta.php:582
 msgid "Display a campaign sharing widget below donation form"
-msgstr "Выводить виджет \"поделиться кампанией\" под формами пожертвований"
+msgstr ""
 
 #: ../inc/leyka-options-meta.php:583
 msgid "Check to display a campaign sharing widget below donation form"
 msgstr ""
-"Поставьте эту отметку, если вы желаете выводить блок \"поделиться кампанией\" "
-"под каждой формой для сбора пожертвований."
 
 # @ leyka
 #: ../inc/leyka-options-meta.php:593
@@ -3355,17 +3351,15 @@ msgstr ""
 
 #: ../inc/leyka-options-meta.php:626
 msgid "Label of the button to submit a donation form"
-msgstr "Текст на кнопке для отправки формы пожертвований\n"
+msgstr ""
 
 #: ../inc/leyka-options-meta.php:627
 msgid "Enter the text for a submit buttons on a donation forms."
 msgstr ""
-"Укажите текст, который будет содержать каждая кнопка для отправки формы "
-"пожертвования."
 
 #: ../inc/leyka-options-meta.php:629
 msgid "For ex., «Donate» or «Support»"
-msgstr "Например, «Пожертвовать» или «Поддержать»"
+msgstr ""
 
 # @ leyka
 #: ../inc/leyka-options-meta.php:637
@@ -3689,36 +3683,36 @@ msgstr "Назначение платежа"
 
 #: ../inc/settings-pages/leyka-settings-payment.php:43
 msgid "Payment methods"
-msgstr "Способы платежа"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:64
 msgid "Active payment methods"
-msgstr "Активные способы платежа"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:65
 msgid "Please, set your gateways parameters"
-msgstr "Пожалуйста, укажите параметры ваших подключений к платёжным системам"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:114
 msgid "New label:"
-msgstr "Новое название:"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:115
 msgid "Enter some title for this payment method"
-msgstr "Введите новое название для способа платежа"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:117
 msgid "OK"
-msgstr "ОК"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:120
 msgid "Rename"
-msgstr "Переименовать"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:127
 msgid "Payment methods order"
-msgstr "Порядок способов платежа"
+msgstr ""
 
 #: ../inc/settings-pages/leyka-settings-payment.php:128
 msgid "Drag the elements up or down to change their order in donation forms"
-msgstr "Перетаскивайте мышью блоки, соответствующие способам платежа."
+msgstr ""
