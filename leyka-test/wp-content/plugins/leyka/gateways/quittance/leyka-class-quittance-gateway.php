@@ -144,8 +144,6 @@ class Leyka_Bank_Order extends Leyka_Payment_Method {
         $this->_label_backend = __('Bank order quittance', 'leyka');
         $this->_label = __('Bank order quittance', 'leyka');
 
-        $this->_description = leyka_options()->opt_safe('bank_order_description');
-
         $this->_icons = apply_filters('leyka_icons_'.$this->_gateway_id.'_'.$this->_id, array(
             LEYKA_PLUGIN_BASE_URL.'gateways/quittance/icons/sber_s.png',
         ));
@@ -164,7 +162,7 @@ class Leyka_Bank_Order extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'bank_order_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('Bank order payment allows you to make a donation through any bank. You can print out a bank order paper and bring it to the bank to make a payment.', 'leyka'),
                 'title' => __('Bank order payment description', 'leyka'),

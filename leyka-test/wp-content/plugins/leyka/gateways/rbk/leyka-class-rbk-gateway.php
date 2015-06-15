@@ -296,7 +296,7 @@ class Leyka_Rbk_Card extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'bankcard_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('RBK Money allows a simple and safe way to pay for goods and services with bank cards and other means through internet. You will have to fill a payment form, and then you will be redirected to the <a href="https://rbkmoney.ru/">RBK Money</a> secure payment page to enter your bank card data and to confirm your payment.', 'leyka'),
                 'title' => __('RBK Money bank card payment description', 'leyka'),
@@ -338,7 +338,7 @@ class Leyka_Rbk_Money extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'rbkmoney_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('RBK Money allows a simple and safe way to pay for goods and services with bank cards and other means through internet. You will have to fill a payment form, and then you will be redirected to the <a href="https://rbkmoney.ru/">RBK Money</a> secure payment page to enter your bank card data and to confirm your payment.', 'leyka'),
                 'title' => __('RBK Money payment description', 'leyka'),
@@ -382,7 +382,7 @@ class Leyka_Rbk_All extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'rbk_all_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('RBK Money allows a simple and safe way to pay for goods and services with bank cards and other means through internet. You will have to fill a payment form, and then you will be redirected to the <a href="https://rbkmoney.ru/">RBK Money</a> secure payment page to enter your bank card data and to confirm your payment.', 'leyka'),
                 'title' => __('RBK Money all possible payment types description', 'leyka'),

@@ -88,7 +88,7 @@ class Leyka_Text_Box extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'text_box_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('With this ways you can make your donation.', 'leyka'),
                 'title' => __('Comment', 'leyka'),

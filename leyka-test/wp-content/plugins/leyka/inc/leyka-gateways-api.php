@@ -398,9 +398,6 @@ abstract class Leyka_Payment_Method {
 
         $this->_set_attributes();
         $this->_initialize_options();
-
-        if($this->full_id == 'cp-card')
-            echo '<pre>' . print_r($this->_description, 1) . '</pre>';
     }
 
     public function __get($param) {
@@ -426,7 +423,12 @@ abstract class Leyka_Payment_Method {
             case 'name_backend': $param = $this->_label_backend ? $this->_label_backend : $this->_label;
                 break;
             case 'desc':
-            case 'description': $param = html_entity_decode($this->_description); break;
+            case 'description':
+                if( !$this->_description ) {
+                    $this->_description = leyka_options()->opt_safe($this->full_id.'_description');
+                }
+                $param = html_entity_decode($this->_description);
+                break;
             case 'has_global_fields': $param = $this->_support_global_fields; break;
             case 'custom_fields': $param = $this->_custom_fields; break;
             case 'icons': $param = $this->_icons; break;

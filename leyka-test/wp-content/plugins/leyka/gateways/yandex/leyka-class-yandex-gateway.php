@@ -276,7 +276,7 @@ class Leyka_Yandex_Money extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'yandex_money_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __("Yandex.Money is a simple and safe payment system to pay for goods and services through internet. You will have to fill a payment form, you will be redirected to the <a href='https://money.yandex.ru/'>Yandex.Money website</a> to confirm your payment. If you haven't got a Yandex.Money account, you can create it there.", 'leyka'),
                 'title' => __('Yandex.Money description', 'leyka'),
@@ -321,7 +321,7 @@ class Leyka_Yandex_Card extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'yandex_card_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('Yandex.Money allows a simple and safe way to pay for goods and services with bank cards through internet. You will have to fill a payment form, you will be redirected to the <a href="https://money.yandex.ru/">Yandex.Money website</a> to enter your bank card data and to confirm your payment.', 'leyka'),
                 'title' => __('Yandex bank card payment description', 'leyka'),
@@ -363,7 +363,7 @@ class Leyka_Yandex_Webmoney extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'yandex_wm_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('<a href="http://www.webmoney.ru/">WebMoney Transfer</a> is an international financial transactions system and an invironment for a business in Internet, founded in 1988. Up until now, WebMoney clients counts at more than 25 million people around the world. WebMoney system includes a services to account and exchange funds, attract new funding, solve quarrels and make a safe deals.', 'leyka'),
                 'title' => __('WebMoney description', 'leyka'),

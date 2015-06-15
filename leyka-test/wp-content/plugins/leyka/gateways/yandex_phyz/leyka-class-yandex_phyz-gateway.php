@@ -265,7 +265,7 @@ class Leyka_Yandex_Phyz_Money extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'yandex_phyz_money_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __("Yandex.Money is a simple and safe payment system to pay for goods and services through internet. You will have to fill a payment form, you will be redirected to the <a href='https://money.yandex.ru/'>Yandex.Money website</a> to confirm your payment. If you haven't got a Yandex.Money account, you can create it there.", 'leyka'),
                 'title' => __('Yandex.Money description', 'leyka'),
@@ -310,7 +310,7 @@ class Leyka_Yandex_Phyz_Card extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'yandex_phyz_card_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('Yandex.Money allows a simple and safe way to pay for goods and services with bank cards through internet. You will have to fill a payment form, you will be redirected to the <a href="https://money.yandex.ru/">Yandex.Money website</a> to enter your bank card data and to confirm your payment.', 'leyka'),
                 'title' => __('Yandex bank card payment description', 'leyka'),
