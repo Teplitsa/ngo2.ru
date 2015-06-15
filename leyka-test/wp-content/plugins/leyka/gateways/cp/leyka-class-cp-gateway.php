@@ -193,8 +193,6 @@ class Leyka_CP_Card extends Leyka_Payment_Method {
         $this->_label_backend = __('Payment with Banking Card', 'leyka');
         $this->_label = __('Banking Card', 'leyka');
 
-        $this->_description = leyka_options()->opt_safe('cp_card_description');
-
         $this->_icons = apply_filters('leyka_icons_'.$this->_gateway_id.'_'.$this->_id, array(
             LEYKA_PLUGIN_BASE_URL.'gateways/cp/icons/visa.png',
             LEYKA_PLUGIN_BASE_URL.'gateways/cp/icons/master.png',
@@ -212,7 +210,7 @@ class Leyka_CP_Card extends Leyka_Payment_Method {
         }
 
         $this->_options = array(
-            'cp_card_description' => array(
+            $this->full_id.'_description' => array(
                 'type' => 'html',
                 'default' => __('<a href="//cloudpayments.ru/">CloudPayments</a> is a Designer IT-solutions for the e-commerce market. Every partner receives the most comprehensive set of key technical options allowing to create a customer-centric payment system on site or in mobile application. Partners are allowed to receive payments in roubles and in other world currencies.', 'leyka'),
                 'title' => __('CloudPayments bank card payment description', 'leyka'),
@@ -232,10 +230,7 @@ add_action('leyka_init_actions', 'leyka_add_gateway_cp');
 add_action('wp_enqueue_scripts', 'leyka_enqueue_scripts_cp');
 function leyka_enqueue_scripts_cp() {
 
-    if(
-        is_singular(Leyka_Campaign_Management::$post_type) &&
-        in_array(Leyka_CP_Card::get_instance()->full_id, leyka_options()->opt('pm_available'))
-    ) {
+    if(Leyka_CP_Card::get_instance()->active && leyka_form_is_screening()) {
         wp_enqueue_script('leyka-cp', 'https://widget.cloudpayments.ru/bundles/cloudpayments');
     }
 }

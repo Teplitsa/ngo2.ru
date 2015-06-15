@@ -398,6 +398,9 @@ abstract class Leyka_Payment_Method {
 
         $this->_set_attributes();
         $this->_initialize_options();
+
+        if($this->full_id == 'cp-card')
+            echo '<pre>' . print_r($this->_description, 1) . '</pre>';
     }
 
     public function __get($param) {
@@ -489,13 +492,7 @@ abstract class Leyka_Payment_Method {
         $this->_label = $custom_label && $custom_label != $this->_label ?
             $custom_label : apply_filters('leyka_get_pm_label_original', $this->_label, $this);
 
-        foreach(leyka_options()->opt('pm_available') as $pm_full_id) {
-
-            if($this->full_id == $pm_full_id) {
-                $this->_active = true;
-                break;
-            }
-        }
+        $this->_active = in_array($this->full_id, leyka_options()->opt('pm_available'));
 
         add_filter('leyka_payment_options_allocation', array($this, 'allocate_pm_options'), 10, 1);
     }
