@@ -121,6 +121,8 @@ jQuery(document).ready(function($){
             $wrapper.find('.pm-label-fields').hide();
             $wrapper.find('.pm-change-label').show();
         });
+
+        $('.pm-order-panel').stick_in_parent({offset_top: 0});
     }
 
     /** Manual emails sending: */

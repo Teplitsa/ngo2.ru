@@ -607,16 +607,18 @@ class Leyka_Admin_Setup {
             $dependencies[] = 'postbox';
         }
         if($current_screen->id == 'lejka_page_leyka_settings') {
+
             $dependencies[] = 'postbox';
             $dependencies[] = 'jquery-ui-accordion';
             $dependencies[] = 'jquery-ui-sortable';
 
             wp_enqueue_script(
-                'leyka-jquery-lockfixed',
-                LEYKA_PLUGIN_BASE_URL.'js/jquery.lockfixed.js',
+                'leyka-sticky',
+                LEYKA_PLUGIN_BASE_URL.'js/jquery.sticky.js',
                 $dependencies,
                 LEYKA_VERSION, true
             );
+            $dependencies[] = 'leyka-sticky';
         }
         if($current_screen->post_type == Leyka_Donation_Management::$post_type) {
             $dependencies[] = 'jquery-ui-autocomplete';
@@ -634,11 +636,7 @@ class Leyka_Admin_Setup {
         wp_localize_script('leyka-admin', 'leyka', $js_local);
 
         // Campaign editing page:
-        if(
-            $screen->post_type == Leyka_Campaign_Management::$post_type &&
-            $screen->base == 'post' &&
-            !$screen->action
-        ) {
+        if($screen->post_type == Leyka_Campaign_Management::$post_type && $screen->base == 'post' && !$screen->action) {
 
             wp_enqueue_style('jquery-dataTables', LEYKA_PLUGIN_BASE_URL.'css/jquery.dataTables.css');
             wp_enqueue_script(
