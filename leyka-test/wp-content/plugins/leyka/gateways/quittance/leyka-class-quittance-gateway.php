@@ -70,7 +70,7 @@ class Leyka_Quittance_Gateway extends Leyka_Gateway {
                 __('Print the quittance', 'leyka'),
                 __("OK, I've received the quittance", 'leyka'),
                 get_permalink(leyka_options()->opt('quittance_redirect_page')),
-                $campaign->payment_title,
+                $campaign->payment_title." (№ $donation_id)",
                 $form_data['leyka_donor_name'],
                 leyka_options()->opt('org_full_name'),
                 (int)$form_data['leyka_donation_amount'],

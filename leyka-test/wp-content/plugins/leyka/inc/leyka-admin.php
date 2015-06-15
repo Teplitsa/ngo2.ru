@@ -427,11 +427,12 @@ class Leyka_Admin_Setup {
                 }
 
                 do_action("leyka_settings_post_{$current_stage}_fields");?>
-            <?php }?>
 
                 <p class="submit">
                     <input type="submit" name="<?php echo "leyka_settings_{$current_stage}";?>_submit" value="<?php _e('Save settings', 'leyka'); ?>" class="button-primary" />
                 </p>
+            <?php }?>
+
 			</form>
 <!--            --><?php //do_action("leyka_settings_post_{$current_stage}_form");?>
 		</div>
@@ -609,16 +610,19 @@ class Leyka_Admin_Setup {
             $dependencies[] = 'postbox';
             $dependencies[] = 'jquery-ui-accordion';
             $dependencies[] = 'jquery-ui-sortable';
+
+            wp_enqueue_script(
+                'leyka-jquery-lockfixed',
+                LEYKA_PLUGIN_BASE_URL.'js/jquery.lockfixed.js',
+                $dependencies,
+                LEYKA_VERSION, true
+            );
         }
         if($current_screen->post_type == Leyka_Donation_Management::$post_type) {
             $dependencies[] = 'jquery-ui-autocomplete';
         }
 
-        wp_enqueue_script(
-            'leyka-admin',
-            LEYKA_PLUGIN_BASE_URL.'js/admin.js',
-            $dependencies, LEYKA_VERSION, true
-        );
+        wp_enqueue_script('leyka-admin', LEYKA_PLUGIN_BASE_URL.'js/admin.js', $dependencies, LEYKA_VERSION, true);
 
         $js_local = array(
             'ajaxurl' => admin_url('admin-ajax.php'),

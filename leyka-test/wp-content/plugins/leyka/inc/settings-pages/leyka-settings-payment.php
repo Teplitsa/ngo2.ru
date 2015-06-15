@@ -75,7 +75,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                     if( !in_array($gateway_id, $active_gateways) )
                         $active_gateways[] = $gateway_id;
                 }?>
-    
+
             <div id="pm-settings-wrapper">
             <?php foreach(leyka_get_gateways() as $gateway) { /** @var $gateway Leyka_Gateway */ ?>
                 <div id="gateway-<?php echo $gateway->id;?>" class="gateway-settings" <?php echo in_array($gateway->id, $active_gateways) ? '' : 'style="display:none;"'?>>
@@ -86,9 +86,9 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                             $option = leyka_options()->get_info_of($option_id);
                             do_action("leyka_render_{$option['type']}", $option_id, $option);
                         }
-    
+
                         foreach($gateway->get_payment_methods() as $pm) { /** @var $pm Leyka_Payment_Method */ ?>
-    
+
                             <div id="pm-<?php echo $pm->full_id;?>" class="pm-settings" <?php echo in_array($pm->full_id, $pm_available) ? '' : 'style="display:none;"';?>>
                             <?php foreach($pm->get_pm_options_names() as $option_id) {
     
@@ -111,7 +111,6 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
             <?php echo $label_backend == $label ? '' : $label_backend.'<br>';?>
             <span class="pm-label" id="pm-label-<?php echo $full_id;?>"><?php echo $label;?></span>
                     <span class="pm-label-fields" style="display:none;">
-                        <label for="pm_labels[<?php echo $full_id;?>]"><?php _e('New label:', 'leyka');?></label>
                         <input type="text" id="pm_labels[<?php echo $full_id;?>]" value="<?php echo $label;?>" placeholder="<?php _e('Enter some title for this payment method', 'leyka');?>">
                         <input type="hidden" class="pm-label-field" name="leyka_<?php echo $full_id;?>_label" value="<?php echo $label;?>">
                         <span class="new-pm-label-ok"><? _e('OK', 'leyka');?></span>
@@ -161,6 +160,10 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
 //        leyka_options()->opt('pm_order', $pm_order);?>
 
         <input type="hidden" name="leyka_pm_order" value="<?php echo leyka_options()->opt('pm_order');?>">
+
+        <p class="submit">
+            <input type="submit" name="<?php echo "leyka_settings_{$current_stage}";?>_submit" value="<?php _e('Save settings', 'leyka'); ?>" class="button-primary" />
+        </p>
 
     </div></div>
 
