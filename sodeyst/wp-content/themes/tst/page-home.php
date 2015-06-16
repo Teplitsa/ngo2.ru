@@ -68,7 +68,7 @@ get_header(); ?>
 		<div class="bit md-8">
 			<h3 class="section-title">Новое в блоге <a href="<?php echo home_url('blog');?>">&gt;&gt;</a></h3>
 		<?php
-			$news = new WP_Query(array('posts_per_page' => 4, 'post_type' => 'post'));
+			$news = new WP_Query(array('posts_per_page' => 6, 'post_type' => 'post'));
 			$words = 20;
 			if($news->have_posts()) {
 				$items = $news->posts;
@@ -84,38 +84,30 @@ get_header(); ?>
 					</h4>
 					<div class="h-item-meta"><?php tst_posted_on($items[0]); ?></div>
 					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[0]->post_excerpt, $words));?></p>
-				</div>	
-			</div>
-			<div class="bit sm-7 md-6">
-			<?php if(isset($items[1])) { ?>	
-				<div class="h-item">						
+				</div>
+				<div class="h-item">
+					<a href="<?php echo get_permalink($items[1])?>" class="thumbnail-link">
+						<?php echo get_the_post_thumbnail($items[1]->ID, 'post-thumbnail');?>
+					</a>
 					<h4 class="h-item-title">
-						<a href="<?php echo get_permalink($items[1])?>"><?php echo get_the_title($items[1]);?></a>
+						<a href="<?php echo get_permalink($items[1])?>"><?php echo get_the_title($items[0]);?></a>
 					</h4>
 					<div class="h-item-meta"><?php tst_posted_on($items[1]); ?></div>
 					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[1]->post_excerpt, $words));?></p>
 				</div>
-			<?php } ?>
-			
-			<?php if(isset($items[2])) { ?>	
+			</div>
+			<div class="bit sm-7 md-6">
+			<?php
+				for($i=2; $i<6;$i++) { 
+				if(isset($items[$i])) { ?>	
 				<div class="h-item">						
 					<h4 class="h-item-title">
-						<a href="<?php echo get_permalink($items[2])?>"><?php echo get_the_title($items[2]);?></a>
+						<a href="<?php echo get_permalink($items[$i])?>"><?php echo get_the_title($items[$i]);?></a>
 					</h4>
-					<div class="h-item-meta"><?php tst_posted_on($items[2]); ?></div>
-					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[2]->post_excerpt, $words));?></p>
+					<div class="h-item-meta"><?php tst_posted_on($items[$i]); ?></div>
+					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[$i]->post_excerpt, $words));?></p>
 				</div>
-			<?php } ?>
-			
-			<?php if(isset($items[3])) { ?>	
-				<div class="h-item">						
-					<h4 class="h-item-title">
-						<a href="<?php echo get_permalink($items[3])?>"><?php echo get_the_title($items[3]);?></a>
-					</h4>
-					<div class="h-item-meta"><?php tst_posted_on($items[3]); ?></div>
-					<p><?php echo apply_filters('tst_the_title', wp_trim_words($items[3]->post_excerpt, $words));?></p>
-				</div>
-			<?php } ?>
+			<?php }}?>			
 			</div>
 		</div>
 		<?php } ?>	

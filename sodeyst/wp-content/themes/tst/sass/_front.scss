@@ -240,6 +240,7 @@ p,ul,ol,dl,blockquote {
 	}
 	
 	.events-gallery {
+		@include rem('margin-top', $base*1.5);
 		h3 {
 			@include widget-title(14px);
 			span {

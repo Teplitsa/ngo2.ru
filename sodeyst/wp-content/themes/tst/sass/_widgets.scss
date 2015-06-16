@@ -58,6 +58,7 @@
 	
 }
 
+.home-section.content .widget.newsletter,
 .sidebar-wide .widget.newsletter {
 	input[type="submit"] {
 		@include fixed-button($color-link-two, $color-link-three, 13px);

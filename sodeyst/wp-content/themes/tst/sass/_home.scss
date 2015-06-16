@@ -171,6 +171,7 @@
 		}
 	}
 	
+	.sm-5 .h-item,
 	.sm-7 .h-item {
 		@include rem('margin-bottom', $base);
 		&:last-child {
