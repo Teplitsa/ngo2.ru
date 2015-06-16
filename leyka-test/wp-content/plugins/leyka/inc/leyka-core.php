@@ -352,21 +352,46 @@ class Leyka {
             $settings_pages_dir = dir(LEYKA_PLUGIN_DIR.'inc/settings-pages/');
             while(false !== ($script = $settings_pages_dir->read())) {
 
-                if($script != '.' && $script != '..' && !in_array($script, array('leyka-settings-common.php',))) {
+                if(
+                    $script != '.' && $script != '..' &&
+                    !in_array($script, array('leyka-settings-common.php', 'leyka-settings-payment.php',))
+                ) {
                     unlink(LEYKA_PLUGIN_DIR.'inc/settings-pages/'.$script);
                 }
             }
             $settings_pages_dir->close();
 
             // Remove an obsolete plugin options:
-            $old_value = get_option('leyka_chronopay_card_description');
-            $new_value = get_option('chronopay-chronopay_card_description');
-            die('<pre>' . print_r($old_value.' - '.$new_value, 1) . '</pre>');
-            if(leyka_options()->opt_safe('chronopay-chronopay_card_description') != $old_value) {
-                leyka_options()->opt('chronopay-chronopay_card_description', $old_value);
+            $options = array(
+                array('old' => 'chronopay_card_description', 'new' => 'chronopay-chronopay_card_description'),
+                array('old' => 'chronopay_card_rebill_description', 'new' => 'chronopay-chronopay_card_rebill_description'),
+                array('old' => 'bank_order_description', 'new' => 'quittance-bank_order_description'),
+                array('old' => 'bankcard_description', 'new' => 'rbk-bankcard_description'),
+                array('old' => 'rbkmoney_description', 'new' => 'rbk-rbkmoney_description'),
+                array('old' => 'rbk_all_description', 'new' => 'rbk-rbk_all_description'),
+                array('old' => 'robokassa_card_description', 'new' => 'robokassa-BANKOCEAN2_description'),
+                array('old' => 'robokassa_yandex_money_description', 'new' => 'robokassa-YandexMerchantOcean_description'),
+                array('old' => 'robokassa_webmoney_description', 'new' => 'robokassa-WMR_description'),
+                array('old' => 'robokassa_qiwi_description', 'new' => 'robokassa-Qiwi30Ocean_description'),
+                array('old' => 'robokassa_all_description', 'new' => 'robokassa-Other_description'),
+                array('old' => 'text_box_description', 'new' => 'text-text_box_description'),
+                array('old' => 'yandex_card_description', 'new' => 'yandex-yandex_card_description'),
+                array('old' => 'yandex_money_description', 'new' => 'yandex-yandex_money_description'),
+                array('old' => 'yandex_wm_description', 'new' => 'yandex-yandex_wm_description'),
+                array('old' => 'yandex_phyz_card_description', 'new' => 'yandex_phyz-yandex_phyz_card_description'),
+                array('old' => 'yandex_phyz_money_description', 'new' => 'yandex_phyz-yandex_phyz_money_description'),
+            );
+            foreach($options as $option) {
+
+                $old_value = get_option("leyka_{$option['old']}");
+                $new_value = get_option("leyka_{$option['new']}");
+
+                if($old_value && $old_value != $new_value) {
+                    update_option("leyka_{$option['new']}", $old_value);
+                }
+
+                delete_option("leyka_{$option['old']}");
             }
-            delete_option('leyka_chronopay_card_description');
-//            die('<pre>' . print_r(, 1) . '</pre>');
         }
 
         /** Set a flag to flush permalinks (needs to be done a bit later, than this activation itself): */
