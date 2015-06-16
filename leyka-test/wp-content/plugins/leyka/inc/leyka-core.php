@@ -315,9 +315,9 @@ class Leyka {
                     update_option("leyka_$name", $option['value']);
             }
 
-            // Mostly to initialize gateways' and PM's options before updating them
-            //            if( !did_action('leyka_init_actions') )
-            //                do_action('leyka_init_actions');
+            // Mostly to initialize gateways' and PM's options before updating them:
+//            if( !did_action('leyka_init_actions') )
+//                do_action('leyka_init_actions');
 
             /** Upgrade gateway and PM options structure in the DB */
             foreach(leyka_get_gateways() as $gateway) {
@@ -346,7 +346,7 @@ class Leyka {
             }
         }
 
-        if($leyka_last_ver <= '2.2.5') {
+        if( !$leyka_last_ver || $leyka_last_ver <= '2.2.5' ) {
 
             // Remove an unneeded scripts for settings pages:
             $settings_pages_dir = dir(LEYKA_PLUGIN_DIR.'inc/settings-pages/');
@@ -359,6 +359,13 @@ class Leyka {
             $settings_pages_dir->close();
 
             // Remove an obsolete plugin options:
+            $old_value = get_option('leyka_chronopay_card_description');
+            $new_value = get_option('chronopay-chronopay_card_description');
+            die('<pre>' . print_r($old_value.' - '.$new_value, 1) . '</pre>');
+            if(leyka_options()->opt_safe('chronopay-chronopay_card_description') != $old_value) {
+                leyka_options()->opt('chronopay-chronopay_card_description', $old_value);
+            }
+            delete_option('leyka_chronopay_card_description');
 //            die('<pre>' . print_r(, 1) . '</pre>');
         }
 

@@ -392,7 +392,8 @@ class Leyka_Chronopay_Card extends Leyka_Payment_Method {
         $this->_label_backend = __('Payment with Banking Card', 'leyka');
         $this->_label = __('Banking Card', 'leyka');
 
-        $this->_description = leyka_options()->opt_safe('chronopay_card_description');
+//        $this->_description = leyka_options()->opt_safe('chronopay_card_description');
+        // The description won't be setted here - it requires the PM option being configured at this time (which is not)
 
         $this->_icons = apply_filters('leyka_icons_'.$this->_gateway_id.'_'.$this->_id, array(
             LEYKA_PLUGIN_BASE_URL.'gateways/chronopay/icons/visa.png',
