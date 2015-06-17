@@ -35,13 +35,13 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
     $count++;
     $count = $count > 3 ? 1 : $count;
 
-    $pm_active = leyka_options()->opt('pm_available'); 
+    $pm_active = leyka_options()->opt('pm_available');
     $active = '';
-    
+
     if($pm_active) {
         foreach($pm_active as $pm_id) {
 
-            $test = explode('-', $pm_id);       
+            $test = explode('-', $pm_id);
             if(trim($test[0]) == $gateway->id) {
 
                 $active = " <span class='active'>".__('active', 'leyka')."</span>";
@@ -50,20 +50,16 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         }
     }
 
-    add_action('add_meta_boxes', function(Leyka_Gateway $gateway, $count, $active){
-        add_meta_box(
-            'leyka_payment_settings_gateway_'.$gateway->id,
-            leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
-            'leyka_add_gateway_metabox',
-            'leyka_settings_payment_'.$count,
-            'normal',
-            'high',
-            array('gateway' => $gateway,)
-        );
-    });
+    add_meta_box(
+        'leyka_payment_settings_gateway_'.$gateway->id,
+        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
+        'leyka_add_gateway_metabox',
+        'leyka_settings_payment_'.$count,
+        'normal',
+        'high',
+        array('gateway' => $gateway,)
+    );
 }?>
-
-<!--<h3><?php _e('Payment methods', 'leyka');?></h3>-->
 
 <div class="metabox-holder" id="leyka-pm-selectors">
     <div class="postbox-container" id="postbox-container-1">
