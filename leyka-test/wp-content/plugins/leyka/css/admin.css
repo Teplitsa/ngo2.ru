@@ -206,6 +206,9 @@
       padding: 15px; }
     #payment-settings-area .pm-active-panel .field-component.help {
       display: none; }
+    @media screen and (min-width: 900px) {
+      #payment-settings-area .pm-active-panel {
+        margin-right: -1px; } }
   #payment-settings-area .pm-order-panel {
     background: #E9E9E9;
     border: 1px solid #d6d6d6;
@@ -214,8 +217,7 @@
       #payment-settings-area .pm-order-panel {
         float: left;
         width: 39%;
-        max-width: 400px;
-        margin-left: -1px; } }
+        max-width: 400px; } }
     #payment-settings-area .pm-order-panel .panel-content {
       padding: 15px; }
       @media screen and (min-width: 900px) {

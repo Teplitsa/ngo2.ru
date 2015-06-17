@@ -82,23 +82,24 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
 </div>
 
 <div id="payment-settings-area">
-    
+
     <div class="pm-active-panel">
-    
+
         <div id="active-pm-settings" class="panel-content">
             <h3 class="panel-title"><?php _e('Payment gateways parameters', 'leyka');?></h3>           
-    
+
             <?php
                 $pm_available = leyka_options()->opt('pm_available');
     
                 $active_gateways = array();
                 foreach($pm_available as $pm_full_id) {
-    
+
                     $gateway_id = explode('-', $pm_full_id);
                     $gateway_id = reset($gateway_id); // Strict standards
-    
-                    if( !in_array($gateway_id, $active_gateways) )
+
+                    if( !in_array($gateway_id, $active_gateways) ) {
                         $active_gateways[] = $gateway_id;
+                    }
                 }?>
 
             <div id="pm-settings-wrapper">
@@ -106,7 +107,7 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
                 foreach(leyka_get_gateways() as $gateway) { /** @var $gateway Leyka_Gateway */
                 $icon = leyka_gateway_admin_icon_markup($gateway);
                 $doc_url = leyka_gateway_admin_doc_url($gateway);                
-                $doc = ($doc_url) ? ' <a class="doc-link" href="'.esc_url($doc_url).'" target="_blank">'.__('Setup Help', 'leyka').'</a>' : '';
+                $doc = ($doc_url) ? ' <a class="doc-link" href="'.esc_url($gateway->).'" target="_blank">'.__('Setup Help', 'leyka').'</a>' : '';
             ?>
                 <div id="gateway-<?php echo $gateway->id;?>" class="gateway-settings" <?php echo in_array($gateway->id, $active_gateways) ? '' : 'style="display:none;"'?>>
                     <h3 class="accordion-section-title"><?php echo $icon.$gateway->title.$doc;?></h3>
