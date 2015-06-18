@@ -154,6 +154,13 @@ PHP at least 5.3 is required.
 
 == Changelog ==
 
+= 2.2.6 =
+ * New: payment settings page has a new UI.
+ * New: now PMs on the donation forms can be reordered.
+ * New: gateways API is slightly refactored.
+ * Fix: small, but important fixes in Chronopay and Yandex.Money. Other gateways also has their share of a refactoring.
+ * Fix: as always, small fixes.
+
 = 2.2.5 =
  * New: "First steps" metabox is added to the plugin desktop.
  * New: first level of improvement of options validation system.
