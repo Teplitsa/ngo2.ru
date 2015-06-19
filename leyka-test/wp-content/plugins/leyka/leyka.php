@@ -136,9 +136,9 @@ if( !$gateways_dir ) {
     $gateways_dir->close();
 }
 
-// Activation/Deactivation:
-register_activation_hook(__FILE__, array('Leyka', 'activate'));
-register_deactivation_hook(__FILE__, array('Leyka', 'deactivate'));
+register_activation_hook(__FILE__, array('Leyka', 'activate')); // Activation
+add_action('plugins_loaded', array('Leyka', 'activate')); // Any update needed
+register_deactivation_hook(__FILE__, array('Leyka', 'deactivate')); // Deactivate
 
 leyka(); // All systems go
 

@@ -295,7 +295,7 @@ class Leyka {
     }
 
     /**
-     * Fired when the plugin is activated.
+     * Fired when the plugin is activated or when an update is needed.
      * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action,
      * false if WPMU is disabled or plugin is activated on an individual blog.
      */
@@ -358,12 +358,12 @@ class Leyka {
             // Initialize pm_order option if needed:
             if( !get_option('leyka_pm_order') ) {
 
-                $pm_list = array();
-                foreach(get_option('leyka_pm_available') as $pm_full_id) {
+                $pm_order = array();
+                foreach((array)get_option('leyka_pm_available') as $pm_full_id) {
 
-                    $pm_list[] = "pm_order[]={$pm_full_id}";
+                    $pm_order[] = "pm_order[]={$pm_full_id}";
                 }
-                update_option('leyka_pm_order', implode('&', $pm_list));
+                update_option('leyka_pm_order', implode('&', $pm_order));
             }
 
             // Remove an unneeded scripts for settings pages:
