@@ -172,6 +172,11 @@ class Leyka_Campaign_Management {
                 self::$post_type.'_donations', __('Donations history', 'leyka'),
                 array($this, 'donations_meta_box'), self::$post_type, 'normal', 'high'
             );
+
+            add_meta_box(
+                self::$post_type.'_statistics', __('Campaign statistics', 'leyka'),
+                array($this, 'statistics_meta_box'), self::$post_type, 'side', 'low'
+            );
         }
 	}
 
@@ -180,8 +185,9 @@ class Leyka_Campaign_Management {
 		$campaign = new Leyka_Campaign($post);
 
 		$cur_template = $campaign->template;
-		if(empty($cur_template))
-			$cur_template = 'default';?>
+		if(empty($cur_template)) {
+            $cur_template = 'default';
+        }?>
 
         <fieldset id="payment-title" class="metabox-field campaign-field campaign-purpose">
             <label for="payment_title">
@@ -240,9 +246,8 @@ class Leyka_Campaign_Management {
 		<fieldset id="d-scale-demo" class="metabox-field campaign-field campaign-target-scale">
 		<?php if($campaign->target > 0) {
 
-			$percentage = round(($collected/$campaign->target)*100);
-			if($percentage > 100)
-				$percentage = 100;?>
+			$percentage = round(100*$collected/$campaign->target);
+            $percentage = $percentage > 100 ? 100 : $percentage;?>
 
 			<div class="d-scale-scale">
 				<div class="target">
@@ -254,22 +259,34 @@ class Leyka_Campaign_Management {
 			<p>
 				<?php printf(__('Reached at: %s', 'leyka'), '<b>'.$campaign->date_target_reached.'</b>');?>
 			</p>            
-			<?php } ?>
-			
+			<?php }?>
+
 		<?php }?>
 		</fieldset>
-		
-		
+
         <?php $curr_page = get_current_screen();
         if($curr_page->action != 'add') {?>
 
         <fieldset id="campaign-finished" class="metabox-field campaign-field campaign-finished">
             <label for="is-finished">
-                <input type="checkbox" id="is-finished" name="is_finished" value="1" <?php echo $campaign->is_finished ? 'checked' : '';?> /> <?php _e('Campaign is finished, donations collecting stopped', 'leyka');?>
+                <input type="checkbox" id="is-finished" name="is_finished" value="1" <?php echo $campaign->is_finished ? 'checked' : '';?> /> <?php _e('Campaign is finished, donations collecting is stopped', 'leyka');?>
             </label>
         </fieldset>
 	<?php }
-	}
+    }
+
+    public function statistics_meta_box(WP_Post $campaign) { $campaign = new Leyka_Campaign($campaign);?>
+
+        <div>
+            <span><?php _e('Campaign was displayed:', 'leyka');?></span>
+            <span><?php echo $campaign->views_count;?> <?php _e('times', 'leyka');?></span>
+        </div>
+        <div>
+            <span><?php _e('Donors attempted to make a donation:', 'leyka');?></span>
+            <span><?php echo $campaign->clicks_count;?> <?php _e('times', 'leyka');?></span>
+        </div>
+    <?php
+    }
 
     public function annotation_meta_box(WP_Post $campaign) {?>
 
@@ -365,13 +382,19 @@ class Leyka_Campaign_Management {
 	</div>
     <?php }
 
-	static function get_card_embed_code($campaign_id, $w = 300, $h = 510){
+	static function get_card_embed_code($campaign_id, $increase_views_count = false, $w = 300, $h = 510){
 
 		$link = get_permalink($campaign_id);
         $link .= stristr($link, '?') !== false ? '&' : '?';
 
 		$w = $w <= 0 ? 300 : (int)$w;
 		$h = $h <= 0 ? 510 : (int)$h;
+
+        if($increase_views_count) {
+
+            $campaign = new Leyka_Campaign($campaign_id);
+            $campaign->increase_views_counter();
+        }
 
 		return '<iframe width="'.$w.'" height="'.$h.'" src="'.$link.'embed=campaign_card"></iframe>';
 	}
@@ -549,7 +572,12 @@ class Leyka_Campaign {
             case 'date_target_reached':
                 $date = $this->_campaign_meta['date_target_reached'];
                 return $date ? date(get_option('date_format'), $date) : 0;
-//            case '': return ''; break;
+            case 'count_views':
+            case 'views_count': return $this->_campaign_meta['count_views'];
+            case 'count_clicks':
+            case 'clicks_count': return $this->_campaign_meta['count_clicks'];
+            case '': return '';
+//            case '': return '';
             default:
                 return apply_filters('leyka_get_unknown_campaign_field', null, $field, $this);
         }

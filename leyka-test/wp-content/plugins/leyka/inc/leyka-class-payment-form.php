@@ -489,8 +489,8 @@ function leyka_share_campaign_block($campaign_id = null) {
 	if( !$campaign_id ) {
 		$campaign_id = $post->ID;
     }
-		
-	$iframe = Leyka_Campaign_Management::get_card_embed_code($campaign_id);?>
+
+	$iframe = Leyka_Campaign_Management::get_card_embed_code($campaign_id, true);?>
 
 	<div id="share-campaign-area" class="toggle">
 		<div class="toggle-trigger"><?php _e('Share (get embed code)', 'leyka');?></div>
@@ -625,7 +625,7 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
 
 	if( !$campaign ) {
         $campaign = new Leyka_Campaign($post);
-	} elseif(is_int($campaign)) {
+	} elseif(is_int($campaign) || is_a($campaign, 'WP_Post')) {
         $campaign = new Leyka_Campaign($campaign);
 	} elseif( !is_a($campaign, 'Leyka_Campaign') ) {
         return false;
@@ -633,7 +633,7 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
 
     if($campaign->is_finished) {?>
 
-    <div id="leyka-campaign-finished"><?php echo __('The fundrising campaign has been finished. Thank you for your support!', 'leyka');?></div>
+    <div id="leyka-campaign-finished"><?php echo __('The fundraising campaign has been finished. Thank you for your support!', 'leyka');?></div>
 
 <?php } else {
 
@@ -652,12 +652,12 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
 
             $template = leyka_get_current_template_data($campaign, $template /*? $template : $campaign->template*/);
 
-            if($template && isset($template['file'])){
+            if($template && isset($template['file'])) {
                 include($template['file']);
             }
         }
 
-    } //campaign finished
+    } // Campaign finished
 
     $out = ob_get_contents();
     ob_end_clean();
