@@ -89,6 +89,7 @@ function leyka_get_scale_button_label(){
 
 add_shortcode('leyka_campaign_card', 'leyka_campaign_card_screen' );
 function leyka_campaign_card_screen($atts) {
+
 	global $post;
 	
     $a = shortcode_atts( array(
@@ -105,6 +106,8 @@ function leyka_campaign_card_screen($atts) {
 	if($campaign->post_type != Leyka_Campaign_Management::$post_type) { // Wrong campaign data
 		return '';
     }
+
+    echo '<pre>' . print_r('Here: '.$campaign->ID, 1) . '</pre>';
 
 	return '<div id="'.esc_attr('leyka_campaign_card_standalone-'.uniqid()).'">'
            .leyka_get_campaign_card($campaign, $a).'</div>';
@@ -203,8 +206,9 @@ function leyka_get_campaign_card($campaign = null, $args = array()) {
 /**
  * Payment form shortcode 
  **/
-add_shortcode('leyka_payment_form', 'leyka_payment_form_screen' );
+add_shortcode('leyka_payment_form', 'leyka_payment_form_screen');
 function leyka_payment_form_screen($atts) {
+
 	global $post;
 
     $a = shortcode_atts( array(
@@ -237,8 +241,11 @@ function leyka_get_payment_form($campaign = null, $args = array()) {
 		$campaign = get_post($campaign);
 	}
 
-	if($campaign->post_type != Leyka_Campaign_Management::$post_type)
+	if($campaign->post_type != Leyka_Campaign_Management::$post_type) {
 		return '';
+    }
+
+    echo '<pre>' . print_r('Here: '.$campaign->ID, 1) . '</pre>';
 
 	return get_leyka_payment_form_template_html($campaign, $args['template']);
 }
