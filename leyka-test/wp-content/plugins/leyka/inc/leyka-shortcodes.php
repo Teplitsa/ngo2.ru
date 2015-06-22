@@ -91,38 +91,40 @@ add_shortcode('leyka_campaign_card', 'leyka_campaign_card_screen' );
 function leyka_campaign_card_screen($atts) {
 
 	global $post;
-	
-    $a = shortcode_atts( array(
-        'id'            => 0,
-        'show_title'    => 1,
-		'show_thumb'    => 1,
-		'show_excerpt'  => 1,
-		'show_scale'    => 1,
-		'show_button'   => 1,		
-    ), $atts );
 
-    $campaign = ($a['id'] > 0) ? get_post($a['id']) : $post;
+    $a = shortcode_atts(array(
+        'id' => 0,
+        'show_title' => 1,
+		'show_thumb' => 1,
+		'show_excerpt' => 1,
+		'show_scale' => 1,
+		'show_button' => 1,
+    ), $atts);
+
+    $campaign_post = $a['id'] > 0 ? get_post($a['id']) : $post;
 	
-	if($campaign->post_type != Leyka_Campaign_Management::$post_type) { // Wrong campaign data
+	if($campaign_post->post_type != Leyka_Campaign_Management::$post_type) { // Wrong campaign data
 		return '';
     }
 
+    $campaign = new Leyka_Campaign($campaign_post);
     $campaign->increase_views_counter(); // Increase campaign views counter
 
 	return '<div id="'.esc_attr('leyka_campaign_card_standalone-'.uniqid()).'">'
-           .leyka_get_campaign_card($campaign, $a).'</div>';
+           .leyka_get_campaign_card($campaign_post, $a).'</div>';
 }
 
 function leyka_get_campaign_card($campaign = null, $args = array()) {
 
 	global $post;
-	
+
 	$defaults = array(
 		'show_title' => 1,
 		'show_thumb' => 1,
 		'show_excerpt' => 1,
 		'show_scale' => 1,
 		'show_button' => 1,
+        'increase_counters' => 0,
 		'embed_mode' => 0,
 	);
 
@@ -130,9 +132,9 @@ function leyka_get_campaign_card($campaign = null, $args = array()) {
 
 	if( !$campaign ) {
 		$campaign = $post;
-	} elseif(is_int($campaign)) {
+	} elseif((int)$campaign > 0) {
 		$campaign = get_post($campaign);
-	} elseif( !is_a($campaign, 'Leyka_Campaign') ) {
+	} elseif( !is_a($campaign, 'WP_Post') ) {
         return false;
     }
 
@@ -186,18 +188,20 @@ function leyka_get_campaign_card($campaign = null, $args = array()) {
                 <?php }?>
 			</div>
 		<?php }?>
-		
+
 		<?php if($args['show_scale'] == 1) {
 
             echo leyka_get_scale($campaign,	array('show_button' => $args['show_button'], 'embed_mode' => $args['embed_mode']));
-			
+
 		} elseif($args['show_button'] == 1 && !$campaign->is_finished) {
 
-			$url = trailingslashit(get_permalink($campaign->ID)).'#leyka-payment-form';?>
+			$url = trailingslashit(get_permalink($campaign->ID)).'#leyka-payment-form'.
+                ( !!$args['increase_counters'] ? '?increase_counters=1' : '' );?>
+
 			<div class="leyka-scale-button-alone">
-				<a href='<?php echo $url;?>'<?php if($campaign->ID == $post->ID) echo ' class="leyka-scroll"';?><?php echo $target;?>><?php echo leyka_get_scale_button_label();?></a>
+				<a href="<?php echo $url;?>" <?php echo $campaign->ID == $post->ID ? 'class="leyka-scroll"' : '';?><?php echo $target;?>><?php echo leyka_get_scale_button_label();?></a>
 			</div>
-			
+
 		<?php }?>
 	</div>
 <?php

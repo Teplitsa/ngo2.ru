@@ -382,21 +382,13 @@ class Leyka_Campaign_Management {
 	</div>
     <?php }
 
-	static function get_card_embed_code($campaign_id, $increase_views_count = false, $w = 300, $h = 510){
+	static function get_card_embed_code($campaign_id, $increase_counters = false, $w = 300, $h = 510){
 
 		$link = get_permalink($campaign_id);
-        $link .= stristr($link, '?') !== false ? '&' : '?';
+        $link .= (stristr($link, '?') !== false ? '&' : '?').'embed=campaign_card';
+        $link .= '&increase_counters='.(int)!!$increase_counters;
 
-		$w = $w <= 0 ? 300 : (int)$w;
-		$h = $h <= 0 ? 510 : (int)$h;
-
-        if($increase_views_count) {
-
-            $campaign = new Leyka_Campaign($campaign_id);
-            $campaign->increase_views_counter();
-        }
-
-		return '<iframe width="'.$w.'" height="'.$h.'" src="'.$link.'embed=campaign_card"></iframe>';
+		return '<iframe width="'.(int)$w.'" height="'.(int)$h.'" src="'.$link.'"></iframe>';
 	}
 	
 	public function save_data($campaign_id, WP_Post $campaign) {
