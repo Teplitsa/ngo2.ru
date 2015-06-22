@@ -107,37 +107,40 @@ function leyka_campaign_card_screen($atts) {
 		return '';
     }
 
-    echo '<pre>' . print_r('Here: '.$campaign->ID, 1) . '</pre>';
+    $campaign->increase_views_counter(); // Increase campaign views counter
 
 	return '<div id="'.esc_attr('leyka_campaign_card_standalone-'.uniqid()).'">'
            .leyka_get_campaign_card($campaign, $a).'</div>';
 }
 
 function leyka_get_campaign_card($campaign = null, $args = array()) {
+
 	global $post;
 	
 	$defaults = array(
-		'show_title'   => 1,
-		'show_thumb'   => 1,
+		'show_title' => 1,
+		'show_thumb' => 1,
 		'show_excerpt' => 1,
-		'show_scale'   => 1,
-		'show_button'  => 1,
-		'embed_mode'   => 0
+		'show_scale' => 1,
+		'show_button' => 1,
+		'embed_mode' => 0,
 	);
-	
+
 	$args = wp_parse_args($args, $defaults);
-	
+
 	if( !$campaign ) {
 		$campaign = $post;
 	} elseif(is_int($campaign)) {
 		$campaign = get_post($campaign);
-	}
-	
+	} elseif( !is_a($campaign, 'Leyka_Campaign') ) {
+        return false;
+    }
+
 	if($campaign->post_type != Leyka_Campaign_Management::$post_type) { // Wrong campaign data
 		return '';
     }
 
-	$target = ($args['embed_mode'] == 1 ) ? ' target="_blank"' : '';
+	$target = $args['embed_mode'] == 1 ? ' target="_blank"' : '';
 	$thumbnail_size = apply_filters('leyka_campaign_card_thumbnail_size', 'post-thumbnail', $campaign, $args);
 	$css_class = apply_filters('leyka_campaign_card_class', 'leyka-campaign-card', $campaign, $args);	
 	if($args['show_thumb'] == 1 && has_post_thumbnail($campaign->ID))
@@ -245,7 +248,8 @@ function leyka_get_payment_form($campaign = null, $args = array()) {
 		return '';
     }
 
-    echo '<pre>' . print_r('Here: '.$campaign->ID, 1) . '</pre>';
+    $campaign = new Leyka_Campaign($campaign);
+    $campaign->increase_views_counter(); // Increase campaign views counter
 
 	return get_leyka_payment_form_template_html($campaign, $args['template']);
 }

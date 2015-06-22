@@ -502,7 +502,9 @@ class Leyka_Campaign {
                 'is_finished' => $meta['is_finished'] ? $meta['is_finished'][0] > 0 : 0,
                 'target_state' => $meta['target_state'][0],
                 'date_target_reached' => empty($meta['date_target_reached']) ? 0 : $meta['date_target_reached'][0],
-//                '' => ''
+                'count_views' => empty($meta['count_views']) ? 0 : $meta['count_views'][0],
+                'count_clicks' => empty($meta['count_clicks']) ? 0 : $meta['count_clicks'][0],
+//                '' => '',
             );
         }
 	}
@@ -584,8 +586,9 @@ class Leyka_Campaign {
     public static function get_campaign_collected_amount($campaign_id) {
 
         $campaign_id = (int)$campaign_id;
-        if($campaign_id <= 0)
+        if($campaign_id <= 0) {
             return false;
+        }
 
         $donations = get_posts(array(
             'post_type' => Leyka_Donation_Management::$post_type,
@@ -616,15 +619,18 @@ class Leyka_Campaign {
         $meta = array();
 
         if($target_state != $this->target_state) {
+
             $meta['target_state'] = $target_state;
 
-            if($target_state == 'is_reached')
+            if($target_state == 'is_reached') {
                 $meta['date_target_reached'] = time();
+            }
 
-        } elseif($target_state == 'is_reached' && !$this->date_target_reached)
+        } elseif($target_state == 'is_reached' && !$this->date_target_reached) {
             $meta['date_target_reached'] = time();
-        elseif($target_state != 'is_reached' && $this->date_target_reached)
+        } elseif($target_state != 'is_reached' && $this->date_target_reached) {
             $meta['date_target_reached'] = 0;
+        }
 
         foreach($meta as $key => $value) {
             update_post_meta($this->_id, $key, $value);
@@ -635,30 +641,47 @@ class Leyka_Campaign {
 
         $labels = leyka()->get_campaign_target_states();
 
-        if( !$state )
-		    return $labels;        
-        else
-		    return !empty($labels[$state]) ? $labels[$state] : false;
+        if( !$state ) {
+            return $labels;
+        } else {
+            return !empty($labels[$state]) ? $labels[$state] : false;
+        }
 	}
+
+    public function increase_views_counter() {
+
+        $this->_campaign_meta['count_views']++;
+        update_post_meta($this->_id, 'count_views', $this->_campaign_meta['count_views']);
+    }
+
+    public function increase_clicks_counter() {
+
+        $this->_campaign_meta['count_clicks']++;
+        update_post_meta($this->_id, 'count_clicks', $this->_campaign_meta['count_clicks']);
+    }
 	
 	/** CRUD and alike */
 	public function save() {
 
 		$meta = array();
 
-		if( !empty($_REQUEST['campaign_template']) && $this->template != $_REQUEST['campaign_template'] )
+		if( !empty($_REQUEST['campaign_template']) && $this->template != $_REQUEST['campaign_template'] ) {
 			$meta['campaign_template'] = trim($_REQUEST['campaign_template']);
+        }
 
-        if( !empty($_REQUEST['payment_title']) && $this->payment_title != $_REQUEST['payment_title'] )
+        if( !empty($_REQUEST['payment_title']) && $this->payment_title != $_REQUEST['payment_title'] ) {
 			$meta['payment_title'] = esc_attr(trim($_REQUEST['payment_title']));
+        }
 
         $_REQUEST['is_finished'] = !empty($_REQUEST['is_finished']) ? 1 : 0;
-        if($_REQUEST['is_finished'] != $this->is_finished)
+        if($_REQUEST['is_finished'] != $this->is_finished) {
             $meta['is_finished'] = $_REQUEST['is_finished'];
+        }
 
         $_REQUEST['ignore_global_template'] = !empty($_REQUEST['ignore_global_template']) ? 1 : 0;
-        if($_REQUEST['ignore_global_template'] != $this->ignore_global_template_settings)
+        if($_REQUEST['ignore_global_template'] != $this->ignore_global_template_settings) {
             $meta['ignore_global_template'] = $_REQUEST['ignore_global_template'];
+        }
 
 		if(isset($_REQUEST['campaign_target']) && $_REQUEST['campaign_target'] != $this->target) {
 
@@ -683,7 +706,7 @@ class Leyka_Campaign {
 			'campaign_template' => 'default'
 		);
 	}
-} // class end
+}
 
 function leyka_get_campaigns_list() {
 

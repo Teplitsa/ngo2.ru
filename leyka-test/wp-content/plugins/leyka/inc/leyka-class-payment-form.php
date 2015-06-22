@@ -570,9 +570,9 @@ function leyka_print_donation_elements($content) {
         $content .= do_shortcode("[leyka_scale show_button='0']");
     }
 
-	// Payment form:
-    $content .= get_leyka_payment_form_template_html($post);
-    echo '<pre>' . print_r('Here: '.$post->ID, 1) . '</pre>';
+    $content .= get_leyka_payment_form_template_html($post); // Payment form
+
+    $campaign->increase_views_counter(); // Increase campaign views counter
 
 	// Donations list:
     if(leyka_options()->opt('leyka_donations_history_under_forms')) {
@@ -624,12 +624,12 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
     ob_start();
 
 	if( !$campaign ) {
-		$campaign = $post;
+        $campaign = new Leyka_Campaign($post);
 	} elseif(is_int($campaign)) {
-		$campaign = get_post($campaign);
-	}
-
-    $campaign = new Leyka_Campaign($campaign);
+        $campaign = new Leyka_Campaign($campaign);
+	} elseif( !is_a($campaign, 'Leyka_Campaign') ) {
+        return false;
+    }
 
     if($campaign->is_finished) {?>
 

@@ -61,10 +61,11 @@ class Leyka_Campaign_Card_Widget extends WP_Widget {
 
 		$css_id = 'leyka_campaign_card_widget-'.uniqid();
 		$html = leyka_get_campaign_card($campaign_id, $args);
-		if(empty($html)) {
+		if( !$html ) {
             return;
         }
-        echo '<pre>' . print_r('Here: '.$campaign_id, 1) . '</pre>';
+        $campaign = new Leyka_Campaign($campaign_id);
+        $campaign->increase_views_counter(); // Increase campaign views counter
 
         /** @var $before_widget */
 		echo $before_widget;		
