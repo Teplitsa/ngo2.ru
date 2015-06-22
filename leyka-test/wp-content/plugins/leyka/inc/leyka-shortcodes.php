@@ -145,12 +145,14 @@ function leyka_get_campaign_card($campaign = null, $args = array()) {
 	$target = $args['embed_mode'] == 1 ? ' target="_blank"' : '';
 	$thumbnail_size = apply_filters('leyka_campaign_card_thumbnail_size', 'post-thumbnail', $campaign, $args);
 	$css_class = apply_filters('leyka_campaign_card_class', 'leyka-campaign-card', $campaign, $args);	
-	if($args['show_thumb'] == 1 && has_post_thumbnail($campaign->ID))
-		$css_class .= ' has-thumb';
-	
+	if($args['show_thumb'] == 1 && has_post_thumbnail($campaign->ID)) {
+        $css_class .= ' has-thumb';
+    }
+
 	$thumb_attr = array(
 		'alt' => esc_attr(sprintf(__('Thumbnail for - %s', 'leyka'), $campaign->post_title))
 	);
+
 	ob_start(); // Do we have some content ?>
 
 	<div class="<?php echo esc_attr($css_class);?>">
@@ -191,7 +193,10 @@ function leyka_get_campaign_card($campaign = null, $args = array()) {
 
 		<?php if($args['show_scale'] == 1) {
 
-            echo leyka_get_scale($campaign,	array('show_button' => $args['show_button'], 'embed_mode' => $args['embed_mode']));
+            echo leyka_get_scale($campaign,	array(
+                'show_button' => $args['show_button'],
+                'embed_mode' => $args['embed_mode']
+            ));
 
 		} elseif($args['show_button'] == 1 && !$campaign->is_finished) {
 
@@ -218,12 +223,12 @@ function leyka_payment_form_screen($atts) {
 
 	global $post;
 
-    $a = shortcode_atts( array(
+    $a = shortcode_atts(array(
         'id'          => 0,
         'template'    => null,		
-    ), $atts );
+    ), $atts);
 
-    $campaign = ($a['id'] > 0) ? get_post($a['id']) : $post;
+    $campaign = $a['id'] > 0 ? get_post($a['id']) : $post;
 
 	if($campaign->post_type != Leyka_Campaign_Management::$post_type) { // Wrong campaign data
 		return '';

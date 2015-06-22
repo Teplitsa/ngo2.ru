@@ -269,7 +269,7 @@ class Leyka_Campaign_Management {
 
         <fieldset id="campaign-finished" class="metabox-field campaign-field campaign-finished">
             <label for="is-finished">
-                <input type="checkbox" id="is-finished" name="is_finished" value="1" <?php echo $campaign->is_finished ? 'checked' : '';?> /> <?php _e('Campaign is finished, donations collecting is stopped', 'leyka');?>
+                <input type="checkbox" id="is-finished" name="is_finished" value="1" <?php echo $campaign->is_finished ? 'checked' : '';?> /> <?php _e('Campaign is finished, donations collection is stopped', 'leyka');?>
             </label>
         </fieldset>
 	<?php }
@@ -283,7 +283,7 @@ class Leyka_Campaign_Management {
         </div>
         <div>
             <span><?php _e('Donors attempted to make a donation:', 'leyka');?></span>
-            <span><?php echo $campaign->clicks_count;?> <?php _e('times', 'leyka');?></span>
+            <span><?php echo $campaign->submits_count;?> <?php _e('times', 'leyka');?></span>
         </div>
     <?php
     }
@@ -346,9 +346,7 @@ class Leyka_Campaign_Management {
     <?php
     }
 
-    public function embedding_meta_box(WP_Post $campaign) {
-
-		$iframe = self::get_card_embed_code($campaign->ID);?>
+    public function embedding_meta_box(WP_Post $campaign) {?>
 
 <!--        <label><input type="radio" name="embed-type" value="donation_form" checked="checked"> --><?php //_e('Donation form', 'leyka');?><!--</label>-->
 <!--        <label><input type="radio" name="embed-type" value="campaign_card" checked="checked"> --><?php //_e('Campaign card', 'leyka');?><!--</label>-->
@@ -369,14 +367,14 @@ class Leyka_Campaign_Management {
 			
 			<div id="embed-campaign_card" class="settings-field">
 				<label for="campaign-embed-code"><?php _e("To embed a campaign card in some other web page, insert the following code in page HTML:", 'leyka');?></label>
-				<textarea class="embed-code" id="campaign-embed-code" class="campaign-embed-code"><?php echo $iframe; ?></textarea>				
+				<textarea class="embed-code" id="campaign-embed-code" class="campaign-embed-code"><?php echo self::get_card_embed_code($campaign->ID, true); ?></textarea>
 			</div>
 			
 		</div>
 		
 		<div class="leyka-embed-preview">
 			<h4><?php _e('Preview', 'leyka');?></h4>
-			<?php echo $iframe; ?>
+			<?php echo self::get_card_embed_code($campaign->ID, false); ?>
 		</div>
 		
 	</div>
@@ -518,7 +516,7 @@ class Leyka_Campaign {
                 'target_state' => $meta['target_state'][0],
                 'date_target_reached' => empty($meta['date_target_reached']) ? 0 : $meta['date_target_reached'][0],
                 'count_views' => empty($meta['count_views']) ? 0 : $meta['count_views'][0],
-                'count_clicks' => empty($meta['count_clicks']) ? 0 : $meta['count_clicks'][0],
+                'count_submits' => empty($meta['count_submits']) ? 0 : $meta['count_submits'][0],
 //                '' => '',
             );
         }
@@ -564,10 +562,12 @@ class Leyka_Campaign {
             case 'date_target_reached':
                 $date = $this->_campaign_meta['date_target_reached'];
                 return $date ? date(get_option('date_format'), $date) : 0;
+            case 'views':
             case 'count_views':
             case 'views_count': return $this->_campaign_meta['count_views'];
-            case 'count_clicks':
-            case 'clicks_count': return $this->_campaign_meta['count_clicks'];
+            case 'submits':
+            case 'count_submits':
+            case 'submits_count': return $this->_campaign_meta['count_submits'];
             case '': return '';
 //            case '': return '';
             default:
@@ -674,10 +674,10 @@ class Leyka_Campaign {
         update_post_meta($this->_id, 'count_views', $this->_campaign_meta['count_views']);
     }
 
-    public function increase_clicks_counter() {
+    public function increase_submits_counter() {
 
-        $this->_campaign_meta['count_clicks']++;
-        update_post_meta($this->_id, 'count_clicks', $this->_campaign_meta['count_clicks']);
+        $this->_campaign_meta['count_submits']++;
+        update_post_meta($this->_id, 'count_submits', $this->_campaign_meta['count_submits']);
     }
 	
 	/** CRUD and alike */
