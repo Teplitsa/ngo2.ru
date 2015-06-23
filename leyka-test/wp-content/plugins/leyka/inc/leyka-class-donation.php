@@ -25,6 +25,8 @@ class Leyka_Donation_Management {
 		add_filter('manage_'.self::$post_type.'_posts_columns', array($this, 'manage_columns_names'));
 		add_action('manage_'.self::$post_type.'_posts_custom_column', array($this, 'manage_columns_content'), 2, 2);
 
+        add_filter('manage_edit-'.self::$post_type.'_sortable_columns', array($this, 'manage_sortable_columns'));
+
         /** Donation status transitions */
 //        add_action('new_to_submitted', array($this, 'new_donation_added'));
 
@@ -995,6 +997,12 @@ class Leyka_Donation_Management {
             default:
         }
 	}
+
+    public function manage_sortable_columns($sortable_columns) {
+
+        echo '<pre>' . print_r($sortable_columns, 1) . '</pre>';
+        return $sortable_columns;
+    }
 
     /** Save donation data metabox */
     public function save_donation_data($donation_id) {
