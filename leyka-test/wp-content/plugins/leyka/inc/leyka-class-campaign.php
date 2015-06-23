@@ -5,7 +5,7 @@
  **/
 
 class Leyka_Campaign_Management {
-		
+
 	private static $_instance = null;
 
 	public static $post_type = 'leyka_campaign';
@@ -19,15 +19,15 @@ class Leyka_Campaign_Management {
 
         add_action('restrict_manage_posts', array($this, 'manage_filters'));
         add_action('pre_get_posts', array($this, 'do_filtering'));
-		
+
 		add_filter('post_row_actions', array($this, 'row_actions'), 10, 2);
 	}
 	
 	public static function get_instance() {
 
-		// If the single instance hasn't been set, set it now.
-		if(self::$_instance === null)
+		if(self::$_instance === null) {
 			self::$_instance = new self;
+        }
 
 		return self::$_instance;
 	}

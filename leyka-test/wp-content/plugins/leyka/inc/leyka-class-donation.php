@@ -26,6 +26,7 @@ class Leyka_Donation_Management {
 		add_action('manage_'.self::$post_type.'_posts_custom_column', array($this, 'manage_columns_content'), 2, 2);
 
         add_filter('manage_edit-'.self::$post_type.'_sortable_columns', array($this, 'manage_sortable_columns'));
+        add_filter('request', array($this, 'do_column_sorting'));
 
         /** Donation status transitions */
 //        add_action('new_to_submitted', array($this, 'new_donation_added'));
@@ -920,7 +921,11 @@ class Leyka_Donation_Management {
         <div id="recurrent-cancel-retry" style="display: none;"><?php _e('Try again', 'leyka');?></div>
     <?php }
 
-	/** Donations table columns */
+	/**
+     * Donations table columns.
+     * @param array $columns An array of id => name pairs.
+     * @return array
+     */
 	function manage_columns_names($columns) {
 
 		$unsort = $columns;
@@ -1000,8 +1005,32 @@ class Leyka_Donation_Management {
 
     public function manage_sortable_columns($sortable_columns) {
 
-        echo '<pre>' . print_r($sortable_columns, 1) . '</pre>';
+        $sortable_columns['ID'] = 'ID';
+        $sortable_columns['donation_date'] = 'donation_date';
+        $sortable_columns['donor'] = 'donor_name';
+//        $sortable_columns['status'] = 'donation_status'; // Apparently, WP can't sort posts by status
+
         return $sortable_columns;
+    }
+
+    public function do_column_sorting($vars) {
+
+        if(empty($vars['orderby'])) {
+            return $vars;
+        }
+
+        if($vars['orderby'] == 'donation_date') {
+            $vars = array_merge($vars, array(
+                'orderby' => 'date',
+            ));
+        } elseif($vars['orderby'] == 'donor_name') {
+            $vars = array_merge($vars, array(
+                'meta_key' => 'leyka_donor_name',
+                'orderby' => 'meta_value',
+            ));
+        }
+
+        return $vars;
     }
 
     /** Save donation data metabox */
@@ -1012,7 +1041,6 @@ class Leyka_Donation_Management {
             return false;
         }
 
-        // Verify that nonce is valid.
         if(
             empty($_POST['_donation_edit_nonce']) ||
             !wp_verify_nonce($_POST['_donation_edit_nonce'], 'donation_status_metabox')
@@ -1024,9 +1052,9 @@ class Leyka_Donation_Management {
             return $donation_id;
         }
 
-        /** @todo Do it after adding some Leyka capabilities */
-//        if( !current_user_can('edit_donation', $donation_id) )
-//            return $donation_id;
+        if( !current_user_can('edit_donation', $donation_id) ) {
+            return $donation_id;
+        }
 
         remove_action('save_post', array($this, 'save_donation_data'));
 
@@ -1357,7 +1385,15 @@ class Leyka_Donation {
             case 'status_log':
                 return $this->_donation_meta['status_log'];
             case 'date':
-            case 'date_label': return date(get_option('date_format'), strtotime($this->_post_object->post_date));
+            case 'date_label':
+                $date_format = get_option('date_format');
+                $time_format = get_option('time_format');
+                $donation_timestamp = strtotime($this->_post_object->post_date);
+                return apply_filters(
+                    'leyka_admin_donation_date',
+                    date($date_format.' '.$time_format, $donation_timestamp),
+                    $donation_timestamp, $date_format, $time_format
+                );
             case 'date_timestamp': return strtotime($this->_post_object->post_date);
             case 'date_funded':
             case 'funded_date':

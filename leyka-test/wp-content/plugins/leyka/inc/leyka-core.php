@@ -461,7 +461,7 @@ class Leyka {
         );
 
         wp_enqueue_script(
-            $this->_plugin_slug.'-plugin-script',
+            $this->_plugin_slug.'-public',
             LEYKA_PLUGIN_BASE_URL.'js/public.js', array('jquery', $this->_plugin_slug.'-modal'),
             LEYKA_VERSION,
             true
@@ -480,7 +480,7 @@ class Leyka {
 //            'email_regexp' => '',
         ));
 
-        wp_localize_script($this->_plugin_slug.'-plugin-script', 'leyka', $js_data);
+        wp_localize_script($this->_plugin_slug.'-public', 'leyka', $js_data);
     }
 
     /**

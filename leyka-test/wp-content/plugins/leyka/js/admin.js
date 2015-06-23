@@ -258,8 +258,9 @@ jQuery(document).ready(function($){
 
         e.preventDefault();
 
-        if( !validate_feedback_form() )
+        if( !validate_feedback_form() ) {
             return false;
+        }
 
         $form.hide();
         $loader.show();
