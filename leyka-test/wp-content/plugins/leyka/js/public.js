@@ -210,12 +210,12 @@ jQuery(document).ready(function($){
 				var label = 'undefined_payment_method',
 					action = 'undefined_campaign';
 
-				if($form.find('[name ="leyka_ga_payment_method"]').length) {
-					label = $form.find('[name ="leyka_ga_payment_method"]').attr('value');
+				if($form.find('[name="leyka_ga_payment_method"]').length) {
+					label = $form.find('[name="leyka_ga_payment_method"]').attr('value');
 				}
 
-				if($form.find('[name ="leyka_ga_campaign_title"]').length) {
-					action = $form.find('[name ="leyka_ga_campaign_title"]').attr('value');
+				if($form.find('[name="leyka_ga_campaign_title"]').length) {
+					action = $form.find('[name="leyka_ga_campaign_title"]').attr('value');
 				}
 
 				ga('send', 'event', 'click_donation_button', action, label, 1);				
@@ -328,9 +328,10 @@ jQuery(document).ready(function($){
             $('.currency').html(response.currency);
 		});
 	}
-	
+
 	/** Oferta modal **/
 	$(document).on('click', '.leyka-legal-confirmation-trigger', function(e){
+
         e.preventDefault();
 
         if( !$(this).data('modal-ready') ) {

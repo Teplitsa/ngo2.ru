@@ -1139,6 +1139,7 @@ class Leyka_Donation_Management {
     }
 
 	/** Helpers **/
+
 	static function get_status_labels($status = false) {
 
         $labels = leyka()->get_donation_statuses();
@@ -1149,26 +1150,6 @@ class Leyka_Donation_Management {
             return $labels['funded'];
         else
 		    return !empty($labels[$status]) ? $labels[$status] : false;
-	}
-
-    /** @todo Maybe, method doesn't needed. Check after release */
-	static function get_default_meta() {
-
-		return array(
-            'leyka_payment_type' => 'single',
-			'leyka_donation_amount' => 0,
-			'leyka_donation_currency' => '',
-			'leyka_donor_name' => '',
-			'leyka_donor_email' => '',
-			'leyka_payment_method' => '',
-			'leyka_gateway' => '',
-			'leyka_campaign_id' => 0,
-			'leyka_donation_status' => '',			
-			'leyka_gateway_response' => '',
-			'_leyka_donor_email_date' => 0,
-			'_leyka_manager_emails_date' => 0,
-            '_status_log' => array(),
-		);
 	}
 } // class end
 

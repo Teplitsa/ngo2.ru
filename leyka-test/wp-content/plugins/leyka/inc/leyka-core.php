@@ -719,8 +719,9 @@ class Leyka {
             $this->add_payment_form_error($error);
         }
 
-        if($this->payment_form_has_errors())
+        if($this->payment_form_has_errors()) {
             return;
+        }
 
         $donation_id = $this->log_submission();
 
@@ -736,8 +737,9 @@ class Leyka {
 
         $this->_payment_url = apply_filters('leyka_submission_redirect_url-'.$pm[0], $this->_payment_url, $pm[1]);
 
-        if($this->payment_form_has_errors()) // No logging needed if submit attempt have failed
+        if($this->payment_form_has_errors()) { // No logging needed if submit attempt failed
             wp_delete_post($donation_id, true);
+        }
     }
 
     /** Save a base submission info and return new donation ID, so gateway can add it's specific data to the logs. */

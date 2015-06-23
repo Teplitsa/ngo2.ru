@@ -7,11 +7,13 @@ jQuery(document).ready(function($){
         // Donation form validation is already passed in the main script (public.js)
 
         var $form = $(this),
-            data = $form.serialize();
+            data_array = $form.serializeArray(),
+            data = {};
 
-        data.action = 'leyka_donation_submit';
-
-        console.log(leyka, data)
+        for(var i=0; i<data_array.length; i++) {
+            data[data_array[i].name] = data_array[i].value;
+        }
+        data.action = 'leyka_ajax_donation_submit';
 
         $.ajax({
             type: 'post',
@@ -22,25 +24,36 @@ jQuery(document).ready(function($){
             }
         }).done(function(response){
 
-            if( !response ) {
+            if( !response || !response.status ) {
+
                 /** @todo Show some error message on the form */
+                return false;
+
+            } else if(response.status == 0 && response.message) {
+
+                /** @todo Show response.message on the form */
+                return false;
+
+            } else if( !response.gateway || !response.gateway.public_id ) {
+
+                /** @todo Show response.message on the form */
                 return false;
             }
 
             var widget = new cp.CloudPayments();
             widget.charge({
-                publicId: 'pk_c5fcab988a7b37471933c466a4432',
-                description: 'Пример оплаты (деньги сниматься не будут)', // назначение
-                amount: 10,
-                currency: 'RUB',
-                invoiceId: '1234567', // номер заказа  (необязательно)
-                accountId: 'user@example.com', // идентификатор плательщика (необязательно)
+                publicId: response.gateway.public_id, // 'pk_c5fcab988a7b37471933c466a4432' for testing
+                description: response.payment_title,
+                amount: data.leyka_donation_amount,
+                currency: data.leyka_donation_currency == 'rur' ? 'RUB' : data.leyka_donation_currency,
+                invoiceId: response.donation_id,
+                accountId: data.leyka_donor_email /*,
                 data: {
                     myProp: 'myProp value'
-                }
-            }, function (options) { // success callback
+                }*/
+            }, function(options){ // success callback
 
-            }, function (reason, options) { // fail callback
+            }, function(reason, options){ // fail callback
 
             });
         });

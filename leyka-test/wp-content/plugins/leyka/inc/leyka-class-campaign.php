@@ -717,48 +717,4 @@ class Leyka_Campaign {
 			update_post_meta($this->_id, $key, $value);
 		}
 	}
-
-    /** @todo Maybe, this method is not needed. Will try to remove it. */
-	public function get_default_meta() {
-		return array(
-			'campaign_target' => 0,
-            'payment_title' => '',
-			'campaign_template' => 'default'
-		);
-	}
 }
-
-function leyka_get_campaigns_list() {
-
-    if(empty($_REQUEST['nonce']) || !wp_verify_nonce($_REQUEST['nonce'], 'leyka_get_campaigns_list_nonce'))
-        die(json_encode(array()));
-
-    $_REQUEST['term'] = empty($_REQUEST['term']) ? '' : trim($_REQUEST['term']);
-
-    $campaigns = get_posts(array(
-        'post_type' => Leyka_Campaign_Management::$post_type,
-        'post_status' => 'publish',
-        'meta_query' => array(array(
-            'key' => 'payment_title', 'value' => $_REQUEST['term'], 'compare' => 'LIKE', 'type' => 'CHAR',
-        )),
-    ));
-
-    if( !$campaigns)
-        $campaigns = get_posts(array(
-            'post_type' => Leyka_Campaign_Management::$post_type,
-            'post_status' => 'publish',
-            's' => empty($_REQUEST['term']) ? '' : trim($_REQUEST['term'])
-        ));
-
-    foreach($campaigns as $index => $campaign) {
-        $campaigns[$index] = array(
-            'value' => $campaign->ID,
-            'label' => $campaign->post_title,
-            'payment_title' => get_post_meta($campaign->ID, 'payment_title', true)
-        );
-    }
-
-    die(json_encode($campaigns));
-}
-add_action('wp_ajax_leyka_get_campaigns_list', 'leyka_get_campaigns_list');
-add_action('wp_ajax_nopriv_leyka_get_campaigns_list', 'leyka_get_campaigns_list');
