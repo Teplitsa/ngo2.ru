@@ -63,8 +63,9 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
     public function submission_form_data($form_data_vars, $pm_id, $donation_id) {
 
-		if( !array_key_exists($pm_id, $this->_payment_methods) )
+		if( !array_key_exists($pm_id, $this->_payment_methods) ) {
 			return $form_data_vars; // It's not our PM
+        }
 
 //        $donation = new Leyka_Donation($donation_id);
 //	    $amount = number_format((float)$donation->amount, 2, '.', '');

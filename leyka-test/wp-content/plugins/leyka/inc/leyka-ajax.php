@@ -10,7 +10,7 @@ function leyka_submit_donation() {
         )));
     }
 
-    $this->clear_session_errors(); // Clear all previous submits errors, if there are some
+    leyka()->clear_session_errors(); // Clear all previous submits errors, if there are some
 
     $pm = explode('-', $_POST['leyka_payment_method']);
     if( !$pm || count($pm) < 2 ) {
@@ -20,25 +20,18 @@ function leyka_submit_donation() {
         )));
     }
 
-    $donation_id = $this->log_submission();
+    $donation_id = leyka()->log_submission();
 
-//    do_action(
-//        'leyka_payment_form_submission-'.$pm[0],
-//        $pm[0], implode('-', array_slice($pm, 1)), $donation_id, $_POST
-//    );
+    do_action('leyka_payment_form_submission-'.$pm[0], $pm[0], implode('-', array_slice($pm, 1)), $donation_id, $_POST);
 
-    $payment_vars = apply_filters(
-        'leyka_submission_form_data-'.$pm[0],
-        $_POST, $pm[1], $donation_id
+    $payment_vars = array_merge(
+        apply_filters('leyka_submission_form_data-'.$pm[0], $_POST, $pm[1], $donation_id),
+        array('status' => 1, 'donation_id' => $donation_id,)
     );
+
     echo '<pre>' . print_r($payment_vars, 1) . '</pre>';
 
-    die(json_encode(array(
-        'status' => 1,
-        'donation_id' => $donation_id,
-        'payment_title' => '',
-        '' => '',
-    )));
+    die(json_encode($payment_vars));
 }
 add_action('wp_ajax_leyka_ajax_donation_submit', 'leyka_submit_donation');
 add_action('wp_ajax_nopriv_leyka_ajax_donation_submit', 'leyka_submit_donation');
