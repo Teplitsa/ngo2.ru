@@ -24,6 +24,7 @@ jQuery(document).ready(function($){
             }
         }).done(function(response){
 
+            response = $.parseJSON(response);
             if( !response || !response.status ) {
 
                 /** @todo Show some error message on the form */
@@ -34,7 +35,7 @@ jQuery(document).ready(function($){
                 /** @todo Show response.message on the form */
                 return false;
 
-            } else if( !response.gateway || !response.gateway.public_id ) {
+            } else if( !response.public_id ) {
 
                 /** @todo Show response.message on the form */
                 return false;
@@ -42,19 +43,19 @@ jQuery(document).ready(function($){
 
             var widget = new cp.CloudPayments();
             widget.charge({
-                publicId: response.gateway.public_id, // 'pk_c5fcab988a7b37471933c466a4432' for testing
+                publicId: response.public_id,
                 description: response.payment_title,
-                amount: data.leyka_donation_amount,
-                currency: data.leyka_donation_currency == 'rur' ? 'RUB' : data.leyka_donation_currency,
-                invoiceId: response.donation_id,
-                accountId: data.leyka_donor_email /*,
+                amount: parseFloat(response.amount),
+                currency: response.currency,
+                invoiceId: parseInt(response.donation_id),
+                accountId: response.donor_email /*,
                 data: {
                     myProp: 'myProp value'
                 }*/
             }, function(options){ // success callback
-
+                console.log('Success!', options);
             }, function(reason, options){ // fail callback
-
+                console.log('Fail!', options);
             });
         });
     });

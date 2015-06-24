@@ -67,28 +67,23 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 			return $form_data_vars; // It's not our PM
         }
 
-//        $donation = new Leyka_Donation($donation_id);
-//	    $amount = number_format((float)$donation->amount, 2, '.', '');
-//        $hash = md5(leyka_options()->opt('robokassa_shop_id').":$amount:$donation_id:"
-//               .leyka_options()->opt('robokassa_shop_password1').":Shp_item=1");
-//
-//        $pm_curr = $pm_id;
-//        switch($pm_id) {
-//            case 'WMR': $pm_curr .= 'M'; break;
-//            case 'Other': $pm_curr = ''; break;
-//            default: $pm_curr .= 'R';
-//        }
-//
-//        $form_data_vars = array(
-//            'MrchLogin' => leyka_options()->opt('robokassa_shop_id'),
-//            'InvId' => $donation_id,
-//            'OutSum' => $amount,
-//            'Desc' => $donation->payment_title,
-//            'SignatureValue' => $hash,
-//            'Shp_item' => 1, // Maybe, not needed
-//            'IncCurrLabel' => $pm_curr, // Default PM + Currency. "R" for "RUR", as we'll always use RUR for now
-//            'Culture' => get_locale() == 'ru_RU' ? 'ru' : 'en',
-//        );
+        $donation = new Leyka_Donation($donation_id);
+
+        $cp_currency = 'RUB';
+        switch($_POST['leyka_donation_currency']) {
+            case 'usd': $cp_currency = 'USD'; break;
+            case 'eur': $cp_currency = 'EUR'; break;
+            default:
+        }
+
+        $form_data_vars = array(
+            'public_id' => leyka_options()->opt('cp_public_id'),
+            'donation_id' => $donation_id,
+            'amount' => number_format((float)$donation->amount, 2, '.', ''),
+            'currency' => $cp_currency,
+            'payment_title' => $donation->payment_title,
+            'donor_email' => $donation->donor_email,
+        );
 
 		return $form_data_vars;
     }

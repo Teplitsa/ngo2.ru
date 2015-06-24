@@ -29,7 +29,7 @@ function leyka_submit_donation() {
         array('status' => 1, 'donation_id' => $donation_id,)
     );
 
-    echo '<pre>' . print_r($payment_vars, 1) . '</pre>';
+//    echo '<pre>' . print_r($payment_vars, 1) . '</pre>';
 
     die(json_encode($payment_vars));
 }
