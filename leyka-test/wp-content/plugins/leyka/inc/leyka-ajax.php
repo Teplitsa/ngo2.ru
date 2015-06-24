@@ -3,7 +3,7 @@
 
 function leyka_submit_donation() {
 
-    if(empty($_REQUEST['_wpnonce']) || !wp_verify_nonce($_REQUEST['_wpnonce'], 'leyka_payment_form')) {
+    if(empty($_POST['_wpnonce']) || !wp_verify_nonce($_POST['_wpnonce'], 'leyka_payment_form')) {
         die(json_encode(array(
             'status' => 0,
             'message' => __('Wrong nonce in submitted form data', 'leyka'),
@@ -26,11 +26,12 @@ function leyka_submit_donation() {
 //        'leyka_payment_form_submission-'.$pm[0],
 //        $pm[0], implode('-', array_slice($pm, 1)), $donation_id, $_POST
 //    );
-//
-//    $this->_payment_vars = apply_filters(
-//        'leyka_submission_form_data-'.$pm[0],
-//        $this->_payment_vars, $pm[1], $donation_id
-//    );
+
+    $payment_vars = apply_filters(
+        'leyka_submission_form_data-'.$pm[0],
+        $_POST, $pm[1], $donation_id
+    );
+    echo '<pre>' . print_r($payment_vars, 1) . '</pre>';
 
     die(json_encode(array(
         'status' => 1,
