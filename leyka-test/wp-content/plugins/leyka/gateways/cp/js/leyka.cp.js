@@ -41,24 +41,29 @@ jQuery(document).ready(function($){
                 return false;
             }
 
-            var widget = new cp.CloudPayments();
+            var widget = new cp.CloudPayments(),
+                $errors = $('#leyka-submit-errors');
+
             widget.charge({
                 publicId: response.public_id,
                 description: response.payment_title,
                 amount: parseFloat(response.amount),
                 currency: response.currency,
                 invoiceId: parseInt(response.donation_id),
-                accountId: response.donor_email,
-                onSuccess: response.success_page,
-                onFail: response.failure_page /*,
-                data: {
-                    myProp: 'myProp value'
-                }*/
-            } /*, function(options){ // success callback
-                response.
+                accountId: response.donor_email /*,
+                data: {key: 'value'}*/
+            }, function(options){ // success callback
+
+                window.location.href = response.success_page;
+                $errors.html('').hide();
+
             }, function(reason, options){ // fail callback
-                console.log('Fail!', options);
-            }*/);
+
+                $errors.html(reason).show();
+                $('html, body').animate({ // 35px is a height of the WP admin bar (just in case)
+                    scrollTop: $errors.offset().top - 35
+                }, 250);
+            });
         });
     });
 });

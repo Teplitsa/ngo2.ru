@@ -83,8 +83,8 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
             'currency' => $cp_currency,
             'payment_title' => $donation->payment_title,
             'donor_email' => $donation->donor_email,
-            'success_page' => leyka_options()->opt('success_page'),
-            'failure_page' => leyka_options()->opt('failure_page'),
+            'success_page' => get_permalink(leyka_options()->opt('success_page')),
+            'failure_page' => get_permalink(leyka_options()->opt('failure_page')),
         );
 
 		return $form_data_vars;
@@ -97,115 +97,50 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
         switch($call_type) {
 
-            case 'check': // Gateway test before the payment - to check if it's correct
+            case 'check': // Check if payment is correct
 
-//                if($_POST['action'] != 'checkOrder') // Payment isn't correct, we're not allowing it
-//                    $this->_callback_answer(1, 'co', __('Wrong service operation', 'leyka'));
-//
-//                $_POST['orderNumber'] = (int)$_POST['orderNumber']; // Donation ID
-//                if( !$_POST['orderNumber'] )
-//                    $this->_callback_answer(1, 'co', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('OrderNumber is not set', 'leyka'));
-//
-//                $donation = new Leyka_Donation($_POST['orderNumber']);
-//
-//                if($donation->sum != $_POST['orderSumAmount'])
-//                    $this->_callback_answer(1, 'co', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('Donation sum is unmatched', 'leyka'));
+                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
+                    die(json_encode(array('code' => '10')));
+                }
 
-//                $donation->add_gateway_response($_POST);
+                if(empty($_POST['Amount']) || (float)$_POST['Amount'] <= 0 || empty($_POST['Currency'])) {
+                    die(json_encode(array('code' => '11')));
+                }
 
-//                set_transient('leyka_yandex_test_cho', '<pre>'.print_r($_POST, true).'</pre>', 60*60*24);
+                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+                $donation->add_gateway_response($_POST);
 
-//                $this->_callback_answer(); // OK for yandex money payment
-                break; // Not needed, just so my IDE can relax
+                switch($_POST['Currency']) {
+                    case 'RUB': $_POST['Currency'] = 'rur'; break;
+                    case 'USD': $_POST['Currency'] = 'usd'; break;
+                    case 'EUR': $_POST['Currency'] = 'eur'; break;
+                    default:
+                }
+
+                if($donation->sum != $_POST['Amount'] || $donation->currency != $_POST['Currency']) {
+                    die(json_encode(array('code' => '11')));
+                }
+
+                die(json_encode(array('code' => '0'))); // Payment check passed
 
             case 'complete':
 
-//                if($_POST['action'] != 'paymentAviso') // Payment isn't correct, we're not allowing it
-//                    $this->_callback_answer(1, 'pa', __('Wrong service operation', 'leyka'));
-//
-//                $_POST['orderNumber'] = (int)$_POST['orderNumber']; // Donation ID
-//                if( !$_POST['orderNumber'] )
-//                    $this->_callback_answer(1, 'pa', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('OrderNumber is not set', 'leyka'));
-//
-//                $donation = new Leyka_Donation($_POST['orderNumber']);
-//
-//                if($donation->sum != $_POST['orderSumAmount'])
-//                    $this->_callback_answer(1, 'pa', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('Donation sum is unmatched', 'leyka'));
-//
-//                if($donation->status != 'funded') {
-//
-//                    $donation->add_gateway_response($_POST);
-//                    $donation->status = 'funded';
-//                    Leyka_Donation_Management::send_all_emails($donation->id);
-//                }
-//
-//                do_action('leyka_yandex_payment_aviso_success', $donation);
+                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
+                    die(json_encode(array('code' => '10')));
+                }
 
-//                set_transient('leyka_yandex_test_pa', '<pre>'.print_r($_POST, true).'</pre>', 60*60*24);
-//                $this->_callback_answer(0, 'pa'); // OK for yandex money payment
-                break; // Not needed, just so my IDE can relax
+                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+
+                $donation->add_gateway_response($_POST);
+                $donation->status = 'funded';
+                Leyka_Donation_Management::send_all_emails($donation->id);
+
+                die(json_encode(array('code' => '0'))); // Payment completed
 
             case 'fail':
                 break;
             default:
         }
-
-//        if(empty($_REQUEST['InvId'])) {
-//
-//            $message = __("This message has been sent because a call to your Robokassa callback (Result URL) was made without InvId parameter given. The details of the call are below.", 'leyka')."\n\r\n\r";
-//
-//            $message .= "THEIR_POST:\n\r".print_r($_POST,true)."\n\r\n\r";
-//            $message .= "GET:\n\r".print_r($_GET,true)."\n\r\n\r";
-//            $message .= "SERVER:\n\r".print_r($_SERVER,true)."\n\r\n\r";
-//
-//            wp_mail(get_option('admin_email'), __('Robokassa - InvId missing!', 'leyka'), $message);
-//            status_header(200);
-//            die();
-//        }
-//
-//        $donation = new Leyka_Donation((int)$_REQUEST['InvId']);
-//
-//		// Test for e-sign. Values from Robokassa must be used:
-//
-//        $sign = strtoupper(md5("{$_REQUEST['OutSum']}:{$_REQUEST['InvId']}:".leyka_options()->opt('robokassa_shop_password2').":Shp_item=1"));
-//        if(empty($_REQUEST['SignatureValue']) || strtoupper($_REQUEST['SignatureValue']) != $sign) {
-//
-//            $message = __("This message has been sent because a call to your Robokassa callback was called with wrong digital signature. This could mean someone is trying to hack your payment website. The details of the call are below:", 'leyka')."\n\r\n\r";
-//
-//            $message .= "POST:\n\r".print_r($_POST,true)."\n\r\n\r";
-//            $message .= "GET:\n\r".print_r($_GET,true)."\n\r\n\r";
-//            $message .= "SERVER:\n\r".print_r($_SERVER,true)."\n\r\n\r";
-//            $message .= "Signature from request:\n\r".print_r($_REQUEST['SignatureValue'], true)."\n\r\n\r";
-//            $message .= "Signature calculated:\n\r".print_r($sign, true)."\n\r\n\r";
-//
-//            wp_mail(get_option('admin_email'), __('Robokassa digital signature check failed!', 'leyka'), $message);
-//            die();
-//        }
-//
-//        // Single payment:
-//        if($donation->status != 'funded') {
-//
-//            $donation->add_gateway_response($_REQUEST);
-//            $donation->status = 'funded';
-//
-////            $currency_letter = substr($_REQUEST['IncCurrLabel'], -1);
-//            $_REQUEST['IncCurrLabel'] = empty($_REQUEST['IncCurrLabel']) ?
-//                '' : substr_replace($_REQUEST['IncCurrLabel'], '', -1);
-//
-//            if(
-//                $donation->pm_id != $_REQUEST['IncCurrLabel'] &&
-//                array_key_exists($_REQUEST['IncCurrLabel'], $this->_payment_methods)
-//            ) {
-//                $donation->pm_id = $_REQUEST['IncCurrLabel'];
-//            }
-//
-//            Leyka_Donation_Management::send_all_emails($donation->id);
-//
-//            die('OK'.$_REQUEST['InvId']);
-//
-//        } else {
-//            die();
-//        }
     }
 
 //    protected function _get_value_if_any($arr, $key, $val = false) {
@@ -215,21 +150,29 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
     public function get_gateway_response_formatted(Leyka_Donation $donation) {
 
-        if( !$donation->gateway_response )
+        if( !$donation->gateway_response ) {
             return array();
+        }
 
         $vars = maybe_unserialize($donation->gateway_response);
-        if( !$vars || !is_array($vars) )
+        if( !$vars || !is_array($vars) ) {
             return array();
+        }
 
-        return array(
+        foreach($vars as $key => $value) {
+
+            $vars[$key.':'] = $value;
+            unset($vars[$key]);
+        }
+
+        return $vars; //array(
 //            __('Outcoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'OutSum', !empty($vars['OutSum']) ? round($vars['OutSum'], 2) : false),
 //            __('Incoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'IncSum', !empty($vars['IncSum']) ? round($vars['IncSum'], 2) : false),
 //            __('Invoice ID:', 'leyka') => $this->_get_value_if_any($vars, 'InvId'),
 //            __('Signature value (sent from Robokassa):', 'leyka') => $this->_get_value_if_any($vars, 'SignatureValue'),
 //            __('Payment method:', 'leyka') => $this->_get_value_if_any($vars, 'PaymentMethod'),
 //            __('Robokassa currency label:', 'leyka') => $this->_get_value_if_any($vars, 'IncCurrLabel'),
-        );
+        //);
     }
 } // Gateway class end
 
