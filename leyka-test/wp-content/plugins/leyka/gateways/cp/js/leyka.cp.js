@@ -48,15 +48,17 @@ jQuery(document).ready(function($){
                 amount: parseFloat(response.amount),
                 currency: response.currency,
                 invoiceId: parseInt(response.donation_id),
-                accountId: response.donor_email /*,
+                accountId: response.donor_email,
+                onSuccess: response.success_page,
+                onFail: response.failure_page /*,
                 data: {
                     myProp: 'myProp value'
                 }*/
-            }, function(options){ // success callback
-                console.log('Success!', options);
+            } /*, function(options){ // success callback
+                response.
             }, function(reason, options){ // fail callback
                 console.log('Fail!', options);
-            });
+            }*/);
         });
     });
 });

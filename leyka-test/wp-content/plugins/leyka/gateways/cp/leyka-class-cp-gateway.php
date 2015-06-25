@@ -83,6 +83,8 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
             'currency' => $cp_currency,
             'payment_title' => $donation->payment_title,
             'donor_email' => $donation->donor_email,
+            'success_page' => leyka_options()->opt('success_page'),
+            'failure_page' => leyka_options()->opt('failure_page'),
         );
 
 		return $form_data_vars;
@@ -92,6 +94,61 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
     }
 
     public function _handle_service_calls($call_type = '') {
+
+        switch($call_type) {
+
+            case 'check': // Gateway test before the payment - to check if it's correct
+
+//                if($_POST['action'] != 'checkOrder') // Payment isn't correct, we're not allowing it
+//                    $this->_callback_answer(1, 'co', __('Wrong service operation', 'leyka'));
+//
+//                $_POST['orderNumber'] = (int)$_POST['orderNumber']; // Donation ID
+//                if( !$_POST['orderNumber'] )
+//                    $this->_callback_answer(1, 'co', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('OrderNumber is not set', 'leyka'));
+//
+//                $donation = new Leyka_Donation($_POST['orderNumber']);
+//
+//                if($donation->sum != $_POST['orderSumAmount'])
+//                    $this->_callback_answer(1, 'co', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('Donation sum is unmatched', 'leyka'));
+
+//                $donation->add_gateway_response($_POST);
+
+//                set_transient('leyka_yandex_test_cho', '<pre>'.print_r($_POST, true).'</pre>', 60*60*24);
+
+//                $this->_callback_answer(); // OK for yandex money payment
+                break; // Not needed, just so my IDE can relax
+
+            case 'complete':
+
+//                if($_POST['action'] != 'paymentAviso') // Payment isn't correct, we're not allowing it
+//                    $this->_callback_answer(1, 'pa', __('Wrong service operation', 'leyka'));
+//
+//                $_POST['orderNumber'] = (int)$_POST['orderNumber']; // Donation ID
+//                if( !$_POST['orderNumber'] )
+//                    $this->_callback_answer(1, 'pa', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('OrderNumber is not set', 'leyka'));
+//
+//                $donation = new Leyka_Donation($_POST['orderNumber']);
+//
+//                if($donation->sum != $_POST['orderSumAmount'])
+//                    $this->_callback_answer(1, 'pa', __('Sorry, there is some tech error on our side. Your payment will be cancelled.', 'leyka'), __('Donation sum is unmatched', 'leyka'));
+//
+//                if($donation->status != 'funded') {
+//
+//                    $donation->add_gateway_response($_POST);
+//                    $donation->status = 'funded';
+//                    Leyka_Donation_Management::send_all_emails($donation->id);
+//                }
+//
+//                do_action('leyka_yandex_payment_aviso_success', $donation);
+
+//                set_transient('leyka_yandex_test_pa', '<pre>'.print_r($_POST, true).'</pre>', 60*60*24);
+//                $this->_callback_answer(0, 'pa'); // OK for yandex money payment
+                break; // Not needed, just so my IDE can relax
+
+            case 'fail':
+                break;
+            default:
+        }
 
 //        if(empty($_REQUEST['InvId'])) {
 //
