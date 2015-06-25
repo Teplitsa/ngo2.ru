@@ -730,17 +730,16 @@ class Leyka_Donation_Management {
             </div>
         </div>
 
-		<?php foreach($donation->get_specific_data_fields() as $field_label => $data) {
+		<?php foreach($donation->get_specific_data_admin_fields() as $field_label => $data) {
             if( !$data ) continue;?>
 
         <div class="leyka-ddata-string">
-            <label><?php echo $field_label; //_e('Chronopay customer ID', 'leyka');?>:</label>
+            <label><?php echo $field_label;?>:</label>
 			<div class="leyka-ddata-field">
-            <?php if($donation->type == 'correction') { echo $data['editable_field'];?>
-
-<!--                <input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="--><?php //_e('Enter Chronopay Customer ID', 'leyka');?><!--" value="--><?php //echo $donation->chronopay_customer_id;?><!--">-->
-            <?php } else {?>
-                <span class="fake-input"><?php echo $data['info_field']; //$donation->chronopay_customer_id;?></span>
+            <?php if($donation->type == 'correction' && !empty($data['editable_field'])) {
+                echo $data['editable_field'];
+            } else {?>
+                <span class="fake-input"><?php echo $data['info_field'];?></span>
             <?php }?>
             </div>
         </div>
@@ -1339,13 +1338,14 @@ class Leyka_Donation {
                 'campaign_id' => empty($campaign) ? 0 : $campaign->id,
                 'status_log' => empty($meta['_status_log']) ? '' : maybe_unserialize($meta['_status_log'][0]),
                 'gateway_response' => empty($meta['leyka_gateway_response']) ? '' : $meta['leyka_gateway_response'][0],
+
                 'recurrents_cancelled' => isset($meta['leyka_recurrents_cancelled']) ?
                     $meta['leyka_recurrents_cancelled'][0] : false,
                 'recurrents_cancel_date' => isset($meta['leyka_recurrents_cancel_date']) ?
                     $meta['leyka_recurrents_cancel_date'][0] : false,
 
-                'chronopay_customer_id' => empty($meta['_chronopay_customer_id']) ?
-                    '' : $meta['_chronopay_customer_id'][0],
+//                'chronopay_customer_id' => empty($meta['_chronopay_customer_id']) ?
+//                    '' : $meta['_chronopay_customer_id'][0],
             );
         }
 	}
@@ -1427,10 +1427,7 @@ class Leyka_Donation {
             case 'type':
             case 'payment_type': return $this->_donation_meta['payment_type'];
             case 'payment_type_label': return __($this->_donation_meta['payment_type'], 'leyka');
-            case 'recurrents_cancelled': return $this->_donation_meta['recurrents_cancelled'];
-            case 'recurrents_cancel_date': return $this->_donation_meta['recurrents_cancel_date'];
 
-            case 'chronopay_customer_id': return $this->_donation_meta['chronopay_customer_id'];
 //            case '': return '';
             default:
                 return apply_filters('leyka_get_unknown_donation_field', null, $field, $this);
@@ -1528,6 +1525,7 @@ class Leyka_Donation {
                 $this->_donation_meta['chronopay_customer_id'] = $value;
                 break;
             default:
+                do_action('leyka_set_unknown_donation_field', $field, $value, $this);
         }
         return true;
     }
@@ -1539,19 +1537,11 @@ class Leyka_Donation {
         update_post_meta($this->_id, 'leyka_gateway_response', $this->_donation_meta['gateway_response']);
     }
 
-    /** @todo Maybe this method is not needed, as now we can set new status through __set(). */
-    public function set_status($status) {
+    public function get_specific_data_admin_fields() {
 
-        if( !array_key_exists($status, leyka_get_donation_status_list()) || $status == $this->status )
-            return false;
+        $data_fields = leyka_get_gateway_by_id($this->gateway_id)->get_specific_data_admin_fields($this->id);
 
-        $res = wp_update_post(array('ID' => $this->_id, 'post_status' => $status));
-
-        $status_log = get_post_meta($this->_id, '_status_log', true);
-        $status_log[] = array('date' => time(), 'status' => $status);
-        update_post_meta($this->_id, '_status_log', $status_log);
-
-        return $res;
+        return $data_fields ? $data_fields : array();
     }
 
     /**

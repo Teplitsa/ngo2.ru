@@ -131,6 +131,9 @@ abstract class Leyka_Gateway {
         // Set a Gateway class method to process a service calls from gateway:
         add_action('leyka_service_call-'.$this->_id, array($this, '_handle_service_calls'));
         add_action('leyka_cancel_recurrents-'.$this->_id, array($this, 'cancel_recurrents'));
+
+        add_filter('leyka_get_unknown_donation_field', array($this, 'get_specific_data_value'), 10, 3);
+        add_action('leyka_set_unknown_donation_field', array($this, 'set_specific_data_value'), 10, 3);
     }
 
     final protected function __clone() {}
@@ -314,8 +317,9 @@ abstract class Leyka_Gateway {
      */
     public function add_payment_method(Leyka_Payment_Method $pm, $replace_if_exists = false) {
 
-        if($pm->gateway_id != $this->_id)
+        if($pm->gateway_id != $this->_id) {
             return false;
+        }
 
         if(empty($this->_payment_methods[$pm->id]) || !!$replace_if_exists) {
             $this->_payment_methods[$pm->id] = $pm;
@@ -328,10 +332,11 @@ abstract class Leyka_Gateway {
     /** @param mixed $pm A PM object or it's ID to remove from gateway. */
     public function remove_payment_method($pm) {
 
-        if(is_object($pm) && $pm instanceof Leyka_Payment_Method)
+        if(is_object($pm) && $pm instanceof Leyka_Payment_Method) {
             unset($this->_payment_methods[$pm->id]);
-        else if(strlen($pm) && !empty($this->_payment_methods[$pm]))
+        } else if(strlen($pm) && !empty($this->_payment_methods[$pm])) {
             unset($this->_payment_methods[$pm->id]);
+        }
     }
 
     /**
@@ -364,6 +369,20 @@ abstract class Leyka_Gateway {
 
         $pm_id = trim((string)$pm_id);
         return empty($this->_payment_methods[$pm_id]) ? false : $this->_payment_methods[$pm_id]; 
+    }
+
+    /** Get gateway specific donation fields for a donation edition page ("donation data" metabox). */
+    public function get_specific_data_admin_fields($donation_id) {
+        return array();
+    }
+
+    /** Filter function for "leyka_get_unknown_donation_field" hook to get gateway specific donation data values. */
+    public function get_specific_data_value($value, $field_name, Leyka_Donation $donation) {
+        return $value;
+    }
+
+    /** Action function for "leyka_set_unknown_donation_field" hook to set gateway specific donation data values. */
+    public function set_specific_data_value($field_name, $value, Leyka_Donation $donation) {
     }
 } //class end
 

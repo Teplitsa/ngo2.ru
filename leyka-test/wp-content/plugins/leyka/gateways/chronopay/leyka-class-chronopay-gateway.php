@@ -95,10 +95,7 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 		$sharedsec = leyka_options()->opt('chronopay_shared_sec');
 		$price = number_format((float)$donation->amount, 2,'.','');
 
-//        if(empty($form_data_vars['cur_lang']))
         $lang = get_locale() == 'ru_RU' ? 'ru' : 'en';
-//        else
-//            $lang = $form_data_vars['cur_lang'];
 
 		$country = ($donation->currency == 'rur') ? 'RUS' : '';
 
@@ -119,8 +116,9 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 			'email' => $donation->donor_email,
         );
 
-		if($country)
+		if($country) {
 			$form_data_vars['country'] = $country;
+        }
 
 		return $form_data_vars;
     }
@@ -140,10 +138,12 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
     public function log_gateway_fields($donation_id) {
 
         $donation = new Leyka_Donation($donation_id);
-        if($donation->payment_method_id == 'chronopay_card_rebill')
+
+        if($donation->payment_method_id == 'chronopay_card_rebill') {
             $donation->payment_type = 'rebill';
-        else if($donation->payment_method_id == 'chronopay_card')
+        } else if($donation->payment_method_id == 'chronopay_card') {
             $donation->payment_type = 'single';
+        }
     }
 
     public function _handle_service_calls($call_type = '') {
@@ -363,12 +363,14 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
     public function get_gateway_response_formatted(Leyka_Donation $donation) {
 
-        if( !$donation->gateway_response )
+        if( !$donation->gateway_response ) {
             return array();
+        }
 
         $response_vars = maybe_unserialize($donation->gateway_response);
-        if( !$response_vars || !is_array($response_vars) )
+        if( !$response_vars || !is_array($response_vars) ) {
             return array();
+        }
 
         return array(
 			__('Operation status:', 'leyka') => $response_vars['transaction_type'],
@@ -377,6 +379,34 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 			__("Gateway's donor ID:", 'leyka') => $response_vars['customer_id'],
 			__('Response date:', 'leyka') => date('d.m.Y, H:i:s', strtotime($response_vars['date']))
         );
+    }
+
+    public function get_specific_data_admin_fields($donation_id) {
+
+        $donation = new Leyka_Donation($donation_id);
+
+        return array(
+            __('Chronopay customer ID', 'leyka') => array(
+                'editable_field' => '<input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="'.__('Enter Chronopay Customer ID', 'leyka').'" value="'.$donation->chronopay_customer_id.'">',
+                'info_field' => $donation->chronopay_customer_id,
+            ),
+        );
+    }
+
+    public function get_specific_data_value($value, $field_name, Leyka_Donation $donation) {
+
+        switch($field_name) {
+            case 'chronopay_customer_id': return get_post_meta($donation->id, 'chronopay_customer_id', true);
+            default: return $value;
+        }
+    }
+
+    public function set_specific_data_value($field_name, $value, Leyka_Donation $donation) {
+
+        switch($field_name) {
+            case 'chronopay_customer_id': return update_post_meta($donation->id, 'chronopay_customer_id', $value);
+            default: return false;
+        }
     }
 } // gateway class end
 
