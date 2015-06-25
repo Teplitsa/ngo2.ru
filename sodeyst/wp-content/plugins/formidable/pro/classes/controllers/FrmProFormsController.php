@@ -283,8 +283,7 @@ class FrmProFormsController{
             'form_id' => 0, 'id' => '' ,
             'name' => '', 'names' => array(),
             'showlast' => '', 'onchange' => '',
-            'exclude_fields' => array_merge( FrmFieldsHelper::no_save_fields(), array( 'file', 'rte', 'date') ),
-
+			'exclude_fields' => array_merge( FrmField::no_save_fields(), array( 'file', 'rte', 'date') ),
         );
 
         $atts = wp_parse_args($atts, $defaults);
@@ -377,7 +376,9 @@ class FrmProFormsController{
 
 	public static function sc_popup_opts($opts, $shortcode) {
 	    $function_name = 'popup_opts_'. str_replace('-', '_', $shortcode);
-	    self::$function_name($opts, $shortcode);
+		if ( method_exists( 'FrmProFormsController', $function_name ) ) {
+			self::$function_name($opts, $shortcode);
+		}
 	    return $opts;
 	}
 
@@ -412,7 +413,7 @@ class FrmProFormsController{
             ),
             'limit' => array( 'val' => '', 'label' => __( 'Limit', 'formidable' ), 'type' => 'text'),
             'page_size' => array( 'val' => '', 'label' => __( 'Page size', 'formidable' ), 'type' => 'text'),
-            'order_by'  => array(
+			'order'  => array(
                 'val'   => '', 'label' => __( 'Entry order', 'formidable' ), 'type' => 'select',
                 'opts'  => array(
                     ''      => __( 'Default', 'formidable' ),

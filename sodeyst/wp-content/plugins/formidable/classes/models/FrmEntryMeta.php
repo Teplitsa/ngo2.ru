@@ -11,13 +11,13 @@ class FrmEntryMeta {
     public static function add_entry_meta($entry_id, $field_id, $meta_key = null, $meta_value) {
         global $wpdb;
 
-        if ( ( is_array( $meta_value ) && empty( $meta_value ) ) || ( ! is_array( $meta_value ) && trim( $meta_value ) == '' ) ) {
+        if ( FrmAppHelper::is_empty_value( $meta_value ) ) {
             // don't save blank fields
             return;
         }
 
         $new_values = array(
-            'meta_value'    => is_array($meta_value) ? serialize(array_filter($meta_value)) : trim($meta_value),
+			'meta_value'    => is_array( $meta_value ) ? serialize( array_filter( $meta_value, 'FrmAppHelper::is_not_empty_value' ) ) : trim( $meta_value ),
             'item_id'       => $entry_id,
             'field_id'      => $field_id,
             'created_at'    => current_time('mysql', 1),
@@ -51,7 +51,7 @@ class FrmEntryMeta {
         $values['meta_value'] = $meta_value;
         $values = apply_filters('frm_update_entry_meta', $values);
 		if ( is_array($values['meta_value']) ) {
-			$values['meta_value'] = array_filter($values['meta_value']);
+			$values['meta_value'] = array_filter( $values['meta_value'], 'FrmAppHelper::is_not_empty_value' );
 		}
         $meta_value = maybe_serialize($values['meta_value']);
 
@@ -129,12 +129,29 @@ class FrmEntryMeta {
 		FrmAppHelper::cache_delete_group( 'frm_item_meta' );
 	}
 
+	/**
+	 * @since 2.0.9
+	 */
+	public static function get_meta_value( $entry, $field_id ) {
+		if ( isset( $entry->metas ) ) {
+			return isset( $entry->metas[ $field_id ] ) ? $entry->metas[ $field_id ] : false;
+		} else {
+			return self::get_entry_meta_by_field( $entry->id, $field_id );
+		}
+	}
+
     public static function get_entry_meta_by_field($entry_id, $field_id) {
         global $wpdb;
 
-        $entry_id = (int) $entry_id;
+		if ( is_object( $entry_id ) ) {
+			$entry = $entry_id;
+			$entry_id = $entry->id;
+			$cached = $entry;
+		} else {
+			$entry_id = (int) $entry_id;
+			$cached = FrmAppHelper::check_cache( $entry_id, 'frm_entry' );
+		}
 
-        $cached = FrmAppHelper::check_cache( $entry_id, 'frm_entry' );
 		if ( $cached && isset( $cached->metas ) && isset( $cached->metas[ $field_id ] ) ) {
 			$result = $cached->metas[ $field_id ];
             return stripslashes_deep($result);
@@ -151,14 +168,6 @@ class FrmEntryMeta {
 
 		$result = FrmDb::get_var( $get_table, $query, 'meta_value' );
         $result = maybe_unserialize($result);
-
-        if ( $cached ) {
-            if ( ! isset( $cached->metas ) ) {
-                $cached->metas = array();
-            }
-			$cached->metas[ $field_id ] = $result;
-            wp_cache_set($entry_id, $cached, 'frm_entry');
-        }
         $result = stripslashes_deep($result);
 
         return $result;

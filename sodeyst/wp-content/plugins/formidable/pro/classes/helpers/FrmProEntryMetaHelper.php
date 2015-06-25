@@ -12,7 +12,7 @@ class FrmProEntryMetaHelper{
             return $value;
         }
 
-		if ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] ) {
+		if ( FrmField::is_option_true( $field, 'post_field' ) ) {
             $value = self::get_post_or_meta_value($entry, $field, array( 'truncate' => true));
             $value = maybe_unserialize($value);
         }
@@ -82,7 +82,7 @@ class FrmProEntryMetaHelper{
         );
         $atts = wp_parse_args( (array) $atts, $defaults);
 
-        FrmEntriesHelper::maybe_get_entry( $entry );
+		FrmEntry::maybe_get_entry( $entry );
 
         if ( empty($entry) || empty($field) ) {
             return '';
@@ -114,10 +114,10 @@ class FrmProEntryMetaHelper{
                 $value = self::get_post_value($entry->post_id, $field->field_options['post_field'], $field->field_options['custom_field'], $post_args);
                 unset($post_args);
             } else {
-                $value = FrmEntryMeta::get_entry_meta_by_field($entry->id, $field->id);
+				$value = FrmEntryMeta::get_meta_value( $entry, $field->id );
             }
         } else {
-            $value = FrmEntryMeta::get_entry_meta_by_field($entry->id, $field->id);
+			$value = FrmEntryMeta::get_meta_value( $entry, $field->id );
 
             if ( ( 'tag' == $field->type || (isset($field->field_options['post_field']) && $field->field_options['post_field'] == 'post_category') ) && !empty($value) ) {
                 $value = maybe_unserialize($value);
@@ -231,11 +231,11 @@ class FrmProEntryMetaHelper{
             $frm_vars['media_id'][$field->id] = $value;
         }
 
-        if ( empty($value) || ! isset($field->field_options['unique']) || ! $field->field_options['unique'] ) {
+		if ( empty( $value ) || ! FrmField::is_option_true( $field, 'unique' ) ) {
             return $errors;
         }
 
-        $post_form_action = FrmFormActionsHelper::get_action_for_form($field->form_id, 'wppost', 1);
+		$post_form_action = FrmFormAction::get_action_for_form( $field->form_id, 'wppost', 1 );
         if ( ! $post_form_action ) {
             return $errors;
         }

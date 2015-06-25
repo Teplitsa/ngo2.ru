@@ -221,7 +221,7 @@ if ( $display['type'] == 'select' || $field['type'] == 'data' ) { ?>
 <?php } else if ( $field['type'] == 'html' ) { ?>
 <tr><td colspan="2"><?php _e( 'Content', 'formidable' ) ?><br/>
 <textarea name="field_options[description_<?php echo $field['id'] ?>]" style="width:98%;" rows="8"><?php
-if ( isset( $field['stop_filter'] ) && $field['stop_filter'] ) {
+if ( FrmField::is_option_true( $field, 'stop_filter' ) ) {
 	echo $field['description'];
 } else{
 	echo FrmAppHelper::esc_textarea( $field['description'] );

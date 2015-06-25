@@ -133,7 +133,7 @@ class FrmProFormsHelper{
             $args['parent_field']['format'] = isset($args['parent_field']['field_options']['format']) ? $args['parent_field']['field_options']['format'] : '';
         }
 
-        FrmFormsHelper::maybe_get_form($args['form']);
+		FrmForm::maybe_get_form( $args['form'] );
 
         if ( empty($args['fields']) ) {
             $args['fields'] = FrmField::get_all_for_form($args['form']->id);
@@ -192,10 +192,6 @@ class FrmProFormsHelper{
         $label_pos = 'top';
         $field_num = 1;
         foreach ( $values['fields'] as $subfield ) {
-            if ( 'end_divider' == $subfield['type'] ) {
-                continue;
-            }
-
             $subfield_name = $field_name .'['. $args['i'] .']['. $subfield['id'] .']';
             $subfield_plus_id = '-'. $args['i'];
             $subfield_id = $subfield['id'] .'-'. $args['parent_field']['id'] . $subfield_plus_id;
@@ -207,9 +203,9 @@ class FrmProFormsHelper{
 
             if ( !empty($field_class) ) {
                 if ( 1 == $field_num ) {
-                    $subfield['classes'] .= ' frm_first_'. $field_class;
+                    $subfield['classes'] .= ' frm_first frm_'. $field_class;
                 } else if ( $count == $field_num ) {
-                    $subfield['classes'] .= ' frm_last_'. $field_class;
+                    $subfield['classes'] .= ' frm_last frm_'. $field_class;
                 } else {
                     $subfield['classes'] .= ' frm_'. $field_class;
                 }
@@ -240,6 +236,7 @@ class FrmProFormsHelper{
         }
 
         if ( ! $args['repeat'] ) {
+			// Close frm_repeat div
             echo '</div>'. "\n";
             return;
         }
@@ -249,6 +246,7 @@ class FrmProFormsHelper{
         $args['field_class'] = $field_class;
         echo self::repeat_buttons($args, $end);
 
+		// Close frm_repeat div
         echo '</div>'. "\n";
     }
 
@@ -323,8 +321,8 @@ class FrmProFormsHelper{
 			$args['remove_classes'] .= ' frm_hidden';
 		}
 
-		$classes = 'frm_form_field frm_'. $args['label_pos'] .'_container';
-		$classes .= empty( $args['field_class'] ) ? '' : ' frm_last_' . $args['field_class'];
+		$classes = 'frm_form_field frm_'. $args['label_pos'] .'_container frm_repeat_buttons';
+		$classes .= empty( $args['field_class'] ) ? '' : ' frm_last frm_' . $args['field_class'];
 		// Get classes for end divider
 		$classes .= ( $end && isset( $end['classes'] ) ) ? ' ' . $end['classes'] : '';
 
@@ -468,11 +466,13 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
             'fields'    => array(),
             'calc'      => array(),
             'fieldKeys' => array(),
+			'fieldsWithCalc'	=> array(),
         );
 
         $triggers = array();
 
         foreach ( $frm_vars['calc_fields'] as $result => $field ) {
+			$calc_rules['fieldsWithCalc'][ $field['field_id'] ] = $result;
             $calc = $field['calc'];
             preg_match_all("/\[(.?)\b(.*?)(?:(\/))?\]/s", $calc, $matches, PREG_PATTERN_ORDER);
 
@@ -501,6 +501,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 				'calc'      	=> $calc,
 				'calc_dec'		=> $field['calc_dec'],
 				'fields'    	=> array(),
+				'field_id'		=> $field['field_id'],
             );
             $calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
@@ -580,7 +581,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 	public static function can_submit_form_now( $errors, $values ) {
 		global $frm_vars;
 
-		$params = ( isset( $frm_vars['form_params'] ) && is_array( $frm_vars['form_params'] ) && isset( $frm_vars['form_params'][ $values['form_id'] ] ) ) ? $frm_vars['form_params'][ $values['form_id'] ] : FrmEntriesController::get_params( $values['form_id'] );
+		$params = ( isset( $frm_vars['form_params'] ) && is_array( $frm_vars['form_params'] ) && isset( $frm_vars['form_params'][ $values['form_id'] ] ) ) ? $frm_vars['form_params'][ $values['form_id'] ] : FrmForm::get_params( $values['form_id'] );
 		$values['action'] = $params['action'];
 
 		if ( $params['action'] != 'create' ) {
@@ -803,7 +804,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 
         $repeat_fields = array();
         foreach ( $fields as $field ) {
-            if ( FrmProFieldsHelper::is_repeating_field($field) ) {
+            if ( FrmField::is_repeating_field($field) ) {
                 $repeat_fields[] = $field;
             }
         }
@@ -817,7 +818,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 	 */
 	public static function has_form_setting( $atts ) {
 		$form = FrmForm::getOne( $atts['form_id'] );
-		$has_setting = ( isset( $form->options[ $atts['setting_name'] ] ) && $form->options[ $atts['setting_name'] ] == $atts['expected_setting'] );
+		return ( isset( $form->options[ $atts['setting_name'] ] ) && $form->options[ $atts['setting_name'] ] == $atts['expected_setting'] );
 	}
 
     public static function &post_type($form) {
@@ -827,7 +828,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
             $form_id = (array) $form['id'];
         }
 
-        $action = FrmFormActionsHelper::get_action_for_form($form_id, 'wppost');
+		$action = FrmFormAction::get_action_for_form( $form_id, 'wppost' );
         $action = reset( $action );
 
         if ( ! $action || ! isset($action->post_content['post_type']) ) {

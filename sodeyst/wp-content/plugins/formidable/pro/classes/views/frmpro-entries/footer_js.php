@@ -14,21 +14,16 @@ else{__FRMRULES=jQuery.extend({},__FRMRULES,frmrules);}<?php
 
 if ( isset($frm_vars['google_graphs']) && ! empty($frm_vars['google_graphs']) ) {
     echo '__FRMTABLES='. json_encode($frm_vars['google_graphs']) .";\n";
-    echo "google.load('visualization', '1.0', {'packages':". json_encode(array_keys($frm_vars['google_graphs'])) ."});\n";
-
-    foreach ( $frm_vars['google_graphs'] as $k => $v ) {
-        foreach ( $v as $num => $opts ) {
-            echo "google.setOnLoadCallback(function(){frmFrontForm.generateGoogleTable(". (int) $num .", '". esc_attr($k) ."');});\n";
-        }
-        unset($k, $v);
-    }
+	echo 'frmFrontForm.loadGoogle();' . "\n";
 }
 
 ?>
 jQuery(document).ready(function($){
-<?php if ( $trigger_form ) { ?>
+<?php
+if ( $trigger_form ) { ?>
 $(document).off('submit.formidable','.frm-show-form');$(document).on('submit.formidable','.frm-show-form',frmFrontForm.submitForm);
-<?php }
+<?php
+}
 
 FrmProFormsHelper::load_chosen_js($frm_vars);
 

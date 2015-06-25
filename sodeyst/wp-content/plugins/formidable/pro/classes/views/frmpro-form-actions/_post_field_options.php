@@ -5,7 +5,7 @@ if ( empty( $values['fields'] ) ) {
 
 foreach ( $values['fields'] as $fo_key => $fo ) {
     // don't include repeatable fields
-    if ( ( isset($post_field) && ! in_array($fo['type'], $post_field) ) || FrmFieldsHelper::is_no_save_field($fo['type']) || $fo['type'] == 'form' || $fo['form_id'] != $values['id'] ) {
+	if ( ( isset( $post_field ) && ! in_array( $fo['type'], $post_field ) ) || FrmField::is_no_save_field( $fo['type'] ) || $fo['type'] == 'form' || $fo['form_id'] != $values['id'] ) {
         continue;
     }
 

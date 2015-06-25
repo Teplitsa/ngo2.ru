@@ -7,8 +7,7 @@
             $ff = (object) $ff;
         }
 
-        if ( in_array($ff->type, $exclude_fields) ||
-            ( $ff->type == 'data' && ( ! isset($ff->field_options['data_type']) || in_array( $ff->field_options['data_type'], array( 'data', '' )))) ) {
+		if ( in_array( $ff->type, $exclude_fields ) || FrmProField::is_list_field( $ff ) ) {
             continue;
         }
 

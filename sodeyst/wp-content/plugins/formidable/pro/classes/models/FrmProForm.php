@@ -134,7 +134,7 @@ class FrmProForm{
         $field_options['taxonomy'] = 'category';
         $field_options['exclude_cat'] = 0;
 
-        $post_action = FrmFormActionsHelper::get_action_for_form($field->form_id, 'wppost', 1);
+		$post_action = FrmFormAction::get_action_for_form( $field->form_id, 'wppost', 1 );
         if ( ! $post_action ) {
             return $field_options;
         }
@@ -195,6 +195,27 @@ class FrmProForm{
 
         return $new_opts;
     }
+
+	public static function is_ajax_on( $form ) {
+		$ajax = isset( $form->options['ajax_submit' ] ) ? $form->options['ajax_submit'] : 0;
+
+		if ( $ajax ) {
+			$no_ajax_fields = array( 'file' );
+			$where = array(
+				array( 'or' => 1, 'form_id' => $form->id, 'form.parent_form_id' => $form->id ),
+				'type' => $no_ajax_fields,
+			);
+			if ( isset( $_POST[ 'frm_page_order_' . $form->id ] ) ) {
+				$where['field_order <'] = absint( $_POST[ 'frm_page_order_' . $form->id ] ) - 1;
+			}
+
+			global $wpdb;
+			$no_ajax = FrmDb::get_var( $wpdb->prefix . 'frm_fields field INNER JOIN ' . $wpdb->prefix . 'frm_forms form ON field.form_id = form.id', $where, 'field.id' );
+			$ajax = $no_ajax ? false : true;
+		}
+
+		return $ajax;
+	}
 
 	public static function validate( $errors, $values ) {
         /*

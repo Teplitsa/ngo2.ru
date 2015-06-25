@@ -111,7 +111,7 @@ class FrmFormActionsController {
 		 */
 		do_action( 'frm_before_list_actions', $form );
 
-		$form_actions = FrmFormActionsHelper::get_action_for_form( $form->id );
+		$form_actions = FrmFormAction::get_action_for_form( $form->id );
 
         $action_controls = self::get_form_actions();
 
@@ -239,13 +239,13 @@ class FrmFormActionsController {
      * @param string $event
      */
 	public static function trigger_actions( $event, $form, $entry, $type = 'all', $args = array() ) {
-        $form_actions = FrmFormActionsHelper::get_action_for_form( ( is_object( $form ) ? $form->id : $form ), $type );
+		$form_actions = FrmFormAction::get_action_for_form( ( is_object( $form ) ? $form->id : $form ), $type );
 
         if ( empty( $form_actions ) ) {
             return;
         }
 
-        FrmFormsHelper::maybe_get_form( $form );
+		FrmForm::maybe_get_form( $form );
 
         $link_settings = self::get_form_actions( $type );
         if ( 'all' != $type ) {
@@ -276,7 +276,7 @@ class FrmFormActionsController {
             }
 
             // check conditional logic
-            $stop = FrmFormActionsHelper::action_conditions_met($action, $entry);
+			$stop = FrmFormAction::action_conditions_met( $action, $entry );
             if ( $stop ) {
                 continue;
             }

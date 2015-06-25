@@ -35,7 +35,7 @@
                     <select name="data_array[<?php echo $i ?>]" id="mapping_<?php echo $i ?>">
                         <option value=""> </option>
                         <?php foreach ( $fields as $field ) {
-                            if ( FrmFieldsHelper::is_no_save_field($field->type) ) {
+							if ( FrmField::is_no_save_field( $field->type ) ) {
                                 continue;
                             }
                             $selected = (strtolower(strip_tags($field->name)) == strtolower(htmlspecialchars($header)) );

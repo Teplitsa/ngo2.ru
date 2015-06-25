@@ -104,7 +104,7 @@ class FrmProDisplaysHelper{
         //get linked form ids
         $fields = FrmProFormsHelper::has_repeat_field($form_id, false);
         foreach ( $fields as $field ) {
-            if ( isset($field->field_options['form_select']) && $field->field_options['form_select'] ) {
+			if ( FrmField::is_option_true( $field, 'form_select' ) ) {
                 $form_ids[] = $field->field_options['form_select'];
                 $tagregexp[] = $field->id;
                 $tagregexp[] = $field->field_key;
