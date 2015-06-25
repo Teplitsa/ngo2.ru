@@ -138,15 +138,26 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
                 die(json_encode(array('code' => '0'))); // Payment completed
 
             case 'fail':
-                break;
+
+                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
+                    die(json_encode(array('code' => '10')));
+                }
+
+                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+
+                $donation->add_gateway_response($_POST);
+                $donation->status = 'failed';
+
+                die(json_encode(array('code' => '0'))); // Payment failure registered
+
             default:
         }
     }
 
-//    protected function _get_value_if_any($arr, $key, $val = false) {
-//
-//        return empty($arr[$key]) ? '' : ($val ? $val : $arr[$key]);
-//    }
+    protected function _get_value_if_any($arr, $key, $val = false) {
+
+        return empty($arr[$key]) ? '' : ($val ? $val : $arr[$key]);
+    }
 
     public function get_gateway_response_formatted(Leyka_Donation $donation) {
 
@@ -159,20 +170,32 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
             return array();
         }
 
-        foreach($vars as $key => $value) {
+        $vars_final = array(
+            __('Invoice ID:', 'leyka') => $this->_get_value_if_any($vars, 'TransactionId'),
+            __('Outcoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'Amount'),
+            __('Outcoming currency:', 'leyka') => $this->_get_value_if_any($vars, 'Currency'),
+            __('Incoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'PaymentAmount'),
+            __('Incoming currency:', 'leyka') => $this->_get_value_if_any($vars, 'PaymentCurrency'),
+            __('Donor name:', 'leyka') => $this->_get_value_if_any($vars, 'Name'),
+            __('Donor email:', 'leyka') => $this->_get_value_if_any($vars, 'Email'),
+            __('Callback time:', 'leyka') => $this->_get_value_if_any($vars, 'DateTime'),
+            __('Donor IP:', 'leyka') => $this->_get_value_if_any($vars, 'IpAddress'),
+            __('Donation description:', 'leyka') => $this->_get_value_if_any($vars, 'Description'),
+            __('Is test donation:', 'leyka') => $this->_get_value_if_any($vars, 'TestMode'),
+            __('Invoice status:', 'leyka') => $this->_get_value_if_any($vars, 'Status'),
+        );
 
-            $vars[$key.':'] = $value;
-            unset($vars[$key]);
+        if( !empty($vars['reason']) ) {
+            $vars_final[__('Donation failure reason', 'leyka')] = $vars['reason'];
+        }
+        if( !empty($vars['SubscriptionId']) ) {
+            $vars_final[__('Recurrent subscription ID:', 'leyka')] = $this->_get_value_if_any($vars, 'SubscriptionId');
+        }
+        if( !empty($vars['StatusCode']) ) {
+            $vars_final[__('Invoice status code:', 'leyka')] = $this->_get_value_if_any($vars, 'StatusCode');
         }
 
-        return $vars; //array(
-//            __('Outcoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'OutSum', !empty($vars['OutSum']) ? round($vars['OutSum'], 2) : false),
-//            __('Incoming sum:', 'leyka') => $this->_get_value_if_any($vars, 'IncSum', !empty($vars['IncSum']) ? round($vars['IncSum'], 2) : false),
-//            __('Invoice ID:', 'leyka') => $this->_get_value_if_any($vars, 'InvId'),
-//            __('Signature value (sent from Robokassa):', 'leyka') => $this->_get_value_if_any($vars, 'SignatureValue'),
-//            __('Payment method:', 'leyka') => $this->_get_value_if_any($vars, 'PaymentMethod'),
-//            __('Robokassa currency label:', 'leyka') => $this->_get_value_if_any($vars, 'IncCurrLabel'),
-        //);
+        return $vars_final;
     }
 } // Gateway class end
 

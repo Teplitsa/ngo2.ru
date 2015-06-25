@@ -688,7 +688,7 @@ class Leyka_Donation_Management {
             <?php }?>
             </div>
         </div>
-		
+
         <div class="leyka-ddata-string">
             <label><?php _e('Payment method', 'leyka');?>:</label>
 			<div class="leyka-ddata-field">
@@ -730,15 +730,17 @@ class Leyka_Donation_Management {
             </div>
         </div>
 
-		<?php if($donation->gateway == 'chronopay') {?>
-        <div class="leyka-ddata-string">
-            <label><?php _e('Chronopay customer ID', 'leyka');?>:</label>
-			<div class="leyka-ddata-field">
-            <?php if($donation->type == 'correction') {?>
+		<?php foreach($donation->get_specific_data_fields() as $field_label => $data) {
+            if( !$data ) continue;?>
 
-                <input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="<?php _e('Enter Chronopay Customer ID', 'leyka');?>" value="<?php echo $donation->chronopay_customer_id;?>" />
+        <div class="leyka-ddata-string">
+            <label><?php echo $field_label; //_e('Chronopay customer ID', 'leyka');?>:</label>
+			<div class="leyka-ddata-field">
+            <?php if($donation->type == 'correction') { echo $data['editable_field'];?>
+
+<!--                <input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="--><?php //_e('Enter Chronopay Customer ID', 'leyka');?><!--" value="--><?php //echo $donation->chronopay_customer_id;?><!--">-->
             <?php } else {?>
-                <span class="fake-input"><?php echo $donation->chronopay_customer_id;?></span>
+                <span class="fake-input"><?php echo $data['info_field']; //$donation->chronopay_customer_id;?></span>
             <?php }?>
             </div>
         </div>
