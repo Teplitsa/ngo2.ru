@@ -409,22 +409,36 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
         );
     }
 
-    public function get_specific_data_admin_fields($donation_id) {
+    public function display_donation_specific_data_fields($donation = false) {
 
-        $donation = new Leyka_Donation($donation_id);
+        if($donation) { // Edit donation page displayed
 
-        return array(
-            __('Chronopay customer ID', 'leyka') => array(
-                'editable_field' => '<input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="'.__('Enter Chronopay Customer ID', 'leyka').'" value="'.$donation->chronopay_customer_id.'">',
-                'info_field' => $donation->chronopay_customer_id,
-            ),
-        );
+            $donation = get_validated_donation($donation);?>
+
+            <label><?php _e('Chronopay customer ID', 'leyka');?>:</label>
+			<div class="leyka-ddata-field">
+
+            <?php if($donation->type == 'correction') {?>
+                <input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="<?php _e('Enter Chronopay Customer ID', 'leyka');?>" value="<?php echo $donation->chronopay_customer_id;?>">
+            <?php } else {?>
+                <span class="fake-input"><?php echo $donation->chronopay_customer_id;?></span>
+            <?php }?>
+            </div>
+
+        <?php } else { // New donation page displayed ?>
+
+            <label for="chronopay-customer-id"><?php _e('Chronopay customer ID', 'leyka');?>:</label>
+            <div class="leyka-ddata-field">
+                <input type="text" id="chronopay-customer-id" name="chronopay-customer-id" placeholder="<?php _e('Enter Chronopay Customer ID', 'leyka');?>" value="" />
+            </div>
+        <?php
+        }
     }
 
     public function get_specific_data_value($value, $field_name, Leyka_Donation $donation) {
 
         switch($field_name) {
-            case 'chronopay_customer_id': return get_post_meta($donation->id, 'chronopay_customer_id', true);
+            case 'chronopay_customer_id': return get_post_meta($donation->id, '_chronopay_customer_id', true);
             default: return $value;
         }
     }
@@ -432,7 +446,8 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
     public function set_specific_data_value($field_name, $value, Leyka_Donation $donation) {
 
         switch($field_name) {
-            case 'chronopay_customer_id': return update_post_meta($donation->id, 'chronopay_customer_id', $value);
+            case 'chronopay_customer_id':
+                return update_post_meta($donation->id, '_chronopay_customer_id', $value);
             default: return false;
         }
     }
@@ -450,7 +465,7 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
     public function add_donation_specific_data($donation_id, array $donation_params) {
 
         if( !empty($params['chronopay_customer_id']) ) {
-            update_post_meta($id, '_chronopay_customer_id', $params['chronopay_customer_id']);
+            update_post_meta($donation_id, '_chronopay_customer_id', $donation_params['chronopay_customer_id']);
         }
     }
 } // gateway class end

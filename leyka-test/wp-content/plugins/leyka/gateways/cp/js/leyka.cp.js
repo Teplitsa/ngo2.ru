@@ -2,8 +2,6 @@ jQuery(document).ready(function($){
 
     $(document).on('submit', 'form.leyka-pm-form', function(e){
 
-        e.preventDefault();
-
         // Donation form validation is already passed in the main script (public.js)
 
         var $form = $(this),
@@ -14,6 +12,12 @@ jQuery(document).ready(function($){
             data[data_array[i].name] = data_array[i].value;
         }
         data.action = 'leyka_ajax_donation_submit';
+
+        if(data.leyka_payment_method.indexOf('cp') < 0) { // Selected PM don't belong to the CP gateway
+            return;
+        }
+
+        e.preventDefault();
 
         $.ajax({
             type: 'post',

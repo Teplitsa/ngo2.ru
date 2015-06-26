@@ -378,9 +378,8 @@ abstract class Leyka_Gateway {
         return empty($this->_payment_methods[$pm_id]) ? false : $this->_payment_methods[$pm_id]; 
     }
 
-    /** Get gateway specific donation fields for a donation edition page ("donation data" metabox). */
-    public function get_specific_data_admin_fields($donation_id) {
-        return array();
+    /** Get gateway specific donation fields for an "add/edit donation" page ("donation data" metabox). */
+    public function display_donation_specific_data_fields($donation = false) {
     }
 
     /** Filter function for "leyka_get_unknown_donation_field" hook to get gateway specific donation data values. */
