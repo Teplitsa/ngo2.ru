@@ -1122,13 +1122,7 @@ class Leyka_Donation_Management {
             $donation->payment_type = $_POST['payment-type'];
         }
 
-        /** @todo Refactor this one day! A mechanism for gateway-based custom donation fields */
-        if(
-            isset($_POST['chronopay-customer-id']) &&
-            $donation->chronopay_customer_id != $_POST['chronopay-customer-id']
-        ) {
-            $donation->chronopay_customer_id = $_POST['chronopay-customer-id'];
-        }
+        do_action("leyka_{$donation->gateway_id}_save_donation_data", $donation);
 
         add_action('save_post', array($this, 'save_donation_data'));
 
@@ -1229,26 +1223,19 @@ class Leyka_Donation {
             'single' : ($params['payment_type'] == 'rebill' ? 'rebill' : 'correction');
         update_post_meta($id, 'leyka_payment_type', $params['payment_type']);
 
-        if( !empty($params['chronopay_customer_id']) )
-            update_post_meta($id, '_chronopay_customer_id', $params['chronopay_customer_id']);
+        do_action("leyka_{$params['gateway_id']}_add_donation_specific_data", $id, $params);
 
-        if( isset($params['recurrents_cancelled']) )
+        if( isset($params['recurrents_cancelled']) ) {
             update_post_meta($id, 'leyka_recurrents_cancelled', $params['recurrents_cancelled']);
+        }
 
-        if( isset($params['recurrents_cancel_date']) )
+        if( isset($params['recurrents_cancel_date']) ) {
             update_post_meta($id, 'leyka_recurrents_cancel_date', $params['recurrents_cancel_date']);
-        elseif(isset($params['recurrents_cancelled']) && $params['recurrents_cancelled'])
+        } elseif(isset($params['recurrents_cancelled']) && $params['recurrents_cancelled']) {
             update_post_meta($id, 'leyka_recurrents_cancel_date', time());
-        else
+        } else {
             update_post_meta($id, 'leyka_recurrents_cancel_date', 0);
-
-//        if($status != 'submitted')
-//            wp_update_post(array('ID' => $id, 'post_status' => $status));
-
-//        if($status == 'funded') {
-//            $donation = get_post($id);
-//            leyka_donation_management()->donation_funded($donation->ID, $donation);
-//        }
+        }
 
         return $id;
     }

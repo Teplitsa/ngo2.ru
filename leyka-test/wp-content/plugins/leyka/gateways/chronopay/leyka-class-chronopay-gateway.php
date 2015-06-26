@@ -436,6 +436,23 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
             default: return false;
         }
     }
+
+    public function save_donation_specific_data(Leyka_Donation $donation) {
+
+        if(
+            isset($_POST['chronopay-customer-id']) &&
+            $donation->chronopay_customer_id != $_POST['chronopay-customer-id']
+        ) {
+            $donation->chronopay_customer_id = $_POST['chronopay-customer-id'];
+        }
+    }
+
+    public function add_donation_specific_data($donation_id, array $donation_params) {
+
+        if( !empty($params['chronopay_customer_id']) ) {
+            update_post_meta($id, '_chronopay_customer_id', $params['chronopay_customer_id']);
+        }
+    }
 } // gateway class end
 
 

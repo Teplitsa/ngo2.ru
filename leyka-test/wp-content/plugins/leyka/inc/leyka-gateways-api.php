@@ -128,9 +128,12 @@ abstract class Leyka_Gateway {
 
         $this->_set_gateway_pm_list(); // Initialize or restore Gateway's PMs list and all their options
 
-        // Set a Gateway class method to process a service calls from gateway:
+        // Set a gateway class method to process a service calls from gateway:
         add_action('leyka_service_call-'.$this->_id, array($this, '_handle_service_calls'));
         add_action('leyka_cancel_recurrents-'.$this->_id, array($this, 'cancel_recurrents'));
+
+        add_action("leyka_{$this->_id}_save_donation_data", array($this, 'save_donation_specific_data'));
+        add_action("leyka_{$this->_id}_add_donation_specific_data", array($this, 'add_donation_specific_data'));
 
         add_filter('leyka_get_unknown_donation_field', array($this, 'get_specific_data_value'), 10, 3);
         add_action('leyka_set_unknown_donation_field', array($this, 'set_specific_data_value'), 10, 3);
@@ -387,6 +390,12 @@ abstract class Leyka_Gateway {
 
     /** Action function for "leyka_set_unknown_donation_field" hook to set gateway specific donation data values. */
     public function set_specific_data_value($field_name, $value, Leyka_Donation $donation) {
+    }
+
+    public function save_donation_specific_data(Leyka_Donation $donation) {
+    }
+
+    public function add_donation_specific_data($donation_id, array $donation_params) {
     }
 } //class end
 
