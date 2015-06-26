@@ -246,35 +246,36 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
             } else if($transaction_type == 'Rebill') { // Rebill payment
 
-                $init_recurrent_payment = Leyka_Donation::get_init_recurrent_payment($customer_id);
-
                 $donation_id = Leyka_Donation::add(array(
                     'status' => 'funded',
                     'payment_type' => 'rebill',
-                    'purpose_text' => $init_recurrent_payment->title,
-                    'campaign_id' => $init_recurrent_payment->campaign_id,
-                    'payment_method_id' => $init_recurrent_payment->pm_id,
-                    'gateway_id' => $init_recurrent_payment->gateway_id,
-                    'donor_name' => $init_recurrent_payment->donor_name,
-                    'donor_email' => $init_recurrent_payment->donor_email,
-                    'amount' => $init_recurrent_payment->amount,
-                    'currency' => $init_recurrent_payment->currency,
-                    'gateway_response' => $_POST,
-
                     'chronopay_customer_id' => $customer_id,
 //                    '' => '',
                 ));
                 $donation->add_gateway_response($_POST);
 
+                $init_recurrent_payment = $this->get_init_recurrent_donation($donation_id);
+
+                $donation->payment_title = $init_recurrent_payment->title;
+                $donation->campaign_id = $init_recurrent_payment->campaign_id;
+                $donation->payment_method_id = $init_recurrent_payment->pm_id;
+                $donation->gateway_id = $init_recurrent_payment->gateway_id;
+                $donation->donor_name = $init_recurrent_payment->donor_name;
+                $donation->donor_email = $init_recurrent_payment->donor_email;
+                $donation->amount = $init_recurrent_payment->amount;
+                $donation->currency = $init_recurrent_payment->currency;
+
                 Leyka_Donation_Management::send_all_emails($donation_id);
             }
 
         } else if( // Single payment. For now, processing is just like initial rebills
+
             leyka_options()->opt('chronopay_card_product_id_'.$currency_string) &&
             $_POST['product_id'] == leyka_options()->opt('chronopay_card_product_id_'.$currency_string)
         ) {
 
             if($donation->status != 'funded') {
+
                 $donation->add_gateway_response($_POST);
                 $donation->status = 'funded';
                 if( !$donation->donor_email && !empty($_POST['email']) )
@@ -289,6 +290,32 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
         status_header(200);
         die();
+    }
+
+    public function get_init_recurrent_donation(Leyka_Donation $donation) {
+
+        $init_donation_post = get_posts(array( // Get init recurrent payment with customer_id given
+            'posts_per_page' => 1,
+            'post_type' => Leyka_Donation_Management::$post_type,
+            'post_status' => 'funded',
+            'meta_query' => array(
+                'RELATION' => 'AND',
+                array(
+                    'key'     => '_chronopay_customer_id',
+                    'value'   => $donation->chronopay_customer_id,
+                    'compare' => '=',
+                ),
+                array(
+                    'key'     => 'leyka_payment_type',
+                    'value'   => 'rebill',
+                    'compare' => '=',
+                ),
+            ),
+            'orderby' => 'date',
+            'order' => 'ASC',
+        ));
+
+        return count($init_donation_post) ? new Leyka_Donation($init_donation_post[0]->ID) : false;
     }
 
     public function cancel_recurrents(Leyka_Donation $donation) {
@@ -350,13 +377,14 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
             if($response_ok) {
 
                 // Save the fact that recurrents has been cancelled:
-                $init_recurrent_donation = Leyka_Donation::get_init_recurrent_payment($donation->chronopay_customer_id);
+                $init_recurrent_donation = $this->get_init_recurrent_donation($donation);
                 $init_recurrent_donation->recurrents_cancelled = true;
 
-                die( json_encode(array('status' => 1, 'message' => __('Recurrent donations cancelled.', 'leyka'))) );
+                die(json_encode(array('status' => 1, 'message' => __('Recurrent donations cancelled.', 'leyka'))));
 
-            } else
-                die( json_encode(array('status' => 0, 'message' => sprintf(__('Error on the gateway side: %s', 'leyka'), $response_text." (code $response_code)"))) );
+            } else {
+                die(json_encode(array('status' => 0, 'message' => sprintf(__('Error on the gateway side: %s', 'leyka'), $response_text." (code $response_code)"))));
+            }
 
         }
     }

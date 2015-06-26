@@ -896,11 +896,7 @@ class Leyka_Donation_Management {
             <div id="hide-recurrent-metabox"></div>
         <?php return; } else {
 
-            /**
-             * @todo All this code may need to be in Gateway class - it's too many Chronopay things here.
-             * Must think how to make all this more gateway-independent.
-             */
-            $init_recurrent_donation = Leyka_Donation::get_init_recurrent_payment($donation->chronopay_customer_id);
+            $init_recurrent_donation = Leyka_Donation::get_init_recurrent_donation($donation);
             if($init_recurrent_donation->recurrents_cancelled) {?>
 
             <div class="">
@@ -1257,34 +1253,20 @@ class Leyka_Donation {
         return $id;
     }
 
-    public static function get_init_recurrent_payment($donor_id) {
+    /**
+     * A wrapper to access gateway's method to get init recurrent donation.
+     * @param int $donation_id
+     * @return Leyka_Donation or false if param is wrong or nothing foundd.
+     */
+    public static function get_init_recurrent_donation($donation_id) {
 
-        if( !$donor_id )
+        if( !$donation_id || (int)$donation_id <= 0 ) {
             return false;
+        }
 
-        $query = new WP_Query(array( // Get init recurrent payment with customer_id given
-            'posts_per_page' => 1,
-            'post_type' => Leyka_Donation_Management::$post_type,
-            'post_status' => 'funded', // 'any'?
-            'meta_query' => array(
-                'RELATION' => 'AND',
-                array(
-                    'key'     => '_chronopay_customer_id',
-                    'value'   => $donor_id,
-                    'compare' => '=',
-                ),
-                array(
-                    'key'     => 'leyka_payment_type',
-                    'value'   => 'rebill',
-                    'compare' => '=',
-                ),
-            ),
-            'orderby' => 'date',
-            'order' => 'ASC',
-        ));
-        $query = $query->get_posts();
+        $donation = new Leyka_Donation($donation_id);
 
-        return count($query) ? (new Leyka_Donation($query[0]->ID)) : false;
+        return leyka_get_gateway_by_id($donation->gateway_id)->get_init_recurrent_donation($donation);
     }
 
 	function __construct($donation) {
@@ -1343,9 +1325,6 @@ class Leyka_Donation {
                     $meta['leyka_recurrents_cancelled'][0] : false,
                 'recurrents_cancel_date' => isset($meta['leyka_recurrents_cancel_date']) ?
                     $meta['leyka_recurrents_cancel_date'][0] : false,
-
-//                'chronopay_customer_id' => empty($meta['_chronopay_customer_id']) ?
-//                    '' : $meta['_chronopay_customer_id'][0],
             );
         }
 	}
@@ -1358,6 +1337,7 @@ class Leyka_Donation {
             case 'title':
             case 'name': return $this->_post_object->post_title;
             case 'purpose':
+            case 'purpose_text':
             case 'payment_title':
             case 'campaign_payment_title':
                 return $this->_donation_meta['payment_title'];
@@ -1435,8 +1415,11 @@ class Leyka_Donation {
     }
 
     public function __set($field, $value) {
+
         switch($field) {
             case 'title':
+            case 'payment_title':
+            case 'purpose_text':
                 if($value != $this->_post_object->post_title) {
                     wp_update_post(array('ID' => $this->_id, 'post_title' => $value));
                     $this->_post_object->post_title = $value;
