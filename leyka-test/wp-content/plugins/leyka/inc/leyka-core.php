@@ -752,9 +752,11 @@ class Leyka {
         add_action('save_post', array($this, 'finalize_log_submission'), 2, 2);
 
         $campaign = new Leyka_Campaign((int)$_POST['leyka_campaign_id']);
+        $pm_data = leyka_pf_get_payment_method_value();
 
         $donation_id = Leyka_Donation::add(apply_filters('leyka_new_donation_data', array(
             'purpose_text' => $campaign->payment_title,
+            'gateway_id' => $pm_data['gateway_id'],
         )));
 
         $campaign->increase_submits_counter();
@@ -763,7 +765,6 @@ class Leyka {
             return false;
         } else {
 
-            $pm_data = leyka_pf_get_payment_method_value();
             do_action('leyka_log_donation-'.$pm_data['gateway_id'], $donation_id);
 
             return $donation_id;

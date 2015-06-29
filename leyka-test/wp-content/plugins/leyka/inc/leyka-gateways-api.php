@@ -271,13 +271,21 @@ abstract class Leyka_Gateway {
     static public function process_form_default($gateway_id, $pm_id, $donation_id, $form_data) {
 
         if(empty($form_data['leyka_donation_amount']) || (float)$form_data['leyka_donation_amount'] <= 0) {
-            $error = new WP_Error('wrong_donation_amount', __('Donation amount must be specified to submit the form', 'leyka'));
+
+            $error = new WP_Error(
+                'wrong_donation_amount',
+                __('Donation amount must be specified to submit the form', 'leyka')
+            );
             leyka()->add_payment_form_error($error);
         }
 
         $currency = $form_data['leyka_donation_currency'];
         if(empty($currency)) {
-            $error = new WP_Error('wrong_donation_currency', __('Wrong donation currency in submitted form data', 'leyka'));
+
+            $error = new WP_Error(
+                'wrong_donation_currency',
+                __('Wrong donation currency in submitted form data', 'leyka')
+            );
             leyka()->add_payment_form_error($error);
         }
 

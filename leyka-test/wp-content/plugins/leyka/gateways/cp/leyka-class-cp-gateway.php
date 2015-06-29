@@ -31,6 +31,17 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
                 'list_entries' => array(), // For select, radio & checkbox fields
                 'validation_rules' => array(), // List of regexp?..
             ),
+            'cp_ip' => array(
+                'type' => 'text', // html, rich_html, select, radio, checkbox, multi_checkbox
+                'value' => '',
+                'default' => '130.193.70.192',
+                'title' => __('CloudPayments IP', 'leyka'),
+                'description' => __('IP address to check for requests.', 'leyka'),
+                'required' => 1,
+                'placeholder' => __('Ex., 130.193.70.192', 'leyka'),
+                'list_entries' => array(), // For select, radio & checkbox fields
+                'validation_rules' => array(), // List of regexp?..
+            ),
             'cp_test_mode' => array(
                 'type' => 'checkbox', // html, rich_html, select, radio, checkbox, multi_checkbox
                 'value' => '',
@@ -57,6 +68,7 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
     public function submission_redirect_url($current_url, $pm_id) {
 
+        // CP isn't using redirection to safely ask donor for his bank card data:
         return leyka_options()->opt('cp_test_mode') ?
             '' : '';
     }
@@ -94,6 +106,25 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
     }
 
     public function _handle_service_calls($call_type = '') {
+
+        // Test for gateway's IP:
+        if(
+            leyka_options()->opt('cp_ip') &&
+            !in_array($_SERVER['REMOTE_ADDR'], explode(',', leyka_options()->opt('cp_ip')))
+        ) { // Security fail
+
+            $message = __("This message has been sent because a call to your CloudPayments function was made from an IP that did not match with the one in your CloudPayments gateway setting. This could mean someone is trying to hack your payment website. The details of the call are below.", 'leyka')."\n\r\n\r";
+
+            $message .= "POST:\n\r".print_r($_POST, true)."\n\r\n\r";
+            $message .= "GET:\n\r".print_r($_GET, true)."\n\r\n\r";
+            $message .= "SERVER:\n\r".print_r($_SERVER, true)."\n\r\n\r";
+            $message .= "IP:\n\r".print_r($_SERVER['REMOTE_ADDR'], true)."\n\r\n\r";
+            $message .= "CloudPayments IP setting value:\n\r".print_r(leyka_options()->opt('cp_ip'),true)."\n\r\n\r";
+
+            wp_mail(get_option('admin_email'), __('CloudPayments IP check failed!', 'leyka'), $message);
+            status_header(200);
+            die();
+        }
 
         switch($call_type) {
 
