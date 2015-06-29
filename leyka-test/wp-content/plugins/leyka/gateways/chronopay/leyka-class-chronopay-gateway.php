@@ -492,14 +492,20 @@ class Leyka_Chronopay_Card extends Leyka_Payment_Method {
 
         $this->_submit_label = __('Donate', 'leyka');
 
-        if(leyka_options()->opt('chronopay_card_product_id_rur'))
-            $this->_supported_currencies[] = 'rur';
-        if(leyka_options()->opt('chronopay_card_product_id_usd'))
-            $this->_supported_currencies[] = 'usd';
-        if(leyka_options()->opt('chronopay_card_product_id_eur'))
-            $this->_supported_currencies[] = 'eur';
-
         $this->_default_currency = 'rur';
+    }
+
+    protected function _set_dynamic_attributes() {
+
+        if(leyka_options()->opt('chronopay_card_product_id_rur')) {
+            $this->_supported_currencies[] = 'rur';
+        }
+        if(leyka_options()->opt('chronopay_card_product_id_usd')) {
+            $this->_supported_currencies[] = 'usd';
+        }
+        if(leyka_options()->opt('chronopay_card_product_id_eur')) {
+            $this->_supported_currencies[] = 'eur';
+        }
     }
 
     protected function _set_options_defaults() {
@@ -557,19 +563,25 @@ class Leyka_Chronopay_Card_Rebill extends Leyka_Payment_Method {
         $this->_label_backend = __('Rebilling payment with Banking Card', 'leyka');
         $this->_label = __('Banking Card - monthly rebilling', 'leyka');
 
-        // The description won't be setted here - it requires the PM option being configured at this time (which is not)
-
         $this->_icons = apply_filters('leyka_icons_'.$this->_gateway_id.'_'.$this->_id, array(
             LEYKA_PLUGIN_BASE_URL.'gateways/chronopay/icons/visa.png',
             LEYKA_PLUGIN_BASE_URL.'gateways/chronopay/icons/master.png',
         ));
 
-        if(leyka_options()->opt('chronopay_card_rebill_product_id_rur'))
-            $this->_supported_currencies[] = 'rur';
-//        else
-//            $this->_supported_currencies = empty($params['currencies']) ? array('rur') : $params['currencies'];
-
         $this->_default_currency = 'rur';
+    }
+
+    protected function _set_dynamic_attributes() {
+
+        if(leyka_options()->opt('chronopay_card_product_id_rur')) {
+            $this->_supported_currencies[] = 'rur';
+        }
+        if(leyka_options()->opt('chronopay_card_product_id_usd')) {
+            $this->_supported_currencies[] = 'usd';
+        }
+        if(leyka_options()->opt('chronopay_card_product_id_eur')) {
+            $this->_supported_currencies[] = 'eur';
+        }
     }
 
     protected function _set_options_defaults() {
