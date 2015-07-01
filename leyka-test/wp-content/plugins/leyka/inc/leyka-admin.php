@@ -163,7 +163,7 @@ class Leyka_Admin_Setup {
 
             <div class="metabox-holder" id="leyka-widgets">
                 <div class="postbox-container" id="postbox-container-1">
-                    <?php do_meta_boxes('toplevel_page_leyka', 'normal', 'leyka_status');?>
+                    <?php do_meta_boxes('toplevel_page_leyka', 'normal', null);?>
                 </div>
                 <div class="postbox-container" id="postbox-container-2">
                     <?php $this->dashboard_sidebar_screen();?>

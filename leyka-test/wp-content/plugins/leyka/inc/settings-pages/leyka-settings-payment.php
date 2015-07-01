@@ -29,11 +29,7 @@ function leyka_gateway_admin_icon_markup($gateway) {
         "<span class='dashicons dashicons-admin-page'></span>";
 }
 
-$count = 0;
-foreach(leyka_get_gateways() as $gateway) { //add metaboxes
-
-    $count++;
-    $count = $count > 3 ? 1 : $count;
+foreach(leyka_get_gateways() as $gateway) { // Add metaboxes
 
     $pm_active = leyka_options()->opt('pm_available');
     $active = '';
@@ -54,25 +50,57 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         'leyka_payment_settings_gateway_'.$gateway->id,
         leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
         'leyka_add_gateway_metabox',
-        'leyka_settings_payment_'.$count,
+        'leyka_settings_payment_1',
         'normal',
         'high',
         array('gateway' => $gateway,)
     );
-}?>
+}
+
+//$count = 0;
+//foreach(leyka_get_gateways() as $gateway) { //add metaboxes
+//
+//    $count++;
+//    $count = $count > 3 ? 1 : $count;
+//
+//    $pm_active = leyka_options()->opt('pm_available');
+//    $active = '';
+//
+//    if($pm_active) {
+//        foreach($pm_active as $pm_id) {
+//
+//            $test = explode('-', $pm_id);
+//            if(trim($test[0]) == $gateway->id) {
+//
+//                $active = " <span class='active'>".__('active', 'leyka')."</span>";
+//                break;
+//            }
+//        }
+//    }
+//
+//    add_meta_box(
+//        'leyka_payment_settings_gateway_'.$gateway->id,
+//        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
+//        'leyka_add_gateway_metabox',
+//        'leyka_settings_payment_'.$count,
+//        'normal',
+//        'high',
+//        array('gateway' => $gateway,)
+//    );
+//}?>
 
 <div class="metabox-holder" id="leyka-pm-selectors">
     <div class="postbox-container" id="postbox-container-1">
         <?php do_meta_boxes('leyka_settings_payment_1', 'normal', null);?>
     </div>
     
-    <div class="postbox-container" id="postbox-container-2">
-        <?php do_meta_boxes('leyka_settings_payment_2', 'normal', null);?>
-    </div>
-    
-     <div class="postbox-container" id="postbox-container-3">
-        <?php do_meta_boxes('leyka_settings_payment_3', 'normal', null);?>
-    </div>
+<!--    <div class="postbox-container" id="postbox-container-2">-->
+<!--        --><?php //do_meta_boxes('leyka_settings_payment_2', 'normal', null);?>
+<!--    </div>-->
+<!--    -->
+<!--     <div class="postbox-container" id="postbox-container-3">-->
+<!--        --><?php //do_meta_boxes('leyka_settings_payment_3', 'normal', null);?>
+<!--    </div>-->
 </div>
 
 <div id="payment-settings-area">
