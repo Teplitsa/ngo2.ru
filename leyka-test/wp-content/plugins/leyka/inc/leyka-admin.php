@@ -48,15 +48,12 @@ class Leyka_Admin_Setup {
     }
 
     // A little function to support the full abilities of the metaboxes on any plugin's page:
-    public function leyka_metaboxes_full_support($current_stage = false) {
-
-        if($current_stage && $current_stage != 'payment')
-            return;?>
+    public function leyka_metaboxes_full_support($current_stage = false) {?>
 
         <!-- Metaboxes reordering and folding support -->
         <form style="display:none" method="get" action="#">
-            <?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false ); ?>
-            <?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false ); ?>
+            <?php wp_nonce_field('closedpostboxes', 'closedpostboxesnonce', false); ?>
+            <?php wp_nonce_field('meta-box-order', 'meta-box-order-nonce', false); ?>
         </form>
     <?php }
 
@@ -145,7 +142,7 @@ class Leyka_Admin_Setup {
 	}
 
 	/** Displaying dashboard **/
-	public function dashboard_screen(){
+	public function dashboard_screen() {
 
 		if( !current_user_can('leyka_manage_donations') ) {
             wp_die(__('Sorry, but you do not have permissions to access this page.', 'leyka'));

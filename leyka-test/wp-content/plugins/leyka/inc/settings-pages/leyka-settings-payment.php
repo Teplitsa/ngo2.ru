@@ -11,12 +11,12 @@ function leyka_add_gateway_metabox($post, $args) {
 
     <div>
 
-    <?php foreach($gateway->get_payment_methods() as $pm) {?>
-        <div>
-            <input type="checkbox" name="leyka_pm_available[]" value="<?php echo $pm->full_id;?>" class="pm-active" id="<?php echo $pm->full_id;?>" data-pm-label="<?php echo $pm->title_backend;?>" data-pm-label-backend="<?php echo $pm->label_backend;?>" <?php echo in_array($pm->full_id, $pm_active) ? 'checked="checked"' : '';?>>
-            <label for="<?php echo $pm->full_id;?>"><?php echo $pm->title_backend;?></label>
-        </div>
-    <?php }?>
+        <?php foreach($gateway->get_payment_methods() as $pm) {?>
+            <div>
+                <input type="checkbox" name="leyka_pm_available[]" value="<?php echo $pm->full_id;?>" class="pm-active" id="<?php echo $pm->full_id;?>" data-pm-label="<?php echo $pm->title_backend;?>" data-pm-label-backend="<?php echo $pm->label_backend;?>" <?php echo in_array($pm->full_id, $pm_active) ? 'checked="checked"' : '';?>>
+                <label for="<?php echo $pm->full_id;?>"><?php echo $pm->title_backend;?></label>
+            </div>
+        <?php }?>
 
     </div>
 <?php
@@ -50,7 +50,7 @@ foreach(leyka_get_gateways() as $gateway) { // Add metaboxes
         'leyka_payment_settings_gateway_'.$gateway->id,
         leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
         'leyka_add_gateway_metabox',
-        'leyka_settings_payment_1',
+        get_current_screen()->id,
         'normal',
         'high',
         array('gateway' => $gateway,)
@@ -91,7 +91,7 @@ foreach(leyka_get_gateways() as $gateway) { // Add metaboxes
 
 <div class="metabox-holder" id="leyka-pm-selectors">
     <div class="postbox-container" id="postbox-container-1">
-        <?php do_meta_boxes('leyka_settings_payment_1', 'normal', null);?>
+        <?php do_meta_boxes(get_current_screen()->id /* 'leyka_settings_payment_1' */, 'normal', null);?>
     </div>
     
 <!--    <div class="postbox-container" id="postbox-container-2">-->
