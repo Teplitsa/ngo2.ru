@@ -1,5 +1,13 @@
 <?php if( !defined('WPINC') ) die; // If this file is called directly, abort
 
+$current_screen_id = get_current_screen()->id;
+
+/** This action is documented in wp-admin/edit-form-advanced.php */
+do_action( 'do_meta_boxes', $current_screen_id, 'normal', '' );
+
+/** This action is documented in wp-admin/edit-form-advanced.php */
+do_action( 'do_meta_boxes', $current_screen_id, 'side', '' );
+
 function leyka_add_gateway_metabox($post, $args) {
 
     // $post is always null
@@ -50,57 +58,58 @@ foreach(leyka_get_gateways() as $gateway) { // Add metaboxes
         'leyka_payment_settings_gateway_'.$gateway->id,
         leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
         'leyka_add_gateway_metabox',
-        get_current_screen()->id,
+        $current_screen_id,
         'normal',
         'high',
         array('gateway' => $gateway,)
     );
 }
 
-//$count = 0;
-//foreach(leyka_get_gateways() as $gateway) { //add metaboxes
-//
-//    $count++;
-//    $count = $count > 3 ? 1 : $count;
-//
-//    $pm_active = leyka_options()->opt('pm_available');
-//    $active = '';
-//
-//    if($pm_active) {
-//        foreach($pm_active as $pm_id) {
-//
-//            $test = explode('-', $pm_id);
-//            if(trim($test[0]) == $gateway->id) {
-//
-//                $active = " <span class='active'>".__('active', 'leyka')."</span>";
-//                break;
-//            }
-//        }
-//    }
-//
-//    add_meta_box(
-//        'leyka_payment_settings_gateway_'.$gateway->id,
-//        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
-//        'leyka_add_gateway_metabox',
-//        'leyka_settings_payment_'.$count,
-//        'normal',
-//        'high',
-//        array('gateway' => $gateway,)
-//    );
-//}?>
+$count = 0;
+$columns = array('normal', 'advanced', 'side');
+foreach(leyka_get_gateways() as $gateway) { //add metaboxes
 
-<div class="metabox-holder" id="leyka-pm-selectors">
-    <div class="postbox-container" id="postbox-container-1">
-        <?php do_meta_boxes(get_current_screen()->id /* 'leyka_settings_payment_1' */, 'normal', null);?>
+    $count = $count > 2 ? 0 : $count;
+
+    $pm_active = leyka_options()->opt('pm_available');
+    $active = '';
+
+    if($pm_active) {
+        foreach($pm_active as $pm_id) {
+
+            $test = explode('-', $pm_id);
+            if(trim($test[0]) == $gateway->id) {
+
+                $active = " <span class='active'>".__('active', 'leyka')."</span>";
+                break;
+            }
+        }
+    }
+
+    add_meta_box(
+        'leyka_payment_settings_gateway_'.$gateway->id,
+        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
+        'leyka_add_gateway_metabox',
+        $current_screen_id,
+        'advanced',
+        'high',
+        array('gateway' => $gateway,)
+    );
+    $count++;
+}?>
+
+<div id="leyka-pm-selectors" class="metabox-holder columns-3">
+    <div id="postbox-container-1" class="postbox-container">
+        111!<?php do_meta_boxes('', 'normal', null);?>
     </div>
-    
-<!--    <div class="postbox-container" id="postbox-container-2">-->
-<!--        --><?php //do_meta_boxes('leyka_settings_payment_2', 'normal', null);?>
-<!--    </div>-->
-<!--    -->
-<!--     <div class="postbox-container" id="postbox-container-3">-->
-<!--        --><?php //do_meta_boxes('leyka_settings_payment_3', 'normal', null);?>
-<!--    </div>-->
+
+    <div id="postbox-container-2" class="postbox-container">
+        222!<?php do_meta_boxes('', 'advanced', null);?>
+    </div>
+
+    <div class="postbox-container" id="postbox-container-3">
+        333!<?php do_meta_boxes('', 'side', null);?>
+    </div>
 </div>
 
 <div id="payment-settings-area">
