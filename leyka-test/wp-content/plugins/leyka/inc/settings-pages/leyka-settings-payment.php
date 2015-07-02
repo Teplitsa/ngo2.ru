@@ -85,55 +85,22 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
         leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
         'leyka_add_gateway_metabox',
         $current_screen_id,
-        'advanced',
+        $columns[$count], // This is a column distribution only by default
         'high',
         array('gateway' => $gateway,)
     );
     $count++;
 }?>
 
-<!--id="leyka-pm-selectors"-->
-<!--<div id="post-body" class="metabox-holder columns-3">-->
-<!--    <div id="leyka-pm-selectors">-->
-<!--        <div id="postbox-container-1" class="postbox-container">-->
-<!--            111!--><?php //do_meta_boxes('', 'normal', null);?>
-<!--        </div>-->
-<!---->
-<!--        <div id="postbox-container-2" class="postbox-container">-->
-<!--            222!--><?php //do_meta_boxes('', 'advanced', null);?>
-<!--        </div>-->
-<!---->
-<!--        <div id="postbox-container-3" class="postbox-container">-->
-<!--            333!--><?php //do_meta_boxes('', 'side', null);?>
-<!--        </div>-->
-<!--    </div>-->
-<!--</div>-->
+<div id="post-body" class="metabox-holder columns-3">
+    <div id="leyka-pm-selectors">
+        <div id="postbox-container-1" class="postbox-container"><?php do_meta_boxes('', 'side', null);?></div>
 
-<div id="poststuff">
+        <div id="postbox-container-2" class="postbox-container"><?php do_meta_boxes('', 'normal', null);?></div>
 
-    <div id="post-body" class="metabox-holder columns-2">
-
-        <div id="post-body-content">
-            Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body!
-        </div>
-
-        <div id="postbox-container-1" class="postbox-container">
-            <?php do_meta_boxes('','side',null); ?>
-        </div>
-
-        <div id="postbox-container-2" class="postbox-container">
-            <?php do_meta_boxes('','normal',null); ?>
-<!--            --><?php //do_meta_boxes('','advanced',null); ?>
-        </div>
-
-<!--        <div id="postbox-container-3" class="postbox-container">-->
-<!--            --><?php //do_meta_boxes('','normal',null); ?>
-<!--            --><?php //do_meta_boxes('','advanced',null); ?>
-<!--        </div>-->
-
-    </div> <!-- #post-body -->
-
-</div> <!-- #poststuff -->
+        <div id="postbox-container-3" class="postbox-container"><?php do_meta_boxes('', 'advanced', null);?></div>
+    </div>
+</div>
 
 <div id="payment-settings-area">
 
