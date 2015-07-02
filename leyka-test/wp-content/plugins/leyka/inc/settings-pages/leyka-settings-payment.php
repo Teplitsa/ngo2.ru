@@ -2,12 +2,6 @@
 
 $current_screen_id = get_current_screen()->id;
 
-/** This action is documented in wp-admin/edit-form-advanced.php */
-do_action( 'do_meta_boxes', $current_screen_id, 'normal', '' );
-
-/** This action is documented in wp-admin/edit-form-advanced.php */
-do_action( 'do_meta_boxes', $current_screen_id, 'side', '' );
-
 function leyka_add_gateway_metabox($post, $args) {
 
     // $post is always null
@@ -98,19 +92,48 @@ foreach(leyka_get_gateways() as $gateway) { //add metaboxes
     $count++;
 }?>
 
-<div id="leyka-pm-selectors" class="metabox-holder columns-3">
-    <div id="postbox-container-1" class="postbox-container">
-        111!<?php do_meta_boxes('', 'normal', null);?>
-    </div>
+<!--id="leyka-pm-selectors"-->
+<!--<div id="post-body" class="metabox-holder columns-3">-->
+<!--    <div id="leyka-pm-selectors">-->
+<!--        <div id="postbox-container-1" class="postbox-container">-->
+<!--            111!--><?php //do_meta_boxes('', 'normal', null);?>
+<!--        </div>-->
+<!---->
+<!--        <div id="postbox-container-2" class="postbox-container">-->
+<!--            222!--><?php //do_meta_boxes('', 'advanced', null);?>
+<!--        </div>-->
+<!---->
+<!--        <div id="postbox-container-3" class="postbox-container">-->
+<!--            333!--><?php //do_meta_boxes('', 'side', null);?>
+<!--        </div>-->
+<!--    </div>-->
+<!--</div>-->
 
-    <div id="postbox-container-2" class="postbox-container">
-        222!<?php do_meta_boxes('', 'advanced', null);?>
-    </div>
+<div id="poststuff">
 
-    <div class="postbox-container" id="postbox-container-3">
-        333!<?php do_meta_boxes('', 'side', null);?>
-    </div>
-</div>
+    <div id="post-body" class="metabox-holder columns-2">
+
+        <div id="post-body-content">
+            Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body! Main body!
+        </div>
+
+        <div id="postbox-container-1" class="postbox-container">
+            <?php do_meta_boxes('','side',null); ?>
+        </div>
+
+        <div id="postbox-container-2" class="postbox-container">
+            <?php do_meta_boxes('','normal',null); ?>
+<!--            --><?php //do_meta_boxes('','advanced',null); ?>
+        </div>
+
+<!--        <div id="postbox-container-3" class="postbox-container">-->
+<!--            --><?php //do_meta_boxes('','normal',null); ?>
+<!--            --><?php //do_meta_boxes('','advanced',null); ?>
+<!--        </div>-->
+
+    </div> <!-- #post-body -->
+
+</div> <!-- #poststuff -->
 
 <div id="payment-settings-area">
 
