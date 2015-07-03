@@ -12,6 +12,8 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
         $this->_id = 'chronopay';
         $this->_title = __('Chronopay', 'leyka');
         $this->_docs_link = '//leyka.te-st.ru/docs/chronopay/';
+        $this->_admin_ui_column = 1;
+        $this->_admin_ui_order = 20;
     }
 
     protected function _set_options_defaults() {

@@ -109,6 +109,8 @@ abstract class Leyka_Gateway {
 	protected $_title = ''; // A human-readable title of gateway, a "Bank quittances" or "Yandex.money"
     protected $_icon = ''; // A gateway icon URL. Must have 25px on a bigger side
     protected $_docs_link = ''; // A link to gateways user docs page
+    protected $_admin_ui_column = 2; // 1 or 2. A number of the metaboxes columns, to which gateway belogns by default
+    protected $_admin_ui_order = 100; // Default sorting index for gateway metabox in its column. Lower number = higher
     protected $_payment_methods = array(); // Supported PMs array
     protected $_options = array(); // Gateway configs
 
@@ -127,6 +129,8 @@ abstract class Leyka_Gateway {
         $this->_set_options_defaults(); // Set configurable options in admin area
 
         $this->_set_gateway_pm_list(); // Initialize or restore Gateway's PMs list and all their options
+
+        do_action('leyka_initialize_gateway', $this, $this->_id); // So one could change some of gateway's attributes
 
         // Set a gateway class method to process a service calls from gateway:
         add_action('leyka_service_call-'.$this->_id, array($this, '_handle_service_calls'));
@@ -170,6 +174,12 @@ abstract class Leyka_Gateway {
             case 'docs_url':
             case 'docs_href':
             case 'docs_link': return $this->_docs_link ? $this->_docs_link : false;
+            case 'admin_column':
+            case 'admin_ui_column': return in_array($this->_admin_ui_column, array(1, 2)) ? $this->_admin_ui_column : 2;
+            case 'admin_order':
+            case 'admin_priority':
+            case 'admin_ui_order':
+            case 'admin_ui_priority': return (int)$this->_admin_ui_order;
             case 'icon': $icon = false;
                 if($this->_icon) {
                     $icon = $this->_icon;

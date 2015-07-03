@@ -31,74 +31,52 @@ function leyka_gateway_admin_icon_markup($gateway) {
         "<span class='dashicons dashicons-admin-page'></span>";
 }
 
-foreach(leyka_get_gateways() as $gateway) { // Add metaboxes
+$gateways_by_columns = array('side' => array(), 'normal' => array());
+foreach(leyka_get_gateways() as $gateway) { // Place gateways metaboxes in their respective columns
 
-    $pm_active = leyka_options()->opt('pm_available');
-    $active = '';
-
-    if($pm_active) {
-        foreach($pm_active as $pm_id) {
-
-            $test = explode('-', $pm_id);
-            if(trim($test[0]) == $gateway->id) {
-
-                $active = " <span class='active'>".__('active', 'leyka')."</span>";
-                break;
-            }
-        }
-    }
-
-    add_meta_box(
-        'leyka_payment_settings_gateway_'.$gateway->id,
-        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
-        'leyka_add_gateway_metabox',
-        $current_screen_id,
-        'normal',
-        'high',
-        array('gateway' => $gateway,)
-    );
+    $gateways_by_columns[$gateway->admin_ui_column == 1 ? 'side' : 'normal'][$gateway->admin_ui_order][] = $gateway;
 }
 
-$count = 0;
-$columns = array('normal', 'advanced', 'side');
-foreach(leyka_get_gateways() as $gateway) { //add metaboxes
+foreach($gateways_by_columns as $admin_ui_column => $gateways) { // Add gateways metaboxes
 
-    $count = $count > 2 ? 0 : $count;
+    ksort($gateways); // Sort by gateways priority
 
-    $pm_active = leyka_options()->opt('pm_available');
-    $active = '';
+    foreach($gateways as $priority => $gateways_list) {
 
-    if($pm_active) {
-        foreach($pm_active as $pm_id) {
+        foreach($gateways_list as $gateway) {
 
-            $test = explode('-', $pm_id);
-            if(trim($test[0]) == $gateway->id) {
+            $pm_active = leyka_options()->opt('pm_available');
+            $active = '';
 
-                $active = " <span class='active'>".__('active', 'leyka')."</span>";
-                break;
+            if($pm_active) {
+                foreach($pm_active as $pm_id) {
+
+                    $test = explode('-', $pm_id);
+                    if(trim($test[0]) == $gateway->id) {
+
+                        $active = " <span class='active'>".__('active', 'leyka')."</span>";
+                        break;
+                    }
+                }
             }
+
+            add_meta_box(
+                'leyka_payment_settings_gateway_'.$gateway->id,
+                leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
+                'leyka_add_gateway_metabox',
+                $current_screen_id,
+                $admin_ui_column, // This is a column distribution only by default
+                'high',
+                array('gateway' => $gateway,)
+            );
         }
     }
-
-    add_meta_box(
-        'leyka_payment_settings_gateway_'.$gateway->id,
-        leyka_gateway_admin_icon_markup($gateway).$gateway->title.$active,
-        'leyka_add_gateway_metabox',
-        $current_screen_id,
-        $columns[$count], // This is a column distribution only by default
-        'high',
-        array('gateway' => $gateway,)
-    );
-    $count++;
 }?>
 
 <div id="post-body" class="metabox-holder columns-3">
     <div id="leyka-pm-selectors">
         <div id="postbox-container-1" class="postbox-container"><?php do_meta_boxes('', 'side', null);?></div>
-
         <div id="postbox-container-2" class="postbox-container"><?php do_meta_boxes('', 'normal', null);?></div>
-
-        <div id="postbox-container-3" class="postbox-container"><?php do_meta_boxes('', 'advanced', null);?></div>
     </div>
 </div>
 
