@@ -1,0 +1,408 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TST Next Project Design\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2015-05-31 12:03+0300\n"
+"PO-Revision-Date: 2015-05-31 12:03+0300\n"
+"Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
+"Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
+"Language: ru\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n"
+"%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Generator: Poedit 1.7.5\n"
+"X-Poedit-Basepath: ..\n"
+"X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
+"__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;"
+"__ngettext_noop:1,2;_x:1,2c;_ex:1,2c;_nx:1,2,4c;_nx_noop:1,2,3c;_n_js:1,2;"
+"_nx_js:1,2,3c;esc_attr__:1;esc_html__:1;esc_attr_e:1;esc_html_e:1;"
+"esc_attr_x:1,2c;esc_html_x:1,2c;comments_number_link:2,3;t:1;st:1;trans:1;"
+"transChoice:1,2\n"
+"X-Loco-Target-Locale: ru_RU\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: 404.php:15
+msgid "Oops! That page can&rsquo;t be found."
+msgstr ""
+"К сожалению, запрошенная страница не найдена, возможно она была перемещена."
+
+#: 404.php:19
+msgid "It looks like nothing was found at this location."
+msgstr "К сожалению, по вашему запросу ничего не найдено"
+
+#: footer.php:11
+msgid "Teplitsa of social technologies"
+msgstr "Теплица социальных технологий"
+
+#: footer.php:43
+#, php-format
+msgid "All materials of the site are avaliabe under license %s."
+msgstr "Все материалы сайта доступны по лиценции %s."
+
+#: functions.php:34
+msgid "Primary Menu"
+msgstr "﻿Главное меню"
+
+#: functions.php:35 inc/widgets.php:609
+msgid "Social Buttons"
+msgstr "Социальные кнопки"
+
+#: header.php:21
+msgid "Skip to content"
+msgstr "Перейти к содержанию"
+
+#: header.php:24
+msgid "Primary menu"
+msgstr "﻿Главное меню"
+
+#: inc/extras.php:38
+msgid "More"
+msgstr "Далее"
+
+#: inc/template-tags.php:279
+#, php-format
+msgid "Thumbnail for - %s"
+msgstr "Заставка для - %s"
+
+#: inc/template-tags.php:346
+msgid "Event date"
+msgstr "Дата мероприятия"
+
+#: inc/template-tags.php:352
+msgid "Time"
+msgstr "Время"
+
+#: inc/template-tags.php:358
+msgid "Address"
+msgstr "Адрес"
+
+#: inc/widgets.php:194
+msgid "List of recent posts with some styling"
+msgstr "Список последних записей с настройками оформления"
+
+#: inc/widgets.php:196
+msgid "Recent Posts"
+msgstr "Последние записи"
+
+#: inc/widgets.php:301
+#, php-format
+msgid "Permalink to %s"
+msgstr "Постоянная ссылка %s"
+
+#: inc/widgets.php:411
+msgid "Don't show"
+msgstr "Не показывать"
+
+#: inc/widgets.php:412
+msgid "Square thumbnail"
+msgstr "Квадратная миниатюра"
+
+#: inc/widgets.php:413
+msgid "Landscape thumnbail"
+msgstr "Горизонтальная миниатюра"
+
+#: inc/widgets.php:418
+msgid "Title"
+msgstr "Заголовок"
+
+#: inc/widgets.php:423
+msgid "Limit"
+msgstr "Кол.-во"
+
+#: inc/widgets.php:431
+msgid "Display Date?"
+msgstr "Отображать дату?"
+
+#: inc/widgets.php:435
+msgid "Display Excerpt?"
+msgstr "Отображать аннотацию?"
+
+#: inc/widgets.php:439
+msgid "Excerpt Length"
+msgstr "Длина аннотации"
+
+#: inc/widgets.php:446
+msgid "Thumbnail"
+msgstr "Миниатюра"
+
+#: inc/widgets.php:457
+msgid "Choose the Post Type"
+msgstr "Тип контента"
+
+#: inc/widgets.php:460
+msgid "Select post type"
+msgstr "Выбрать"
+
+#: inc/widgets.php:468
+msgid "Choose the Taxonomy"
+msgstr "Выбрать таксономию"
+
+#: inc/widgets.php:471
+msgid "Select taxonomy"
+msgstr "Выбрать"
+
+#: inc/widgets.php:480
+msgid "Term slug"
+msgstr "Ярлык термина"
+
+#: inc/widgets.php:482
+msgid ""
+"Copy paste a slug (or comma-separated list of several slugs) of the term"
+msgstr "Укажите ярлык (разделенный запятыми список ярлыков) термина"
+
+#: inc/widgets.php:611
+msgid "Social links menu with optional text"
+msgstr "Меню социальных кнопок с сопроводительным текстом"
+
+#: partials/content.php:8
+msgid "Article"
+msgstr "Статья"
+
+#: partials/related.php:12
+msgid "Related posts"
+msgstr "Еще по теме"
+
+#: partials/title-section.php:45
+msgid "Search results"
+msgstr "Результаты поиска"
+
+#: partials/title-section.php:48
+msgid "404: Page not found"
+msgstr "404: Страница не найдена"
+
+#~ msgid "Secondary Menu"
+#~ msgstr "Вспомогательное меню"
+
+#~ msgid "Left Menu in footer"
+#~ msgstr "Левое меню в футере"
+
+#~ msgid "Right Menu in footer"
+#~ msgstr "Правое меню в футере"
+
+#~ msgid "Languages"
+#~ msgstr "Языки"
+
+#~ msgid "Social menu"
+#~ msgstr "Социальные кнопки"
+
+#~ msgid "Menu"
+#~ msgstr "Меню"
+
+#~ msgid "Custom fields"
+#~ msgstr "Мета-поля"
+
+#~ msgid "On top"
+#~ msgstr "К началу"
+
+#~ msgid "Column-width"
+#~ msgstr "По ширине колонки"
+
+#~ msgid "Friendship stories"
+#~ msgstr "Истории дружбы"
+
+#~ msgid "Story"
+#~ msgstr "История"
+
+#~ msgid "Stories"
+#~ msgstr "Истории"
+
+#~ msgid "Add a story"
+#~ msgstr "Добавить историю"
+
+#~ msgid "Add new"
+#~ msgstr "Добавить новую"
+
+#~ msgid "Add new story"
+#~ msgstr "Добавить новую"
+
+#~ msgid "New story"
+#~ msgstr "Новая история"
+
+#~ msgid "Edit the story"
+#~ msgstr "Редактировать"
+
+#~ msgid "View the story page"
+#~ msgstr "Открыть страницу истории"
+
+#~ msgid "All stories"
+#~ msgstr "Все истории"
+
+#~ msgid "Search for stories"
+#~ msgstr "Поиск историй"
+
+#~ msgid "Parent story"
+#~ msgstr "Родительская"
+
+#~ msgid "No stories found"
+#~ msgstr "Историй не найдено"
+
+#~ msgid "No stories found in Trash"
+#~ msgstr "Историй в корзине не найдено"
+
+#~ msgid "Events"
+#~ msgstr "Анонсы"
+
+#~ msgid "Event"
+#~ msgstr "Анонс"
+
+#~ msgid "Add event"
+#~ msgstr "Добавить анонс"
+
+#~ msgid "Add new event"
+#~ msgstr "Добавить новый"
+
+#~ msgid "New event"
+#~ msgstr "Новый анонс"
+
+#~ msgid "Edit event"
+#~ msgstr "Редактировать"
+
+#~ msgid "View event"
+#~ msgstr "Просмотреть"
+
+#~ msgid "All events"
+#~ msgstr "Все анонсы"
+
+#~ msgid "Search events"
+#~ msgstr "Поиск"
+
+#~ msgid "Parent event"
+#~ msgstr "Родительский"
+
+#~ msgid "No events found"
+#~ msgstr "Анонсы не найдены"
+
+#~ msgid "No events found in Trash"
+#~ msgstr "В Корзине мероприятия не найдены"
+
+#~ msgid "Programmes"
+#~ msgstr "Программы"
+
+#~ msgid "Programm"
+#~ msgstr "Программа"
+
+#~ msgid "Add programm"
+#~ msgstr "Добавить программу"
+
+#~ msgid "Add new programm"
+#~ msgstr "Добавить новую"
+
+#~ msgid "New programm"
+#~ msgstr "Новая программа"
+
+#~ msgid "Edit programm"
+#~ msgstr "Редактировать"
+
+#~ msgid "View programm"
+#~ msgstr "Просмотреть"
+
+#~ msgid "All programmes"
+#~ msgstr "Все программы"
+
+#~ msgid "Search programmes"
+#~ msgstr "Поиск программ"
+
+#~ msgid "Parent programm"
+#~ msgstr "Родительская"
+
+#~ msgid "No programmes found"
+#~ msgstr "Программы не найдены"
+
+#~ msgid "No programmes found in Trash"
+#~ msgstr "В Корзине программы не найдены"
+
+#~ msgid "Close"
+#~ msgstr "Закрыть"
+
+#~ msgid "Post navigation"
+#~ msgstr "Навигация по записям"
+
+#~ msgid "Unfortunately, we cann't find anything under your request."
+#~ msgstr "К сожалению, по вашему запросу ничего не найдено."
+
+#~ msgid "Let&rsquo;s find the inforamtion you need"
+#~ msgstr "Давайте попробуем найти информацию, которая вам нужна."
+
+#~ msgid "Fixed: Large"
+#~ msgstr "Фикс.: Большой"
+
+#~ msgid "Program"
+#~ msgstr "Программа"
+
+#~ msgid "Add program"
+#~ msgstr "Добавить программу"
+
+#~ msgid "Add new program"
+#~ msgstr "Добавить новую"
+
+#~ msgid "New program"
+#~ msgstr "Новая программа"
+
+#~ msgid "Edit program"
+#~ msgstr "Редактировать"
+
+#~ msgid "View program"
+#~ msgstr "Просмотр"
+
+#~ msgid "Parent program"
+#~ msgstr "Родительская программа"
+
+#~ msgid "Details"
+#~ msgstr "Подробнее"
+
+#~ msgid "All"
+#~ msgstr "Все"
+
+#~ msgid "Our events"
+#~ msgstr "Наши события"
+
+#~ msgid "Help"
+#~ msgstr "Помочь"
+
+#~ msgid "Our programmes"
+#~ msgstr "Наши программы"
+
+#~ msgid "Our friends"
+#~ msgstr "Наши друзья"
+
+#~ msgid "Published"
+#~ msgstr "Опубликовано"
+
+#~ msgid "Announcements"
+#~ msgstr "Анонсы"
+
+#~ msgid "All entries"
+#~ msgstr "Все записи"
+
+#~ msgid "Next"
+#~ msgstr "След."
+
+#~ msgid "Previous"
+#~ msgstr "Пред."
+
+#~ msgid "Home"
+#~ msgstr "Главная"
+
+#~ msgid "Our partners"
+#~ msgstr "Наши партнеры"
+
+#~ msgid "Friendship story"
+#~ msgstr "История дружбы"
+
+#~ msgid "Add a friendship story"
+#~ msgstr "Добавить историю"
+
+#~ msgid "Add new friendship story"
+#~ msgstr "Добавить новую историю"
+
+#~ msgid "New friendship story"
+#~ msgstr "Новая история дружбы"
+
+#~ msgid "All friendship stories"
+#~ msgstr "Все истории о дружбе"
+
+#~ msgid "Search for friendship stories"
+#~ msgstr "Поиск историй"

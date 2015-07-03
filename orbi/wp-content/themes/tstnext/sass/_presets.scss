@@ -1,0 +1,14 @@
+/**
+ * Presets
+ **/
+
+@mixin post-title() {
+	//??
+	
+	a {
+		color: $off-black;
+		&:hover, &:focus, &:active {
+			color: $link-color;		
+		}
+	}	
+}

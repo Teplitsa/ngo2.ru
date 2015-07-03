@@ -1,0 +1,94 @@
+/**
+ * General styling
+ **/
+
+a {
+	color: $link-color;
+	&:hover, &:focus, &:active {
+		color: darken($link-color, 15%);		
+	}
+}
+
+.site-branding {
+	a { display: block; }
+	h4 {
+		color:  $off-black;
+		font-weight: 400;
+		margin-bottom: rem(5px);
+	}
+	h5 {
+		color:  $off-black;
+		font-style: italic;
+		font-weight: 200;
+		margin-top: 0;
+	}
+}
+
+#bottombar {
+	background: $footer-bg-color;
+	font-size: 0.85em;
+	padding: 10px 0;
+	
+	.section .row {
+		margin-bottom: 0;	
+	}
+	.widget-title {	
+		
+	}
+}
+
+.site-footer {
+	//@include rem('padding', $base*0.8 0 $base*1.2);
+	//@include rem('font-size', 11px);
+	padding: 20px 0 35px;
+	font-size: 12px;
+	line-height: 1.35;
+	
+	
+	.copy {
+		padding-top: rem(10px);
+		
+		a {
+			white-space: nowrap;
+			font-weight: 500;
+			color: color('grey', 'darken-3');
+			&:hover, &:focus, &:active {
+				color: $link-color;
+			}
+		}
+	}
+	
+	.te-st-bn {
+		text-align: right;
+		position: relative;
+		height: 51px;
+		
+		a {
+			display: block;
+			width: 106px;
+			position: absolute;
+			top: 0;
+			right: 0;
+			border: 1px dotted transparent;
+			padding: 1px;
+			&:hover, &:focus, &:active {
+				
+			}
+		}
+		
+		span {
+			display: inline-block;
+			margin-right: 115px;
+			padding-top: 10px;
+		}
+	}
+}
+
+
+//menu
+.hide-on-med-and-down {
+	
+	.menu-item a {
+		color: color('shades', 'white');
+	}
+}

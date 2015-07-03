@@ -1,0 +1,149 @@
+/**
+ * Utilities
+ **/
+
+$em-base: 15px; //base font-size and base for margin
+
+//helpers
+.screen-reader-text {	
+	position: absolute !important;
+	height: 1px;
+	width: 1px; 
+	overflow: hidden;	
+	clip: rect(1px, 1px, 1px, 1px);
+	border: 0 none;
+	padding: 0;
+}
+
+img.wp-smiley {
+	margin-bottom: 0; //reset
+	margin-top: 0; //teset
+	padding: 0; //reset
+	border: none;
+}
+
+.break {
+	word-break: break-word;
+	word-wrap: break-word;
+}
+
+.sep {
+	display: inline-block;
+	padding: 0 5px;
+	color: color('grey', 'base');
+}
+
+.thumbnail-link {
+	display: block;
+}
+
+
+
+// image replacement
+@mixin image-replace {
+	font: 0/0 a;
+	text-shadow: none;
+	color: transparent;
+	text-decoration: none;
+}
+
+.ir { @include image-replace; }
+
+
+
+//search
+.searchform {
+	position: relative;
+	
+	.search-field {
+		box-sizing: border-box;
+		padding-right: 35px;
+	}
+	
+	.submit-icon {
+		width: 30px;
+		position: absolute;
+		right: 3px;
+		top: 7px;
+		
+		i {
+			font-size: 21px;
+			position: absolute;
+			top: 3px;
+			left: 3px;
+			z-index: 1;
+		}
+		
+		input {
+			width: 30px;
+			height: 30px;
+			background: transparent;
+			border: none;
+			z-index: 10;
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+	}
+}
+
+
+//media
+.lam-clearfix {
+	@include clearfix;
+}
+
+.fresco {
+	display: block;
+	width: 100%;
+	img {
+		max-width: 100%;	
+		height: auto;
+		vertical-align: middle;
+	}
+}
+
+.lam-gallery * {		
+	box-sizing: border-box;
+}
+
+.entry-content .lam-gallery {
+	margin-top: rem($em-base);
+	margin-bottom: rem($em-base);
+	&:first-child { margin-top: 0; }
+	&:last-child { margin-bottom:0; }
+	width: 98%;
+}
+
+.entry-content .lam-gallery,
+.lam-gallery {
+	
+	ul {
+		list-style-type: none !important;
+		padding: 0; 
+		margin: 0 -5px;
+	}
+	
+	li {
+		list-style-type: none !important;
+		margin: 0 !important;		
+		padding: 5px;
+		float: left;
+	}
+	
+	.cols-1 li{ width: 100%;   }
+	.cols-2 li{ width: 50%;    }
+	.cols-3 li{ width: 33.3%;  }
+	.cols-4 li{ width: 25%;    }
+	.cols-5 li{ width: 20%;    }
+	.cols-6 li{ width: 16.6%;  }
+	.cols-7 li{ width: 14.28%; }
+	.cols-8 li{ width: 12.5%;  }	
+}
+
+//formidable fixes
+
+
+.frm_submit {
+	.frm_ajax_loading { display: none; }
+}

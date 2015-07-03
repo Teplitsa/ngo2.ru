@@ -1,0 +1,49 @@
+/**
+ * Homepage
+ **/
+
+.parallax-container {
+	height: 450px;
+}
+
+.home-slide-one {
+	
+	.site-branding {
+		h4, h5 {
+			color: color('shades', 'white');
+		}
+	}
+	
+	.searchform {
+		.search-field {
+			border-color: color('grey', 'lighten-5');
+		}
+		
+		.submit-icon i {
+			color: color('grey', 'lighten-5');
+		}
+	}
+}
+
+.home-content-section{
+	
+	.row {
+		margin-top: rem($em-base*2);
+		margin-bottom: rem($em-base*2);
+	}
+	.row .row {
+		margin: 0;
+	}
+	
+	@media #{$medium-and-up} {
+		.block { text-align: center;}
+	}
+	
+}
+
+.home-slide-two {
+	
+	.valign-wrapper {
+		min-height: 420px;
+	}
+}
