@@ -42,6 +42,7 @@ class FrmProHooksController{
 
         add_filter('frmpro_fields_replace_shortcodes', 'FrmProEntriesController::filter_shortcode_value', 10, 3);
         add_filter('frm_display_value_custom', 'FrmProEntriesController::filter_display_value', 1, 3);
+		add_filter( 'frm_display_value_atts', 'FrmProEntriesController::display_value_atts', 10, 2 );
 
         add_action('frm_after_create_entry', 'FrmProEntriesController::maybe_set_cookie', 20, 2);
         add_filter('frm_setup_edit_entry_vars', 'FrmProEntriesController::setup_edit_vars');
@@ -62,7 +63,6 @@ class FrmProHooksController{
 		add_shortcode('frm-alt-color', 'FrmProEntriesController::change_row_color');
 
         // Trigger entry model
-        add_filter('frm_validate_entry', 'FrmProEntry::pre_validate', 15, 2);
         add_action('frm_validate_form_creation', 'FrmProEntry::validate', 10, 5);
         add_filter('frm_pre_create_entry', 'FrmProEntry::mod_other_vals', 10, 1);
         add_filter('frm_pre_update_entry', 'FrmProEntry::mod_other_vals', 10, 1);
@@ -104,6 +104,8 @@ class FrmProHooksController{
         add_filter('frm_conditional_shortcodes', 'FrmProFormsController::conditional_options');
         add_filter('frm_user_shortcodes', 'FrmProFormsController::user_options');
 
+		add_filter( 'frm_validate_entry', 'FrmProFormsHelper::can_submit_form_now', 15, 2 );
+
         // trigger form model
         add_filter('frm_validate_form', 'FrmProFormsController::validate', 10, 2);
 
@@ -136,6 +138,12 @@ class FrmProHooksController{
         add_action('post_submitbox_misc_actions', 'FrmProDisplaysController::submitbox_actions');
         add_action('add_meta_boxes', 'FrmProDisplaysController::add_meta_boxes');
         add_action('save_post', 'FrmProDisplaysController::save_post');
+		add_action( 'frm_destroy_form', 'FrmProDisplaysController::delete_views_for_form' );
+
+		add_filter( 'manage_edit-frm_display_columns', 'FrmProDisplaysController::manage_columns' );
+		add_filter( 'manage_edit-frm_display_sortable_columns', 'FrmProDisplaysController::sortable_columns' );
+		add_filter( 'get_user_option_manageedit-frm_displaycolumnshidden', 'FrmProDisplaysController::hidden_columns' );
+		add_action( 'manage_frm_display_posts_custom_column', 'FrmProDisplaysController::manage_custom_columns', 10, 2 );
 
         // Entries Controller
         add_action('admin_init', 'FrmProEntriesController::admin_js', 1);
@@ -149,7 +157,6 @@ class FrmProHooksController{
         add_action('frm_entry_shared_sidebar', 'FrmProEntriesController::add_sidebar_links');
         add_action('frm_entry_major_pub', 'FrmProEntriesController::add_edit_link');
         add_action('frm_entry_inside_h2', 'FrmProEntriesController::add_new_entry_link');
-		add_action( 'frm_display_value_atts', 'FrmProEntriesController::display_value_atts', 10, 2 );
 
         add_action('add_meta_boxes', 'FrmProEntriesController::create_entry_from_post_box', 10, 2);
 

@@ -1,7 +1,7 @@
 <select name="field_options[form_select_<?php echo esc_attr( $current_field_id ) ?>]">
     <option value=""><?php _e( '&mdash; Select Field &mdash;', 'formidable' ) ?></option>
     <?php foreach ( $fields as $field_option ) {
-        if ( FrmFieldsHelper::is_no_save_field($field_option->type) ) {
+		if ( FrmField::is_no_save_field( $field_option->type ) ) {
             continue;
         }
     ?>

@@ -30,7 +30,7 @@ foreach ( $form_action->post_content['conditions'] as $meta_name => $condition )
         'key'       => $action_key,
         'form_id'   => $values['id'],
         'name'      => $action_control->get_field_name('conditions') .'['. $meta_name .']',
-        'exclude_fields' => FrmFieldsHelper::no_save_fields(),
+		'exclude_fields' => FrmField::no_save_fields(),
     ) );
 
     unset($meta_name, $condition);

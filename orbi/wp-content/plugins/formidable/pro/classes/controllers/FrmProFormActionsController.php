@@ -11,7 +11,7 @@ class FrmProFormActionsController{
     }
 
     public static function email_action_control($settings) {
-	    $settings['event'] = array( 'create', 'update', 'delete');
+	    $settings['event'] = array_unique( array_merge( $settings['event'], array( 'create', 'update', 'delete') ) );
 	    $settings['priority'] = 41;
 
 	    return $settings;
@@ -114,7 +114,7 @@ class FrmProFormActionsController{
         $values = array();
 
         if ( isset($_POST['form_id']) ) {
-			$values['fields'] = FrmField::getAll( array( 'fi.form_id' => (int) $_POST['form_id'], 'fi.type not' => FrmFieldsHelper::no_save_fields() ), 'field_order');
+			$values['fields'] = FrmField::getAll( array( 'fi.form_id' => (int) $_POST['form_id'], 'fi.type not' => FrmField::no_save_fields() ), 'field_order');
         }
         $echo = false;
 

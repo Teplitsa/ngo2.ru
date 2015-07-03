@@ -34,6 +34,9 @@ class FrmProEntryMeta{
 
         // Get the field object
         $field = FrmField::getOne($field_id);
+		if ( ! $field ) {
+			return $values;
+		}
 
         // If a file upload field, upload file and get the media ID
         if ( $field->type == 'file' ) {
@@ -49,7 +52,7 @@ class FrmProEntryMeta{
     }
 
     private static function create_new_tags($field, $entry_id, $values) {
-        $tax_type = ( isset($field->field_options['taxonomy']) && ! empty($field->field_options['taxonomy']) ) ? $field->field_options['taxonomy'] : 'frm_tag';
+		$tax_type = ( ! FrmField::is_option_empty( $field, 'taxonomy' ) ) ? $field->field_options['taxonomy'] : 'frm_tag';
 
         $tags = explode(',', stripslashes($values[$field->id]));
         $terms = array();
@@ -185,7 +188,7 @@ class FrmProEntryMeta{
 
     public static function validate_embeded_form(&$errors, $field, $exclude = array()) {
         // If this is a section, but not a repeating section, exit now
-        if ( $field->type == 'divider' && ! FrmProFieldsHelper::is_repeating_field($field) ) {
+        if ( $field->type == 'divider' && ! FrmField::is_repeating_field($field) ) {
             return;
         }
 
@@ -214,7 +217,7 @@ class FrmProEntryMeta{
 						continue;
 					}
 
-                    FrmEntry::validate_field( $subfield, $errors,
+					FrmEntryValidate::validate_field( $subfield, $errors,
                         ( isset($values[$subfield->id]) ? $values[$subfield->id] : '' ),
                         array(
                             'parent_field_id'  => $field->id,
@@ -274,7 +277,7 @@ class FrmProEntryMeta{
             unset($errors['field'. $field->temp_id]);
         }
 
-        if ( isset($field->field_options['restrict']) && $field->field_options['restrict'] && isset($field->field_options['ftypes']) && ! empty($field->field_options['ftypes']) ) {
+		if ( FrmField::is_option_true( $field, 'restrict' ) && ! FrmField::is_option_empty( $field, 'ftypes' ) ) {
             $mimes = $field->field_options['ftypes'];
         } else {
             $mimes = null;
@@ -367,7 +370,7 @@ class FrmProEntryMeta{
      * Don't require a conditionally hidden field
      */
     public static function validate_conditional_field(&$errors, $field, &$value) {
-        if ( ! isset($field->field_options['hide_field']) || empty($field->field_options['hide_field']) ) {
+		if ( FrmField::is_option_empty( $field, 'hide_field' ) ) {
             return;
         }
 
@@ -396,7 +399,10 @@ class FrmProEntryMeta{
             if ( isset($errors['field'. $field->temp_id]) ) {
                 unset($errors['field'. $field->temp_id]);
             }
-            $value = '';
+
+			if ( $field->type != 'user_id' ) {
+				$value = '';
+			}
         }
     }
 
@@ -418,7 +424,7 @@ class FrmProEntryMeta{
      * Make sure this value is unique
      */
     public static function validate_unique_field(&$errors, $field, $value) {
-        if ( empty($value) || ! isset($field->field_options['unique']) || ! $field->field_options['unique'] ) {
+		if ( empty( $value ) || ! FrmField::is_option_true( $field, 'unique' ) ) {
             return;
         }
         
@@ -447,7 +453,7 @@ class FrmProEntryMeta{
 
     public static function validate_confirmation_field(&$errors, $field, $value, $args) {
 		//Make sure confirmation field matches original field
-		if ( ! isset($field->field_options['conf_field']) || ! $field->field_options['conf_field'] ) {
+		if ( ! FrmField::is_option_true( $field, 'conf_field' ) ) {
             return;
         }
 
@@ -527,7 +533,8 @@ class FrmProEntryMeta{
             return;
         }
 
-        $pattern = ( isset($field->field_options['format']) && ! empty($field->field_options['format']) ) ? $field->field_options['format'] : '^((\+\d{1,3}(-|.| )?\(?\d\)?(-| |.)?\d{1,5})|(\(?\d{2,6}\)?))(-|.| )?(\d{3,4})(-|.| )?(\d{4})(( x| ext)\d{1,5}){0,1}$';
+		$default_format = '^((\+\d{1,3}(-|.| )?\(?\d\)?(-| |.)?\d{1,5})|(\(?\d{2,6}\)?))(-|.| )?(\d{3,4})(-|.| )?(\d{4})(( x| ext)\d{1,5}){0,1}$';
+		$pattern = ( ! FrmField::is_option_empty( $field, 'format' ) ) ? $field->field_options['format'] : $default_format;
         $pattern = apply_filters('frm_phone_pattern', $pattern, $field);
 
         //check if format is already a regular expression
@@ -630,7 +637,7 @@ class FrmProEntryMeta{
         self::set_file_posted_vals( $field->id, $values[$field->id], array( 'repeating' => $repeating, 'parent_field' => $parent_field, 'key_pointer' => $key_pointer ) );
 
         // If this is a post field
-        if ( isset( $_POST['frm_wp_post'] ) && isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] ) {
+		if ( isset( $_POST['frm_wp_post'] ) && FrmField::is_option_true( $field, 'post_field' ) ) {
             $_POST['frm_wp_post_custom'][$field->id .'='. $field->field_options['custom_field']] = $mids;
         }
     }
@@ -684,7 +691,7 @@ class FrmProEntryMeta{
         }
 
         // Get the new meta_value for multi-file uploads
-        if ( isset($field->field_options['multiple']) && $field->field_options['multiple'] ) {
+		if ( FrmField::is_option_true( $field, 'multiple' ) ) {
             if ( isset($values[$field->id]) ) {
                 // Set new value
                 $mids = array_filter($mids);
@@ -745,7 +752,7 @@ class FrmProEntryMeta{
 
 		$query = array();
 
-        if ( ! isset( $field->field_options['post_field'] ) || ! $field->field_options['post_field'] ) {
+		if ( ! FrmField::is_option_true( $field, 'post_field' ) ) {
 			// If field is not a post field
 			$get_field = 'em.meta_value';
 			$get_table = $wpdb->prefix .'frm_item_metas em INNER JOIN '. $wpdb->prefix .'frm_items e ON (e.id=em.item_id)';
@@ -822,4 +829,43 @@ class FrmProEntryMeta{
         return $errors;
     }
 
+	public static function add_post_value_to_entry( $field, &$entry ) {
+		if ( $entry->post_id  && ( $field->type == 'tag' || ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] ) ) ) {
+			$p_val = FrmProEntryMetaHelper::get_post_value(
+				$entry->post_id,
+				$field->field_options['post_field'],
+				$field->field_options['custom_field'],
+				array(
+					'truncate' => ( $field->field_options['post_field'] == 'post_category' ),
+					'form_id' => $entry->form_id,
+					'field' => $field,
+					'type' => $field->type,
+					'exclude_cat' => ( isset( $field->field_options['exclude_cat'] ) ? $field->field_options['exclude_cat'] : 0 ),
+				)
+			);
+			if ( $p_val != '' ) {
+				$entry->metas[ $field->id ] = $p_val;
+			}
+		}
+	}
+
+	public static function add_repeating_value_to_entry( $field, &$entry ) {
+		// If field is in a repeating section
+		if ( $entry->form_id != $field->form_id ) {
+			// get entry ids linked through repeat field or embeded form
+			$child_entries = FrmProEntry::get_sub_entries( $entry->id, true );
+			$val = FrmProEntryMetaHelper::get_sub_meta_values( $child_entries, $field );
+			if ( ! empty( $val ) ) {
+				//Flatten multi-dimensional arrays
+				if ( is_array( $val ) ) {
+					$val = FrmAppHelper::array_flatten( $val );
+				}
+				$entry->metas[ $field->id ] = $val;
+			}
+		} else {
+			$val = '';
+			FrmProEntriesHelper::get_dynamic_list_values( $field, $entry, $val );
+			$entry->metas[ $field->id ] = $val;
+		}
+	}
 }

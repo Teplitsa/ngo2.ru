@@ -1,14 +1,15 @@
 <?php
 global $frm_vars;
-FrmFormsHelper::form_loaded($form, $values['custom_style'], $frm_vars['load_css']);
+FrmFormsController::maybe_load_css( $form, $values['custom_style'], $frm_vars['load_css'] );
 ?>
-<div class="frm_form_fields <?php echo apply_filters('frm_form_fields_class', '', $values); ?>">
+<div class="frm_form_fields <?php echo esc_attr( apply_filters( 'frm_form_fields_class', '', $values ) ); ?>">
 <fieldset>
 <?php echo FrmFormsHelper::replace_shortcodes( $values['before_html'], $form, $title, $description ); ?>
 <input type="hidden" name="frm_action" value="<?php echo esc_attr($form_action) ?>" />
 <input type="hidden" name="form_id" value="<?php echo esc_attr($form->id) ?>" />
 <input type="hidden" name="form_key" value="<?php echo esc_attr($form->form_key) ?>" />
-<?php wp_nonce_field('frm_submit_entry_nonce', 'frm_submit_entry_'. $form->id); ?>
+<input type="hidden" name="item_meta[0]" value="" />
+<?php wp_nonce_field( 'frm_submit_entry_nonce', 'frm_submit_entry_' . $form->id ); ?>
 
 <?php if ( isset( $id ) ) { ?><input type="hidden" name="id" value="<?php echo esc_attr( $id ) ?>" /><?php }
 
@@ -38,10 +39,11 @@ do_action('frm_entry_form', $form, $form_action, $errors);
 
 global $frm_vars;
 // close open section div
-if ( isset($frm_vars['div']) && $frm_vars['div'] ) {
-    echo "</div>\n";
-    unset($frm_vars['div']);
+if ( isset( $frm_vars['div'] ) && $frm_vars['div'] ) {
+	echo "</div>\n";
+	unset( $frm_vars['div'] );
 }
+
 // close open collapsible toggle div
 if ( isset($frm_vars['collapse_div']) && $frm_vars['collapse_div'] ) {
     echo "</div>\n";

@@ -3,8 +3,8 @@ if ( $page_count <= 1 ) {
     return; // Only show the pager bar if there is more than 1 page
 }
 ?>
-<div class="<?php echo apply_filters('frm_pagination_class', 'frm_pagination_cont') ?>">
-<ul class="<?php echo apply_filters('frm_ul_pagination_class', 'frm_pagination') ?>">
+<div class="<?php echo esc_attr( apply_filters( 'frm_pagination_class', 'frm_pagination_cont' ) ); ?>">
+<ul class="<?php echo esc_attr( apply_filters( 'frm_ul_pagination_class', 'frm_pagination' ) ); ?>">
 <?php
     if ( ! is_numeric($current_page) ) {
         $current_page = FrmAppHelper::get_param($page_param, '1');

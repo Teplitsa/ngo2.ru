@@ -1,11 +1,14 @@
 <?php
 
 class FrmEntriesListHelper extends FrmListHelper {
+	protected $column_name;
+	protected $item;
+	protected $field;
 
 	public function prepare_items() {
         global $wpdb, $per_page;
 
-        $per_page = $this->get_items_per_page( 'formidable_page_formidable_entries_per_page');
+		$per_page = $this->get_items_per_page( 'formidable_page_formidable_entries_per_page' );
 
         $form_id = $this->params['form'];
         if ( ! $form_id ) {
@@ -25,14 +28,14 @@ class FrmEntriesListHelper extends FrmListHelper {
 		$s = isset( $_REQUEST['s'] ) ? stripslashes($_REQUEST['s']) : '';
 
 	    if ( $s != '' && FrmAppHelper::pro_is_installed() ) {
-	        $fid = isset( $_REQUEST['fid'] ) ? absint( $_REQUEST['fid'] ) : '';
+	        $fid = isset( $_REQUEST['fid'] ) ? sanitize_title( $_REQUEST['fid'] ) : '';
 	        $s_query = FrmProEntriesHelper::get_search_str( $s_query, $s, $form_id, $fid);
 	    }
 
         $orderby = isset( $_REQUEST['orderby'] ) ? sanitize_title( $_REQUEST['orderby'] ) : $default_orderby;
         if ( strpos($orderby, 'meta') !== false ) {
             $order_field_type = FrmField::get_type( str_replace( 'meta_', '', $orderby ) );
-            $orderby .= in_array( $order_field_type, array( 'number', 'scale') ) ? ' +0 ' : '';
+			$orderby .= in_array( $order_field_type, array( 'number', 'scale' ) ) ? ' +0 ' : '';
         }
 
 		$order = isset( $_REQUEST['order'] ) ? sanitize_title( $_REQUEST['order'] ) : $default_order;
@@ -92,7 +95,7 @@ class FrmEntriesListHelper extends FrmListHelper {
 
 			if ( in_array( $column_name, $hidden ) ) {
 				$class .= ' frm_hidden';
-			} else if ( ! $action_col && ! in_array($column_name, array( 'cb', 'id', 'form_id', 'post_id')) ) {
+			} else if ( ! $action_col && ! in_array( $column_name, array( 'cb', 'id', 'form_id', 'post_id' ) ) ) {
 			    $action_col = $column_name;
             }
 
@@ -100,6 +103,7 @@ class FrmEntriesListHelper extends FrmListHelper {
             unset($class);
 
             $col_name = preg_replace('/^('. $this->params['form'] .'_)/', '', $column_name);
+			$this->column_name = $col_name;
 
 			switch ( $col_name ) {
 				case 'cb':
@@ -133,36 +137,10 @@ class FrmEntriesListHelper extends FrmListHelper {
 				    $val = $user->user_login;
 				    break;
 				default:
-    				if ( strpos($col_name, 'frmsep_') === 0 ) {
-    				    $sep_val = true;
-    				    $col_name = str_replace('frmsep_', '', $col_name);
-    				} else {
-    				    $sep_val = false;
-    				}
-
-    				if ( strpos($col_name, '-_-') ) {
-    				    list($col_name, $embedded_field_id) = explode('-_-', $col_name);
-    				}
-
-    				$col = FrmField::getOne($col_name);
-
-                    $atts = array(
-                        'type' => $col->type, 'truncate' => true,
-                        'post_id' => $item->post_id, 'entry_id' => $item->id,
-                        'embedded_field_id' => 0,
-                    );
-
-                    if ( $sep_val ) {
-                        $atts['saved_value'] = true;
-                    }
-
-    				if ( isset($embedded_field_id) ) {
-                        $atts['embedded_field_id'] = $embedded_field_id;
-    				    unset($embedded_field_id);
-    				}
-
-                    $val = FrmEntriesHelper::prepare_display_value($item, $col, $atts);
-
+					$val = apply_filters( 'frm_entries_' . $col_name . '_column', false, compact( 'item' ) );
+					if ( $val === false ) {
+						$this->get_column_value( $item, $val );
+					}
 				break;
 			}
 
@@ -198,4 +176,37 @@ class FrmEntriesListHelper extends FrmListHelper {
         $actions = apply_filters('frm_row_actions', $actions, $item);
     }
 
+	private function get_column_value( $item, &$val ) {
+		$col_name = $this->column_name;
+
+		if ( strpos( $col_name, 'frmsep_' ) === 0 ) {
+			$sep_val = true;
+			$col_name = str_replace( 'frmsep_', '', $col_name );
+		} else {
+			$sep_val = false;
+		}
+
+		if ( strpos( $col_name, '-_-' ) ) {
+			list( $col_name, $embedded_field_id ) = explode( '-_-', $col_name );
+		}
+
+		$field = FrmField::getOne( $col_name );
+
+		$atts = array(
+			'type' => $field->type, 'truncate' => true,
+			'post_id' => $item->post_id, 'entry_id' => $item->id,
+			'embedded_field_id' => 0,
+		);
+
+		if ( $sep_val ) {
+			$atts['saved_value'] = true;
+		}
+
+		if ( isset( $embedded_field_id ) ) {
+			$atts['embedded_field_id'] = $embedded_field_id;
+			unset( $embedded_field_id );
+		}
+
+		$val = FrmEntriesHelper::prepare_display_value( $item, $field, $atts );
+	}
 }

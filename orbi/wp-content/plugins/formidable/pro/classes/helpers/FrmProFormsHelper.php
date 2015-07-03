@@ -133,7 +133,7 @@ class FrmProFormsHelper{
             $args['parent_field']['format'] = isset($args['parent_field']['field_options']['format']) ? $args['parent_field']['field_options']['format'] : '';
         }
 
-        FrmFormsHelper::maybe_get_form($args['form']);
+		FrmForm::maybe_get_form( $args['form'] );
 
         if ( empty($args['fields']) ) {
             $args['fields'] = FrmField::get_all_for_form($args['form']->id);
@@ -187,13 +187,11 @@ class FrmProFormsHelper{
 
         echo '<div id="frm_section_'. $args['parent_field']['id'] .'-'. $args['i'] .'" class="frm_repeat_'. ( empty($format) ? 'sec' : $format ) .' frm_repeat_'. $args['parent_field']['id'] . ( $args['row_count'] === 0 ? ' frm_first_repeat' : '' ) . '">' . "\n";
 
+		self::add_default_item_meta_field( $args );
+
         $label_pos = 'top';
         $field_num = 1;
         foreach ( $values['fields'] as $subfield ) {
-            if ( 'end_divider' == $subfield['type'] ) {
-                continue;
-            }
-
             $subfield_name = $field_name .'['. $args['i'] .']['. $subfield['id'] .']';
             $subfield_plus_id = '-'. $args['i'];
             $subfield_id = $subfield['id'] .'-'. $args['parent_field']['id'] . $subfield_plus_id;
@@ -205,9 +203,9 @@ class FrmProFormsHelper{
 
             if ( !empty($field_class) ) {
                 if ( 1 == $field_num ) {
-                    $subfield['classes'] .= ' frm_first_'. $field_class;
+                    $subfield['classes'] .= ' frm_first frm_'. $field_class;
                 } else if ( $count == $field_num ) {
-                    $subfield['classes'] .= ' frm_last_'. $field_class;
+                    $subfield['classes'] .= ' frm_last frm_'. $field_class;
                 } else {
                     $subfield['classes'] .= ' frm_'. $field_class;
                 }
@@ -238,6 +236,7 @@ class FrmProFormsHelper{
         }
 
         if ( ! $args['repeat'] ) {
+			// Close frm_repeat div
             echo '</div>'. "\n";
             return;
         }
@@ -247,8 +246,19 @@ class FrmProFormsHelper{
         $args['field_class'] = $field_class;
         echo self::repeat_buttons($args, $end);
 
+		// Close frm_repeat div
         echo '</div>'. "\n";
     }
+
+	/**
+	* Add item meta to each row in repeating section or embedded form so the entry is always validated
+	*
+	* @since 2.0.08
+	* @param array $args
+	*/
+	private static function add_default_item_meta_field( $args ) {
+		echo '<input type="hidden" name="item_meta[' . $args['parent_field']['id'] . '][' . $args['i'] . '][0]" value="" />';
+	}
 
     public static function repeat_buttons($args, $end = false) {
         $args['end_format'] = 'icon';
@@ -311,8 +321,8 @@ class FrmProFormsHelper{
 			$args['remove_classes'] .= ' frm_hidden';
 		}
 
-		$classes = 'frm_form_field frm_'. $args['label_pos'] .'_container';
-		$classes .= empty( $args['field_class'] ) ? '' : ' frm_last_' . $args['field_class'];
+		$classes = 'frm_form_field frm_'. $args['label_pos'] .'_container frm_repeat_buttons';
+		$classes .= empty( $args['field_class'] ) ? '' : ' frm_last frm_' . $args['field_class'];
 		// Get classes for end divider
 		$classes .= ( $end && isset( $end['classes'] ) ) ? ' ' . $end['classes'] : '';
 
@@ -456,11 +466,13 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
             'fields'    => array(),
             'calc'      => array(),
             'fieldKeys' => array(),
+			'fieldsWithCalc'	=> array(),
         );
 
         $triggers = array();
 
         foreach ( $frm_vars['calc_fields'] as $result => $field ) {
+			$calc_rules['fieldsWithCalc'][ $field['field_id'] ] = $result;
             $calc = $field['calc'];
             preg_match_all("/\[(.?)\b(.*?)(?:(\/))?\]/s", $calc, $matches, PREG_PATTERN_ORDER);
 
@@ -489,6 +501,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 				'calc'      	=> $calc,
 				'calc_dec'		=> $field['calc_dec'],
 				'fields'    	=> array(),
+				'field_id'		=> $field['field_id'],
             );
             $calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
@@ -517,7 +530,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 
         // trigger calculations on page load
         if ( ! empty($triggers) ) {
-            $triggers = array_unique($triggers);
+			$triggers = array_filter( array_unique( $triggers ) );
             ?>$('<?php echo implode(',', $triggers) ?>').trigger({type:'change',selfTriggered:true});<?php
         }
     }
@@ -562,25 +575,174 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
         return $tax_count;
     }
 
+	/**
+	 * @since 2.0.8
+	 */
+	public static function can_submit_form_now( $errors, $values ) {
+		global $frm_vars;
+
+		$params = ( isset( $frm_vars['form_params'] ) && is_array( $frm_vars['form_params'] ) && isset( $frm_vars['form_params'][ $values['form_id'] ] ) ) ? $frm_vars['form_params'][ $values['form_id'] ] : FrmForm::get_params( $values['form_id'] );
+		$values['action'] = $params['action'];
+
+		if ( $params['action'] != 'create' ) {
+			if ( self::has_another_page( $values['form_id'] ) ) {
+				self::stop_submit_if_more_pages( $values, $errors );
+			}
+			return $errors;
+		}
+
+		$form = FrmForm::getOne( $values['form_id'] );
+
+		if ( isset( $form->options['single_entry'] ) && $form->options['single_entry'] ) {
+			if ( ! self::user_can_submit_form( $form ) ) {
+				$frmpro_settings = new FrmProSettings();
+				$k = is_numeric( $form->options['single_entry_type'] ) ? 'field' . $form->options['single_entry_type'] : 'single_entry';
+				$errors[ $k ] = $frmpro_settings->already_submitted;
+				self::stop_form_submit();
+				return $errors;
+			}
+		}
+
+		global $wpdb;
+		$user_ID = get_current_user_id();
+
+		if ( self::has_another_page( $values['form_id'] ) ) {
+			self::stop_submit_if_more_pages( $values, $errors );
+		} else if ( $form->editable && isset( $form->options['single_entry'] ) && $form->options['single_entry'] && $form->options['single_entry_type'] == 'user' && $user_ID && ! FrmAppHelper::is_admin() ) {
+			$meta = FrmDb::get_var( $wpdb->prefix . 'frm_items', array( 'user_id' => $user_ID, 'form_id' => $form->id ) );
+
+			if ( $meta ) {
+				$frmpro_settings = new FrmProSettings();
+				$errors['single_entry'] = $frmpro_settings->already_submitted;
+				self::stop_form_submit();
+			}
+		}
+
+		return $errors;
+	}
+
+	/**
+	 * @since 2.0.8
+	 */
+	public static function stop_submit_if_more_pages( $values, &$errors ) {
+		if ( self::going_to_prev( $values['form_id'] ) ) {
+			$errors = array();
+			self::stop_form_submit();
+		} else if ( $values['action'] == 'create' ) {
+			self::stop_form_submit();
+		}
+	}
+
+	/**
+	 * @since 2.0.8
+	 */
+	public static function stop_form_submit() {
+		add_filter( 'frm_continue_to_create', '__return_false' );
+	}
+
+	/**
+	 * @since 2.0.8
+	 * @return boolean
+	 */
+	public static function user_can_submit_form( $form ) {
+		$admin_entry = FrmAppHelper::is_admin();
+
+		$can_submit = true;
+		if ( $form->options['single_entry_type'] == 'cookie' && isset( $_COOKIE[ 'frm_form' . $form->id . '_' . COOKIEHASH ] ) ) {
+			$can_submit = $admin_entry ? true : false;
+		} else if ( $form->options['single_entry_type'] == 'ip' ) {
+			if ( ! $admin_entry ) {
+				$prev_entry = FrmEntry::getAll( array( 'it.form_id' => $form->id, 'it.ip' => FrmAppHelper::get_ip_address() ), '', 1 );
+				if ( $prev_entry ) {
+					$can_submit = false;
+				}
+			}
+		} else if ( ( $form->options['single_entry_type'] == 'user' || ( isset( $form->options['save_draft'] ) && $form->options['save_draft'] == 1 ) ) && ! $form->editable ) {
+			$user_ID = get_current_user_id();
+			if ( $user_ID ) {
+				$meta = FrmProEntriesHelper::check_for_user_entry( $user_ID, $form, ( $form->options['single_entry_type'] != 'user' ) );
+				if ( $meta ) {
+					$can_submit = false;
+				}
+			}
+		}
+
+		return $can_submit;
+	}
+
+	/**
+	 * @since 2.0.8
+	 */
+	public static function has_another_page( $form_id ) {
+		$more_pages = false;
+		if ( ! self::saving_draft() ) {
+			if ( self::going_to_prev( $form_id ) ) {
+				$more_pages = true;
+			} else {
+				$more_pages = self::going_to_next( $form_id );
+			}
+		}
+
+		return $more_pages;
+	}
+
+	/**
+	 * @return boolean
+	 */
 	public static function going_to_prev( $form_id ) {
         $back = false;
-        if ( $_POST && isset($_POST['frm_next_page']) && $_POST['frm_next_page'] != '' ) {
-            $prev_page = FrmAppHelper::get_param('frm_page_order_'. $form_id, false);
-            if ( ! $prev_page || ( $_POST['frm_next_page'] < $prev_page ) ) {
-                $back = true; //no errors if going back a page
+		$next_page = FrmAppHelper::get_post_param( 'frm_next_page', 0, 'absint' );
+		if ( $next_page ) {
+			$prev_page = FrmAppHelper::get_post_param( 'frm_page_order_' . $form_id, 0, 'absint' );
+			if ( ! $prev_page || ( $next_page < $prev_page ) ) {
+                $back = true;
             }
         }
         return $back;
     }
+
+	/**
+	 * @since 2.0.8
+	 * @return boolean
+	 */
+	public static function going_to_next( $form_id ) {
+		$next_page = FrmAppHelper::get_post_param( 'frm_page_order_' . $form_id, 0, 'absint' );
+		$more_pages = false;
+
+		if ( $next_page ) {
+			$more_pages = true;
+			$page_breaks = FrmField::get_all_types_in_form( $form_id, 'break' );
+
+			$previous_page = new stdClass();
+			$previous_page->field_order = 0;
+
+			foreach ( $page_breaks as $page_break ) {
+				if ( $page_break->field_order >= $next_page ) {
+					$current_page = apply_filters( 'frm_get_current_page', $previous_page, $page_breaks, false );
+					if ( ! is_object( $current_page ) && $current_page == -1 ) {
+						unset( $_POST[ 'frm_page_order_' . $form_id ] );
+						$more_pages = false;
+					}
+					break;
+				}
+				$previous_page = $page_break;
+			}
+		}
+
+		return $more_pages;
+	}
 
     public static function get_prev_button( $form, $class = '' ) {
         $html = '[if back_button]<input type="submit" value="[back_label]" name="frm_prev_page" formnovalidate="formnovalidate" class="frm_prev_page '. $class .'" [back_hook] />[/if back_button]';
         return self::get_draft_button( $form, $class, $html, 'back_button' );
     }
 
-    // check if this entry is currently being saved as a draft
-    public static function saving_draft() {
-        $saving = ( $_POST && isset($_POST['frm_saving_draft']) && $_POST['frm_saving_draft'] == '1' && is_user_logged_in() ) ? true : false;
+	/**
+	 * check if this entry is currently being saved as a draft
+	 */
+    public static function &saving_draft() {
+		$saving_draft = FrmAppHelper::get_post_param( 'frm_saving_draft', '', 'sanitize_title' );
+		$saving = ( $saving_draft == '1' && is_user_logged_in() );
         return $saving;
     }
 
@@ -642,13 +804,22 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 
         $repeat_fields = array();
         foreach ( $fields as $field ) {
-            if ( FrmProFieldsHelper::is_repeating_field($field) ) {
+            if ( FrmField::is_repeating_field($field) ) {
                 $repeat_fields[] = $field;
             }
         }
 
         return $repeat_fields;
     }
+
+	/**
+	 * @param array $atts - includes form_id, setting_name, and expected_setting
+	 * @since 2.0.8
+	 */
+	public static function has_form_setting( $atts ) {
+		$form = FrmForm::getOne( $atts['form_id'] );
+		return ( isset( $form->options[ $atts['setting_name'] ] ) && $form->options[ $atts['setting_name'] ] == $atts['expected_setting'] );
+	}
 
     public static function &post_type($form) {
         if ( is_numeric($form) ) {
@@ -657,7 +828,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
             $form_id = (array) $form['id'];
         }
 
-        $action = FrmFormActionsHelper::get_action_for_form($form_id, 'wppost');
+		$action = FrmFormAction::get_action_for_form( $form_id, 'wppost' );
         $action = reset( $action );
 
         if ( ! $action || ! isset($action->post_content['post_type']) ) {

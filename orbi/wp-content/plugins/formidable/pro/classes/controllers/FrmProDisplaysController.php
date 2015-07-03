@@ -17,7 +17,7 @@ class FrmProDisplaysController{
             'show_in_nav_menus' => false,
             'show_in_menu' => false,
             'menu_icon' => admin_url('images/icons32.png'),
-            'capability_type' => 'post',
+			'capability_type' => 'page',
 			'capabilities' => array(
 				'edit_post'		=> 'frm_edit_displays',
 				'edit_posts'	=> 'frm_edit_displays',
@@ -50,11 +50,6 @@ class FrmProDisplaysController{
 		FrmAppHelper::force_capability( 'frm_edit_displays' );
 
         add_submenu_page('formidable', 'Formidable | '. __( 'Views', 'formidable' ), __( 'Views', 'formidable' ), 'frm_edit_displays', 'edit.php?post_type=frm_display');
-
-        add_filter('manage_edit-frm_display_columns', 'FrmProDisplaysController::manage_columns');
-        add_filter('manage_edit-frm_display_sortable_columns', 'FrmProDisplaysController::sortable_columns');
-        add_filter('get_user_option_manageedit-frm_displaycolumnshidden', 'FrmProDisplaysController::hidden_columns');
-        add_action('manage_frm_display_posts_custom_column', 'FrmProDisplaysController::manage_custom_columns', 10, 2);
     }
 
 	public static function highlight_menu() {
@@ -303,7 +298,7 @@ class FrmProDisplaysController{
         add_meta_box('frm_form_disp_type', __( 'Basic Settings', 'formidable' ), 'FrmProDisplaysController::mb_form_disp_type', self::$post_type, 'normal', 'high');
         add_meta_box('frm_dyncontent', __( 'Content', 'formidable' ), 'FrmProDisplaysController::mb_dyncontent', self::$post_type, 'normal', 'high');
         add_meta_box('frm_excerpt', __( 'Description'), 'FrmProDisplaysController::mb_excerpt', self::$post_type, 'normal', 'high');
-        add_meta_box('frm_advanced', __( 'Settings', 'formidable' ), 'FrmProDisplaysController::mb_advanced', self::$post_type, 'advanced');
+        add_meta_box('frm_advanced', __( 'Advanced Settings', 'formidable' ), 'FrmProDisplaysController::mb_advanced', self::$post_type, 'advanced');
 
         add_meta_box('frm_adv_info', __( 'Customization', 'formidable' ), 'FrmProDisplaysController::mb_adv_info', self::$post_type, 'side', 'low');
     }
@@ -350,6 +345,16 @@ class FrmProDisplaysController{
             $wpdb->delete($wpdb->postmeta, array( 'meta_key' => 'frm_display_id', 'meta_value' => $post_id));
         }
     }
+
+	/**
+	 * @since 2.0.8
+	 */
+	public static function delete_views_for_form( $form_id ) {
+		$display_ids = FrmProDisplay::get_display_ids_by_form( $form_id );
+		foreach ( $display_ids as $display_id ) {
+			wp_delete_post( $display_id );
+		}
+	}
 
     /* META BOXES */
 	public static function mb_dyncontent( $post ) {
@@ -562,7 +567,7 @@ class FrmProDisplaysController{
     /**
      * @return string
      */
-	public static function build_calendar( $new_content, $entries, $shortcodes, $display, $show = 'one' ) {
+	public static function build_calendar( $new_content, $entry_ids, $shortcodes, $display, $show = 'one' ) {
         if ( ! $display || $display->frm_show_count != 'calendar' || $show == 'one') {
             return $new_content;
         }
@@ -605,11 +610,15 @@ class FrmProDisplaysController{
         }
 
         $daily_entries = array();
-        foreach ( $entries as $entry ) {
-            self::calendar_daily_entries($entry, $display, compact('startday', 'maxday', 'year', 'month', 'field', 'efield'), $daily_entries);
-        }
+		while ( $next_set = array_splice( $entry_ids, 0, 30 ) ) {
+			$entries = FrmEntry::getAll( array( 'id' => $next_set ), ' ORDER BY FIELD(it.id,' . implode( ',', $next_set ) . ')', '', true, false );
+			foreach ( $entries as $entry ) {
+				self::calendar_daily_entries( $entry, $display, compact('startday', 'maxday', 'year', 'month', 'field', 'efield'), $daily_entries );
+			}
+		}
 
-        $day_names = FrmProAppHelper::reset_keys($wp_locale->weekday_abbrev); //switch keys to order
+		$locale_day_names = apply_filters( 'frm_calendar_day_names', 'weekday_abbrev', array( 'display' => $display ) );
+		$day_names = FrmProAppHelper::reset_keys($wp_locale->{$locale_day_names}); //switch keys to order
 
         if ( $week_begins ) {
             for ( $i = $week_begins; $i < ( $week_begins + 7 ); $i++ ) {
@@ -637,7 +646,7 @@ class FrmProDisplaysController{
         $i18n = false;
 
         if ( is_numeric($display->frm_date_field_id) ) {
-            $date = FrmAppHelper::get_meta_value($display->frm_date_field_id, $entry);
+			$date = FrmEntryMeta::get_meta_value( $entry, $display->frm_date_field_id );
 
             if ( $entry->post_id && ! $date && $args['field'] &&
                 isset($args['field']->field_options['post_field']) && $args['field']->field_options['post_field'] ) {
@@ -648,11 +657,8 @@ class FrmProDisplaysController{
                 ) );
 
             }
-        } else if ( $display->frm_date_field_id == 'updated_at' ) {
-            $date = $entry->updated_at;
-            $i18n = true;
         } else {
-            $date = $entry->created_at;
+			$date = $display->frm_date_field_id == 'updated_at' ? $entry->updated_at : $entry->created_at;
             $i18n = true;
         }
 
@@ -661,8 +667,7 @@ class FrmProDisplaysController{
         }
 
         if ( $i18n ) {
-            $date = get_date_from_gmt($date);
-            $date = date_i18n('Y-m-d', strtotime($date));
+			$date = FrmAppHelper::get_localized_date( 'Y-m-d', $date );
         } else {
             $date = date('Y-m-d', strtotime($date));
         }
@@ -678,11 +683,9 @@ class FrmProDisplaysController{
                     $edate = date('Y-m-d', strtotime('+'. ($edate - 1) .' days', strtotime($date)));
                 }
             } else if ( $display->frm_edate_field_id == 'updated_at' ) {
-                $edate = get_date_from_gmt($entry->updated_at);
-                $edate = date_i18n('Y-m-d', strtotime($edate));
+				$edate = FrmAppHelper::get_localized_date( 'Y-m-d', $entry->updated_at );
             } else {
-                $edate = get_date_from_gmt($entry->created_at);
-                $edate = date_i18n('Y-m-d', strtotime($edate));
+				$edate = FrmAppHelper::get_localized_date( 'Y-m-d', $entry->created_at );
             }
 
             if ( $edate && ! empty($edate) ) {
@@ -967,12 +970,14 @@ class FrmProDisplaysController{
         }
 
         $pagination = '';
-        $is_draft = empty($extra_atts['drafts']) ? 0 : 1;
 
         $form_query = array( 'form_id' => $display->frm_form_id, 'post_id >' => 1 );
 
         if ( $extra_atts['drafts'] != 'both' ) {
+			$is_draft = empty( $extra_atts['drafts'] ) ? 0 : 1;
 			$form_query['is_draft'] = $is_draft;
+		} else {
+			$is_draft = 'both';
 		}
 
 		if ( $entry && $entry->form_id == $display->frm_form_id ) {
@@ -1054,13 +1059,14 @@ class FrmProDisplaysController{
 
                     if ( in_array( $where_opt, array( 'id', 'item_key', 'post_id') ) && ! is_array( $where_val ) && strpos( $where_val, ',' ) ) {
                         $where_val = explode(',', $where_val);
+						$where_val = array_filter( $where_val );
                     }
 
                     if ( is_array($where_val) && ! empty($where_val) ) {
                         if ( strpos($display->frm_where_is[$where_key], '!') === false && strpos($display->frm_where_is[$where_key], 'not') === false ) {
                             $display->frm_where_is[$where_key] = ' in ';
                         } else {
-                            $display->frm_where_is[$where_key] = ' not in ';
+                            $display->frm_where_is[$where_key] = 'not in';
                         }
                     }
 
@@ -1088,10 +1094,14 @@ class FrmProDisplaysController{
 
                         if ( strpos($display->frm_where_is[$where_key], 'LIKE') === false ) {
                             $where_val = date('Y-m-d H:i:s', strtotime($where_val));
-                            if ( date('H:i:s', strtotime($where_val) ) == '00:00:00' ) {
-                                // if there is no time, then adjust it for the WP timezone setting
-                                $where_val = get_date_from_gmt($where_val);
-                            }
+
+							// If using less than or equal to, set the time to the end of the day
+							if ( $display->frm_where_is[ $where_key ] == '<=' ) {
+								$where_val = str_replace( '00:00:00', '23:59:59', $where_val );
+							}
+
+							// Convert date to GMT since that is the format in the DB
+							$where_val = get_gmt_from_date( $where_val );
                         }
 
 						$where[ 'it.' . sanitize_title( $where_opt ) . FrmDb::append_where_is( $display->frm_where_is[$where_key] ) ] = $where_val;
@@ -1185,8 +1195,12 @@ class FrmProDisplaysController{
 			}
 
             if ( ! empty( $order ) ) {
-                $display->frm_order = explode(',', $order);
+				$display->frm_order = explode( ',', $order );
+				if ( ! isset( $display->frm_order_by[0] ) ) {
+					$display->frm_order_by = FrmProAppHelper::reset_keys( $display->frm_order_by );
+				}
 			}
+
 			unset($order);
 
 
@@ -1199,6 +1213,10 @@ class FrmProDisplaysController{
                 $display->frm_page_size = '';
             }
 
+			$display_page_query = array(
+				'order_by_array' => $display->frm_order_by, 'order_array' => $display->frm_order,
+				'posts' => $form_posts, 'display' => $display,
+			);
             if ( isset($display->frm_page_size) && is_numeric($display->frm_page_size) ) {
                 $page_param = ( $_GET && isset($_GET['frm-page-'. $display->ID]) ) ? 'frm-page-'. $display->ID : 'frm-page';
 				$current_page = FrmAppHelper::simple_get( $page_param, 'absint', 1 );
@@ -1209,12 +1227,7 @@ class FrmProDisplaysController{
                 }
 
                 $page_count = FrmEntry::getPageCount($display->frm_page_size, $record_count);
-
-				//Get a page of entries
-				$entries = FrmProEntry::get_view_page($current_page, $display->frm_page_size, $where, array(
-					'order_by_array' => $display->frm_order_by, 'order_array' => $display->frm_order,
-					'posts' => $form_posts, 'display' => $display,
-				));
+				$entry_ids = FrmProEntry::get_view_page( $current_page, $display->frm_page_size, $where, $display_page_query );
 
                 $page_last_record = FrmAppHelper::get_last_record_num( $record_count, $current_page, $display->frm_page_size );
                 $page_first_record = FrmAppHelper::get_first_record_num( $record_count, $current_page, $display->frm_page_size );
@@ -1223,14 +1236,12 @@ class FrmProDisplaysController{
                     $pagination = FrmAppHelper::get_file_contents(FrmAppHelper::plugin_path() .'/pro/classes/views/displays/pagination.php', compact('current_page', 'record_count', 'page_count', 'page_last_record', 'page_first_record', 'page_param'));
                 }
             }else{
+				$display_page_query['limit'] = $limit;
 				//Get all entries
-				$entries = FrmProEntry::get_view_results($where, array(
-					'order_by_array' => $display->frm_order_by, 'order_array' => $display->frm_order,
-					'limit' => $limit, 'posts' => $form_posts, 'display' => $display,
-				));
+				$entry_ids = FrmProEntry::get_view_results( $where, $display_page_query );
             }
 
-            $total_count = count($entries);
+			$total_count = count( $entry_ids );
             $sc_atts = array();
 			if ( isset( $record_count ) ) {
                 $sc_atts['record_count'] = $record_count;
@@ -1248,30 +1259,30 @@ class FrmProDisplaysController{
                 $display_content .= isset($display->frm_before_content) ? $display->frm_before_content : '';
 			}
 
-            if ( ! isset($entry_ids) || empty($entry_ids) ) {
-                $entry_ids = array_keys($entries);
-            }
-
             add_filter('frm_before_display_content', 'FrmProDisplaysController::calendar_header', 10, 3);
             add_filter('frm_before_display_content', 'FrmProDisplaysController::filter_after_content', 10, 4);
 
             $display_content = apply_filters('frm_before_display_content', $display_content, $display, $show, array( 'total_count' => $total_count, 'record_count' => $sc_atts['record_count'], 'entry_ids' => $entry_ids));
 
             add_filter('frm_display_entries_content', 'FrmProDisplaysController::build_calendar', 10, 5);
-            $filtered_content = apply_filters('frm_display_entries_content', $new_content, $entries, $shortcodes, $display, $show, $sc_atts);
+			$filtered_content = apply_filters( 'frm_display_entries_content', $new_content, $entry_ids, $shortcodes, $display, $show, $sc_atts );
 
 			if ( $filtered_content != $new_content ) {
                 $display_content .= $filtered_content;
 			} else {
                 $odd = 'odd';
                 $count = 0;
-                if ( ! empty( $entries ) ) {
-					foreach ( $entries as $entry ) {
-                        $count++; //TODO: use the count with conditionals
-                        $display_content .= apply_filters('frm_display_entry_content', $new_content, $entry, $shortcodes, $display, $show, $odd, array( 'count' => $count, 'total_count' => $total_count, 'record_count' => $sc_atts['record_count'], 'pagination' => $pagination, 'entry_ids' => $entry_ids));
-                        $odd = ($odd == 'odd') ? 'even' : 'odd';
-                        unset($entry);
-                    }
+				if ( ! empty( $entry_ids ) ) {
+					while ( $next_set = array_splice( $entry_ids, 0, 30 ) ) {
+						$entries = FrmEntry::getAll( array( 'id' => $next_set ), ' ORDER BY FIELD(it.id,' . implode( ',', $next_set ) . ')', '', true, false );
+						foreach ( $entries as $entry ) {
+							$count++; //TODO: use the count with conditionals
+							$display_content .= apply_filters( 'frm_display_entry_content', $new_content, $entry, $shortcodes, $display, $show, $odd, array( 'count' => $count, 'total_count' => $total_count, 'record_count' => $sc_atts['record_count'], 'pagination' => $pagination, 'entry_ids' => $entry_ids ) );
+							$odd = ( $odd == 'odd' ) ? 'even' : 'odd';
+							unset( $entry );
+						}
+						unset( $entries );
+					}
                     unset($count);
                 }else{
                     if ( $post->post_type == self::$post_type && in_the_loop() ) {

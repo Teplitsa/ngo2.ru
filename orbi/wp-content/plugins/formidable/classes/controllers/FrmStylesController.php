@@ -35,8 +35,8 @@ class FrmStylesController {
                 'menu_name' => __( 'Style', 'formidable' ),
                 'edit' => __( 'Edit' ),
                 'add_new_item' => __( 'Create a New Style', 'formidable' ),
-                'edit_item' => __( 'Edit Style', 'formidable' )
-            )
+				'edit_item'    => __( 'Edit Style', 'formidable' ),
+			),
         ) );
     }
 
@@ -53,7 +53,7 @@ class FrmStylesController {
         wp_enqueue_script('jquery-ui-datepicker');
 
         $version = FrmAppHelper::plugin_version();
-        wp_enqueue_script('jquery-frm-themepicker', FrmAppHelper::plugin_url() .'/js/jquery/jquery-ui-themepicker.js', array( 'jquery'), $version);
+		wp_enqueue_script( 'jquery-frm-themepicker', FrmAppHelper::plugin_url() . '/js/jquery/jquery-ui-themepicker.js', array( 'jquery' ), $version );
 
         wp_enqueue_style('jquery-ui-base', FrmAppHelper::jquery_ui_base_url() .'/themes/base/ui.all.css');
         wp_enqueue_style('frm-custom-theme', admin_url('admin-ajax.php') .'?action=frmpro_css');
@@ -63,6 +63,70 @@ class FrmStylesController {
             wp_enqueue_style('frm-single-custom-theme', admin_url('admin-ajax.php') .'?action=frmpro_load_css&flat=1&'. http_build_query($style->post_content));
         }
     }
+
+	public static function enqueue_css( $register = 'enqueue' ) {
+		global $frm_vars;
+		$register_css = ( $register == 'register' );
+		if ( ( $frm_vars['load_css'] || $register_css ) && ! FrmAppHelper::is_admin() ) {
+			$frm_settings = FrmAppHelper::get_settings();
+			if ( $frm_settings->load_style == 'none' ) {
+				return;
+			}
+
+			$css = apply_filters( 'get_frm_stylesheet', self::custom_stylesheet() );
+
+			if ( ! empty( $css ) ) {
+				$version = FrmAppHelper::plugin_version();
+
+				foreach ( (array) $css as $css_key => $file ) {
+					if ( $register == 'register' ) {
+						wp_register_style( $css_key, $file, array(), $version );
+					}
+
+					if ( 'all' == $frm_settings->load_style || $register != 'register' ) {
+						wp_enqueue_style( $css_key );
+					}
+					unset( $css_key, $file );
+				}
+
+				if ( $frm_settings->load_style == 'all' ) {
+					$frm_vars['css_loaded'] = true;
+				}
+			}
+			unset( $css );
+		}
+	}
+
+	public static function custom_stylesheet() {
+		global $frm_vars;
+		$stylesheet_urls = array();
+		self::maybe_enqueue_jquery_css();
+
+		if ( ! isset( $frm_vars['css_loaded'] ) || ! $frm_vars['css_loaded'] ) {
+			//include css in head
+			self::get_url_to_custom_style( $stylesheet_urls );
+		}
+
+		return $stylesheet_urls;
+	}
+
+	private static function get_url_to_custom_style( &$stylesheet_urls ) {
+		$uploads = FrmStylesHelper::get_upload_base();
+		$saved_css_path = '/formidable/css/formidablepro.css';
+		if ( is_readable( $uploads['basedir'] . $saved_css_path ) ) {
+			$url = $uploads['baseurl'] . $saved_css_path;
+		} else {
+			$url = admin_url( 'admin-ajax.php' ) . '?action=frmpro_css';
+		}
+		$stylesheet_urls['formidable'] = $url;
+	}
+
+	private static function maybe_enqueue_jquery_css() {
+		global $frm_vars;
+		if ( isset( $frm_vars['datepicker_loaded'] ) && ! empty( $frm_vars['datepicker_loaded'] ) ) {
+			FrmStylesHelper::enqueue_jquery_css();
+		}
+	}
 
     public static function new_style($return = '') {
         FrmAppHelper::update_message( __( 'create multiple styling templates', 'formidable' ), 'wrap' );
@@ -157,7 +221,7 @@ class FrmStylesController {
 
             $form->options['custom_style'] = $_POST['style'][ $form->id ];
 
-            $wpdb->update($wpdb->prefix .'frm_forms', array( 'options' => maybe_serialize($form->options)), array( 'id' => $form->id));
+			$wpdb->update( $wpdb->prefix . 'frm_forms', array( 'options' => maybe_serialize( $form->options ) ), array( 'id' => $form->id ) );
             unset($form);
         }
 
@@ -283,6 +347,13 @@ class FrmStylesController {
         include(FrmAppHelper::plugin_path() .'/css/_single_theme.css.php');
         wp_die();
     }
+
+	public static function load_saved_css() {
+		$css = get_transient( 'frmpro_css' );
+
+		include( FrmAppHelper::plugin_path() . '/css/custom_theme.css.php' );
+		wp_die();
+	}
 
     /**
      * Check if the Formidable styling should be loaded,

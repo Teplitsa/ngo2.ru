@@ -4,7 +4,7 @@ if ( is_array($field['options']) ) {
         $field['value'] = maybe_unserialize($field['default_value']);
     }
 
-    $star = (isset($field['star']) && $field['star']);
+	$star = FrmField::is_option_true( $field, 'star' );
     foreach ( $field['options'] as $opt_key => $opt ) {
         $opt = apply_filters('frm_field_label_seen', $opt, $opt_key, $field);
         $last = end($field['options']) == $opt ? ' frm_last' : '';

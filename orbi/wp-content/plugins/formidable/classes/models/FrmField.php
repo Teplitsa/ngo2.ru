@@ -7,6 +7,51 @@ class FrmField {
     static $use_cache = true;
 	static $transient_size = 200;
 
+	public static function field_selection() {
+		$fields = apply_filters('frm_available_fields', array(
+			'text'      => __( 'Single Line Text', 'formidable' ),
+			'textarea'  => __( 'Paragraph Text', 'formidable' ),
+			'checkbox'  => __( 'Checkboxes', 'formidable' ),
+			'radio'     => __( 'Radio Buttons', 'formidable' ),
+			'select'    => __( 'Dropdown', 'formidable' ),
+			'email'     => __( 'Email Address', 'formidable' ),
+			'url'       => __( 'Website/URL', 'formidable' ),
+			'captcha'   => __( 'reCAPTCHA', 'formidable' ),
+		));
+
+		return $fields;
+	}
+
+	public static function pro_field_selection() {
+		return apply_filters('frm_pro_available_fields', array(
+			'end_divider' => array(
+				'name'  => __( 'End Section', 'formidable' ),
+				'switch_from' => 'divider',
+			),
+			'divider'   => __( 'Section', 'formidable' ),
+			'break'     => __( 'Page Break', 'formidable' ),
+			'file'      => __( 'File Upload', 'formidable' ),
+			'rte'       => __( 'Rich Text', 'formidable' ),
+			'number'    => __( 'Number', 'formidable' ),
+			'phone'     => __( 'Phone Number', 'formidable' ),
+			'date'      => __( 'Date', 'formidable' ),
+			'time'      => __( 'Time', 'formidable' ),
+			'image'     => __( 'Image URL', 'formidable' ),
+			'scale'     => __( 'Scale', 'formidable' ),
+			'data'      => __( 'Dynamic Field', 'formidable' ),
+			'form'      => __( 'Embed Form', 'formidable' ),
+			'hidden'    => __( 'Hidden Field', 'formidable' ),
+			'user_id'   => __( 'User ID (hidden)', 'formidable' ),
+			'password'  => __( 'Password', 'formidable' ),
+			'html'      => __( 'HTML', 'formidable' ),
+			'tag'       => __( 'Tags', 'formidable' ),
+			//'address' => 'Address' //Address line 1, Address line 2, City, State/Providence, Postal Code, Select Country
+			//'city_selector' => 'US State/County/City selector',
+			//'full_name' => 'First and Last Name',
+			//'quiz'    => 'Question and Answer' // for captcha alternative
+		));
+	}
+
     public static function create( $values, $return = true ) {
         global $wpdb, $frm_duplicate_ids;
 
@@ -14,7 +59,7 @@ class FrmField {
         $key = isset($values['field_key']) ? $values['field_key'] : $values['name'];
         $new_values['field_key'] = FrmAppHelper::get_unique_key($key, $wpdb->prefix .'frm_fields', 'field_key');
 
-        foreach ( array( 'name', 'description', 'type', 'default_value') as $col ) {
+		foreach ( array( 'name', 'description', 'type', 'default_value' ) as $col ) {
 			$new_values[ $col ] = $values[ $col ];
         }
 
@@ -64,7 +109,7 @@ class FrmField {
 
     public static function duplicate( $old_form_id, $form_id, $copy_keys = false, $blog_id = false ) {
         global $frm_duplicate_ids;
-        $fields = self::getAll( array( 'fi.form_id' => $old_form_id), 'field_order', '', $blog_id);
+		$fields = self::getAll( array( 'fi.form_id' => $old_form_id ), 'field_order', '', $blog_id );
         foreach ( (array) $fields as $field ) {
             $new_key = ($copy_keys) ? $field->field_key : '';
             if ( $copy_keys && substr($field->field_key, -1) == 2 ) {
@@ -75,7 +120,7 @@ class FrmField {
             FrmFieldsHelper::fill_field( $values, $field, $form_id, $new_key );
 
 			// If this is a repeating section, create new form
-			if ( $field->type == 'divider' && isset( $field->field_options['repeat'] ) && $field->field_options['repeat'] ) {
+			if ( $field->type == 'divider' && self::is_option_true( $field, 'repeat' ) ) {
 				// create the repeatable form
 				$repeat_form_values = FrmFormsHelper::setup_new_vars( array( 'parent_form_id' => $form_id ) );
 				$new_repeat_form_id = FrmForm::create( $repeat_form_values );
@@ -113,8 +158,10 @@ class FrmField {
             $values['required'] = (int) $values['required'];
         }
 
+		self::preserve_phone_format_backslashes( $values );
+
 		// serialize array values
-		foreach ( array( 'default_value', 'field_options', 'options') as $opt ) {
+		foreach ( array( 'default_value', 'field_options', 'options' ) as $opt ) {
 			if ( isset( $values[ $opt ] ) && is_array( $values[ $opt ] ) ) {
 				$values[ $opt ] = serialize( $values[ $opt ] );
 			}
@@ -143,6 +190,18 @@ class FrmField {
 
         return $query_results;
     }
+
+	/**
+	* Keep backslashes in the phone format option
+	*
+	* @since 2.0.8
+	* @param $values array - pass by reference
+	*/
+	private static function preserve_phone_format_backslashes( &$values ) {
+		if ( isset( $values['field_options']['format'] ) ) {
+			$values['field_options']['format'] = FrmAppHelper::preserve_backslashes( $values['field_options']['format'] );
+		}
+	}
 
     public static function destroy( $id ) {
 		global $wpdb;
@@ -180,6 +239,15 @@ class FrmField {
             self::delete_form_transient( $form->parent_form_id );
         }
     }
+
+	/**
+	 * If $field is numeric, get the field object
+	 */
+	public static function maybe_get_field( &$field ) {
+		if ( ! is_object( $field ) ) {
+			$field = self::getOne( $field );
+		}
+	}
 
 	public static function getOne( $id ) {
 		if ( empty( $id ) ) {
@@ -255,7 +323,7 @@ class FrmField {
         }
 
         self::$use_cache = false;
-        $results = self::getAll( array( 'fi.form_id' => (int) $form_id, 'fi.type' => $type), 'field_order', $limit);
+		$results = self::getAll( array( 'fi.form_id' => (int) $form_id, 'fi.type' => $type ), 'field_order', $limit );
         self::$use_cache = true;
         self::include_sub_fields($results, $inc_sub, $type);
 
@@ -270,7 +338,7 @@ class FrmField {
 		$results = self::get_fields_from_transients( $form_id, $inc_sub );
 		if ( ! empty( $results ) ) {
             if ( empty($limit) ) {
-                return stripslashes_deep($results);
+				return $results;
             }
 
             $fields = array();
@@ -282,7 +350,7 @@ class FrmField {
                 }
             }
 
-            return stripslashes_deep($fields);
+			return $fields;
         }
 
         self::$use_cache = false;
@@ -297,7 +365,7 @@ class FrmField {
 			self::set_field_transient( $results, $form_id, $inc_sub );
         }
 
-        return $results;
+		return $results;
     }
 
     public static function include_sub_fields(&$results, $inc_sub, $type = 'all') {
@@ -306,6 +374,7 @@ class FrmField {
         }
 
         $form_fields = $results;
+		$index_offset = 1;
         foreach ( $form_fields as $k => $field ) {
             if ( 'form' != $field->type || ! isset($field->field_options['form_select']) ) {
                 continue;
@@ -318,7 +387,9 @@ class FrmField {
             }
 
             if ( ! empty($sub_fields) ) {
-                array_splice($results, $k, 1, $sub_fields);
+				$index = $k + $index_offset;
+				$index_offset += count( $sub_fields );
+				array_splice($results, $index, 0, $sub_fields);
             }
             unset($field, $sub_fields);
         }
@@ -378,39 +449,35 @@ class FrmField {
         }
         unset( $where );
 
-        if ( ! $results ) {
-            stripslashes_deep($results);
-        }
+		self::format_field_results( $results );
 
-        if ( is_array($results) ) {
-            foreach ( $results as $r_key => $result ) {
-                wp_cache_set($result->id, $result, 'frm_field');
-                wp_cache_set($result->field_key, $result, 'frm_field');
+		wp_cache_set( $cache_key, $results, 'frm_field', 300 );
+
+		return stripslashes_deep( $results );
+	}
+
+	/**
+	 * @since 2.0.8
+	 */
+	private static function format_field_results( &$results ) {
+		if ( is_array( $results ) ) {
+			foreach ( $results as $r_key => $result ) {
+				wp_cache_set( $result->id, $result, 'frm_field' );
+				wp_cache_set( $result->field_key, $result, 'frm_field' );
 
 				$results[ $r_key ]->field_options = maybe_unserialize( $result->field_options );
-                if ( isset( $results[ $r_key ]->field_options['format'] ) && ! empty( $results[ $r_key ]->field_options['format'] ) ) {
-                    $results[ $r_key ]->field_options['format'] = addslashes( $results[ $r_key ]->field_options['format'] );
-                }
+				$results[ $r_key ]->options = maybe_unserialize( $result->options );
+				$results[ $r_key ]->default_value = maybe_unserialize( $result->default_value );
 
-                $results[ $r_key ]->options = maybe_unserialize( $result->options );
-                $results[ $r_key ]->default_value = maybe_unserialize( $result->default_value );
-                $form_id = $result->form_id;
-
-                unset($r_key, $result);
-            }
-
-            unset($form_id);
+				unset( $r_key, $result );
+			}
 		} else if ( $results ) {
-            wp_cache_set($results->id, $results, 'frm_field');
-            wp_cache_set($results->field_key, $results, 'frm_field');
+			wp_cache_set( $results->id, $results, 'frm_field' );
+			wp_cache_set( $results->field_key, $results, 'frm_field' );
 
 			self::prepare_options( $results );
-        }
-
-        wp_cache_set($cache_key, $results, 'frm_field', 300);
-
-        return stripslashes_deep($results);
-    }
+		}
+	}
 
 	/**
 	 * Unserialize all the serialized field data
@@ -418,9 +485,6 @@ class FrmField {
 	 */
 	private static function prepare_options( &$results ) {
 		$results->field_options = maybe_unserialize( $results->field_options );
-		if ( isset( $results->field_options['format'] ) && ! empty( $results->field_options['format'] ) ) {
-			$results->field_options['format'] = addslashes( $results->field_options['format'] );
-		}
 
 		$results->options = maybe_unserialize($results->options);
 		$results->default_value = maybe_unserialize($results->default_value);
@@ -498,4 +562,117 @@ class FrmField {
         return $results;
     }
 
+	public static function is_no_save_field( $type ) {
+		return in_array( $type, self::no_save_fields() );
+	}
+
+	public static function no_save_fields() {
+		return array( 'divider', 'end_divider', 'captcha', 'break', 'html', 'form' );
+	}
+
+	/**
+	 * Check if this field can hold an array of values
+	 *
+	 * @since 2.0.9
+	 *
+	 * @param array|object $field
+	 * @return boolean
+	 */
+	public static function is_field_with_multiple_values( $field ) {
+		if ( ! $field ) {
+			return false;
+		}
+
+		if ( is_array( $field ) ) {
+			return $field['type'] == 'checkbox' || ( $field['type'] == 'data' && isset($field['data_type']) && $field['data_type'] == 'checkbox' ) || self::is_multiple_select( $field );
+		} else {
+			return $field->type == 'checkbox' || ( $field->type == 'data' && isset( $field->field_options['data_type'] ) && $field->field_options['data_type'] == 'checkbox' ) || self::is_multiple_select($field);
+		}
+	}
+
+	/**
+	 * Check if this is a multiselect dropdown field
+	 *
+	 * @since 2.0.9
+	 * @return boolean
+	 */
+	public static function is_multiple_select( $field ) {
+		if ( is_array( $field ) ) {
+			return self::is_option_true( $field, 'multiple' ) && ( ( $field['type'] == 'select' || ( $field['type'] == 'data' && isset( $field['data_type'] ) && $field['data_type'] == 'select') ) );
+		} else {
+			return self::is_option_true( $field, 'multiple' ) && ( ( $field->type == 'select' || ( $field->type == 'data' && isset($field->field_options['data_type'] ) && $field->field_options['data_type'] == 'select') ) );
+		}
+	}
+
+	/**
+	 * Check if a field is read only. Read only can be set in the field options,
+	 * but disabled with the shortcode options
+	 *
+	 * @since 2.0.9
+	 */
+	public static function is_read_only( $field ) {
+		global $frm_vars;
+		return ( self::is_option_true( $field, 'read_only' ) && ( ! isset( $frm_vars['readonly'] ) || $frm_vars['readonly'] != 'disabled' ) );
+	}
+
+	/**
+	 * @since 2.0.9
+	 */
+	public static function is_required( $field ) {
+		return $field['required'] != '0';
+	}
+
+	/**
+	 * @since 2.0.9
+	 */
+	public static function is_option_true( $field, $option ) {
+		if ( is_array( $field ) ) {
+			return self::is_option_true_in_array( $field, $option );
+		} else {
+			return self::is_option_true_in_object( $field, $option );
+		}
+	}
+
+	/**
+	 * @since 2.0.9
+	 */
+	public static function is_option_empty( $field, $option ) {
+		if ( is_array( $field ) ) {
+			return self::is_option_empty_in_array( $field, $option );
+		} else {
+			return self::is_option_empty_in_object( $field, $option );
+		}
+	}
+
+	public static function is_option_true_in_array( $field, $option ) {
+		return isset( $field[ $option ] ) && $field[ $option ];
+	}
+
+	public static function is_option_true_in_object( $field, $option ) {
+		return isset( $field->field_options[ $option ] ) && $field->field_options[ $option ];
+	}
+
+	public static function is_option_empty_in_array( $field, $option ) {
+		return ! isset( $field[ $option ] ) || empty( $field[ $option ] );
+	}
+
+	public static function is_option_empty_in_object( $field, $option ) {
+		return ! isset( $field->field_options[ $option ] ) || empty( $field->field_options[ $option ] );
+	}
+
+	public static function is_option_value_in_object( $field, $option ) {
+		return isset( $field->field_options[ $option ] ) && $field->field_options[ $option ] != '';
+	}
+
+	/**
+	* @since 2.0.09
+	*/
+	public static function is_repeating_field( $field ) {
+		if ( is_array( $field ) ) {
+			$is_repeating_field = ( 'divider' == $field['type'] );
+		} else {
+			$is_repeating_field = ( 'divider' == $field->type );
+		}
+		return ( $is_repeating_field && self::is_option_true( $field, 'repeat' ) );
+	}
 }

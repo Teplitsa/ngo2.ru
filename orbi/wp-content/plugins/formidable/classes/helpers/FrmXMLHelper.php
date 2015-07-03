@@ -31,8 +31,9 @@ class FrmXMLHelper {
 
         $imported = array(
             'imported' => $defaults,
-            'updated' => $defaults,
-            'forms' => array(),
+			'updated'  => $defaults,
+			'forms'    => array(),
+			'terms'    => array(),
         );
 
         unset($defaults);
@@ -80,25 +81,43 @@ class FrmXMLHelper {
 			    continue;
 			}
 
-            $term_id = wp_insert_term( (string) $t->term_name, (string) $t->term_taxonomy, array(
+			$parent = self::get_term_parent_id( $t );
+
+			$term = wp_insert_term( (string) $t->term_name, (string) $t->term_taxonomy, array(
                 'slug'          => (string) $t->term_slug,
                 'description'   => (string) $t->term_description,
-                'term_parent'   => (string) $t->term_parent,
+				'parent'        => empty( $parent ) ? 0 : $parent,
                 'slug'          => (string) $t->term_slug,
             ));
 
-            if ( $term_id ) {
+			if ( $term && is_array( $term ) ) {
                 $imported['imported']['terms']++;
+				$imported['terms'][ (int) $t->term_id ] = $term['term_id'];
             }
 
-            unset($term_id, $t);
+			unset( $term, $t );
 		}
 
 		return $imported;
     }
 
-    public static function import_xml_forms($forms, $imported) {
+	/**
+	 * @since 2.0.8
+	 */
+	private static function get_term_parent_id( $t ) {
+		$parent = (string) $t->term_parent;
+		if ( ! empty( $parent ) ) {
+			$parent = term_exists( (string) $t->term_parent, (string) $t->term_taxonomy );
+			if ( $parent ) {
+				$parent = $parent['term_id'];
+			} else {
+				$parent = 0;
+			}
+		}
+		return $parent;
+	}
 
+    public static function import_xml_forms($forms, $imported) {
 		// Keep track of repeating sections that are created
 		$repeat_fields = array();
 
@@ -121,7 +140,7 @@ class FrmXMLHelper {
             $form['options'] = FrmAppHelper::maybe_json_decode($form['options']);
 
             // if template, allow to edit if form keys match, otherwise, creation date must also match
-            $edit_query = array( 'form_key' => $form['form_key'], 'is_template' => $form['is_template']);
+			$edit_query = array( 'form_key' => $form['form_key'], 'is_template' => $form['is_template'] );
             if ( ! $form['is_template'] ) {
                 $edit_query['created_at'] = $form['created_at'];
             }
@@ -160,17 +179,6 @@ class FrmXMLHelper {
                     $imported['imported']['forms']++;
                     // Keep track of whether this specific form was updated or not
 					$imported['form_status'][ $form_id ] = 'imported';
-
-					// Check if any repeating sections form_select need to be updated
-					if ( isset( $repeat_fields[ $form['id'] ] ) ) {
-						// Get section field
-						$section_field = FrmField::getOne( $repeat_fields[ $form['id'] ] );
-						$field_opts = maybe_unserialize( $section_field->field_options );
-						$field_opts['form_select'] = $form_id;
-
-						// update form_select now
-						FrmField::update( $repeat_fields[ $form['id'] ], array( 'field_options' => maybe_serialize( $field_opts ) ) );
-					}
                 }
             }
 
@@ -186,7 +194,7 @@ class FrmXMLHelper {
     		        'form_id'       => (int) $form_id,
     		        'required'      => (int) $field->required,
     		        'options'       => FrmAppHelper::maybe_json_decode( (string) $field->options),
-    		        'field_options' => FrmAppHelper::maybe_json_decode( (string) $field->field_options)
+					'field_options' => FrmAppHelper::maybe_json_decode( (string) $field->field_options ),
     		    );
 
     		    if ( is_array($f['default_value']) && in_array($f['type'], array(
@@ -229,6 +237,7 @@ class FrmXMLHelper {
 						if ( $new_id == false ) {
 							continue;
 						}
+						self::track_repeating_fields( $f, $new_id, $repeat_fields );
 
     		            // if no matching field id or key in this form, create the field
     		            $imported['imported']['fields']++;
@@ -238,13 +247,10 @@ class FrmXMLHelper {
 					if ( $new_id == false ) {
 						continue;
 					}
+
+					self::track_repeating_fields( $f, $new_id, $repeat_fields );
 		            $imported['imported']['fields']++;
     		    }
-
-				// Check if a repeating section was just created
-				if ( isset( $new_id ) && $f['type'] == 'divider' && isset( $f['field_options']['repeat'] ) && $f['field_options']['repeat'] ) {
-					$repeat_fields[ $f['field_options']['form_select'] ] = $new_id;
-				}
 
 				unset($field, $new_id);
     		}
@@ -261,7 +267,7 @@ class FrmXMLHelper {
             }
 
 		    // Update field ids/keys to new ones
-		    do_action('frm_after_duplicate_form', $form_id, $form, array( 'old_id' => $old_id));
+			do_action( 'frm_after_duplicate_form', $form_id, $form, array( 'old_id' => $old_id ) );
 
 			$imported['forms'][ (int) $item->id ] = $form_id;
 
@@ -270,9 +276,54 @@ class FrmXMLHelper {
 
 		    unset($form, $item);
 		}
+		self::update_repeat_field_options( $repeat_fields, $imported['forms'] );
 
 		return $imported;
     }
+
+	/**
+	* Update form_select for all imported repeating sections and embedded forms
+	*
+	* @since 2.0.09
+	* @param array $repeat_fields - old form ID as keys and section field IDs as items
+	* @param array $imported_forms
+	*/
+	private static function update_repeat_field_options( $repeat_fields, $imported_forms ) {
+		foreach ( $repeat_fields as $old_form_id => $new_repeat_fields ) {
+			foreach ( $new_repeat_fields as $repeat_field_id ) {
+				// Get section/embed form field
+				$repeat_field = FrmField::getOne( $repeat_field_id );
+				$field_opts = maybe_unserialize( $repeat_field->field_options );
+
+				if ( ! isset( $imported_forms[ $old_form_id ] ) ) {
+					return;
+				}
+				$field_opts['form_select'] = $imported_forms[ $old_form_id ];
+
+				// update form_select now
+				FrmField::update( $repeat_field_id, array( 'field_options' => maybe_serialize( $field_opts ) ) );
+			}
+		}
+	}
+
+	/**
+	* Keep track of imported repeating fields and embedded forms
+	*
+	* @since 2.0.09
+	* @param array $f - field array
+	* @param int $repeat_field_id
+	* @param array $repeat_fields - pass by reference
+	*/
+	private static function track_repeating_fields( $f, $repeat_field_id, &$repeat_fields ) {
+		if ( ( $f['type'] == 'divider' && FrmField::is_option_true( $f['field_options'], 'repeat' ) ) || $f['type'] == 'form' ) {
+			$old_form_id = trim( $f['field_options']['form_select'] );
+			if ( ! isset( $repeat_fields[ $old_form_id ] ) ) {
+				$repeat_fields[ $old_form_id ] = array();
+			}
+
+			$repeat_fields[ $old_form_id ][] = $repeat_field_id;
+		}
+	}
 
     public static function import_xml_views($views, $imported) {
         $imported['posts'] = array();
@@ -637,7 +688,7 @@ class FrmXMLHelper {
             unset($post_setting);
         }
 
-        $new_action['event'] = array( 'create', 'update');
+		$new_action['event'] = array( 'create', 'update' );
 
         if ( $switch ) {
 			// Fields with string or int saved
@@ -665,14 +716,15 @@ class FrmXMLHelper {
     }
 
 	/**
-	* Switch old field IDs for new field IDs in emails and post
-	*
-	* @since 2.0
-	* @param $post_content - string to check for old field IDs
-	* @param $basic_fields - array of fields with string or int saved
-	* @param $array_fields - array of fields with arrays saved
-	* @return $post_content - string with new field IDs
-	*/
+	 * Switch old field IDs for new field IDs in emails and post
+	 *
+	 * @since 2.0
+	 * @param array $post_content - check for old field IDs
+	 * @param array $basic_fields - fields with string or int saved
+	 * @param array $array_fields - fields with arrays saved
+	 *
+	 * @return string $post_content - new field IDs
+	 */
 	private static function switch_action_field_ids( $post_content, $basic_fields, $array_fields = array() ) {
         global $frm_duplicate_ids;
 
@@ -758,10 +810,10 @@ class FrmXMLHelper {
     private static function migrate_notifications_to_action( $form_options, $form_id, &$notifications ) {
         if ( ! isset( $form_options['notification'] ) && isset( $form_options['email_to'] ) && ! empty( $form_options['email_to'] ) ) {
             // add old settings into notification array
-            $form_options['notification'] = array(0 => $form_options);
+			$form_options['notification'] = array( 0 => $form_options );
         } else if ( isset( $form_options['notification']['email_to'] ) ) {
             // make sure it's in the correct format
-            $form_options['notification'] = array(0 => $form_options['notification']);
+			$form_options['notification'] = array( 0 => $form_options['notification'] );
         }
 
         if ( isset( $form_options['notification'] ) && is_array($form_options['notification']) ) {
@@ -804,11 +856,11 @@ class FrmXMLHelper {
         }
 
         // Format event
-        $atts['event'] = array( 'create');
+		$atts['event'] = array( 'create' );
         if ( isset( $notification['update_email'] ) && 1 == $notification['update_email'] ) {
             $atts['event'][] = 'update';
         } else if ( isset($notification['update_email']) && 2 == $notification['update_email'] ) {
-            $atts['event'] = array( 'update');
+			$atts['event'] = array( 'update' );
         }
     }
 
@@ -855,7 +907,7 @@ class FrmXMLHelper {
         // Add more fields to the new notification
         $add_fields = array( 'email_message', 'email_subject', 'plain_text', 'inc_user_info', 'conditions' );
         foreach ( $add_fields as $add_field ) {
-			if ( isset ( $notification[ $add_field ] ) ) {
+			if ( isset( $notification[ $add_field ] ) ) {
 				$new_notification['post_content'][ $add_field ] = $notification[ $add_field ];
             } else if ( in_array( $add_field, array( 'plain_text', 'inc_user_info' ) ) ) {
 				$new_notification['post_content'][ $add_field ] = 0;
@@ -934,5 +986,5 @@ class FrmXMLHelper {
             unset( $new_notification2 );
         }
     }
-
 }
+

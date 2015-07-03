@@ -51,7 +51,7 @@ class FrmNotification {
             //Don't allow empty From
 			if ( $f == 'from' && empty( $notification[ $f ] ) ) {
 				$notification[ $f ] = '[admin_email]';
-            } else if ( in_array($f, array( 'email_to', 'cc', 'bcc', 'reply_to', 'from')) ) {
+			} else if ( in_array( $f, array( 'email_to', 'cc', 'bcc', 'reply_to', 'from' ) ) ) {
 				//Remove brackets
                 //Add a space in case there isn't one
 				$notification[ $f ] = str_replace( '<', ' ', $notification[ $f ] );
@@ -93,7 +93,7 @@ class FrmNotification {
             $data = maybe_unserialize($entry->description);
             $mail_body .= "\r\n\r\n" . __( 'User Information', 'formidable' ) ."\r\n";
             $mail_body .= __( 'IP Address', 'formidable' ) . ': '. $entry->ip ."\r\n";
-            $mail_body .= __( 'User-Agent (Browser/OS)', 'formidable' ) . ': '. FrmEntriesHelper::get_browser($data['browser']) ."\r\n";
+			$mail_body .= __( 'User-Agent (Browser/OS)', 'formidable' ) . ': ' . FrmEntryFormat::get_browser( $data['browser'] ) . "\r\n";
             $mail_body .= __( 'Referrer', 'formidable' ) . ': '. $data['referrer']."\r\n";
         }
         unset($prev_mail_body);
@@ -315,7 +315,7 @@ class FrmNotification {
         $header[]       = 'From: ' . $atts['from'];
 
         //Allow for cc and bcc arrays
-        $array_fields = array( 'CC' => $atts['cc'], 'BCC' => $atts['bcc']);
+		$array_fields = array( 'CC' => $atts['cc'], 'BCC' => $atts['bcc'] );
 		$cc = array( 'CC' => array(), 'BCC' => array() );
         foreach ( $array_fields as $key => $a_field ) {
             if ( empty($a_field) ) {
@@ -374,7 +374,7 @@ class FrmNotification {
         do_action('frm_notification', $recipient, $atts['subject'], $message);
 
         if ( $sent ) {
-            $sent_to = array_merge( (array)$atts['to_email'], (array) $atts['cc'], (array) $atts['bcc']);
+			$sent_to = array_merge( (array) $atts['to_email'], (array) $atts['cc'], (array) $atts['bcc'] );
             $sent_to = array_filter( $sent_to );
             if ( apply_filters('frm_echo_emails', false) ) {
                 $temp = str_replace('<', '&lt;', $sent_to);

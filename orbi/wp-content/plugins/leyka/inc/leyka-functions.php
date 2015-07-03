@@ -3,12 +3,30 @@
  * Leyka functions and template tags, irrelevant to a donation form.
  **/
 
+if( !function_exists('mb_substr') ) {
+    function mb_substr($str, $start, $length = null) {
+        return substr($str, $start, $length);
+    }
+}
+
 if( !function_exists('mb_ucfirst') ) {
     function mb_ucfirst($str) {
         return mb_strtoupper(mb_substr($str, 0, 1)).mb_substr($str, 1);
     }
-} 
- 
+}
+
+if( !function_exists('mb_strtolower') ) {
+    function mb_strtolower($str) {
+        return strtolower($str);
+    }
+}
+
+if( !function_exists('mb_strtoupper') ) {
+    function mb_strtoupper($str) {
+        return strtoupper($str);
+    }
+}
+
 function leyka_current_user_has_role($role, $user_id = false) {
 
     $user = is_numeric($user_id) ? get_userdata( $user_id ) : wp_get_current_user();
@@ -24,7 +42,7 @@ function leyka_get_pages_list() {
 
     $query = new WP_Query(apply_filters('leyka_pages_list_query', array(
         'post_type' => 'page',
-        'posts_per_page' => -1
+        'posts_per_page' => -1,
     )));
 
     $pages = array(0 => __('Website main page', 'leyka'),);
@@ -39,7 +57,7 @@ function leyka_get_pages_list() {
 function leyka_get_gateways_pm_list() {
 
     $options = array();
-    foreach(leyka_get_pm_list() as $pm) {
+    foreach(leyka_get_pm_list(null, false, false) as $pm) {
         $gateway_title = leyka_get_gateway_by_id($pm->gateway_id)->title;
         $options[$pm->full_id] = $pm->label_backend
             .($gateway_title == $pm->label_backend ? '' : ' ('.$gateway_title.')');
@@ -68,14 +86,13 @@ function leyka_get_default_success_page() {
     $page = new WP_Query(apply_filters('leyka_default_success_page_query', array(
         'post_type' => 'page',
 //        'lang' => 'ru',
-        'name' => 'thank-you-for-your-donation',
-        'post_status' => array(
-            'publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'
-        ),
-        'posts_per_page' => 1
+        'pagename' => 'thank-you-for-your-donation',
+        'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'),
+        'posts_per_page' => 1,
+        'orderby' => 'ID',
+        'order' => 'ASC',
     )));
-    $posts = $page->get_posts();
-    $page = reset($posts);
+    $page = $page->get_queried_object();
 
     if($page) {
 
@@ -106,10 +123,10 @@ function leyka_get_default_success_page() {
 function leyka_get_success_page_url() {
 
     $url = leyka_options()->opt('success_page') ?
-        get_permalink(leyka_options()->opt('success_page')) : site_url();
-    
+        get_permalink(leyka_options()->opt('success_page')) : home_url();
+
     if( !$url ) // It can be in case when "last posts" is selected for homepage
-        $url = site_url();
+        $url = home_url();
     
     return $url;
 }
@@ -123,14 +140,13 @@ function leyka_get_default_failure_page() {
     $page = new WP_Query(apply_filters('leyka_default_failure_page_query', array(
         'post_type' => 'page',
 //        'lang' => 'ru',
-        'name' => 'sorry-donation-failure',
-        'post_status' => array(
-            'publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'
-        ),
-        'posts_per_page' => 1
+        'pagename' => 'sorry-donation-failure',
+        'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'),
+        'posts_per_page' => 1,
+        'orderby' => 'ID',
+        'order' => 'ASC',
     )));
-    $posts = $page->get_posts();
-    $page = reset($posts);
+    $page = $page->get_queried_object();
 
     if($page) {
 
@@ -160,10 +176,10 @@ function leyka_get_default_failure_page() {
 function leyka_get_failure_page_url() {
 
     $url = leyka_options()->opt('failure_page') ?
-        get_permalink(leyka_options()->opt('failure_page')) : site_url();
+        get_permalink(leyka_options()->opt('failure_page')) : home_url();
 
     if( !$url ) // It can be in case when "last posts" is selected for homepage
-        $url = site_url();
+        $url = home_url();
     
     return $url;
 }
@@ -187,6 +203,7 @@ function leyka_get_form_templates_list() {
 }
 
 function leyka_get_active_currencies() {
+
     return array(
         'rur' => array(
             'label' => leyka_options()->opt('currency_rur_label'),
@@ -374,22 +391,19 @@ function leyka_fake_scale_ultra($campaign) {
     
     if( !is_a($campaign, 'Leyka_Campaign') )
         $campaign = new Leyka_Campaign($campaign);
-        
-   
+
     $curr_label = leyka_get_currency_label('rur');
-    $collected = intval($campaign->get_collected_amount());
-    $collected_f = number_format($collected, 0, '.', ' ');       
-?>
+    $collected = number_format(intval($campaign->get_collected_amount()), 0, '.', ' ');?>
 
 <div class="leyka-scale-ultra-fake">
     <div class="leyka-scale-scale">
         <div class="target"> </div>
     </div>
     <div class="leyka-scale-label"><span>
-        <?php  printf(_x('Collected: %s', 'Label on ultra-compact fake scale', 'leyka'), "<b>{$collected_f}</b> {$curr_label}"); ?>    
+        <?php  printf(_x('Collected: %s', 'Label on ultra-compact fake scale', 'leyka'), "<b>{$collected}</b> {$curr_label}"); ?>
     </span></div>
 </div>
-<?php  
+<?php
 }
 
 /** @return array An array of possible payment types with labels */
@@ -490,4 +504,99 @@ function leyka_get_actual_currency_rates() {
     }
 
     return $currencies;
+}
+
+function leyka_settings_complete($settings_tab) {
+
+    $settings_complete = true;
+    $tab_options = leyka_opt_alloc()->get_tab_options($settings_tab); // Special 4 strict standards
+    $option_section = reset($tab_options);
+
+    foreach($option_section['section']['options'] as $option_name) {
+
+        if( !leyka_options()->opt_safe($option_name) && leyka_options()->is_required($option_name) ) {
+
+            $settings_complete = false;
+            break;
+        }
+    }
+
+    return $settings_complete;
+}
+
+function leyka_min_payment_settings_complete() {
+
+    $pm_list = leyka_get_pm_list(true);
+    if( !$pm_list ) {
+        return false;
+    }
+
+    $gateway_options_valid = array(); // Array of already validated gateways
+
+    foreach(leyka_options()->opt('pm_available') as $pm_full_id) { // Full ID is "gateway_id-pm_id"
+
+        $pm = leyka_get_pm_by_id($pm_full_id, true);
+        $pm_full_id = explode('-', $pm_full_id);
+        $gateway = leyka_get_gateway_by_id(reset($pm_full_id));
+
+        if( !$pm || !$gateway ) {
+            return false;
+        }
+
+        foreach($pm->get_pm_options_names() as $option_name) {
+
+            if( !leyka_options()->is_valid($option_name) ) {
+                return false;
+            }
+        }
+
+        if(empty($gateway_options_valid[$gateway->id])) {
+
+            foreach($gateway->get_options_names() as $option_name) {
+
+                if( !leyka_options()->is_valid($option_name) ) {
+                    return false;
+                }
+            }
+
+            $gateway_options_valid[$gateway->id] = true;
+        }
+    }
+
+    return true;
+}
+
+function leyka_campaign_published() {
+    return count(get_posts(array('post_type' => Leyka_Campaign_Management::$post_type, 'posts_per_page' => 1))) > 0;
+}
+
+/** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
+function leyka_form_is_screening() {
+
+    return
+        is_singular(Leyka_Campaign_Management::$post_type) ||
+        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false);
+}
+
+/** ITV info-widget **/
+function leyka_itv_info_widget(){
+	//only in Russian as for now
+    $locale = get_locale();
+    
+    if($locale != 'ru_RU')
+        return;
+    
+    
+    $src = LEYKA_PLUGIN_BASE_URL.'img/logo-itv.png';
+    $domain = parse_url(home_url()); 
+    $itv_url = "https://itv.te-st.ru/?leyka=".$domain['host'];
+?>
+	<div id="itv-card">
+        <div class="itv-logo"><a href="<?php echo esc_url($itv_url);?>" target="_blank"><img src="<?php echo esc_url($src);?>"></a></div>
+        
+        <p>Вам нужна помощь в настройке пожертвований или подключении к платежным системам? Опубликуйте задачу на платформе <a href="<?php echo esc_url($itv_url);?>" target="_blank">it-волонтер</a></p>
+                
+        <p><a href="<?php echo esc_url($itv_url);?>" target="_blank" class="button">Опубликовать задачу</a></p>
+    </div>
+<?php
 }

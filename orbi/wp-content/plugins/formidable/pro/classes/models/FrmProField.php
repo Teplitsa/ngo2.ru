@@ -164,7 +164,7 @@ class FrmProField {
     }
 
     public static function delete_repeat_field($field) {
-        if ( ! FrmProFieldsHelper::is_repeating_field($field) ) {
+        if ( ! FrmField::is_repeating_field($field) ) {
             return;
         }
 
@@ -173,4 +173,7 @@ class FrmProField {
         }
     }
 
+	public static function is_list_field( $field ) {
+		return $field->type == 'data' && ( ! isset( $field->field_options['data_type'] ) || $field->field_options['data_type'] == 'data' || $field->field_options['data_type'] == '' );
+	}
 }

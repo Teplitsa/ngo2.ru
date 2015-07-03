@@ -8,7 +8,7 @@ class FrmListHelper extends WP_List_Table {
 
 	public function __construct( $args ) {
 	    $args = wp_parse_args( $args, array(
-			'params' => array()
+			'params' => array(),
 		) );
 
 		$this->params = $args['params'];
@@ -18,6 +18,10 @@ class FrmListHelper extends WP_List_Table {
 
 	public function ajax_user_can() {
 		return current_user_can( 'administrator' );
+	}
+
+	public function get_columns() {
+		return array();
 	}
 
 	public function display_rows() {

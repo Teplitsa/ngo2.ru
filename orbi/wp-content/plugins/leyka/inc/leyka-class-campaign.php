@@ -12,7 +12,7 @@ class Leyka_Campaign_Management {
 	
 	private function __construct() {
 
-		add_action(self::$post_type.'_metaboxes', array($this, 'set_metaboxes'));
+		add_action('add_meta_boxes', array($this, 'set_metaboxes'));
 		add_filter('manage_'.self::$post_type.'_posts_columns', array($this, 'manage_columns_names'));
 		add_action('manage_'.self::$post_type.'_posts_custom_column', array($this, 'manage_columns_content'), 2, 2);
 		add_action('save_post', array($this, 'save_data'), 2, 2);
@@ -31,6 +31,45 @@ class Leyka_Campaign_Management {
 
 		return self::$_instance;
 	}
+
+    public function set_admin_messages($messages) {
+
+        global $post, $post_ID;
+
+        $messages[Leyka_Campaign_Management::$post_type] = array(
+            0 => '', // Unused. Messages start at index 1.
+            1 => sprintf(
+                __('Campaign updated. <a href="%s">View it</a>', 'leyka'),
+                esc_url(home_url('?p='.$post_ID))
+            ),
+            2 => __('Field updated.', 'leyka'),
+            3 => __('Field deleted.', 'leyka'),
+            4 => __('Campaign updated.', 'leyka'),
+            /* translators: %s: date and time of the revision */
+            5 => isset($_GET['revision']) ? sprintf(__('Campaign restored to revision from %s', 'leyka'), wp_post_revision_title((int)$_GET['revision'], false)) : false,
+            6 => sprintf(
+                __('Campaign published. <a href="%s">View it</a>', 'leyka'),
+                esc_url(home_url('?p='.$post_ID))
+            ),
+            7 => __('Campaign saved.', 'leyka'),
+            8 => sprintf(
+                __('Campaign submitted. <a target="_blank" href="%s">Preview it</a>', 'leyka'),
+                esc_url(add_query_arg('preview', 'true', home_url('?p='.$post_ID)))
+            ),
+            9 => sprintf(
+                __('Campaign scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview it</a>', 'leyka'),
+                // translators: Publish box date format, see http://php.net/date
+                date_i18n(__( 'M j, Y @ G:i'), strtotime($post->post_date)),
+                esc_url(home_url('?p='.$post_ID))
+            ),
+            10 => sprintf(
+                __('Campaign draft updated. <a target="_blank" href="%s">Preview it</a>', 'leyka'),
+                esc_url(add_query_arg('preview', 'true', home_url('?p='.$post_ID)))
+            ),
+        );
+
+        return $messages;
+    }
 
     public function row_actions($actions, $campaign) {
 
@@ -113,15 +152,20 @@ class Leyka_Campaign_Management {
 	/** Metaboxes: */
 	public function set_metaboxes() {
 
-		add_meta_box(self::$post_type.'_data', __('Campaign settings', 'leyka'), array($this, 'data_meta_box'), self::$post_type, 'normal', 'high');
+        add_meta_box(
+            self::$post_type.'_excerpt', __('Annotation', 'leyka'),
+            array($this, 'annotation_meta_box'), self::$post_type, 'normal', 'high'
+        );
 
-        // Metaboxs are only for campaign editing page:
+        add_meta_box(self::$post_type.'_data', __('Campaign settings', 'leyka'), array($this, 'data_meta_box'), self::$post_type, 'normal', 'high');
+
+        // Metaboxes are only for campaign editing page:
         $screen = get_current_screen();
         if($screen->post_type == self::$post_type && $screen->base == 'post' && !$screen->action) {
 
             add_meta_box(
                 self::$post_type.'_embed', __('Campaign embedding', 'leyka'),
-                array($this, 'embedding_meta_box'), self::$post_type, 'side', 'low'
+                array($this, 'embedding_meta_box'), self::$post_type, 'normal', 'high'
             );
 
 		    add_meta_box(
@@ -227,6 +271,13 @@ class Leyka_Campaign_Management {
 	<?php }
 	}
 
+    public function annotation_meta_box(WP_Post $campaign) {?>
+
+        <label for="excerpt"></label>
+        <textarea id="excerpt" name="excerpt" cols="40" rows="1"><?php echo $campaign->post_excerpt;?></textarea>
+        <p><?php _e('Annotation is an optional summary of campaign description that can be used in templates.', 'leyka');?></p>
+    <?php }
+
     public function donations_meta_box(WP_Post $campaign) { $campaign = new Leyka_Campaign($campaign);?>
 
         <div>
@@ -278,15 +329,53 @@ class Leyka_Campaign_Management {
     <?php
     }
 
-    public function embedding_meta_box(WP_Post $campaign) { $link = get_permalink($campaign->ID);
+    public function embedding_meta_box(WP_Post $campaign) {
 
-        $link .= stristr($link, '?') !== false ? '&embed=1' : '?embed=1';?>
+		$iframe = self::get_card_embed_code($campaign->ID);?>
 
-        <label for="campaign-embed-code"><?php _e("To embed a campaign card in some other web page, insert the following code in it's HTML:", 'leyka');?></label>
+<!--        <label><input type="radio" name="embed-type" value="donation_form" checked="checked"> --><?php //_e('Donation form', 'leyka');?><!--</label>-->
+<!--        <label><input type="radio" name="embed-type" value="campaign_card" checked="checked"> --><?php //_e('Campaign card', 'leyka');?><!--</label>-->
 
-        <textarea id="campaign-embed-code" class="campaign-embed-code"><?php echo '<iframe frameborder="0" width="300" height="510" src="'.$link.'"></iframe>'?></textarea>
+<!--        <div id="embed-donation_form" class="embed-area">-->
+<!--            <label for="donation-form-embed-code">--><?php //_e("To embed a donation form in some other web page, insert the following code in page HTML:", 'leyka');?><!--</label>-->
+<!---->
+<!--            <textarea class="embed-code" id="donation-form-embed-code" class="donation-form-embed-code">--><?php //echo '<iframe frameborder="0" width="300" height="510" src="'.$link.'donation_form'.'"></iframe>'?><!--</textarea>-->
+<!--        </div>-->
+
+	<div class="embed-block">
+		<div class="embed-code">
+			<h4><?php _e('Size settings', 'leyka');?></h4>
+			<div id="embed-size-pane" class="setting-row">
+				<label><?php _e('Width', 'leyka');?>: <input type="text" name="embed_iframe_w" id="embed_iframe_w" value="300" size="4"></label>
+				<label><?php _e('Height', 'leyka');?>: <input type="text" name="embed_iframe_w" id="embed_iframe_h" value="510" size="4"></label>
+			</div>
+			
+			<div id="embed-campaign_card" class="settings-field">
+				<label for="campaign-embed-code"><?php _e("To embed a campaign card in some other web page, insert the following code in page HTML:", 'leyka');?></label>
+				<textarea class="embed-code" id="campaign-embed-code" class="campaign-embed-code"><?php echo $iframe; ?></textarea>				
+			</div>
+			
+		</div>
+		
+		<div class="leyka-embed-preview">
+			<h4><?php _e('Preview', 'leyka');?></h4>
+			<?php echo $iframe; ?>
+		</div>
+		
+	</div>
     <?php }
 
+	static function get_card_embed_code($campaign_id, $w = 300, $h = 510){
+
+		$link = get_permalink($campaign_id);
+        $link .= stristr($link, '?') !== false ? '&' : '?';
+
+		$w = $w <= 0 ? 300 : (int)$w;
+		$h = $h <= 0 ? 510 : (int)$h;
+
+		return '<iframe width="'.$w.'" height="'.$h.'" src="'.$link.'embed=campaign_card"></iframe>';
+	}
+	
 	public function save_data($campaign_id, WP_Post $campaign) {
 
 		$campaign = new Leyka_Campaign($campaign);
@@ -423,7 +512,7 @@ class Leyka_Campaign {
         $target = get_post_meta($this->_id, 'campaign_target', true);
         return empty($target) ?
             'no_target' :
-            (Leyka_Campaign::get_campaign_collected_amount($this->_id) > $target ? 'is_reached' : 'in_progress');
+            (Leyka_Campaign::get_campaign_collected_amount($this->_id) >= $target ? 'is_reached' : 'in_progress');
     }
 
     public function __get($field) {
@@ -477,17 +566,16 @@ class Leyka_Campaign {
 	/** Get comlicated params */
     public function get_donations() {
 
-        $donations = new WP_Query(array(
-            'post_type' => 'leyka_donation',
+        $donations = get_posts(array(
+            'post_type' => Leyka_Donation_Management::$post_type,
             'post_status' => 'any',
             'posts_per_page' => -1,
             'meta_key' => 'leyka_campaign_id',
             'meta_value' => $this->_id,
         ));
-        $donations = $donations->get_posts();
 
-        foreach($donations as &$donation) {
-            $donation = new Leyka_Donation($donation->ID);
+        for($i=0; $i<count($donations); $i++) {
+            $donations[$i] = new Leyka_Donation($donations[$i]->ID);
         }
 
         return $donations;
@@ -500,7 +588,7 @@ class Leyka_Campaign {
             return false;
 
         $donations = get_posts(array(
-            'post_type' => 'leyka_donation',
+            'post_type' => Leyka_Donation_Management::$post_type,
             'post_status' => 'funded',
             'posts_per_page' => -1,
             'meta_key' => 'leyka_campaign_id',
@@ -556,7 +644,7 @@ class Leyka_Campaign {
 	/** CRUD and alike */
 	public function save() {
 
-		$meta = array(); // $this->get_default_meta();
+		$meta = array();
 
 		if( !empty($_REQUEST['campaign_template']) && $this->template != $_REQUEST['campaign_template'] )
 			$meta['campaign_template'] = trim($_REQUEST['campaign_template']);
@@ -585,8 +673,6 @@ class Leyka_Campaign {
 		foreach($meta as $key => $value) {
 			update_post_meta($this->_id, $key, $value);
 		}
-
-//        $this->refresh_target_state();
 	}
 
     /** @todo Maybe, this method is not needed. Will try to remove it. */

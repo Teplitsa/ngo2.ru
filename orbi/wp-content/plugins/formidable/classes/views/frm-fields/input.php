@@ -1,4 +1,4 @@
-<?php if ( in_array($field['type'], array( 'email', 'url', 'text')) ) { ?>
+<?php if ( in_array( $field['type'], array( 'email', 'url', 'text' ) ) ) { ?>
 <input type="<?php echo ( $frm_settings->use_html || $field['type'] == 'password' ) ? $field['type'] : 'text'; ?>" id="<?php echo esc_attr( $html_id ) ?>" name="<?php echo esc_attr( $field_name ) ?>" value="<?php echo esc_attr( $field['value'] ) ?>" <?php do_action('frm_field_input_html', $field) ?>/>
 <?php } else if ( $field['type'] == 'textarea' ) { ?>
 <textarea name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id ) ?>" <?php
@@ -11,14 +11,14 @@ do_action('frm_field_input_html', $field);
 
 } else if ( $field['type'] == 'radio' ) {
     $read_only = false;
-    if ( isset($field['read_only']) && $field['read_only'] && ( ! isset($frm_vars['readonly']) || $frm_vars['readonly'] != 'disabled') && ! FrmAppHelper::is_admin() ) {
+	if ( FrmField::is_read_only( $field ) && ! FrmAppHelper::is_admin() ) {
         $read_only = true; ?>
 <input type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
 <?php
     }
 
     if ( isset($field['post_field']) && $field['post_field'] == 'post_category' ) {
-        do_action('frm_after_checkbox', array( 'field' => $field, 'field_name' => $field_name, 'type' => $field['type']));
+		do_action( 'frm_after_checkbox', array( 'field' => $field, 'field_name' => $field_name, 'type' => $field['type'] ) );
     } else if ( is_array($field['options']) ) {
         foreach ( $field['options'] as $opt_key => $opt ) {
 			if ( isset( $atts ) && isset( $atts['opt'] ) && ( $atts['opt'] != $opt_key ) ) {
@@ -50,6 +50,7 @@ do_action('frm_field_input_html', $field);
 				'other_opt' => $other_opt, 'read_only' => $read_only,
 				'checked' => $checked, 'name' => $other_args['name'],
 				'value' => $other_args['value'], 'field' => $field,
+				'html_id' => $html_id, 'opt_key' => $opt_key,
 			) );
 
             unset( $other_opt, $other_args );
@@ -60,9 +61,9 @@ do_action('frm_field_input_html', $field);
 } else if ( $field['type'] == 'select' ) {
     $read_only = false;
     if ( isset($field['post_field']) && $field['post_field'] == 'post_category' ) {
-        echo FrmFieldsHelper::dropdown_categories( array( 'name' => $field_name, 'field' => $field) );
+		echo FrmFieldsHelper::dropdown_categories( array( 'name' => $field_name, 'field' => $field ) );
 	} else {
-        if ( isset( $field['read_only'] ) && $field['read_only'] && ( ! isset( $frm_vars['readonly'] ) || $frm_vars['readonly'] != 'disabled' ) && ! FrmAppHelper::is_admin() ) {
+		if ( FrmField::is_read_only( $field ) && ! FrmAppHelper::is_admin() ) {
             $read_only = true; ?>
 <input type="hidden" value="<?php echo esc_attr($field['value']) ?>" name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id ) ?>" />
 <select disabled="disabled" <?php do_action('frm_field_input_html', $field) ?>>
@@ -91,17 +92,18 @@ do_action('frm_field_input_html', $field);
 			'other_opt' => $other_opt, 'read_only' => $read_only,
 			'checked' => $other_checked, 'name' => $other_args['name'],
 			'value' => $other_args['value'], 'field' => $field,
+			'html_id' => $html_id, 'opt_key' => false,
 		) );
     }
 } else if ( $field['type'] == 'checkbox' ) {
     $checked_values = $field['value'];
     $read_only = false;
 
-    if ( isset($field['read_only']) && $field['read_only'] && ( ! isset($frm_vars['readonly']) || $frm_vars['readonly'] != 'disabled') && ! FrmAppHelper::is_admin() ) {
+	if ( FrmField::is_read_only( $field ) && ! FrmAppHelper::is_admin() ) {
         $read_only = true;
         if ( $checked_values ) {
             foreach ( (array) $checked_values as $checked_value ) { ?>
-<input type="hidden" value="<?php echo esc_attr( $checked_value ) ?>" id="<?php echo esc_attr( $html_id ) ?>-<?php echo esc_attr( sanitize_title( $checked_value ) ) ?>" name="<?php echo esc_attr( $field_name ) ?>[]" />
+<input type="hidden" value="<?php echo esc_attr( $checked_value ) ?>" name="<?php echo esc_attr( $field_name ) ?>[]" />
 <?php
             }
         } else { ?>
@@ -111,7 +113,7 @@ do_action('frm_field_input_html', $field);
     }
 
     if ( isset($field['post_field']) && $field['post_field'] == 'post_category' ) {
-        do_action('frm_after_checkbox', array( 'field' => $field, 'field_name' => $field_name, 'type' => $field['type']));
+		do_action( 'frm_after_checkbox', array( 'field' => $field, 'field_name' => $field_name, 'type' => $field['type'] ) );
     } else if ( $field['options'] ) {
         foreach ( $field['options'] as $opt_key => $opt ) {
             if ( isset($atts) && isset($atts['opt']) && ($atts['opt'] != $opt_key) ) {
@@ -143,6 +145,7 @@ do_action('frm_field_input_html', $field);
 				'other_opt' => $other_opt, 'read_only' => $read_only,
 				'checked' => $checked, 'name' => $other_args['name'],
 				'value' => $other_args['value'], 'field' => $field,
+				'html_id' => $html_id, 'opt_key' => $opt_key,
 			) );
 
             unset( $other_opt, $other_args, $checked );

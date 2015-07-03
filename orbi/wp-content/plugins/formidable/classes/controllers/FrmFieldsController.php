@@ -90,10 +90,11 @@ class FrmFieldsController {
 		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
 
         if ( ! $field_id || ! $form_id ) {
-            return;
+            wp_die();
         }
 
-        FrmField::update( $field_id, compact('form_id') );
+		$updated = FrmField::update( $field_id, compact( 'form_id' ) );
+		echo absint( $updated );
 
         wp_die();
     }
@@ -118,7 +119,7 @@ class FrmFieldsController {
         }
 
 		FrmField::update( $id, array( $field => $value ) );
-        echo stripslashes($value);
+		echo stripslashes( wp_kses_post( $value ) );
         wp_die();
     }
 
@@ -138,7 +139,7 @@ class FrmFieldsController {
 				$new_val = FrmAppHelper::get_post_param( $val, 0, 'absint' );
 
                 if ( $val == 'separate_value' ) {
-                    $new_val = ( isset( $field->field_options[ $val ] ) && $field->field_options[ $val ] ) ? 0 : 1;
+					$new_val = FrmField::is_option_true( $field, $val ) ? 0 : 1;
                 }
 
                 $field->field_options[ $val ] = $new_val;
@@ -160,17 +161,17 @@ class FrmFieldsController {
         global $wpdb;
 
 		$field_id = FrmAppHelper::get_post_param( 'field_id', 0, 'absint' );
+		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
+
 		$copy_field = FrmField::getOne( $field_id );
         if ( ! $copy_field ) {
             wp_die();
         }
 
-		$form_id = FrmAppHelper::get_post_param( 'form_id', 0, 'absint' );
-
         do_action('frm_duplicate_field', $copy_field, $form_id);
         do_action('frm_duplicate_field_'. $copy_field->type, $copy_field, $form_id);
 
-        $values = array();
+        $values = array( 'id' => $form_id );
         FrmFieldsHelper::fill_field( $values, $copy_field, $form_id );
 
 		$field_count = FrmDb::get_count( $wpdb->prefix .'frm_fields fi LEFT JOIN '. $wpdb->prefix .'frm_forms fr ON (fi.form_id = fr.id)', array( 'or' => 1, 'fr.id' => $form_id, 'fr.parent_form_id' => $form_id ) );
@@ -283,7 +284,7 @@ class FrmFieldsController {
 		$ids = explode( '-', $element_id );
 		$id = FrmAppHelper::get_post_param( 'field_id', 0, 'absint' );
 
-		$orig_update_value = $update_value = trim( FrmAppHelper::get_post_param( 'update_value', '', 'wp_kses_post' ) );
+		$orig_update_value = $update_value = trim( FrmAppHelper::get_post_param( 'update_value' ) );
 		if ( strpos( $element_id, 'key_' ) ) {
             $new_value = $update_value;
         } else {
@@ -291,7 +292,7 @@ class FrmFieldsController {
         }
 
         $field = FrmField::getOne($id);
-        $separate_values = ( isset($field->field_options['separate_value']) && $field->field_options['separate_value'] );
+        $separate_values = FrmField::is_option_true( $field, 'separate_value' );
 
         $this_opt_id = end($ids);
 		$this_opt = (array) $field->options[ $this_opt_id ];
@@ -489,7 +490,7 @@ class FrmFieldsController {
             $type = $type_switch[ $type ];
         }
 
-        $frm_field_selection = FrmFieldsHelper::field_selection();
+		$frm_field_selection = FrmField::field_selection();
         $types = array_keys($frm_field_selection);
         if ( ! in_array($type, $types) && $type != 'captcha' ) {
             $type = 'text';
@@ -617,7 +618,7 @@ class FrmFieldsController {
 
     private static function add_html_length($field, array &$add_html) {
         // check for max setting and if this field accepts maxlength
-		if ( ! isset( $field['max'] ) || empty( $field['max'] ) || in_array( $field['type'], array( 'textarea', 'rte', 'hidden' ) ) ) {
+		if ( FrmField::is_option_empty( $field, 'max' ) || in_array( $field['type'], array( 'textarea', 'rte', 'hidden' ) ) ) {
             return;
         }
 
@@ -630,13 +631,15 @@ class FrmFieldsController {
     }
 
     private static function add_html_placeholder($field, array &$add_html, array &$class) {
-        // check for a default value and placeholder setting
-        if ( ! isset($field['clear_on_focus']) || ! $field['clear_on_focus'] || empty($field['default_value']) ) {
-            return;
-        }
+		if ( empty( $field['default_value'] ) || FrmAppHelper::is_admin_page( 'formidable' ) ) {
+			return;
+		}
 
-        // don't apply this to the form builder page
-        if ( FrmAppHelper::is_admin_page('formidable' ) ) {
+        if ( ! FrmField::is_option_true( $field, 'clear_on_focus' ) ) {
+			if ( is_array( $field['default_value'] ) ) {
+				$field['default_value'] = json_encode( $field['default_value'] );
+			}
+			$add_html['data-frmval'] = 'data-frmval="' . esc_attr( $field['default_value'] ) . '"';
             return;
         }
 
@@ -647,7 +650,7 @@ class FrmFieldsController {
             $add_html['placeholder'] = 'placeholder="'. esc_attr($field['default_value']) .'"';
             wp_enqueue_script('jquery-placeholder');
         } else if ( ! $frm_settings->use_html ) {
-            $val = str_replace( array("\r\n", "\n"), '\r', addslashes(str_replace('&#039;', "'", esc_attr($field['default_value']))));
+			$val = str_replace( array( "\r\n", "\n" ), '\r', addslashes( str_replace( '&#039;', "'", esc_attr( $field['default_value'] ) ) ) );
             $add_html['data-frmval'] = 'data-frmval="'. esc_attr($val) .'"';
             $class[] = 'frm_toggle_default';
 
@@ -658,7 +661,7 @@ class FrmFieldsController {
     }
 
     private static function add_shortcodes_to_html( $field, array &$add_html ) {
-        if ( ! isset( $field['shortcodes'] ) || empty( $field['shortcodes'] ) ) {
+        if ( FrmField::is_option_empty( $field, 'shortcodes' ) ) {
             return;
         }
 
@@ -681,7 +684,7 @@ class FrmFieldsController {
 
     public static function check_value( $opt, $opt_key, $field ) {
         if ( is_array( $opt ) ) {
-            if ( isset( $field['separate_value'] ) && $field['separate_value'] ) {
+            if ( FrmField::is_option_true( $field, 'separate_value' ) ) {
                 $opt = isset( $opt['value'] ) ? $opt['value'] : ( isset( $opt['label'] ) ? $opt['label'] : reset( $opt ) );
             } else {
                 $opt = isset( $opt['label'] ) ? $opt['label'] : reset( $opt );

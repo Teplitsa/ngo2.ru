@@ -1,80 +1,6 @@
 <?php
 class FrmProEntry{
 
-	public static function pre_validate( $errors, $values ) {
-        global $frm_vars;
-
-        $user_ID = get_current_user_id();
-        $params = (isset($frm_vars['form_params']) && is_array($frm_vars['form_params']) && isset($frm_vars['form_params'][$values['form_id']])) ? $frm_vars['form_params'][$values['form_id']] : FrmEntriesController::get_params($values['form_id']);
-
-		if ( $params['action'] != 'create' ) {
-			if ( FrmProFormsHelper::going_to_prev( $values['form_id'] ) ) {
-                add_filter('frm_continue_to_create', '__return_false');
-                $errors = array();
-            } else if ( FrmProFormsHelper::saving_draft() ) {
-                //$errors = array();
-            }
-            return $errors;
-        }
-
-        $form = FrmForm::getOne($values['form_id']);
-        $form_options = maybe_unserialize($form->options);
-
-        global $wpdb;
-
-        $can_submit = true;
-		if ( isset( $form_options['single_entry'] ) && $form_options['single_entry'] ) {
-            $admin_entry = FrmAppHelper::is_admin();
-
-			if ( $form_options['single_entry_type'] == 'cookie' && isset( $_COOKIE['frm_form' . $form->id . '_' . COOKIEHASH ] ) ) {
-                $can_submit = $admin_entry ? true : false;
-			} else if ( $form_options['single_entry_type'] == 'ip' ) {
-                if ( ! $admin_entry ) {
-                    $prev_entry = FrmEntry::getAll( array( 'it.ip' => FrmAppHelper::get_ip_address() ), '', 1 );
-                    if ( $prev_entry ) {
-                        $can_submit = false;
-                    }
-                }
-            } else if ( ( $form_options['single_entry_type'] == 'user' || ( isset($form->options['save_draft']) && $form->options['save_draft'] == 1 ) ) && ! $form->editable ) {
-                if ( $user_ID ) {
-                    $meta = FrmProEntriesHelper::check_for_user_entry( $user_ID, $form, ( $form_options['single_entry_type'] != 'user' ) );
-                }
-
-                if ( isset($meta) && $meta ) {
-                    $can_submit = false;
-                }
-            }
-            unset($admin_entry);
-
-            if ( ! $can_submit ) {
-                $frmpro_settings = new FrmProSettings();
-                $k = is_numeric($form_options['single_entry_type']) ? 'field'. $form_options['single_entry_type'] : 'single_entry';
-                $errors[$k] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-                return $errors;
-            }
-        }
-        unset($can_submit);
-
-        if ( ( ( $_POST && isset($_POST['frm_page_order_'. $form->id]) ) || FrmProFormsHelper::going_to_prev($form->id) ) && ! FrmProFormsHelper::saving_draft() ) {
-            add_filter('frm_continue_to_create', '__return_false');
-        } else if ( $form->editable && isset($form_options['single_entry']) && $form_options['single_entry'] && $form_options['single_entry_type'] == 'user' && $user_ID && ! FrmAppHelper::is_admin() ) {
-            $meta = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'user_id' => $user_ID, 'form_id' => $form->id) );
-
-            if ( $meta ) {
-                $frmpro_settings = new FrmProSettings();
-                $errors['single_entry'] = $frmpro_settings->already_submitted;
-                add_filter('frm_continue_to_create', '__return_false');
-            }
-        }
-
-        if ( FrmProFormsHelper::going_to_prev($values['form_id']) ) {
-            $errors = array();
-        }
-
-        return $errors;
-    }
-
 	public static function validate( $params, $fields, $form, $title, $description ) {
         global $frm_vars;
 
@@ -158,7 +84,7 @@ class FrmProEntry{
                 continue;
             }
 
-            if ( 'divider' == $field->type && ! FrmProFieldsHelper::is_repeating_field($field) ) {
+            if ( 'divider' == $field->type && ! FrmField::is_repeating_field($field) ) {
                 // only create sub entries for repeatable sections
                 continue;
             }
@@ -449,6 +375,7 @@ class FrmProEntry{
             'post_category' => array(),
         );
 
+		self::populate_post_author( $new_post );
         self::populate_post_fields( $action, $entry, $new_post );
 
         // populate custom fields
@@ -464,6 +391,13 @@ class FrmProEntry{
 
         return $new_post;
     }
+
+	private static function populate_post_author( &$post ) {
+		$new_author = FrmAppHelper::get_post_param( 'frm_user_id', 0, 'absint' );
+		if ( ! isset( $post['post_author'] ) && $new_author ) {
+			$post['post_author'] = $new_author;
+		}
+	}
 
     private static function populate_post_fields( $action, $entry, &$new_post ) {
         $post_fields = self::get_post_fields( $new_post, 'post_fields' );
@@ -685,10 +619,6 @@ class FrmProEntry{
 
         $post = self::setup_post($action, $entry, $form);
         $post['post_type'] = $action->post_content['post_type'];
-
-		if ( ! isset( $post['post_author'] ) && isset( $_POST['frm_user_id'] ) && is_numeric( $_POST['frm_user_id'] ) ) {
-            $post['post_author'] = (int) $_POST['frm_user_id'];
-        }
 
         $status = ( isset($post['post_status']) && ! empty($post['post_status']) ) ? true : false;
 
@@ -1037,7 +967,7 @@ class FrmProEntry{
 
 		$defaults = array(
 			'order_by_array' => array(), 'order_array' => array(),
-			'limit' 	=> '', 'posts' => array(), 'meta' => 'get_meta',
+			'limit' 	=> '', 'posts' => array(),
 			'display'   => false,
 		);
 
@@ -1045,8 +975,7 @@ class FrmProEntry{
         $args['time_field'] = false;
 
         $query = array(
-            'select'    => 'SELECT it.id, it.item_key, it.name, it.ip, it.form_id, it.post_id, it.user_id, it.updated_by,
-        it.created_at, it.updated_at, it.is_draft FROM '. $wpdb->prefix .'frm_items it',
+        	'select'    => 'SELECT it.id FROM '. $wpdb->prefix .'frm_items it',
             'where'     => $where,
             'order'     => 'ORDER BY it.created_at ASC',
         );
@@ -1064,74 +993,12 @@ class FrmProEntry{
 		$query['order'] = rtrim($query['order'], ', ');
 
 		$query = implode($query, ' ') . $args['limit'];
-		$entries = $wpdb->get_results( $query, OBJECT_K );
+		$entry_ids = $wpdb->get_col( $query );
 
-		unset($query, $where);
+		self::reorder_time_entries( $entry_ids, $args['time_field'] );
 
-		//If meta is not needed or if there aren't any entries, end function
-        if ( $args['meta'] != 'get_meta' || ! $entries ) {
-			return stripslashes_deep($entries);
-		}
-
-		$get_entry_ids = array_keys($entries);
-
-		$cache_key = 'meta_form_id_'. (int) $args['display']->frm_form_id;
-		$metas = wp_cache_get($cache_key, 'frm_entry');
-		if ( false === $metas ) {
-		    $metas = wp_cache_get($cache_key . implode('', $get_entry_ids), 'frm_entry');
-		}
-
-		if ( false === $metas ) {
-    		//Get metas
-    		foreach ( $get_entry_ids as $k => $e ) {
-    			if ( wp_cache_get($e, 'frm_entry') ) {
-    				unset($get_entry_ids[$k]);
-    			}
-    			unset($k, $e);
-    		}
-
-    		if ( empty($get_entry_ids) ) {
-    			return stripslashes_deep($entries);
-    		}
-
-            $meta_where = array( 'field_id !' => 0 );
-            if ( count($get_entry_ids) > 50 ) {
-                $meta_where['fi.form_id'] = $args['display']->frm_form_id;
-            } else {
-                $meta_where['item_id'] = $get_entry_ids;
-            }
-
-            $metas = FrmDb::get_results(
-                $wpdb->prefix .'frm_item_metas it LEFT OUTER JOIN '. $wpdb->prefix .'frm_fields fi ON it.field_id=fi.id',
-                $meta_where, 'item_id, meta_value, field_id, field_key'
-            );
-		}
-
-        if ( $metas ) {
-            foreach ( $metas as $m_key => $meta_val ) {
-                if ( ! in_array($meta_val->item_id, $get_entry_ids) || ! isset($entries[$meta_val->item_id]) ) {
-                    continue;
-				}
-
-                if ( ! isset($entries[$meta_val->item_id]->metas) ) {
-                    $entries[$meta_val->item_id]->metas = array();
-				}
-
-				$entries[$meta_val->item_id]->metas[$meta_val->field_id] = maybe_unserialize($meta_val->meta_value);
-				unset($m_key, $meta_val);
-            }
-
-			//Cache each entry
-            foreach ( $entries as $entry ) {
-                wp_cache_set( $entry->id, $entry, 'frm_entry');
-                unset($entry);
-            }
-        }
-
-        self::reorder_time_entries($entries, $args['time_field']);
-
-        return stripslashes_deep($entries);
-    }
+		return $entry_ids;
+	}
 
     private static function prepare_entries_query( &$query, &$args ) {
         if ( in_array( 'rand', $args['order_by_array']) ) {
@@ -1226,8 +1093,8 @@ class FrmProEntry{
      * Reorder entries if 12 hour time field is selected for first ordering field.
      * If the $time_field variable is set, this means the first ordering field is a time field.
      */
-    private static function reorder_time_entries( &$entries, $time_field ) {
-        if ( ! $time_field || ! is_array($entries) || empty($entries) ) {
+	private static function reorder_time_entries( &$entry_ids, $time_field ) {
+		if ( ! $time_field || ! is_array( $entry_ids ) || empty( $entry_ids ) ) {
             return;
         }
 
@@ -1236,25 +1103,29 @@ class FrmProEntry{
             return;
         }
 
+		global $wpdb;
+
 		//Reorder entries
     	$new_order = array();
 		$empty_times = array();
-		foreach ( $entries as $e_key => $entry ) {
-			if ( ! isset($entry->metas[$time_field->id]) ) {
-				$empty_times[$e_key] = '';
+		$times = $wpdb->get_results( $wpdb->prepare( 'SELECT item_id, meta_value FROM ' . $wpdb->prefix . 'frm_item_metas WHERE field_id=%d', $time_field->id ), OBJECT_K );
+
+		foreach ( $entry_ids as $e_key ) {
+			if ( ! isset( $times[ $e_key ] ) ) {
+				$empty_times[ $e_key ] = '';
 				continue;
 			}
 
-        	$parts = str_replace( array( ' PM',' AM'), '', $entry->metas[$time_field->id]);
-        	$parts = explode(':', $parts);
-        	if ( is_array($parts) ) {
-            	if ( ( preg_match('/PM/', $entry->metas[$time_field->id]) && ( (int) $parts[0] != 12 ) ) ||
-                ( ( (int) $parts[0] == 12 ) && preg_match('/AM/', $entry->metas[$time_field->id]) ) ) {
-                	$parts[0] = ((int) $parts[0] + 12);
-                }
-        	}
+			$time = $times[ $e_key ]->meta_value;
+			$parts = str_replace( array( ' PM',' AM'), '', $time );
+			$parts = explode( ':', $parts );
+			if ( is_array( $parts ) ) {
+				if ( self::is_later_than_noon( $time, $parts ) ) {
+					$parts[0] = (int) $parts[0] + 12;
+				}
+			}
 
-        	$new_order[$e_key] = (int) $parts[0] . $parts[1];
+			$new_order[ $e_key ] = (int) $parts[0] . $parts[1];
 
         	unset($e_key, $entry);
 		}
@@ -1263,14 +1134,18 @@ class FrmProEntry{
     	asort($new_order);
 
 		$new_order = $new_order + $empty_times;
+    	$final_order = array_keys( $new_order );
 
-    	$final_order = array();
-    	foreach ( $new_order as $key => $time ) {
-        	$final_order[] = $entries[$key];
-        	unset($key, $time);
-    	}
+        $entry_ids = $final_order;
+    }
 
-        $entries = $final_order;
+	private static function is_later_than_noon( $time, $parts ) {
+		return ( ( preg_match( '/PM/', $time ) && ( (int) $parts[0] != 12 ) ) || ( ( (int) $parts[0] == 12 ) && preg_match( '/AM/', $time ) ) );
+	}
+
+	public static function pre_validate( $errors, $values ) {
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProFormsHelper::can_submit_form_now' );
+		return FrmProFormsHelper::can_submit_form_now( $errors, $values );
     }
 
 	public static function get_field( $field = 'is_draft', $id ) {

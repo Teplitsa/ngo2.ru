@@ -67,20 +67,19 @@ class FrmProEntriesHelper{
             $query['is_draft'] = 1;
         }
 
-        global $wpdb;
-        return FrmDb::get_col($wpdb->prefix .'frm_items', $query);
+		return FrmDb::get_col( 'frm_items', $query );
     }
 
     public static function user_can_edit( $entry, $form = false ) {
         if ( empty($form) ) {
-            FrmEntriesHelper::maybe_get_entry($entry);
+			FrmEntry::maybe_get_entry( $entry );
 
             if ( is_object($entry) ) {
                 $form = $entry->form_id;
             }
         }
 
-        FrmFormsHelper::maybe_get_form($form);
+		FrmForm::maybe_get_form( $form );
 
         $allowed = self::user_can_edit_check($entry, $form);
         return apply_filters('frm_user_can_edit', $allowed, compact('entry', 'form'));
@@ -179,7 +178,7 @@ class FrmProEntriesHelper{
     }
 
     public static function user_can_delete($entry) {
-        FrmEntriesHelper::maybe_get_entry($entry);
+		FrmEntry::maybe_get_entry( $entry );
         if ( ! $entry ) {
             return false;
         }
@@ -283,7 +282,7 @@ class FrmProEntriesHelper{
 
     // check if entry being updated just switched draft status
     public static function is_new_entry($entry) {
-        FrmEntriesHelper::maybe_get_entry( $entry );
+		FrmEntry::maybe_get_entry( $entry );
 
         // this function will only be correct if the entry has already gone through FrmProEntriesController::check_draft_status
         return ( $entry->created_at == $entry->updated_at );
@@ -300,18 +299,41 @@ class FrmProEntriesHelper{
         return $var;
     }
 
-    public static function get_dfe_values($field, $entry, &$field_value) {
-        if ( $field_value || $field->type != 'data' || $field->field_options['data_type'] != 'data' || ! isset($field->field_options['hide_field']) ) {
-            return;
-        }
+	public static function get_dfe_values( $field, $entry, &$field_value ) {
+		_deprecated_function( __FUNCTION__, '2.0.08', 'FrmProEntriesHelper::get_dynamic_list_values' );
+		return FrmProEntriesHelper::get_dynamic_list_values( $field, $entry, $field_value );
+	}
 
-        $field_value = array();
-        foreach ( (array) $field->field_options['hide_field'] as $hfield ) {
-            if ( isset($entry->metas[$hfield]) ) {
-                $field_value[] = maybe_unserialize($entry->metas[$hfield]);
-            }
-        }
-    }
+	/**
+	* Get the values for Dynamic List fields based on the conditional logic settings
+	*
+	* @since 2.0.08
+	* @param object $field
+	* @param object $entry
+	* @param string|array|int $field_value, pass by reference
+	*/
+	public static function get_dynamic_list_values( $field, $entry, &$field_value ) {
+		// Exit now if a value is already set, field type is not Dynamic List, or conditional logic is not set
+		if ( $field_value || $field->type != 'data' || ! FrmProField::is_list_field( $field ) || ! isset( $field->field_options['hide_field'] ) ) {
+			return;
+		}
+
+		$field_value = array();
+		foreach ( (array) $field->field_options['hide_field'] as $hfield ) {
+			if ( isset( $entry->metas[ $hfield ] ) ) {
+				// Check if field in conditional logic is a Dynamic field
+				$cl_field_type = FrmField::get_type( $hfield );
+				if ( $cl_field_type == 'data' ) {
+					$cl_field_val = maybe_unserialize( $entry->metas[ $hfield ] );
+					if ( is_array( $cl_field_val ) ) {
+						$field_value += $cl_field_val;
+					} else {
+						$field_value[] = $cl_field_val;
+					}
+				}
+			}
+		}
+	}
 
 	public static function get_search_str( $where_clause = '', $search_str, $form_id = 0, $fid = 0 ) {
         if ( ! is_array($search_str) ) {
@@ -326,16 +348,7 @@ class FrmProEntriesHelper{
         }
 
         if ( ! empty( $add_where ) ) {
-            if ( is_array( $where_clause ) ) {
-                $where_clause[] = $add_where;
-            } else {
-                global $wpdb;
-                $where = '';
-                $values = array();
-                FrmDb::parse_where_from_array( $add_where, '', $where, $values );
-                FrmDb::get_where_clause_and_values( $add_where );
-                $where_clause .= ' AND ('. $wpdb->prepare( $where, $values ) .')';
-            }
+			self::add_where_to_query( $add_where, $where_clause );
         }
 
         return $where_clause;
@@ -412,6 +425,22 @@ class FrmProEntriesHelper{
             $add_where['it.id'] = $meta_ids;
         }
     }
+
+	/**
+	 * @since 2.0.8
+	 */
+	private static function add_where_to_query( $add_where, &$where_clause ) {
+		if ( is_array( $where_clause ) ) {
+			$where_clause[] = $add_where;
+		} else {
+			global $wpdb;
+			$where = '';
+			$values = array();
+			FrmDb::parse_where_from_array( $add_where, '', $where, $values );
+			FrmDb::get_where_clause_and_values( $add_where );
+			$where_clause .= ' AND ('. $wpdb->prepare( $where, $values ) .')';
+        }
+	}
 
     /**
      * Check linked entries for the search query
@@ -533,313 +562,41 @@ class FrmProEntriesHelper{
     }
 
 	public static function generate_csv( $form, $entry_ids, $form_cols ) {
-		$filename = apply_filters( 'frm_csv_filename', date( 'ymdHis', time() ) . '_' . sanitize_title_with_dashes( $form->name ) . '_formidable_entries.csv', $form );
-		$form_id = $form->id;
-		unset( $form );
-
-        $charset = get_option( 'blog_charset' );
-
-		header( 'Content-Description: File Transfer' );
-		header( 'Content-Disposition: attachment; filename="' . esc_attr( $filename ) . '"' );
-		header( 'Content-Type: text/csv; charset=' . $charset, true );
-		header( 'Expires: ' . gmdate( 'D, d M Y H:i:s', mktime( date( 'H' ) + 2, date( 'i' ), date( 's' ), date( 'm' ), date( 'd' ), date('Y' ) ) ) . ' GMT' );
-		header( 'Last-Modified: ' . gmdate( 'D, d M Y H:i:s' ) . ' GMT' );
-		header( 'Cache-Control: no-cache, must-revalidate' );
-		header( 'Pragma: no-cache' );
-
-		do_action( 'frm_csv_headers', array( 'form_id' => $form_id, 'fields' => $form_cols ) );
-
-		$frmpro_settings = new FrmProSettings();
-		$to_encoding = FrmAppHelper::get_post_param( 'csv_format', $frmpro_settings->csv_format, 'sanitize_text_field' );
-		unset( $frmpro_settings );
-
-		$line_break = apply_filters( 'frm_csv_line_break', 'return' );
-		$sep = apply_filters( 'frm_csv_sep', ', ' );
-		$col_sep = ( isset( $_POST['csv_col_sep'] ) && ! empty( $_POST['csv_col_sep'] ) ) ? sanitize_text_field( $_POST['csv_col_sep'] ) : ',';
-		$col_sep = apply_filters( 'frm_csv_column_sep', $col_sep );
-		$wp_date_format = apply_filters( 'frm_csv_date_format', 'Y-m-d H:i:s' );
-
-        // add the field_id=0
-        $comment_count = FrmDb::get_count( 'frm_item_metas', array( 'item_id' => $entry_ids, 'field_id' => 0, 'meta_value like' => '{' ), array( 'group_by' => 'item_id', 'order_by' => 'count(*) DESC', 'limit' => 1 ) );
-
-		$headings = array();
-		self::csv_headings( $headings, $form_cols, $comment_count );
-		$headings = apply_filters( 'frm_csv_columns', $headings, $form_id );
-
-		self::print_csv_row( $headings, compact( 'charset', 'to_encoding', 'col_sep', 'sep' ) );
-
-		// fetch 20 posts at a time rather than loading the entire table into memory
-		while ( $next_set = array_splice( $entry_ids, 0, 20 ) ) {
-			// order by parent_item_id so children will be first
-			$entries = FrmEntry::getAll( array( 'or' => 1, 'id' => $next_set, 'parent_item_id' => $next_set ), ' ORDER BY parent_item_id DESC', '', true, false );
-			foreach ( $entries as $entry ) {
-				$row = array();
-				if ( $entry->form_id != $form_id ) {
-					self::add_repeat_field_values_to_csv( $entries, $entry );
-				} else {
-					self::add_field_values_to_csv( $row, $entry, $form_cols, $sep );
-					self::add_comments_to_csv( $row, $entry->id, $comment_count, $wp_date_format );
-					self::add_entry_data_to_csv( $row, $entry, $wp_date_format );
-
-					self::print_csv_row( $row, compact( 'charset', 'to_encoding', 'col_sep', 'sep', 'line_break', 'headings' ) );
-				}
-
-				unset( $entry, $row );
-			}
-
-			unset( $entries );
-		}
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProCSVHelper::generate_csv');
+		FrmProCSVHelper::generate_csv( compact( 'form', 'entry_ids', 'form_cols' ) );
 	}
 
-	public static function csv_headings( &$headings, $form_cols, $comment_count ) {
-		foreach ( $form_cols as $col ) {
-			if ( isset( $col->field_options['separate_value'] ) && $col->field_options['separate_value'] && ! in_array( $col->type, array( 'user_id', 'file', 'data', 'date' ) ) ) {
-				$headings[ $col->id . '_label'] = strip_tags( $col->name . ' ' . __( '(label)', 'formidable' ) );
-		    }
-
-			$headings[ $col->id ] = strip_tags( $col->name );
-		}
-
-		if ( $comment_count ) {
-			for ( $i = 0; $i < $comment_count; $i++ ) {
-				$headings[ 'comment' . $i ] = __( 'Comment', 'formidable' );
-				$headings[ 'comment_user_id' . $i ] = __( 'Comment User', 'formidable' );
-				$headings[ 'comment_created_at' . $i ] = __( 'Comment Date', 'formidable' );
-		    }
-		    unset($i);
-		}
-
-		$headings['created_at'] = __( 'Timestamp', 'formidable' );
-		$headings['updated_at'] = __( 'Last Updated', 'formidable' );
-		$headings['user_id'] = __( 'Created By', 'formidable' );
-		$headings['updated_by'] = __( 'Updated By', 'formidable' );
-		$headings['is_draft'] = __( 'Draft', 'formidable' );
-		$headings['ip'] = __( 'IP', 'formidable' );
-		$headings['id'] = __( 'ID', 'formidable' );
-		$headings['item_key'] = __( 'Key', 'formidable' );
+	public static function csv_headings() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function add_repeat_field_values_to_csv( &$entries, $entry ) {
-		if ( isset( $entry->metas ) ) {
-			// add child entries to the parent
-			foreach ( $entry->metas as $meta_id => $meta_value ) {
-				if ( ! is_numeric( $meta_id ) || $meta_value == '' ) {
-					// if the hook is being used to include field keys in the metas array,
-					// we need to skip the keys and only process field ids
-					continue;
-				}
-
-				if ( ! isset( $entries[ $entry->parent_item_id ]->metas[ $meta_id ] ) ) {
-					$entries[ $entry->parent_item_id ]->metas[ $meta_id ] = array();
-				} else if ( ! is_array( $entries[ $entry->parent_item_id ]->metas[ $meta_id ] ) ) {
-					// if the data is here, it should be an array but if this field has collected data
-					// both while inside and outside of the repeating section, it's possible this is a string
-					$entries[ $entry->parent_item_id ]->metas[ $meta_id ] = (array) $entries[ $entry->parent_item_id ]->metas[ $meta_id ];
-				}
-
-				//add the repeated values
-				$entries[ $entry->parent_item_id ]->metas[ $meta_id ][] = $meta_value;
-			}
-			$entries[ $entry->parent_item_id ]->metas += $entry->metas;
-		}
-
-		// add the embedded form id
-		if ( ! isset( $entries[ $entry->parent_item_id ]->embedded_fields ) ) {
-			$entries[ $entry->parent_item_id ]->embedded_fields = array();
-		}
-		$entries[ $entry->parent_item_id ]->embedded_fields[ $entry->id ] = $entry->form_id;
+	public static function add_repeat_field_values_to_csv() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function add_field_values_to_csv( &$row, $entry, $form_cols, $sep ) {
-		foreach ( $form_cols as $col ) {
-			$field_value = isset( $entry->metas[ $col->id ] ) ? $entry->metas[ $col->id ] : false;
-
-			if ( ! $field_value && $entry->post_id ) {
-				if ( $col->type == 'tag' || ( isset( $col->field_options['post_field'] ) && $col->field_options['post_field']) ) {
-					$field_value = FrmProEntryMetaHelper::get_post_value(
-						$entry->post_id, $col->field_options['post_field'],
-						$col->field_options['custom_field'],
-						array(
-							'truncate' => ( ( $col->field_options['post_field'] == 'post_category' ) ? true : false ),
-							'form_id' => $entry->form_id, 'field' => $col, 'type' => $col->type,
-							'exclude_cat' => ( isset( $col->field_options['exclude_cat'] ) ? $col->field_options['exclude_cat'] : 0 ),
-							'sep' => $sep,
-						)
-					);
-				}
-			}
-
-			if ( in_array( $col->type, array( 'user_id', 'file', 'date', 'data' ) ) ) {
-				$field_value = FrmProFieldsHelper::get_export_val( $field_value, $col, $entry );
-			} else {
-				if ( isset( $col->field_options['separate_value'] ) && $col->field_options['separate_value'] ) {
-					$sep_value = FrmEntriesHelper::display_value( $field_value, $col, array(
-						'type' => $col->type, 'post_id' => $entry->post_id, 'show_icon' => false,
-						'entry_id' => $entry->id, 'sep' => $sep,
-						'embedded_field_id' => ( isset( $entry->embedded_fields ) && isset( $entry->embedded_fields[ $entry->id ] ) ) ? 'form'. $entry->embedded_fields[ $entry->id ] : 0,
-						) );
-					$row[ $col->id . '_label' ] = $sep_value;
-					unset( $sep_value );
-				}
-
-				$field_value = maybe_unserialize( $field_value );
-				$field_value = apply_filters( 'frm_csv_value', $field_value, array( 'field' => $col ) );
-	        }
-
-			$row[ $col->id ] = $field_value;
-
-			unset( $col, $field_value );
-		}
+	public static function add_field_values_to_csv() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function add_comments_to_csv( &$row, $entry_id, $comment_count, $wp_date_format ) {
-		if ( ! $comment_count ) {
-			// don't continue if we already know there are no comments
-			return;
-		}
-
-	    $comments = FrmEntryMeta::getAll( array( 'item_id' => (int) $entry_id, 'field_id' => 0 ), ' ORDER BY it.created_at ASC');
-
-		$i = 0;
-		if ( $comments ) {
-			foreach ( $comments as $comment ) {
-				$c = maybe_unserialize( $comment->meta_value );
-				if ( ! isset( $c['comment'] ) ) {
-					continue;
-				}
-
-				$row[ 'comment' . $i ] = $c['comment'];
-				unset( $co );
-
-				$row[ 'comment_user_id' . $i ] = FrmProFieldsHelper::get_display_name( $c['user_id'], 'user_login' );
-				unset( $c );
-
-				$row[ 'comment_created_at' . $i ] = FrmAppHelper::get_formatted_time( $comment->created_at, $wp_date_format, ' ');
-				unset( $v, $comment );
-				$i++;
-	        }
-		}
-
-		for ( $i; $i <= $comment_count; $i++ ) {
-			$row[ 'comment' . $i ] = '';
-			$row[ 'comment_user_id' . $i] = '';
-			$row[ 'comment_created_at' . $i ] = '';
-		}
+	public static function add_comments_to_csv() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function add_entry_data_to_csv( &$row, $entry, $wp_date_format ) {
-		$row['created_at'] = FrmAppHelper::get_formatted_time( $entry->created_at, $wp_date_format, ' ' );
-		$row['updated_at'] = FrmAppHelper::get_formatted_time( $entry->updated_at, $wp_date_format, ' ' );
-		$row['user_id'] = FrmProFieldsHelper::get_display_name( $entry->user_id, 'user_login' );
-		$row['updated_by'] = FrmProFieldsHelper::get_display_name( $entry->updated_by, 'user_login' );
-		$row['is_draft'] = $entry->is_draft ? '1' : '0';
-		$row['ip'] = $entry->ip;
-		$row['id'] = $entry->id;
-		$row['item_key'] = $entry->item_key;
+	public static function add_entry_data_to_csv() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function print_csv_row( $rows, $args ) {
-		$defaults = array(
-			'charset'     => 'UTF-8',
-			'to_encoding' => 'UTF-8',
-			'col_sep'     => ',',
-			'sep'         => ', ',
-			'line_break'  => 'return',
-			'headings'    => array(),
-		);
-		$args = wp_parse_args( $args, $defaults );
-
-		$col_count = count( $rows );
-		$this_col = 0;
-		foreach ( $rows as $k => $row ) {
-			$this_col++;
-
-			if ( ! empty( $args['headings'] ) && ! isset( $args['headings'][ $k ] ) ) {
-				// this column has been removed from the csv, so skip it
-				continue;
-			}
-
-			if ( is_array( $row ) ) {
-				// implode the repeated field values
-				$row = implode( $args['sep'], FrmAppHelper::array_flatten( $row, 'reset' ) );
-			}
-
-			$val = self::encode_value( $row, $args['charset'], $args['to_encoding'] );
-			if ( $args['line_break'] != 'return' ) {
-				$val = str_replace( array( "\r\n", "\r", "\n" ), $args['line_break'], $val );
-			}
-			echo '"' . $val . '"';
-			if ( $this_col != $col_count ) {
-				echo $args['col_sep'];
-			}
-			unset( $k, $row );
-		}
-		echo "\n";
+	public static function print_csv_row() {
+		_deprecated_function( __FUNCTION__, '2.0.8' );
 	}
 
-	public static function encode_value( $line, $from_encoding, $to_encoding ) {
-        $convmap = false;
+	public static function encode_value( $line ) {
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProCSVHelper::encode_value');
+		return FrmProCSVHelper::encode_value( $line );
+	}
 
-		switch ( $to_encoding ) {
-            case 'macintosh':
-            // this map was derived from the differences between the MacRoman and UTF-8 Charsets
-            // Reference:
-            //   - http://www.alanwood.net/demos/macroman.html
-                $convmap = array(
-                    256, 304, 0, 0xffff,
-                    306, 337, 0, 0xffff,
-                    340, 375, 0, 0xffff,
-                    377, 401, 0, 0xffff,
-                    403, 709, 0, 0xffff,
-                    712, 727, 0, 0xffff,
-                    734, 936, 0, 0xffff,
-                    938, 959, 0, 0xffff,
-                    961, 8210, 0, 0xffff,
-                    8213, 8215, 0, 0xffff,
-                    8219, 8219, 0, 0xffff,
-                    8227, 8229, 0, 0xffff,
-                    8231, 8239, 0, 0xffff,
-                    8241, 8248, 0, 0xffff,
-                    8251, 8259, 0, 0xffff,
-                    8261, 8363, 0, 0xffff,
-                    8365, 8481, 0, 0xffff,
-                    8483, 8705, 0, 0xffff,
-                    8707, 8709, 0, 0xffff,
-                    8711, 8718, 0, 0xffff,
-                    8720, 8720, 0, 0xffff,
-                    8722, 8729, 0, 0xffff,
-                    8731, 8733, 0, 0xffff,
-                    8735, 8746, 0, 0xffff,
-                    8748, 8775, 0, 0xffff,
-                    8777, 8799, 0, 0xffff,
-                    8801, 8803, 0, 0xffff,
-                    8806, 9673, 0, 0xffff,
-                    9675, 63742, 0, 0xffff,
-                    63744, 64256, 0, 0xffff,
-                );
-            break;
-            case 'ISO-8859-1':
-                $convmap = array(256, 10000, 0, 0xffff);
-            break;
-        }
-
-		if ( is_array( $convmap ) ) {
-			$line = mb_encode_numericentity( $line, $convmap, $from_encoding );
-		}
-
-		if ( $to_encoding != $from_encoding ) {
-			$line = iconv( $from_encoding, $to_encoding . '//IGNORE', $line );
-		}
-
-		return self::escape_csv( $line );
-    }
-
-	/**
-	 * Escape a " in a csv with another "
-	 * @since 2.0
-	 */
 	public static function escape_csv( $value ) {
-		$value = str_replace( '"', '""', $value );
-		return $value;
+		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProCSVHelper::escape_csv');
+		return FrmProCSVHelper::escape_csv( $value );
 	}
 }

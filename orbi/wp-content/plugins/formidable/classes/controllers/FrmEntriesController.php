@@ -10,8 +10,8 @@ class FrmEntriesController {
 		if ( ! in_array( FrmAppHelper::simple_get( 'frm_action', 'sanitize_title' ), array( 'edit', 'show' ) ) ) {
             $frm_settings = FrmAppHelper::get_settings();
 			add_filter( 'manage_' . sanitize_title( $frm_settings->menu ) . '_page_formidable-entries_columns', 'FrmEntriesController::manage_columns' );
-			add_filter( 'manage_' . sanitize_title( $frm_settings->menu ) . '_page_formidable-entries_sortable_columns', 'FrmEntriesController::sortable_columns' );
 			add_filter( 'get_user_option_manage' . sanitize_title( $frm_settings->menu ) . '_page_formidable-entriescolumnshidden', 'FrmEntriesController::hidden_columns' );
+			add_filter( 'manage_' . sanitize_title( $frm_settings->menu ) . '_page_formidable-entries_sortable_columns', 'FrmEntriesController::sortable_columns' );
         }
     }
 
@@ -63,9 +63,9 @@ class FrmEntriesController {
         return $help;
     }
 
-    public static function manage_columns($columns) {
+	public static function manage_columns( $columns ) {
         global $frm_vars, $wpdb;
-        $form_id = FrmEntriesHelper::get_current_form_id();
+		$form_id = FrmForm::get_current_form_id();
 
         $columns[ $form_id .'_id' ] = 'ID';
 		$columns[ $form_id . '_item_key' ] = esc_html__( 'Entry Key', 'formidable' );
@@ -77,7 +77,7 @@ class FrmEntriesController {
         $form_cols = FrmField::get_all_for_form($form_id, '', 'include');
 
         foreach ( $form_cols as $form_col ) {
-			if ( FrmFieldsHelper::is_no_save_field( $form_col->type ) ) {
+			if ( FrmField::is_no_save_field( $form_col->type ) ) {
                 continue;
             }
 
@@ -86,7 +86,7 @@ class FrmEntriesController {
 
                 if ( $sub_form_cols ) {
                     foreach ( $sub_form_cols as $k => $sub_form_col ) {
-                        if ( in_array( $sub_form_col->type, FrmFieldsHelper::no_save_fields() ) ) {
+						if ( FrmField::is_no_save_field( $sub_form_col->type ) ) {
                             unset( $sub_form_cols[ $k ] );
                             continue;
                         }
@@ -196,34 +196,33 @@ class FrmEntriesController {
         return $save;
     }
 
-    public static function sortable_columns() {
-        $form_id = FrmEntriesHelper::get_current_form_id();
-
+	public static function sortable_columns() {
+		$form_id = FrmForm::get_current_form_id();
 		$fields = FrmField::get_all_for_form( $form_id );
 
-        $columns = array(
-            $form_id .'_id'         => 'id',
-            $form_id .'_created_at' => 'created_at',
-            $form_id .'_updated_at' => 'updated_at',
-            $form_id .'_ip'         => 'ip',
-            $form_id .'_item_key'   => 'item_key',
-            $form_id .'_is_draft'   => 'is_draft',
-        );
+		$columns = array(
+			$form_id . '_id'         => 'id',
+			$form_id . '_created_at' => 'created_at',
+			$form_id . '_updated_at' => 'updated_at',
+			$form_id . '_ip'         => 'ip',
+			$form_id . '_item_key'   => 'item_key',
+			$form_id . '_is_draft'   => 'is_draft',
+		);
 
-        foreach ( $fields as $field ) {
-		    if ( $field->type != 'checkbox' && ( ! isset($field->field_options['post_field']) || $field->field_options['post_field'] == '' ) ) {
-                // Can't sort on checkboxes because they are stored serialized, or post fields
-			    $columns[ $form_id .'_'. $field->field_key ] = 'meta_'. $field->id;
-		    }
-        }
+		foreach ( $fields as $field ) {
+			if ( $field->type != 'checkbox' && ( ! isset( $field->field_options['post_field'] ) || $field->field_options['post_field'] == '' ) ) {
+				// Can't sort on checkboxes because they are stored serialized, or post fields
+				$columns[ $form_id . '_' . $field->field_key ] = 'meta_' . $field->id;
+			}
+		}
 
-        return $columns;
-    }
+		return $columns;
+	}
 
     public static function hidden_columns($result) {
         global $frm_vars;
 
-        $form_id = FrmEntriesHelper::get_current_form_id();
+		$form_id = FrmForm::get_current_form_id();
 
         $return = false;
         foreach ( (array) $result as $r ) {
@@ -283,8 +282,8 @@ class FrmEntriesController {
 	public static function display_list( $message = '', $errors = array() ) {
         global $wpdb, $frm_vars;
 
-        $form = FrmEntriesHelper::get_current_form();
-        $params = FrmEntriesHelper::get_admin_params( $form );
+		$form = FrmForm::get_current_form();
+		$params = FrmForm::get_admin_params( $form );
 
         if ( $form ) {
             $params['form'] = $form->id;
@@ -352,7 +351,7 @@ class FrmEntriesController {
     public static function destroy() {
         FrmAppHelper::permission_check('frm_delete_entries');
 
-        $params = FrmEntriesHelper::get_admin_params();
+		$params = FrmForm::get_admin_params();
 
         if ( isset($params['keep_post']) && $params['keep_post'] ) {
             //unlink entry from post
@@ -375,14 +374,14 @@ class FrmEntriesController {
         }
 
         global $wpdb;
-        $params = FrmEntriesHelper::get_admin_params();
+		$params = FrmForm::get_admin_params();
         $message = '';
         $errors = array();
         $form_id = (int) $params['form'];
 
         if ( $form_id ) {
             $entry_ids = FrmDb::get_col( 'frm_items', array( 'form_id' => $form_id ) );
-            $action = FrmFormActionsHelper::get_action_for_form( $form_id, 'wppost', 1 );
+			$action = FrmFormAction::get_action_for_form( $form_id, 'wppost', 1 );
 
             if ( $action ) {
                 // this action takes a while, so only trigger it if there are posts to delete
@@ -427,7 +426,7 @@ class FrmEntriesController {
             return;
         }
 
-        $params = self::get_params( $form );
+		$params = FrmForm::get_params( $form );
 
         if ( ! isset( $frm_vars['form_params'] ) ) {
             $frm_vars['form_params'] = array();
@@ -439,7 +438,7 @@ class FrmEntriesController {
         }
 
         if ( $errors == '' ) {
-            $errors = FrmEntry::validate( $_POST );
+			$errors = FrmEntryValidate::validate( $_POST );
         }
 
 		/**
@@ -485,68 +484,9 @@ class FrmEntriesController {
         }
     }
 
-    public static function show_entry_shortcode( $atts ) {
-        $atts = shortcode_atts( array(
-            'id' => false, 'entry' => false, 'fields' => false, 'plain_text' => false,
-            'user_info' => false, 'include_blank' => false, 'default_email' => false,
-            'form_id' => false, 'format' => 'text', 'direction' => 'ltr',
-            'font_size' => '', 'text_color' => '',
-            'border_width' => '', 'border_color' => '',
-            'bg_color' => '', 'alt_bg_color' => '',
-        ), $atts );
-
-        if ( $atts['format'] != 'text' ) {
-            //format options are text, array, or json
-            $atts['plain_text'] = true;
-        }
-
-		if ( is_object( $atts['entry'] ) && ! isset( $atts['entry']->metas ) ) {
-			// if the entry does not include metas, force it again
-			$atts['entry'] = false;
-		}
-
-        if ( ! $atts['entry'] || ! is_object( $atts['entry'] ) ) {
-            if ( ! $atts['id'] && ! $atts['default_email'] ) {
-                return;
-            }
-
-            if ( $atts['id'] ) {
-                $atts['entry'] = FrmEntry::getOne( $atts['id'], true );
-            }
-        }
-
-        if ( $atts['entry'] ) {
-            $atts['form_id'] = $atts['entry']->form_id;
-            $atts['id'] = $atts['entry']->id;
-        }
-
-        if ( ! $atts['fields'] || ! is_array($atts['fields']) ) {
-            $atts['fields'] = FrmField::get_all_for_form( $atts['form_id'], '', 'include' );
-        }
-
-        $values = array();
-        foreach ( $atts['fields'] as $f ) {
-            FrmEntriesHelper::fill_entry_values($atts, $f, $values);
-            unset($f);
-        }
-
-        FrmEntriesHelper::fill_entry_user_info($atts, $values);
-
-        if ( $atts['format'] == 'json' ) {
-            return json_encode($values);
-        } else if ( $atts['format'] == 'array' ) {
-            return $values;
-        }
-
-        $content = array();
-        FrmEntriesHelper::convert_entry_to_content($values, $atts, $content);
-
-        if ( 'text' == $atts['format'] ) {
-            $content = implode('', $content);
-        }
-
-        return $content;
-    }
+	public static function show_entry_shortcode( $atts ) {
+		return FrmEntryFormat::show_entry( $atts );
+	}
 
     public static function &filter_email_value( $value, $meta, $entry, $atts = array() ) {
         $field = FrmField::getOne($meta->field_id);
@@ -560,7 +500,7 @@ class FrmEntriesController {
 
     public static function &filter_shortcode_value($value, $tag, $atts, $field) {
         $plain_text = add_filter('frm_plain_text_email', true);
-        FrmEntriesHelper::textarea_display_value( $value, $field->type, $plain_text );
+		FrmEntryFormat::textarea_display_value( $field->type, $plain_text, $value );
 
         if ( isset($atts['show']) && $atts['show'] == 'value' ) {
             return $value;
@@ -571,7 +511,7 @@ class FrmEntriesController {
 
     public static function &filter_display_value( $value, $field, $atts = array() ) {
         $saved_value = ( isset($atts['saved_value']) && $atts['saved_value'] ) ? true : false;
-        if ( ! in_array( $field->type, array( 'radio', 'checkbox', 'radio', 'select' ) ) || ! isset( $field->field_options['separate_value'] ) || ! $field->field_options['separate_value'] || $saved_value ) {
+		if ( ! in_array( $field->type, array( 'radio', 'checkbox', 'radio', 'select' ) ) || ! FrmField::is_option_true( $field, 'separate_value' ) || $saved_value ) {
             return $value;
         }
 
@@ -608,60 +548,17 @@ class FrmEntriesController {
     }
 
 	public static function get_params( $form = null ) {
-        global $frm_vars;
-
-        if ( ! $form ) {
-			$form = FrmForm::getAll( array(), 'name', 1 );
-        } else {
-            FrmFormsHelper::maybe_get_form( $form );
-        }
-
-        if ( isset( $frm_vars['form_params'] ) && is_array( $frm_vars['form_params'] ) && isset( $frm_vars['form_params'][ $form->id ] ) ) {
-            return $frm_vars['form_params'][ $form->id ];
-        }
-
-        $action_var = isset($_REQUEST['frm_action']) ? 'frm_action' : 'action';
-		$action = apply_filters( 'frm_show_new_entry_page', FrmAppHelper::get_param( $action_var, 'new', 'get', 'sanitize_title' ), $form );
-
-        $default_values = array(
-            'id' => '', 'form_name' => '', 'paged' => 1, 'form' => $form->id, 'form_id' => $form->id,
-            'field_id' => '', 'search' => '', 'sort' => '', 'sdir' => '', 'action' => $action,
-        );
-
-        $values = array();
-		$values['posted_form_id'] = FrmAppHelper::get_param( 'form_id', '', 'get', 'absint' );
-		if ( ! $values['posted_form_id'] ) {
-			$values['posted_form_id'] = FrmAppHelper::get_param( 'form', '', 'get', 'absint' );
-        }
-
-		if ( $form->id == $values['posted_form_id'] ) {
-			//if there are two forms on the same page, make sure not to submit both
-            foreach ( $default_values as $var => $default ) {
-                if ( $var == 'action' ) {
-					$values[ $var ] = FrmAppHelper::get_param( $action_var, $default, 'get', 'sanitize_title' );
-                } else {
-                    $values[ $var ] = FrmAppHelper::get_param( $var, $default );
-                }
-                unset( $var, $default );
-            }
-        } else {
-            foreach ( $default_values as $var => $default ) {
-                $values[ $var ] = $default;
-                unset( $var, $default );
-            }
-        }
-
-		if ( in_array( $values['action'], array( 'create', 'update' ) ) && ( ! $_POST || ( ! isset( $_POST['action'] ) && ! isset( $_POST['frm_action'] ) ) ) ) {
-            $values['action'] = 'new';
-        }
-
-        return $values;
-    }
+		_deprecated_function( __FUNCTION__, '2.0.9', 'FrmForm::get_params' );
+		return FrmForm::get_params( $form );
+	}
 
     public static function entry_sidebar($entry) {
         $data = maybe_unserialize($entry->description);
         $date_format = get_option('date_format');
         $time_format = get_option('time_format');
+		if ( isset( $data['browser'] ) ) {
+			$browser = FrmEntryFormat::get_browser( $data['browser'] );
+		}
 
         include(FrmAppHelper::plugin_path() .'/classes/views/frm-entries/sidebar-shared.php');
     }

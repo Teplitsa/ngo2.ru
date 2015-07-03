@@ -1,8 +1,0 @@
-[05/13/2015 9:39 AM] - SUCCESS : Cronjob_Handler - Hourly cron handler got fired.
-[05/13/2015 9:39 AM] - SUCCESS : Cronjob_Handler - Daily cron handler got fired.
-[05/13/2015 9:39 AM] - SUCCESS : DB Cleanup - checking if a cleanup needs to be done now...
-[05/13/2015 10:41 AM] - SUCCESS : Cronjob_Handler - Hourly cron handler got fired.
-[06/07/2015 8:39 PM] - SUCCESS : Cronjob_Handler - Hourly cron handler got fired.
-[06/07/2015 8:39 PM] - SUCCESS : Cronjob_Handler - Daily cron handler got fired.
-[06/07/2015 8:39 PM] - SUCCESS : DB Cleanup - checking if a cleanup needs to be done now...
-[06/07/2015 9:40 PM] - SUCCESS : Cronjob_Handler - Hourly cron handler got fired.

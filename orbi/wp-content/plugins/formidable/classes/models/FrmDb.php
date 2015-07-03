@@ -28,6 +28,9 @@ class FrmDb {
         }
 
         if ( $frm_db_version != $old_db_version ) {
+			// update rewrite rules for views and other custom post types
+			flush_rewrite_rules();
+
 			require_once( ABSPATH . 'wp-admin/includes/upgrade.php' );
 
             $this->create_tables();
@@ -43,8 +46,10 @@ class FrmDb {
         do_action('frm_after_install');
 
         /**** update the styling settings ****/
-        $frm_style = new FrmStyle();
-        $frm_style->update( 'default' );
+		if ( is_admin() ) {
+			$frm_style = new FrmStyle();
+			$frm_style->update( 'default' );
+		}
     }
 
     public function collation() {
@@ -223,6 +228,8 @@ class FrmDb {
      * @param string $where
      */
     private static function interpret_array_to_sql( $key, $value, &$where, &$values ) {
+		$key = trim( $key );
+
         if ( strpos( $key, 'created_at' ) !== false || strpos( $key, 'updated_at' ) !== false  ) {
             $k = explode(' ', $key);
             $where .= ' DATE_FORMAT(' . reset( $k ) . ', %s) ' . str_replace( reset( $k ), '', $key );
@@ -233,6 +240,7 @@ class FrmDb {
 
 		$lowercase_key = explode( ' ', strtolower( $key ) );
 		$lowercase_key = end( $lowercase_key );
+
         if ( is_array( $value ) ) {
             // translate array of values to "in"
 			if ( strpos( $lowercase_key, 'like' ) !== false ) {
@@ -248,7 +256,7 @@ class FrmDb {
 					$values[] = '%' . FrmAppHelper::esc_like( $v ) . '%';
 				}
 				$where .= ')';
-			} else {
+			} else if ( ! empty( $value ) ) {
             	$where .= ' in ('. FrmAppHelper::prepare_array_values( $value, '%s' ) .')';
 				$values = array_merge( $values, $value );
 			}
@@ -341,7 +349,7 @@ class FrmDb {
      */
     public static function get_one_record( $table, $args = array(), $fields = '*', $order_by = '' ) {
         _deprecated_function( __FUNCTION__, '2.0', 'FrmDb::get_row' );
-        return self::get_var( $table, $args, $fields, array( 'order_by' => $order_by, 'limit' => 1), '', 'row' );
+		return self::get_var( $table, $args, $fields, array( 'order_by' => $order_by, 'limit' => 1 ), '', 'row' );
     }
 
     public static function get_records( $table, $args = array(), $order_by = '', $limit = '', $fields = '*' ) {
@@ -419,7 +427,7 @@ class FrmDb {
 
     private static function convert_options_to_array( &$args, $order_by = '', $limit = '' ) {
         if ( ! is_array($args) ) {
-            $args = array( 'order_by' => $args);
+			$args = array( 'order_by' => $args );
         }
 
         if ( ! empty( $order_by ) ) {
@@ -663,10 +671,10 @@ DEFAULT_HTML;
 
             if ( $form->options['submit_html'] != $new_default_html && $form->options['submit_html'] == $old_default_html ) {
                 $form->options['submit_html'] = $new_default_html;
-                $wpdb->update($this->forms, array( 'options' => serialize($form->options)), array( 'id' => $form->id ));
+				$wpdb->update( $this->forms, array( 'options' => serialize( $form->options ) ), array( 'id' => $form->id ) );
 			} else if ( ! strpos( $form->options['submit_html'], 'save_draft' ) ) {
                 $form->options['submit_html'] = preg_replace('~\<\/div\>(?!.*\<\/div\>)~', $draft_link ."\r\n</div>", $form->options['submit_html']);
-                $wpdb->update($this->forms, array( 'options' => serialize($form->options)), array( 'id' => $form->id ));
+				$wpdb->update( $this->forms, array( 'options' => serialize( $form->options ) ), array( 'id' => $form->id ) );
             }
             unset($form);
         }
@@ -676,8 +684,8 @@ DEFAULT_HTML;
     private function migrate_to_6() {
         global $wpdb;
 
-        $no_save = array_merge( FrmFieldsHelper::no_save_fields(), array( 'form', 'hidden', 'user_id' ) );
-        $fields = FrmDb::get_results( $this->fields, array( 'type NOT' => $no_save), 'id, field_options' );
+		$no_save = array_merge( FrmField::no_save_fields(), array( 'form', 'hidden', 'user_id' ) );
+		$fields = FrmDb::get_results( $this->fields, array( 'type NOT' => $no_save ), 'id, field_options' );
 
         $default_html = <<<DEFAULT_HTML
 <div id="frm_field_[id]_container" class="form-field [required_class] [error_class]">
@@ -702,9 +710,9 @@ DEFAULT_HTML;
         $new_default_html = FrmFieldsHelper::get_default_html('text');
         foreach ( $fields as $field ) {
             $field->field_options = maybe_unserialize($field->field_options);
-            if ( ! isset( $field->field_options['custom_html'] ) || empty( $field->field_options['custom_html'] ) || $field->field_options['custom_html'] == $default_html || $field->field_options['custom_html'] == $old_default_html ) {
+			if ( ! FrmField::is_option_empty( $field, 'custom_html' ) || $field->field_options['custom_html'] == $default_html || $field->field_options['custom_html'] == $old_default_html ) {
                 $field->field_options['custom_html'] = $new_default_html;
-                $wpdb->update($this->fields, array( 'field_options' => maybe_serialize($field->field_options)), array( 'id' => $field->id ));
+				$wpdb->update( $this->fields, array( 'field_options' => maybe_serialize( $field->field_options ) ), array( 'id' => $field->id ) );
             }
             unset($field);
         }
@@ -715,7 +723,7 @@ DEFAULT_HTML;
         global $wpdb;
 		$user_ids = FrmEntryMeta::getAll( array( 'fi.type' => 'user_id' ) );
         foreach ( $user_ids as $user_id ) {
-            $wpdb->update( $this->entries, array( 'user_id' => $user_id->meta_value), array( 'id' => $user_id->item_id) );
+			$wpdb->update( $this->entries, array( 'user_id' => $user_id->meta_value ), array( 'id' => $user_id->item_id ) );
         }
     }
 }

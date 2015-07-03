@@ -20,7 +20,7 @@ class FrmProFieldsController{
         global $frm_vars;
 
 		if ( 'end_divider' == $field['type'] ) {
-			// close the section div
+			// close the section's frm_field_x_container div
 			if ( isset( $frm_vars['div'] ) && $frm_vars['div'] ) {
 				echo "</div>\n";
 				$frm_vars['div'] = false;
@@ -49,7 +49,7 @@ class FrmProFieldsController{
         remove_filter('frm_field_type', 'FrmFieldsController::change_type');
 
 		// Don't change user ID fields or repeating sections to hidden
-		if ( ! ( $type == 'divider' && isset( $field->field_options['repeat'] ) && $field->field_options['repeat'] ) && $type != 'user_id' && ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) ) && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) ) {
+		if ( ! ( $type == 'divider' && FrmField::is_option_true( $field, 'repeat' ) ) && $type != 'user_id' && ( isset( $frm_vars['show_fields'] ) && ! empty( $frm_vars['show_fields'] ) ) && ! in_array( $field->id, $frm_vars['show_fields'] ) && ! in_array( $field->field_key, $frm_vars['show_fields'] ) ) {
             $type = 'hidden';
         }
 
@@ -68,7 +68,7 @@ class FrmProFieldsController{
 
     public static function use_field_key_value($opt, $opt_key, $field){
         //if(in_array($field['post_field'], array( 'post_category', 'post_status')) or ($field['type'] == 'user_id' and is_admin() and current_user_can('administrator')))
-        if ( ( isset($field['use_key']) && $field['use_key'] ) ||
+		if ( FrmField::is_option_true( $field, 'use_key' ) ||
             ( isset($field['type']) && $field['type'] == 'data' ) ||
             ( isset($field['post_field']) && $field['post_field'] == 'post_status' )
         ) {
@@ -105,6 +105,7 @@ class FrmProFieldsController{
 				'calc'			=> $field['calc'],
 				'calc_dec'		=> $field['calc_dec'],
 				'form_id'		=> $form->id,
+				'field_id'		=> $field['id'],
             );
         }
     }
@@ -172,6 +173,10 @@ class FrmProFieldsController{
 
         if ( $display['type'] == 'number' ) {
             $display['calc'] = true;
+			$frm_settings = FrmAppHelper::get_settings();
+			if ( $frm_settings->use_html ) {
+				$display['max']  = false;
+			}
         }
 
         $default_unique = array(
@@ -323,7 +328,7 @@ class FrmProFieldsController{
         $frm_settings = FrmAppHelper::get_settings();
         $add_html = '';
 
-        if ( isset($field['read_only']) && $field['read_only'] && $field['type'] != 'hidden' ) {
+		if ( FrmField::is_option_true( $field, 'read_only' ) && $field['type'] != 'hidden' ) {
             global $frm_vars;
 
             if ( ( isset($frm_vars['readonly']) && $frm_vars['readonly'] == 'disabled' ) || ( current_user_can('frm_edit_entries') && FrmAppHelper::is_admin() ) ) {
@@ -337,7 +342,7 @@ class FrmProFieldsController{
             }
         }
 
-        if ( FrmFieldsHelper::is_multiple_select($field) ) {
+		if ( FrmField::is_multiple_select( $field ) ) {
             $add_html .= ' multiple="multiple" ';
         }
 
@@ -351,7 +356,7 @@ class FrmProFieldsController{
         }
 
 		if ( $frm_settings->use_html ) {
-			if ( isset( $field['autocom'] ) && $field['autocom'] && ($field['type'] == 'select' || ( $field['type'] == 'data' && isset( $field['data_type'] ) && $field['data_type'] == 'select' ) ) ) {
+			if ( FrmField::is_option_true( $field, 'autocom' ) && ($field['type'] == 'select' || ( $field['type'] == 'data' && isset( $field['data_type'] ) && $field['data_type'] == 'select' ) ) ) {
                 //add label for autocomplete fields
                 $add_html .= ' data-placeholder=" "';
             }
@@ -385,20 +390,20 @@ class FrmProFieldsController{
     }
 
     public static function add_field_class($class, $field){
-        if ( $field['type'] == 'scale' && isset($field['star']) && $field['star'] ) {
+		if ( $field['type'] == 'scale' && FrmField::is_option_true( $field, 'star' ) ) {
             $class .= ' star';
         } else if ( $field['type'] == 'date' ) {
             $class .= ' frm_date';
-        } else if ( $field['type'] == 'file' && isset($field['multiple']) && $field['multiple'] ) {
+		} else if ( $field['type'] == 'file' && FrmField::is_option_true( $field, 'multiple' ) ) {
             $class .= ' frm_multiple_file';
         }
 
 		// Hide the "No files selected" text if files are selected
-		if ( $field['type'] == 'file' && isset( $field['value'] ) && ! empty( $field['value'] ) ) {
+		if ( $field['type'] == 'file' && ! FrmField::is_option_empty( $field, 'value' ) ) {
 			$class .= ' frm_transparent';
 		}
 
-        if ( ! FrmAppHelper::is_admin() && isset($field['autocom']) && $field['autocom'] &&
+		if ( ! FrmAppHelper::is_admin() && FrmField::is_option_true( $field, 'autocom' ) &&
             ($field['type'] == 'select' || ($field['type'] == 'data' && isset($field['data_type']) && $field['data_type'] == 'select')) ) {
             global $frm_vars;
             $frm_vars['chosen_loaded'] = true;
@@ -460,7 +465,7 @@ class FrmProFieldsController{
         }
 
         if ( 'data' == $field['type'] ) {
-            $frm_field_selection = FrmFieldsHelper::pro_field_selection();
+			$frm_field_selection = FrmField::pro_field_selection();
         }
 
         if ( $field['type'] == 'date' ) {
@@ -488,7 +493,7 @@ class FrmProFieldsController{
             $selected_field = $form_id;
 
             if ( $selected_field == 'taxonomy' ) {
-                echo '<span class="howto">'. __( 'Select a taxonomy on the Post tab of the Form Settings page', 'formidable' ) .'</span>';
+                echo '<span class="howto">'. __( 'Select a taxonomy on the Form Actions tab of the Form Settings page', 'formidable' ) .'</span>';
                 echo '<input type="hidden" name="field_options[form_select_'. $current_field_id .']" value="taxonomy" />';
             }
         }
@@ -524,7 +529,7 @@ class FrmProFieldsController{
             wp_die();
         }
 
-		$fields = FrmField::getAll( array( 'fi.type not' => FrmFieldsHelper::no_save_fields(), 'fi.form_id' => $form_id ), 'field_order');
+		$fields = FrmField::getAll( array( 'fi.type not' => FrmField::no_save_fields(), 'fi.form_id' => $form_id ), 'field_order');
 
         $options = array(
             'titleValues'   => array(),
@@ -691,7 +696,7 @@ class FrmProFieldsController{
 
 		$hide_field = FrmAppHelper::get_param( 'hide_field', '', 'post', 'absint' );
 		$entry_id = FrmAppHelper::get_param( 'entry_id' );
-		$selected_field_id = FrmAppHelper::get_param( 'selected_field_id', '', 'post', 'absint' );
+		$selected_field_id = FrmAppHelper::get_param( 'selected_field_id', '', 'post', 'sanitize_title' );
 		$field_id = FrmAppHelper::get_param( 'field_id', '', 'post', 'absint' );
 		$hidden_field_id = FrmAppHelper::get_param( 'hide_id', '', 'post', 'sanitize_title' );
 
@@ -739,6 +744,10 @@ class FrmProFieldsController{
             $field_data->field_options['form_select'] = 'filtered_'. $field_data->field_options['form_select'];
 
             $field = apply_filters('frm_setup_new_fields_vars', $field, $field_data);
+
+			// Sort the options
+			$field['options'] = apply_filters('frm_data_sort', $field['options'], array( 'metas' => $metas, 'field' => $selected_field_id));
+
 		} else if ( $selected_field_id == 'taxonomy' ) {
 			if ( $entry_id == 0 ) {
                 wp_die();
@@ -784,7 +793,7 @@ class FrmProFieldsController{
         $field_name = 'item_meta';
         FrmProFieldsHelper::get_html_id_from_container($field_name, $html_id, $field, $hidden_field_id);
 
-        if ( FrmFieldsHelper::is_multiple_select($field_data) ) {
+		if ( FrmField::is_multiple_select( $field_data ) ) {
             $field_name .= '[]';
         }
 
@@ -873,7 +882,7 @@ class FrmProFieldsController{
         check_ajax_referer( 'frm_ajax', 'nonce' );
 
 	    if ( isset($_POST['form_id']) && isset($_POST['field_id']) ) {
-	        echo FrmProFieldsHelper::get_shortcode_select($_POST['form_id'], 'frm_calc_'. $_POST['field_id'], 'calc');
+			echo FrmProFieldsHelper::get_shortcode_select( sanitize_text_field( $_POST['form_id'] ), 'frm_calc_' . sanitize_text_field( $_POST['field_id'] ), 'calc' );
         }
 	    wp_die();
 	}
@@ -896,20 +905,21 @@ class FrmProFieldsController{
 	public static function toggle_repeat() {
         check_ajax_referer( 'frm_ajax', 'nonce' );
 
-		$form_id = absint( $_POST['form_id'] );
+		$form_id = absint( $_POST['form_id'] ); // $form_id should be empty for non-repeating sections
 		$parent_form_id = absint( $_POST['parent_form_id'] );
 		$checked = absint( $_POST['checked'] );
 
-		// This field is being set to repeat for the first time, so create the sub form
-		if ( empty( $form_id ) ) {
-            $values = array( 'parent_form_id' => $parent_form_id );
-            $values = FrmFormsHelper::setup_new_vars( $values );
-            $form_id = (int) FrmForm::create( $values );
+		// Switch to repeating
+		if ( $checked ) {
+			$values = array( 'parent_form_id' => $parent_form_id );
+			$values = FrmFormsHelper::setup_new_vars( $values );
+			$form_id = (int) FrmForm::create( $values );
+
+			// New form_select
+			echo $form_id;
 		}
 
         if ( $form_id ) {
-            echo $form_id;
-
 			$field_id = absint( $_POST['field_id'] );
 
 			// get the array of child fields
@@ -928,9 +938,13 @@ class FrmProFieldsController{
 
 	    global $wpdb;
 
-        $children = array_filter( $_POST['children'], 'is_numeric');
-		$fields = FrmField::getAll( array( 'fi.id' => $children ), 'field_order');
-        array_unshift($fields, $section_field);
+		if ( isset( $_POST['children'] ) ) {
+			$children = array_filter( (array) $_POST['children'], 'is_numeric');
+			$fields = FrmField::getAll( array( 'fi.id' => $children ), 'field_order');
+		} else {
+			$fields = array();
+		}
+		array_unshift( $fields, $section_field );
 
 		$field_count = FrmDb::get_count( $wpdb->prefix .'frm_fields fi LEFT JOIN '. $wpdb->prefix .'frm_forms fr ON (fi.form_id = fr.id)', array( 'or' => 1, 'fr.id' => $form_id, 'fr.parent_form_id' => $form_id ) );
         $ended = false;
@@ -966,6 +980,7 @@ class FrmProFieldsController{
                 $ended = true;
             }
 
+			$values['id'] = $this_form_id;
             FrmFieldsController::include_single_field($field_id, $values);
         }
 

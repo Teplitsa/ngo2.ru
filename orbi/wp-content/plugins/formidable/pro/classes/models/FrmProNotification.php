@@ -35,7 +35,7 @@ class FrmProNotification{
                 // this is in a repeating or embedded field
                 $values = array();
 
-                FrmEntriesHelper::fill_entry_values($atts, $file_field, $values);
+                FrmEntryFormat::fill_entry_values( $atts, $file_field, $values );
                 if ( isset($values[$file_field->field_key]) ) {
                     $file_ids = $values[$file_field->field_key];
                 }
