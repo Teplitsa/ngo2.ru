@@ -46,7 +46,13 @@ jQuery(document).ready(function($){
             }
 
             var widget = new cp.CloudPayments(),
-                $errors = $('#leyka-submit-errors');
+                $errors = $('#leyka-submit-errors'),
+                data = {};
+
+            /** @todo Add this checkbox to the donation forms if the gateway supports recurrents */
+            if($form.find('#recurrent').attr('checked')) {
+                data.cloudPayments = {recurrent: {interval: 'Week', period: 1}};
+            }
 
             widget.charge({
                 publicId: response.public_id,
@@ -54,8 +60,8 @@ jQuery(document).ready(function($){
                 amount: parseFloat(response.amount),
                 currency: response.currency,
                 invoiceId: parseInt(response.donation_id),
-                accountId: response.donor_email /*,
-                data: {key: 'value'}*/
+                accountId: response.donor_email,
+                data: data
             }, function(options){ // success callback
 
                 window.location.href = response.success_page;
