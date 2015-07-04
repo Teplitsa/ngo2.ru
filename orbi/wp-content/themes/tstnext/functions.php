@@ -97,7 +97,7 @@ add_action( 'widgets_init', 'tst_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
-function tst_scripts() {
+function tst_scripts_old() {
 	
 	$theme_dir_url = get_template_directory_uri();
 	
@@ -197,6 +197,12 @@ function tst_scripts() {
 		TST_VERSION,
 		true
 	);
+	
+}
+
+function tst_scripts() {
+	
+	
 	
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
