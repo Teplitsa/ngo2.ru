@@ -52,10 +52,10 @@ function tst_widgets_init() {
 						'name' => 'Правая колонка',
 						'description' => 'Общая боковая колонка справа'
 					),		
-		'header' => array(
-						'name' => 'Шапка сайта',
-						'description' => 'Динамическая область в шапке сайта'
-					),		
+		//'header' => array(
+		//				'name' => 'Шапка сайта',
+		//				'description' => 'Динамическая область в шапке сайта'
+		//			),		
 		'footer_1' => array(
 						'name' => 'Футер - 1 кол.',
 						'description' => 'Динамическая нижняя область - 1 колонка'
@@ -67,6 +67,10 @@ function tst_widgets_init() {
 		'footer_3' => array(
 						'name' => 'Футер - 3 кол.',
 						'description' => 'Динамическая нижняя область - 3 колонка'
+					),
+		'bottom' => array(
+						'name' => 'Нижняя панель',
+						'description' => 'Динамическая область на нижней панели'
 					)
 		
 	);
@@ -233,10 +237,10 @@ function tst_admin_scripts() {
 
 require get_template_directory().'/inc/aq_resizer.php';
 require get_template_directory().'/inc/post-types.php';
-require get_template_directory().'/inc/media.php';
+//require get_template_directory().'/inc/media.php';
 require get_template_directory().'/inc/extras.php';
 require get_template_directory().'/inc/template-tags.php';
-require get_template_directory().'/inc/shortcodes.php';
+//require get_template_directory().'/inc/shortcodes.php';
 require get_template_directory().'/inc/widgets.php';
 require get_template_directory().'/inc/related.php';
 

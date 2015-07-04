@@ -3,14 +3,15 @@
 -------------------------------------------------------- */
 
 /*** Colors ***/
-$primary-color: color("materialize-red", "lighten-2") !default;
+$primary-color: color("pink", "base") !default;
 $primary-color-light: lighten($primary-color, 15%) !default;
 $primary-color-dark: darken($primary-color, 15%) !default;
 
 $secondary-color: color("teal", "lighten-1") !default;
+
 $success-color: color("green", "base") !default;
 $error-color: color("red", "base") !default;
-$link-color: color("light-blue", "darken-1") !default;
+$link-color: color("pink", "base") !default;
 $off-black: rgba(0, 0, 0, 0.87) !default;
 
 // Project Colors
@@ -45,17 +46,17 @@ $mono: 				'Lucida Sans Typewriter', 'Lucida Console', Monaco, monospace;
 /*** Typography ***/
 
 //Baseline
-$base:    20px;
-$em-base: 10px; //used by rem function of bourbon
+$base:     20px;
+$em-base:  10px; //used by rem function of bourbon
 $b-margin: 12px;
 
 // Header Styles
-$h1-fontsize: 4.2rem !default;
-$h2-fontsize: 3.56rem !default;
-$h3-fontsize: 2.92rem !default;
-$h4-fontsize: 2.28rem !default;
-$h5-fontsize: 1.64rem !default;
-$h6-fontsize: 1rem !default;
+$h1-fontsize: rem(45) !default;
+$h2-fontsize: rem(34) !default;
+$h3-fontsize: rem(24) !default;
+$h4-fontsize: rem(20) !default;
+$h5-fontsize: rem(16) !default;
+$h6-fontsize: rem(14) !default;
 
 // Flowtext (do we need it?)
 /*$range : $large-screen - $small-screen !default;

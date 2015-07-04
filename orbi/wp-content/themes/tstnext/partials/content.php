@@ -14,8 +14,9 @@ if(!empty($author))
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class($css); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('col md-6 lg-4'); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'tst');?></div>
+<div class="<?php echo esc_attr($css);?>">
 	
 	<?php if(!has_term('news', 'category') && has_post_thumbnail()){ ?>
 		<div class="card-image">
@@ -50,5 +51,6 @@ if(!empty($author))
 			</div>
 		</footer>
 	<?php } ?>
-	
+
+</div>	
 </article><!-- #post-## -->
