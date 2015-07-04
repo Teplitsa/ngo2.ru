@@ -23,10 +23,9 @@ function tst_setup() {
 
 	// Thumbnails
 	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size(395, 230, true ); // regular thumbnails
-	add_image_size('long', 395, 210, true ); // logo thumbnail 
-	//add_image_size('poster', 220, 295, true ); // poster in widget	
-	add_image_size('embed', 710, 420, true ); // fixed size for embedding
+	set_post_thumbnail_size(395, 222, true ); // regular thumbnails 16:9
+	add_image_size('thumbnail-extra', 600, 337, true ); // large thumbnail 16:9
+	add_image_size('embed', 600, 420, true ); // fixed size for embedding 4:3
 	//add_image_size('long', 640, 280, true ); // long thumbnail for pages
 
 	// Menus
@@ -202,6 +201,9 @@ function tst_scripts_old() {
 
 function tst_scripts() {
 	
+	$theme_dir_url = get_template_directory_uri();
+	$style_dependencies = array();
+	$script_dependencies = array();
 	
 	
 	// Stylesheet

@@ -12,16 +12,10 @@
  */
 
 get_header(); ?>
-
-	
-
 <div class="row">
-	<div id="primary" class="content-area col s12 l8">
-		<main id="main" class="site-main" role="main">
-
-		<?php if ( have_posts() ) { ?>
-			
-		<?php
+	
+	<?php
+		if(have_posts()){
 			while(have_posts()){
 				the_post();
 				
@@ -32,17 +26,12 @@ get_header(); ?>
 			}  
 
 			tst_paging_nav();
-		?>
-
-		<?php } else { ?>
-
-			<?php get_template_part('partials/content', 'none'); ?>
-
-		<?php } ?>
-
-		</main>
-	</div>
-	
+		}
+		else {
+			get_template_part('partials/content', 'none');
+			
+		}
+	?>
 	<?php get_sidebar(); ?>
 </div>
 

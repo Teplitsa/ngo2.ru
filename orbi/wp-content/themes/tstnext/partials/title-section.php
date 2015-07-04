@@ -5,13 +5,6 @@ global $post;
 
 ?>
 <header class="section-header">
-<?php
-// breadcrumbs
-if(is_singular(array('post'))){
-	echo tst_breadcrumbs();
-}
-else {
-?>
 <h1 class="section-title"><?php
 	if(is_home()){
 		$p = get_post(get_option('page_for_posts'));
@@ -37,8 +30,6 @@ else {
 		}
 	}
 	elseif(is_page()) {
-		global $post;
-		
 		echo get_the_title($post);
 	}
 	elseif(is_search()){
@@ -49,6 +40,5 @@ else {
 	}
 ?>
 </h1>
-<?php } ?>
 </header>
 

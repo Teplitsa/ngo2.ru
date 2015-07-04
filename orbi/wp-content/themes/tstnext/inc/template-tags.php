@@ -380,3 +380,27 @@ function tst_social_share() {
 </div>
 <?php
 }
+
+
+/** Excerpt with attached date **/
+function tst_get_post_excerpt($cpost = null, $l = 30){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+	
+	$e = (!empty($cpost->post_excerpt)) ? $cpost->post_excerpt : wp_trim_words(strip_shortcodes($cpost->post_content), $l);
+	$date = get_the_date('d.m.Y', $cpost);
+	
+	return "<time class='entry-date'>{$date}</time> ".$e;
+}
+
+/** Default author avatar **/
+function tst_get_default_author_avatar(){
+	
+	$theme_dir_url = get_template_directory_uri();
+	$src = get_template_directory_uri().'/img/author-default.jpg';
+	$alt = __('Author', 'tst');
+	
+	return "<img src='{$src}' alt='{$alt}'>";
+}

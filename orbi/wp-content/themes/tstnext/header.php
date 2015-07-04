@@ -26,25 +26,9 @@
 </nav>
 
 
-<header id="site_header" class="site-header section" role="banner">
+<header id="site_header" class="site-header" role="banner">
 	<div class="container">
-		<div class="row">
-			<div class="col s12 m9">
-				<div class="site-branding">
-					
-					<a href="<?php echo esc_url( home_url( '/' ) ); ?>" rel="home" class="logo-wrap">
-					
-						<h4><?php bloginfo('name'); ?></h4>
-						<h5><?php bloginfo('description');?></h5>
-					
-						</a>
-					
-				</div><!-- .branding -->
-			</div>
-			<div class="col s12 m3">
-				<?php dynamic_sidebar('header-sidebar'); ?>
-			</div>
-		</div>
+		<?php get_template_part('partials/title', 'section');?>
 	</div>
 </header>
 
