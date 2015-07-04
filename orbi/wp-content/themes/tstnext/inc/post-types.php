@@ -53,7 +53,7 @@ function tst_custom_content(){
             'search_items'       => 'Искать события',
             'parent_item_colon'  => 'Родительское событие:',
             'not_found'          => 'События не найдены',
-            'not_found_in_trash' => 'В корзине события не найдены'
+            'not_found_in_trash' => 'В Корзине события не найдены'
        ),
         'public'              => true,
         'exclude_from_search' => false,
@@ -73,7 +73,40 @@ function tst_custom_content(){
         'taxonomies'          => array(),
     ));
 
-	
+	 register_post_type('product', array(
+        'labels' => array(
+            'name'               => 'Товары',
+            'singular_name'      => 'Товар',
+            'menu_name'          => 'Каталог',
+            'name_admin_bar'     => 'Добавить товар',
+            'add_new'            => 'Добавить новый',
+            'add_new_item'       => 'Добавить товар',
+            'new_item'           => 'Новый товар',
+            'edit_item'          => 'Редактировать товар',
+            'view_item'          => 'Просмотр товара',
+            'all_items'          => 'Все товары',
+            'search_items'       => 'Искать товары',
+            'parent_item_colon'  => 'Родительский товар:',
+            'not_found'          => 'Товары не найдены',
+            'not_found_in_trash' => 'В Корзине товары не найдены'
+       ),
+        'public'              => true,
+        'exclude_from_search' => false,
+        'publicly_queryable'  => true,
+        'show_ui'             => true,
+        'show_in_nav_menus'   => false,
+        'show_in_menu'        => true,
+        'show_in_admin_bar'   => true,
+        //'query_var'           => true,
+        'capability_type'     => 'post',
+        'has_archive'         => false,
+        'rewrite'             => array('slug' => 'product', 'with_front' => false),
+        'hierarchical'        => false,
+        'menu_position'       => 5,
+		'menu_icon'           => 'dashicons-cart',
+        'supports'            => array('title', 'excerpt', 'editor', 'thumbnail'),
+        'taxonomies'          => array(),
+    ));
 }
 
 } // if tst_custom_content
