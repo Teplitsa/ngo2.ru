@@ -39,5 +39,18 @@
 @import "components/date_picker/default.date.scss";
 @import "components/date_picker/default.time.scss";*/
 
-@import "general/reset";
-@import "general/utility";
+@import "bourbon";
+
+@import "reset";
+
+//material inits
+@import "material/color";
+@import "material/icons-material-design";
+@import "material/roboto";
+
+
+//project inits
+@import "variables";
+@import "grid";
+@import "utility";
+

@@ -1,14 +1,21 @@
-/**
- * Presets
- **/
+/*---------------------------------------------------------
+ Presets (_presets.scss)
+-------------------------------------------------------- */
 
-@mixin post-title() {
-	//??
-	
-	a {
-		color: $off-black;
-		&:hover, &:focus, &:active {
-			color: $link-color;		
-		}
-	}	
-}
+//Fonts
+$sans:        		'Roboto', sans-serif;
+$heading:        	'Roboto', sans-serif;
+$mono: 				"Lucida Sans Typewriter", "Lucida Console", Monaco, monospace;
+
+//Break points
+$one:				500px;
+$two:				800px;
+$three:				1000px;
+
+//Grid
+$width:				978px;
+$col:				54px;
+$gut:				30px;
+
+//Baseline
+$base: 				24px;
