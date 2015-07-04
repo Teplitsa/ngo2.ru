@@ -1,13 +1,44 @@
+/*---------------------------------------------------------
+ General styles (_front.scss)
+-------------------------------------------------------- */
 
-// Links
+html{
+	font-size: 62.5%; //10px
+	background-color: $color-white;  
+}
+
+body {	
+	text-rendering: optimizeLegibility;
+	font-size: rem(14);
+	line-height: 1.42857;
+	color: $off-black;;
+	font-family: $sans;
+	font-weight: normal;
+}
+
 a {
 	color: $link-color;
 	text-decoration: none;
-
+	&:visited { color: $link-color; }
+	
 	// Gets rid of tap active state
 	-webkit-tap-highlight-color: transparent;
   
 	&:hover, &:focus, &:active {
-		//color: darken($link-color, 15%);		
+		color: darken($link-color, 15%);		
 	}
 }
+
+p {
+	margin-bottom: rem($gut/2);
+	margin-top: rem($gut/2);	
+	&:first-child { margin-top: 0; }
+	&:last-child { margin-bottom: 0; }
+}
+
+p,ul,ol,dl,blockquote {
+	@extend .break;
+}
+
+
+//structure

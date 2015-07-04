@@ -23,10 +23,12 @@
 }
 
 @mixin no-select {
+	-webkit-touch-callout: none;
+	-khtml-user-select: none;
 	-webkit-user-select: none;
-	   -moz-user-select: none;
-	   	-ms-user-select: none;
-	   		user-select: none;
+	-moz-user-select: none;
+	-ms-user-select: none;
+	user-select: none;
 }
 
 @mixin link-recolor($color, $hover){
@@ -159,79 +161,82 @@ a:link {
 -------------------------------------------------------- */
 
 // Utility classes
+
 .left-align {
-  text-align: left;
+	text-align: left;
 }
 .right-align {
-  text-align: right
+	text-align: right
 }
 .center, .center-align {
-  text-align: center;
+	text-align: center;
 }
 .left {
-  float: left !important;
+	float: left !important;
 }
 .right {
-  float: right !important;
+	float: right !important;
 }
+
 
 .no-select {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -khtml-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
+	@include no-select;
 }
-
 .circle {
-  border-radius: 50%;
+	border-radius: 50%;
 }
-
 .center-block {
-  display: block;
-  margin-left: auto;
-  margin-right: auto;
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
 }
-
 .truncate {
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
 }
-
 .no-padding {
-  padding: 0 !important;
+	padding: 0 !important;
 }
 
+
+// Transitions
+ul.staggered-list li {
+	opacity: 0;
+}
+
+.fade-in {
+	opacity: 0;
+	transform-origin: 0 50%;
+}
 
 
 // Z-levels
 .z-depth-1{
-    @include box-shadow-2(0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12));
+    box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12);
 }
 .z-depth-1-half{
-    @include box-shadow-2(0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15));
+    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15);
 }
 .z-depth-2{
-    @include box-shadow-2(0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19));
+    box-shadow: 0 8px 17px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
 .z-depth-3{
-    @include box-shadow-2(0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19));
+    box-shadow: 0 12px 15px 0 rgba(0, 0, 0, 0.24), 0 17px 50px 0 rgba(0, 0, 0, 0.19);
 }
 .z-depth-4{
-    @include box-shadow-2(0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21));
+    box-shadow: 0 16px 28px 0 rgba(0, 0, 0, 0.22), 0 25px 55px 0 rgba(0, 0, 0, 0.21);
 }
 .z-depth-5{
-    @include box-shadow-2(0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22));
+    box-shadow: 0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22);
 }
 
 
 // Divider
 .divider {
-  height: 1px;
-  overflow: hidden;
-  //background-color: color("grey", "lighten-2");
+	height: 1px;
+	overflow: hidden;
+	background-color: rgba(0,0,0, 0.12);
 }
 
 
@@ -241,11 +246,11 @@ i {
 
   &.left {
     float: left;
-    margin-right: 15px;
+    margin-right: rem(15);
   }
   &.right {
     float: right;
-    margin-left: 15px;
+    margin-left: rem(15);
   }
   &.tiny {
     font-size: 1rem;
@@ -261,4 +266,3 @@ i {
   }
 }
 
-//to-do: migrate other global styles

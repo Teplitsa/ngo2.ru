@@ -11,6 +11,9 @@ $width:				1128px;
 $col:				$width / 12;
 $gut:				24px;
 
+// Margins (correctins)
+$element-top-margin: $gut/3 !default;
+$element-bottom-margin: ($gut*2)/3 !default;
 
 @mixin for($media) {
 	@if $media == small-screens {
@@ -55,10 +58,10 @@ $gut:				24px;
 	max-width: $width;
 	width: 90%;
 	
-	@mixin for(medium-screens) {
+	@include for(medium-screens) {
 		width: 85%;
 	}
-	@mixin for(large-screens) {
+	@include for(large-screens) {
 		width: 70%;
 	}
 }

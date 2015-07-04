@@ -16,6 +16,10 @@ $off-black: rgba(0, 0, 0, 0.87) !default;
 // Project Colors
 $color-text:   $off-black;
 $color-white:  #ffffff;
+$color-border-normal: rgba(0,0,0,0.12) !default;
+$color-text-semi:  rgba(0, 0, 0, 0.54) !default;
+$color-link-one: $link-color;
+
 /*$color-link-one: #FF5300;
 $color-link-two: #88B5B2; 
 $color-link-three: #014763;
@@ -25,7 +29,7 @@ $color-text-black: #111111;
 $color-text-semi:  #666666;
 $color-text-light: #999999;
 
-$color-border-normal: #CCDEDD;
+
 $color-border-light:  #eeeeee;*/
 
 
@@ -43,6 +47,7 @@ $mono: 				'Lucida Sans Typewriter', 'Lucida Console', Monaco, monospace;
 //Baseline
 $base:    20px;
 $em-base: 10px; //used by rem function of bourbon
+$b-margin: 12px;
 
 // Header Styles
 $h1-fontsize: 4.2rem !default;
@@ -53,9 +58,9 @@ $h5-fontsize: 1.64rem !default;
 $h6-fontsize: 1rem !default;
 
 // Flowtext (do we need it?)
-$range : $large-screen - $small-screen !default;
+/*$range : $large-screen - $small-screen !default;
 $intervals: 20 !default;
-$interval-size: $range / $intervals !default;
+$interval-size: $range / $intervals !default;*/
 
 
 
