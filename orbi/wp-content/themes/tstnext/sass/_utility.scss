@@ -104,26 +104,33 @@ img.wp-smiley {
 -------------------------------------------------------- */
 /* utilities */
 .clear {
-	clear: both; }
+	clear: both;
+}
 	
 .cf {
-	@include clearfix; }
+	@include clearfix;
+}
 
 .ir {
-	@include image-replace; }
+	@include image-replace;
+}
 
 .hidden {
-	@include hidden; } 
+	@include hidden;
+} 
 
 .visuallyhidden {
-	@include visuallyhidden; }
+	@include visuallyhidden;
+}
 
 .invisible { //Hide visually and from screenreaders, but maintain layout
-	visibility: hidden; }
+	visibility: hidden;
+}
 
 .break {
 	word-break: break-word;
-	word-wrap: break-word; }
+	word-wrap: break-word;
+}
 
 	
 /* selections */
@@ -148,11 +155,58 @@ a:link {
 
 
 /*---------------------------------------------------------
- Material Helpers (_utility.scss)
+ Material Helpers & Global Elements (_utility.scss)
 -------------------------------------------------------- */
 
-// Z-levels
+// Utility classes
+.left-align {
+  text-align: left;
+}
+.right-align {
+  text-align: right
+}
+.center, .center-align {
+  text-align: center;
+}
+.left {
+  float: left !important;
+}
+.right {
+  float: right !important;
+}
 
+.no-select {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.circle {
+  border-radius: 50%;
+}
+
+.center-block {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.no-padding {
+  padding: 0 !important;
+}
+
+
+
+// Z-levels
 .z-depth-1{
     @include box-shadow-2(0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12));
 }
@@ -172,8 +226,39 @@ a:link {
     @include box-shadow-2(0 27px 24px 0 rgba(0, 0, 0, 0.2), 0 40px 77px 0 rgba(0, 0, 0, 0.22));
 }
 
+
+// Divider
 .divider {
   height: 1px;
   overflow: hidden;
   //background-color: color("grey", "lighten-2");
 }
+
+
+// Icon Styles
+i {
+  line-height: inherit;
+
+  &.left {
+    float: left;
+    margin-right: 15px;
+  }
+  &.right {
+    float: right;
+    margin-left: 15px;
+  }
+  &.tiny {
+    font-size: 1rem;
+  }
+  &.small {
+    font-size: 2rem;
+  }
+  &.medium {
+    font-size: 4rem;
+  }
+  &.large {
+    font-size: 6rem;
+  }
+}
+
+//to-do: migrate other global styles

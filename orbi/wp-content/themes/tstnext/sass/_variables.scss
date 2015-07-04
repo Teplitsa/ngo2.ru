@@ -52,10 +52,7 @@ $h4-fontsize: 2.28rem !default;
 $h5-fontsize: 1.64rem !default;
 $h6-fontsize: 1rem !default;
 
-// Footer
-$footer-bg-color: $primary-color !default;
-
-// Flowtext
+// Flowtext (do we need it?)
 $range : $large-screen - $small-screen !default;
 $intervals: 20 !default;
 $interval-size: $range / $intervals !default;

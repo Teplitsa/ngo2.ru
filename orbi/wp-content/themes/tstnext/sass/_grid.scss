@@ -36,9 +36,21 @@ $gut:				24px;
 	}
 }
 
-//container
-.container {
-	padding: 0 $gut;
+
+
+/*---------------------------------------------------------
+ Grid (_grid.scss)
+-------------------------------------------------------- */
+*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;	
+	box-sizing: border-box;
+}
+	
+// Container
+.container {	
 	margin: 0 auto;
 	max-width: $width;
 	width: 90%;
@@ -50,17 +62,6 @@ $gut:				24px;
 		width: 70%;
 	}
 }
-
-
-/*---------------------------------------------------------
- Grid (_grid.scss)
--------------------------------------------------------- */
-*,
-*:after,
-*:before {
-	margin: 0;
-	padding: 0;	
-	box-sizing: border-box; }
 
 // Rows and columns basics
 .col {
@@ -85,7 +86,7 @@ $gut:				24px;
 }
 
 
-//mobile first - as for beginning we have only one column
+// Mobile first - as for beginning we have only one column
 .mf-8 {
 	width: percentage(8/12);
 	margin-bottom: 0;
@@ -102,7 +103,7 @@ $gut:				24px;
 }
 
 
-// small screens 
+// Small screens 
 @include for(small-screens) {
 	@for $i from 1 through 12 {
 		.sm-#{$i} {
@@ -122,7 +123,7 @@ $gut:				24px;
 }
 
 
-//larger screen
+// Larger screen
 @include for(medium-screens) {
 	@for $i from 1 through 12 {
 		.md-#{$i} {
@@ -142,7 +143,7 @@ $gut:				24px;
 }
 
 
-//the largest screen
+// The largest screen
 @include for(large-screens) {
 	@for $i from 1 through 12 {
 		.lg-#{$i} {
