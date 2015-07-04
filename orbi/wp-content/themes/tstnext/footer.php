@@ -12,9 +12,9 @@ $tst = __("Teplitsa of social technologies", 'tst');
 
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
-if(!is_front_page()) { ?>
+?>
 	</div></div><!-- .container #site_content -->
-<?php }?>
+
 	
 <div id="bottombar" class="widget-area  "><div class="container">		
 	

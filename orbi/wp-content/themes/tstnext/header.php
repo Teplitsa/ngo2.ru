@@ -20,16 +20,12 @@
 <body id="top" <?php body_class(); ?>>
 <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 
-<nav id="site_nav" class="site-nav deep-purple darken-1" role="navigation">
+<nav id="site_nav" class="site-nav" role="navigation">
 	<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>
-	<div class="nav-wrapper container">
-		<a href="#" data-activates="mobile_nav" class="button-collapse"><i class="mdi-navigation-menu"></i></a>
-		<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'right hide-on-med-and-down')); ?>
-		<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'side-nav', 'menu_id' => 'mobile_nav')); ?>
-	</div>
+	<div class="nav-wrapper">Navbar</div>
 </nav>
 
-<?php if(!is_front_page()) { ?>
+
 <header id="site_header" class="site-header section" role="banner">
 	<div class="container">
 		<div class="row">
@@ -56,4 +52,3 @@
 
 <div id="site_content" class="site-content section">
 <div class="container">
-<?php } ?>

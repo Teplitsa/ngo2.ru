@@ -204,6 +204,14 @@ function tst_scripts() {
 	
 	
 	
+	// Stylesheet
+	wp_enqueue_style(
+		'tst-design',
+		$theme_dir_url . '/css/design.css',
+		$style_dependencies,
+		TST_VERSION
+	);
+	
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

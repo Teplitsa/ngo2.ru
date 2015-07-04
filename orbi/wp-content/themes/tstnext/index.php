@@ -13,7 +13,7 @@
 
 get_header(); ?>
 
-<?php get_template_part('partials/title', 'section');?>	
+	
 
 <div class="row">
 	<div id="primary" class="content-area col s12 l8">
