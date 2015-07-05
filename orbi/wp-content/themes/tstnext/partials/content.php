@@ -40,15 +40,15 @@ if(!empty($author))
 				$avatar = wp_get_attachment_image($avatar);
 			}
 		?>
-			<div class="row">				
-				<div class="col sm-2">
-					<a href="<?php echo get_term_link($author);?>" class="author-avatar round-image"><?php echo $avatar;?></a>
-				</div>
-				<div class="col sm-10">
-					<h5 class="author-name"><a href="<?php echo get_term_link($author);?>"><?php echo apply_filters('tst_the_title', $author->name);?></a></h5>
-					<p class="author-role"><?php echo apply_filters('tst_the_title', $author->description);?></p>
-				</div>
+						
+				
+			<a href="<?php echo get_term_link($author);?>" class="author-avatar round-image card-footer-img"><?php echo $avatar;?></a>
+				
+			<div class="card-footer-content">
+				<h5 class="author-name"><a href="<?php echo get_term_link($author);?>"><?php echo apply_filters('tst_the_title', $author->name);?></a></h5>
+				<p class="author-role"><?php echo apply_filters('tst_the_title', $author->description);?></p>
 			</div>
+			
 		</footer>
 	<?php } ?>
 

@@ -2725,6 +2725,11 @@ h6 {
   z-index: 997;
   will-change: opacity; }
 
+.round-image {
+  border-radius: 50%; }
+  .round-image img {
+    border-radius: 50%; }
+
 /*---------------------------------------------------------
  Navbar (_navbar.scss)
 -------------------------------------------------------- */
@@ -2880,9 +2885,10 @@ h6 {
 .card {
   border-radius: 2px;
   background: #ffffff;
-  margin-bottom: 24px; }
+  margin-bottom: 24px;
+  padding-bottom: 8px; }
   .card .card-content {
-    padding: 24px 16px; }
+    padding: 24px 16px 16px; }
   .card .entry-title {
     margin: 0;
     padding-bottom: 16px;
@@ -2913,6 +2919,39 @@ h6 {
   color: rgba(255, 255, 255, 0.75); }
   .card.invert .entry-title {
     color: #ffffff; }
+
+.card-footer {
+  padding: 16px; }
+  .card-footer::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .card-footer .card-footer-img {
+    display: block;
+    width: 72px;
+    float: left; }
+    .card-footer .card-footer-img img {
+      width: 40px;
+      height: auto; }
+  .card-footer .card-footer-content {
+    margin-left: 72px; }
+    .card-footer .card-footer-content h5 {
+      font-family: "Roboto", sans-serif;
+      font-size: 1.4rem;
+      line-height: 1.42857;
+      font-weight: normal;
+      line-height: 1.714;
+      color: rgba(0, 0, 0, 0.87);
+      margin: 0; }
+      .card-footer .card-footer-content h5 a, .card-footer .card-footer-content h5 a:visited {
+        color: inherit; }
+    .card-footer .card-footer-content p {
+      font-family: "Roboto", sans-serif;
+      font-size: 1.2rem;
+      line-height: 1.3333;
+      font-weight: 400;
+      color: rgba(0, 0, 0, 0.54);
+      margin: 0; }
 
 /*---------------------------------------------------------
  General styles (_front.scss)
@@ -2977,7 +3016,7 @@ p {
     position: relative;
     z-index: 10; }
   .site-header .section-header {
-    padding: 6.4rem 0 9.6rem; }
+    padding: 8rem 0 8rem; }
   .site-header .section-title {
     margin: 0;
     color: #ffffff; }

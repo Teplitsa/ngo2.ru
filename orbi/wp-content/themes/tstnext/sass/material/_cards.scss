@@ -9,9 +9,10 @@
 	@extend .z-depth-1;
 	background: $color-white;
 	margin-bottom: $gut;
+	padding-bottom: 8px;
 	
 	.card-content {
-		padding: 24px 16px;
+		padding: 24px 16px 16px;
 	}
 	
 	.entry-title {
@@ -33,6 +34,7 @@
 			margin-right: 4px;
 		}
 	}
+	
 }
 
 .card-image {
@@ -50,3 +52,36 @@
 	}
 }
 
+.card-footer {
+	padding: 16px;	
+	@include clearfix;
+	
+	.card-footer-img {
+		display: block;
+		width: 72px;
+		float: left;
+		img {
+			width: 40px;
+			height: auto;
+		}
+	}
+	
+	.card-footer-content {
+		margin-left: 72px;
+		
+		h5 {
+			@include text-body-text;
+			line-height: 1.714;
+			color: $color-text;
+			margin: 0;
+			a, a:visited { color: inherit; }
+		}
+		
+		p {
+			@include text-caption;
+			color: $color-text-semi;
+			margin: 0;
+		}
+	}
+}
+	

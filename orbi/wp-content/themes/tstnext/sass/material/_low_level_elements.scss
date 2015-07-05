@@ -83,5 +83,9 @@
 	will-change: opacity;
 }
 
-
+//Images
+.round-image {
+	border-radius: 50%;
+	img { border-radius: 50%; }
+}
 

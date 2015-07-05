@@ -151,19 +151,35 @@ function tst_paging_nav($query = null) {
 	
 	if(!$query)
 		$query = $wp_query;
-		
+	
+	
 	// Don't print empty markup if there's only one page.
 	if ($query->max_num_pages < 2 ) {
 		return;
 	}
-
-	$p = tst_paginate_links($query, false);
+		
+	$p = tst_load_more_link($query, false);
 	if(!empty($p)) {
 ?>
-	<div class="paging-navigation"><div class="pagination"><?php tst_paginate_links($query); ?></div></div>
+	<div class="paging-navigation"><?php echo $p;?></div>
 <?php }
 }
 
+function tst_load_more_link($query = null, $echo = true) {
+	global $wp_query;
+	
+	if(!$query)
+		$query = $wp_query;
+	
+	$l = get_next_posts_link(__('More entries', 'tst'), $query->max_num_pages);
+	
+	if($echo){
+		echo $l;
+	}
+	else {
+		return $l;
+	}	
+}
 
 function tst_paginate_links($query = null, $echo = true) {
     global $wp_rewrite, $wp_query, $post;
