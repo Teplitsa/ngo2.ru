@@ -7,23 +7,23 @@
 .card {
 	border-radius: 2px;
 	@extend .z-depth-1;
-	background: $color-white;
+	background: $card-bg-color;
 	margin-bottom: $gut;
-	padding-bottom: 8px;
+	padding-bottom: $card-padding/2;
 	@include transition(box-shadow 0.35s);
 	
 	.card-link { display: block; }
 	
-	.card-content { padding: 24px 16px 16px; }
+	.card-content { padding: 1.5*$card-padding $card-padding $card-padding; }
 	
 	.entry-title {
 		margin: 0;
-		padding-bottom: 16px;	
+		padding-bottom: $card-padding;	
 		color: $link-color;		
 	}
 	
 	.entry-summary {
-		padding-top: 16px;
+		padding-top: $card-padding;
 		@include text-body2-text;
 		color: $color-text;
 		
@@ -52,7 +52,7 @@
 }
 
 .card-footer {
-	padding: 16px;	
+	padding: $card-padding;	
 	@include clearfix;
 	
 	.card-footer-img {

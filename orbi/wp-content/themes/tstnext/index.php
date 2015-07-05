@@ -23,16 +23,14 @@ get_header(); ?>
 					get_template_part('partials/content', 'search');
 				else
 					get_template_part('partials/content', get_post_type());
-			}  
-
-			tst_paging_nav();
+			}  		
 		}
 		else {
 			get_template_part('partials/content', 'none');
 			
 		}
 	?>
-	<div class="col md-6 lg-4"><?php get_sidebar(); ?></div>
+	<div class="col md-6 lg-4 masonry-item movable-widget"><?php get_sidebar(); ?></div>
 </div>
 
 <?php tst_paging_nav(); ?>

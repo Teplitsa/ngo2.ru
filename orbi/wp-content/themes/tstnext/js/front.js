@@ -61,8 +61,13 @@ jQuery(document).ready(function($){
 	/** Masonry for cards **/	
 	var $container = $('.masonry-grid');
     $container.imagesLoaded(function(){
+		
+		var donator = $('.movable-widget').detach();
+		
+		donator.insertAfter('.masonry-grid .masonry-item:nth-of-type(2)');
+		
         $container.masonry({
-            itemSelector: '.hentry'
+            itemSelector: '.masonry-item'
         });
     });
 	

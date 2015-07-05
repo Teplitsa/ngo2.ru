@@ -14,7 +14,7 @@ if(!empty($author))
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('col sm-6 lg-4'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('col sm-6 lg-4 masonry-item'); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'tst');?></div>
 <div class="<?php echo esc_attr($css);?>"><a href="<?php the_permalink();?>" class="card-link">
 	

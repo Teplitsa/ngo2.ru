@@ -79,14 +79,15 @@ $button-color: $primary-color !default;
 $button-color-disabled: #9F9F9F !default;
 $button-color-flat: $primary-color !default;
 $button-color-raised: #FFF !default;
-$button-floating-size: 37px !default;
+$button-floating-size: 56px !default;
+$button-floating-bg-color: #ff4081 !default;
 $button-height: 36px !default;
 $button-font-size-shared: 1.3rem !default;
 $button-line-height: 36px !default;
 
 
 /*** Cards ***/
-$card-padding: 20px !default;
+$card-padding: 16px !default;
 $card-bg-color: #fff !default;
 
 

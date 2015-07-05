@@ -31,30 +31,26 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 <footer id="colophon" class="site-footer" role="contentinfo">	
 
 	
-		<div class="row panel">
-			<div class="col md-8"><div class="bottom-logo"><?php tst_site_logo('context');?></div></div>
-			<div class="col md-4"><?php dynamic_sidebar( 'bottom-sidebar' );?></div>
-		</div>
-		
-		<div class="divider"></div>
-		
-		<div class="row credits">
-			<div class="col md-8">
-				<div class="copy"><a href="<?php home_url();?>"><?php bloginfo('name');?></a>. <?php printf(__('All materials of the site are avaliabe under license %s.', 'tst'), $cc_link);?>
-				</div>
+	<div class="row ">
+		<div class="col sm-6 md-8">
+			<div class="credits">
+			<div class="bottom-logo"><?php tst_site_logo('context');?></div>
+			<div class="copy">
+				<a href="<?php home_url();?>"><?php bloginfo('name');?></a> - программа фонда "ОРБИ".</a><br>
+				<?php printf(__('All materials of the site are avaliabe under license %s.', 'tst'), $cc_link);?>
 			</div>
-			
-			<div class="col md-4">
-				<div class="te-st-bn">
-					<span class="support">Сайт сделан <br>при поддержке</span>
-					<a title="<?php echo $tst;?>" href="http://te-st.ru/">
-						<img alt="<?php echo $tst;?>" src="<?php echo $banner;?>.svg" onerror="this.onerror=null;this.src=<?php echo $banner;?>.png;">
-					</a>
-				</div>
 			</div>
-			
-		</div><!-- .row -->
-	
+		</div><!-- .col -->
+		
+		<div class="col sm-6 md-4">
+			<div class="te-st-bn">
+				<span class="support">Сайт сделан <br>при поддержке</span>
+				<a title="<?php echo $tst;?>" href="http://te-st.ru/">
+					<img alt="<?php echo $tst;?>" src="<?php echo $banner;?>.svg" onerror="this.onerror=null;this.src=<?php echo $banner;?>.png;">
+				</a>
+			</div>
+		</div><!-- .col -->
+	</div>
 
 </footer>
 

@@ -74,7 +74,7 @@ $sh-base : 16px;
 	}
 	
 	.section-header {		
-		padding: rem($sh-base*5) 0 rem($sh-base*5);
+		padding: rem($sh-base*5) 0 rem($sh-base*4);
 	}
 	.section-title {
 		margin: 0;
@@ -86,9 +86,75 @@ $sh-base : 16px;
 	.container {
 		position: relative;
 		z-index: 100;
-		top: -1 * $sh-base*3;
+		top: -1 * 28px;
 	}
 }
+
+#bottombar { margin: 24px 0 80px; }
+
+.site-footer {
+	background: $color-white;
+	@extend .z-depth-1;
+	padding: $navbar-padding;
+	font-size: rem(12);
+	color: $color-text-semi;
+	a {
+		color: $color-text;
+		text-decoration: underline;
+		&:hover, &:focus, &:active {
+			color: $color-link-one;		
+		}
+	}	
+	
+	.bottom-logo {
+		float: left;
+		height: 50px;
+		img {
+			height: 100%;
+			width: auto;
+		}
+	}
+	
+	.credits {
+		@include clearfix;
+	}
+	
+	.copy {
+		margin-left: 92px;
+		padding-top: 10px;
+	}
+}
+
+.te-st-bn {
+	text-align: right;
+	position: relative;
+	height: 54px;
+	
+	a {
+		display: block;
+		width: 106px;
+		position: absolute;
+		top: 0;
+		right: 0;		
+		&:hover, &:focus, &:active {
+			
+		}
+	}
+	
+	img {
+		vertical-align: top;
+	}
+	
+	span {
+		font-size: rem(12);
+		color: $color-text-semi;
+		display: inline-block;
+		margin-right: 115px;
+		padding-top: 10px;
+	}
+}
+
+
 
 
 // Elements
@@ -127,5 +193,41 @@ $sh-base : 16px;
 	
 	.textwidget {
 		@include text-body-text;
+		.more-link {
+			display: inline-block;
+			@include text-button-text;
+			margin-top: $gut - 12px;
+		}
+	}
+}
+
+.donate-widget {
+	position: relative;
+	
+	h5 {
+		display: none;
+		font-size: rem(21);
+		font-weight: 500;
+		line-height: 1.3;
+		color: $color-link-one;
+		margin-left: 72px;
+		margin-bottom: 28px;
+	}
+	
+	.fab {
+		z-index: 1100;
+		position: fixed;
+		bottom: 24px;
+		right: 24px;
+	}
+	
+	@include for(large-screens) {
+		h5 { display: block; }
+		
+		.fab {
+			position: relative;
+			bottom: auto;
+			right: auto;
+		}
 	}
 }
