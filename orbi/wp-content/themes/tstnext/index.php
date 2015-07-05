@@ -35,4 +35,6 @@ get_header(); ?>
 	<div class="col md-6 lg-4"><?php get_sidebar(); ?></div>
 </div>
 
+<?php tst_paging_nav(); ?>
+
 <?php get_footer(); ?>
