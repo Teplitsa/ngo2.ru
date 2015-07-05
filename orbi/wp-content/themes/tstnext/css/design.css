@@ -3176,4 +3176,21 @@ p {
       background: #b9b9b9;
       color: #ffffff; }
 
+.widget-bottom {
+  margin-bottom: 24px; }
+  .widget-bottom:last-child {
+    margin-bottom: 0; }
+  .widget-bottom .widget-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-weight: normal;
+    font-weight: 500;
+    margin-bottom: 24px; }
+  .widget-bottom .textwidget {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.42857;
+    font-weight: normal; }
+
 /*# sourceMappingURL=design.css.map */

@@ -29,10 +29,10 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 
 <footer id="colophon" class="site-footer" role="contentinfo">	
-<div class="container">
+
 	
 		<div class="row panel">
-			<div class="col md-8">logo</div>
+			<div class="col md-8"><div class="bottom-logo"><?php tst_site_logo('context');?></div></div>
 			<div class="col md-4"><?php dynamic_sidebar( 'bottom-sidebar' );?></div>
 		</div>
 		
@@ -55,7 +55,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 			
 		</div><!-- .row -->
 	
-</div><!-- .container -->
+
 </footer>
 
 <div id="material-overlay"><!-- overlay for MUI --></div>
