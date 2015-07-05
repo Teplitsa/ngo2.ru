@@ -1807,12 +1807,12 @@ $interval-size: $range / $intervals !default;*/
   margin: 0 auto;
   max-width: 1128px;
   width: 90%; }
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 800px) {
     .container {
-      width: 85%; } }
+      width: 95%; } }
   @media screen and (min-width: 1130px) {
     .container {
-      width: 70%; } }
+      width: 95%; } }
 
 .col {
   float: left;
@@ -1931,7 +1931,7 @@ $interval-size: $range / $intervals !default;*/
   .sm-col-5 {
     width: 20%;
     margin-bottom: 0; } }
-@media screen and (min-width: 900px) {
+@media screen and (min-width: 800px) {
   .md-1 {
     width: 8.3333333333%;
     margin-bottom: 0; }
@@ -2249,7 +2249,7 @@ ul.staggered-list li {
       -ms-transform-origin: 0 50%;
           transform-origin: 0 50%; }
 
-.z-depth-1, .navbar .navbar-panel, .side-nav {
+.z-depth-1, .navbar .navbar-panel, .side-nav, .card {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); }
 
 .z-depth-1-half {
@@ -2459,7 +2459,7 @@ td[valign="bottom"] {
   td[valign="bottom"] img {
     vertical-align: bottom; }
 
-@media screen and (max-width: 900px) {
+@media screen and (max-width: 800px) {
   table.responsive-table {
     width: 100%;
     border-collapse: collapse;
@@ -2735,7 +2735,7 @@ h6 {
   @media screen and (min-width: 600px) {
     .navbar {
       height: 56px; } }
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 800px) {
     .navbar {
       height: 64px; } }
   .navbar .navbar-panel {
@@ -2753,7 +2753,7 @@ h6 {
     @media screen and (min-width: 600px) {
       .navbar .navbar-panel {
         height: 56px; } }
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 800px) {
       .navbar .navbar-panel {
         height: 64px; } }
   .navbar.fixed {
@@ -2766,7 +2766,7 @@ h6 {
     @media screen and (min-width: 600px) {
       .navbar .material-icons {
         line-height: 24px; } }
-    @media screen and (min-width: 900px) {
+    @media screen and (min-width: 800px) {
       .navbar .material-icons {
         line-height: 32px; } }
 
@@ -2842,7 +2842,7 @@ h6 {
       height: 56px; }
       .side-nav-header img {
         margin-top: 7px; } }
-  @media screen and (min-width: 900px) {
+  @media screen and (min-width: 800px) {
     .side-nav-header {
       height: 64px; }
       .side-nav-header img {
@@ -2870,6 +2870,49 @@ h6 {
   @media screen and (min-width: 600px) {
     .side-nav-menu .sub-menu {
       margin-left: 24px; } }
+
+/*---------------------------------------------------------
+ Cards (_cards.scss)
+-------------------------------------------------------- */
+.hentry.col {
+  margin-bottom: 0; }
+
+.card {
+  border-radius: 2px;
+  background: #ffffff;
+  margin-bottom: 24px; }
+  .card .card-content {
+    padding: 24px 16px; }
+  .card .entry-title {
+    margin: 0;
+    padding-bottom: 16px;
+    color: #e91e63; }
+    .card .entry-title a, .card .entry-title a:visited {
+      color: inherit; }
+  .card .entry-summary {
+    padding-top: 16px;
+    font-family: "Roboto", sans-serif;
+    font-size: 1.3rem;
+    line-height: 1.5;
+    font-weight: 400; }
+    .card .entry-summary p {
+      margin: 0; }
+    .card .entry-summary time {
+      font-weight: 700;
+      margin-right: 4px; }
+
+.card-image {
+  border-radius: 2px 2px 0 0; }
+  .card-image a {
+    display: block; }
+  .card-image img {
+    border-radius: 2px 2px 0 0; }
+
+.card.invert {
+  background: #e91e63;
+  color: rgba(255, 255, 255, 0.75); }
+  .card.invert .entry-title {
+    color: #ffffff; }
 
 /*---------------------------------------------------------
  General styles (_front.scss)
@@ -2907,7 +2950,6 @@ p {
 .site-header {
   background: #333 url("../img/header-default.jpg") no-repeat top center;
   background-size: cover;
-  min-height: 200px;
   color: #ffffff;
   position: relative; }
   .site-header:before {
@@ -2935,9 +2977,14 @@ p {
     position: relative;
     z-index: 10; }
   .site-header .section-header {
-    padding: 10% 0 2em; }
+    padding: 6.4rem 0 9.6rem; }
   .site-header .section-title {
     margin: 0;
     color: #ffffff; }
+
+.site-content .container {
+  position: relative;
+  z-index: 100;
+  top: -48px; }
 
 /*# sourceMappingURL=design.css.map */

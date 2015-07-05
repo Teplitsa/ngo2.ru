@@ -58,6 +58,13 @@ jQuery(document).ready(function($){
 		
 	});
 	
+	/** Masonry for cards **/	
+	var $container = $('.masonry-grid');
+    $container.imagesLoaded(function(){
+        $container.masonry({
+            itemSelector: '.hentry'
+        });
+    });
 	
 	
 //    // focus on search form */

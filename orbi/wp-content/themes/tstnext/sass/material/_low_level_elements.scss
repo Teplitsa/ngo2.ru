@@ -10,6 +10,13 @@
 	font-weight: normal;
 }
 
+@mixin text-body2-text {	
+	font-family: $sans;
+	font-size: rem(13px);
+	line-height: 1.5;
+	font-weight: 400;
+}
+
 @mixin text-subhead {	
 	font-family: $sans;
 	font-size: rem(16px);

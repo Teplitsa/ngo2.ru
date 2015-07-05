@@ -12,7 +12,7 @@
  */
 
 get_header(); ?>
-<div class="row">
+<div class="row masonry-grid">
 	
 	<?php
 		if(have_posts()){

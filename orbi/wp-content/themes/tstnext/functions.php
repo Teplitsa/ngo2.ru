@@ -232,7 +232,18 @@ function tst_scripts() {
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
+	wp_enqueue_script(
+		'tst-imageloaded',
+		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
 	
+	$script_dependencies[] = 'tst-imageloaded';
+	
+	wp_enqueue_script('masonry');	
+	$script_dependencies[] = 'masonry';
 	
 	wp_enqueue_script(
 		'tst-front',

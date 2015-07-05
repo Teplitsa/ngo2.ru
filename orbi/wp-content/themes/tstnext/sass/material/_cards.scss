@@ -1,0 +1,52 @@
+/*---------------------------------------------------------
+ Cards (_cards.scss)
+-------------------------------------------------------- */
+
+.hentry.col { margin-bottom: 0; }
+
+.card {
+	border-radius: 2px;
+	@extend .z-depth-1;
+	background: $color-white;
+	margin-bottom: $gut;
+	
+	.card-content {
+		padding: 24px 16px;
+	}
+	
+	.entry-title {
+		margin: 0;
+		padding-bottom: 16px;	
+		color: $link-color;
+		
+		a, a:visited {
+			color: inherit;
+		}
+	}
+	
+	.entry-summary {
+		padding-top: 16px;
+		@include text-body2-text;
+		p { margin: 0; }
+		time {
+			font-weight: 700;
+			margin-right: 4px;
+		}
+	}
+}
+
+.card-image {
+	border-radius: 2px 2px 0 0;
+	a { display: block; }
+	img { border-radius: 2px 2px 0 0; }
+}
+
+.card.invert {
+	background: $primary-color;
+	color: transparentize($color-white, 0.25);
+	
+	.entry-title {		
+		color: $color-white;
+	}
+}
+

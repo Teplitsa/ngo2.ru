@@ -3,7 +3,7 @@
  * @package bb
  */
 
-$css = 'tpl-post card';
+$css = 'tpl-post card invert';
 if(has_term('news', 'category')) {
 	$css = 'tpl-news card';
 }
@@ -14,13 +14,13 @@ if(!empty($author))
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('col md-6 lg-4'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('col sm-6 lg-4'); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'tst');?></div>
 <div class="<?php echo esc_attr($css);?>">
 	
 	<?php if(!has_term('news', 'category') && has_post_thumbnail()){ ?>
 		<div class="card-image">
-			<a href="<?php the_permalink();?>" class="thumbnail-link"><?php echo tst_get_post_thumbnail(); ?></a>
+			<a href="<?php the_permalink();?>" class="thumbnail-link"><?php echo tst_get_post_thumbnail(null, 'thumbnail-extra'); ?></a>
 		</div>			
 	<?php } ?>
 	

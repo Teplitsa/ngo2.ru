@@ -40,10 +40,11 @@ p,ul,ol,dl,blockquote {
 
 
 //structure
+$sh-base : 16px;
 .site-header {
 	background: #333 url('../img/header-default.jpg') no-repeat top center;
 	background-size: cover;
-	min-height: 200px;
+	//min-height: 200px;
 	color: $color-white;
 	position: relative;
 	
@@ -72,13 +73,19 @@ p,ul,ol,dl,blockquote {
 		z-index: 10;
 	}
 	
-	.section-header {
-		padding: 10% 0 2em;
+	.section-header {		
+		padding: rem($sh-base*4) 0 rem($sh-base*6);
 	}
 	.section-title {
 		margin: 0;
 		color: $color-white;
+	}	
+}
+
+.site-content {
+	.container {
+		position: relative;
+		z-index: 100;
+		top: -1 * $sh-base*3;
 	}
-	
-	
 }
