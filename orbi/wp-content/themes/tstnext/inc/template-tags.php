@@ -408,8 +408,19 @@ function tst_get_default_author_avatar(){
 
 /** Logo **/
 function tst_site_logo($size = 'regular'){
-		
-	$file = ($size == 'regular') ? 'logo' : 'logo-small';
+	
+	switch($size){
+		case 'context':
+			$file = 'logo-pink';
+			break;
+		case 'small':
+			$file = 'logo-small';
+			break;
+		default:
+			$file = 'logo';
+			break;	
+	}
+	
 	$file = get_template_directory_uri().'/img/'.$file;
 	$alt = esc_attr(__('Logo', 'tst'));
 ?>

@@ -2,24 +2,15 @@
  Navbar (_navbar.scss)
 -------------------------------------------------------- */
 
-// Spec vars
-$nb-height-mobile : 48px;
-$nb-height-mobile-extra : 56px;
-$nb-height-desktop : 64px;
-$nb-padding : 16px;
-
-$nb-color-bg : $primary-color !default;
-
-
 // Panel
 .navbar {
-    height: $nb-height-mobile;
+    height: $navbar-height-mobile;
         
     @include for(small-screens) {
-        height: $nb-height-mobile-extra;
+        height: $navbar-height-mobile-extra;
     }
     @include for(medium-screens) {
-        height: $nb-height-desktop;
+        height: $navbar-height-desktop;
     }
     position: relative;
     width: 100%;
@@ -29,17 +20,17 @@ $nb-color-bg : $primary-color !default;
         @include clearfix;
         @extend .z-depth-1;
         color: $color-white;
-        background: $nb-color-bg;
-        padding: $nb-padding;
-        height: $nb-height-mobile;
+        background: $navbar-color-bg;
+        padding: $navbar-padding;
+        height: $navbar-height-mobile;
         z-index: 900;
         width: 100%;
         
         @include for(small-screens) {
-            height: $nb-height-mobile-extra;
+            height: $navbar-height-mobile-extra;
         }
         @include for(medium-screens) {
-            height: $nb-height-desktop;
+            height: $navbar-height-desktop;
         }
     }
     
@@ -51,12 +42,12 @@ $nb-color-bg : $primary-color !default;
     
     .material-icons { //vertical centering
         vertical-align: middle;
-        line-height: $nb-height-mobile - ($nb-padding * 2);
+        line-height: $navbar-height-mobile - ($navbar-padding * 2);
         @include for(small-screens) {
-            line-height: $nb-height-mobile-extra - ($nb-padding * 2);
+            line-height: $navbar-height-mobile-extra - ($navbar-padding * 2);
         }
         @include for(medium-screens) {
-            line-height: $nb-height-desktop - ($nb-padding * 2);
+            line-height: $navbar-height-desktop - ($navbar-padding * 2);
         }
     }
 }
@@ -69,7 +60,10 @@ $nb-color-bg : $primary-color !default;
 // Menu button
 .navbar-icon {
     float: left;
-    width: 72px - $nb-padding;    
+    width: 72px - $navbar-padding;
+    a {
+        color: $color-white;
+    }
 }
 
 //Title

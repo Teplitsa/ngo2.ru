@@ -232,6 +232,8 @@ function tst_scripts() {
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
+	
+	
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',

@@ -1,0 +1,88 @@
+/*---------------------------------------------------------
+ Sidenav (_sideNav.scss)
+-------------------------------------------------------- */
+.side-nav {
+    background: $color-white;
+    @extend .z-depth-1;
+    width: 80%;
+    max-width: 280px;    
+    height: 100%;
+    overflow-y:auto;
+    
+    position: fixed;
+    top: 0;
+    z-index: 1000;
+    left: 0; //-105%;
+    will-change: left;  
+}
+
+.admin-bar .side-nav  { //fixes for adminbar 
+    @media screen and (min-width: 600px) { top: 46px; }
+    @media screen and (min-width: 780px) { top: 32px; }
+}
+
+.side-nav-header {
+    padding: 0 $sidenav-padding;
+    border-bottom: 1px solid $color-border-normal;
+    height: $navbar-height-mobile;
+    
+    img {
+        height: 32px;
+        width: auto;
+        @include for(small-screens) {
+            height: 42px;
+        }
+        margin-top: ($navbar-height-mobile - 32px) /2;
+    }
+    
+    
+    @include for(small-screens) {
+        height: $navbar-height-mobile-extra;
+        & img {
+            margin-top: ($navbar-height-mobile-extra - 42px) /2;
+        }
+    }
+    @include for(medium-screens) {
+        height: $navbar-height-desktop;
+        & img {
+            margin-top: ($navbar-height-desktop - 42px) /2;
+        }
+    }
+    
+    
+}
+
+.side-nav-menu {
+    padding: $sidenav-padding/2 0;   
+    
+    li {
+        line-height: 48px;       
+    }
+    
+    a, a:visited {
+        display: block;
+        padding: 0 $sidenav-padding;
+        font-size: rem(14);
+        color: $color-text;
+        @include transition(all 0.35s);
+        
+        &:hover, &:focus, &:active {
+            color: $color-text;
+            background: color('grey', 'lighten-4');
+        }
+    }
+    
+    .current-menu-item > a, .current-menu-item > a:visited {
+        color: $color-link-one;
+        &:hover, &:focus, &:active {
+            color: $color-link-one;
+            background: transparent;
+        }
+    }
+    
+    .sub-menu {        
+        @include for(small-screens) {
+            margin-left: $sidenav-padding;
+        }
+    }
+}

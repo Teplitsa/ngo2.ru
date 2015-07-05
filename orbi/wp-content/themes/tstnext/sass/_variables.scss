@@ -129,10 +129,14 @@ $datepicker-selected: $secondary-color !default;
 $datepicker-selected-outfocus: desaturate(lighten($secondary-color, 35%), 15%) !default;
 
 
-/*** Navbar ***/
-$navbar-height: 64px !default;
-$navbar-height-mobile: 56px !default;
+/*** Navigations ***/
+$navbar-height-mobile : 48px;
+$navbar-height-mobile-extra : 56px;
+$navbar-height-desktop : 64px;
+$navbar-padding : 16px;
+$sidenav-padding : 16px;
 
+$navbar-color-bg : $primary-color !default;
 
 /*** SideNav ***/
 

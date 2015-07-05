@@ -24,11 +24,16 @@
 	<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>
 	
 	<div class="navbar-panel">
-		<div class="navbar-icon"><i class="material-icons">menu</i></div>
+		<div class="navbar-icon"><a href="#" data-activates="menu-slide-out" class="menu-trigger"><i class="material-icons">menu</i></a></div>
 		<div class="navbar-title"><?php tst_breadcrumbs();?></div>
 		<div class="navbar-logo"><?php tst_site_logo('small');?></div>
 		<div class="navbar-actions"><i class="material-icons">search</i></div>
 	</div>
+	
+	<div id="menu-slide-out" class="side-nav">
+		<div class="side-nav-header"><?php tst_site_logo('context');?></div>
+		<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'side-nav-menu')); ?>
+	</div>	
 </nav>
 
 

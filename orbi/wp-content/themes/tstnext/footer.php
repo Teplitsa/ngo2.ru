@@ -58,6 +58,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 </div><!-- .container -->
 </footer>
 
+<div class="material-overlay"><!-- overlay for MUI --></div>
 
 <?php wp_footer(); ?>
 
