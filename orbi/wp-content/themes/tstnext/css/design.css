@@ -2762,6 +2762,9 @@ h6 {
 @media screen and (min-width: 600px) {
   .admin-bar .navbar.fixed {
     top: 46px; } }
+@media screen and (min-width: 780px) {
+  .admin-bar .navbar.fixed {
+    top: 32px; } }
 
 .navbar-icon {
   float: left;
