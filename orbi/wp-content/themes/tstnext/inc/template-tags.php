@@ -404,3 +404,15 @@ function tst_get_default_author_avatar(){
 	
 	return "<img src='{$src}' alt='{$alt}'>";
 }
+
+
+/** Logo **/
+function tst_site_logo($size = 'regular'){
+		
+	$file = ($size == 'regular') ? 'logo' : 'logo-small';
+	$file = get_template_directory_uri().'/img/'.$file;
+	$alt = esc_attr(__('Logo', 'tst'));
+?>
+	<img src="<?php echo $file;?>.svg" onerror="this.onerror=null;this.src=<?php echo $file;?>.png" alt="<?php echo $alt;?>">
+<?php
+}

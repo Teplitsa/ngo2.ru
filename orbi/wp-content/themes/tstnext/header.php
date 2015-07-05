@@ -20,9 +20,15 @@
 <body id="top" <?php body_class(); ?>>
 <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 
-<nav id="site_nav" class="site-nav" role="navigation">
+<nav id="site_nav" class="site-nav navbar" role="navigation">
 	<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>
-	<div class="nav-wrapper">Navbar</div>
+	
+	<div class="navbar-panel">
+		<div class="navbar-icon"><i class="material-icons">menu</i></div>
+		<div class="navbar-title"><?php tst_breadcrumbs();?></div>
+		<div class="navbar-logo"><?php tst_site_logo('small');?></div>
+		<div class="navbar-actions"><i class="material-icons">search</i></div>
+	</div>
 </nav>
 
 

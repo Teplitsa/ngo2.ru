@@ -210,7 +210,16 @@ function tst_scripts() {
 	$script_dependencies = array();
 	
 	
-	// Stylesheet
+	// Styles
+	wp_enqueue_style(
+		'tst-material-icons',
+		'//fonts.googleapis.com/icon?family=Material+Icons',
+		$style_dependencies,
+		TST_VERSION
+	);
+	$style_dependencies[] = 'tst-material-icons';
+	
+	
 	wp_enqueue_style(
 		'tst-design',
 		$theme_dir_url . '/css/design.css',
@@ -218,6 +227,18 @@ function tst_scripts() {
 		TST_VERSION
 	);
 	
+	// Scripts
+	
+	// jQuery
+	$script_dependencies[] = 'jquery';
+	
+	wp_enqueue_script(
+		'tst-front',
+		$theme_dir_url . '/js/front.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

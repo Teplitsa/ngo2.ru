@@ -10,7 +10,7 @@
 @import "variables";
 
 //material fonts
-@import "material/icons-material-design";
+//@import "material/icons-material-design";
 @import "material/roboto";
 
 
@@ -21,6 +21,7 @@
 
 
 //matrial components
+@import "material/low_level_elements";
 @import "material/navbar";
 
 

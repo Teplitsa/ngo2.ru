@@ -327,6 +327,9 @@ h4 { font-size: $h4-fontsize; line-height: 1.1*$h4-fontsize; margin: ($h4-fontsi
 h5 { font-size: $h5-fontsize; line-height: 1.1*$h5-fontsize; margin: ($h5-fontsize / 2) 0 ($h5-fontsize / 2.5) 0;}
 h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsize / 2) 0 ($h6-fontsize / 2.5) 0;}
 
+
+
+// Entry content
 @mixin post-content-elements {
 	// headings
 	h1,  h2,  h3,  h4,  h5,  h6 {

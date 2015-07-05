@@ -1,143 +1,100 @@
-nav {
-  color: #fff;
-  @extend .z-depth-1;
-  background-color: $primary-color;
-  width: 100%;
-  height: $navbar-height-mobile;
-  line-height: $navbar-height-mobile;
+/*---------------------------------------------------------
+ Navbar (_navbar.scss)
+-------------------------------------------------------- */
 
-  a { color: #fff; }
+// Spec vars
+$nb-height-mobile : 48px;
+$nb-height-mobile-extra : 56px;
+$nb-height-desktop : 64px;
+$nb-padding : 16px;
 
-  .nav-wrapper {
-    position: relative;
-    height: 100%;
+$nb-color-bg : $primary-color !default;
 
-    i {
-      display: block;
-      font-size: 2rem;
+
+// Panel
+.navbar {
+    height: $nb-height-mobile;
+        
+    @include for(small-screens) {
+        height: $nb-height-mobile-extra;
     }
-  }
+    @include for(medium-screens) {
+        height: $nb-height-desktop;
+    }
+    position: relative;
+    width: 100%;
+    
+    .navbar-panel {
+        position: relative;
+        @include clearfix;
+        @extend .z-depth-1;
+        color: $color-white;
+        background: $nb-color-bg;
+        padding: $nb-padding;
+        height: $nb-height-mobile;
+        z-index: 900;
+        width: 100%;
+        
+        @include for(small-screens) {
+            height: $nb-height-mobile-extra;
+        }
+        @include for(medium-screens) {
+            height: $nb-height-desktop;
+        }
+    }
+    
+    &.fixed  {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+    
+    .material-icons { //vertical centering
+        vertical-align: middle;
+        line-height: $nb-height-mobile - ($nb-padding * 2);
+        @include for(small-screens) {
+            line-height: $nb-height-mobile-extra - ($nb-padding * 2);
+        }
+        @include for(medium-screens) {
+            line-height: $nb-height-desktop - ($nb-padding * 2);
+        }
+    }
+}
 
-  @include for(large-screens) {
-    a.button-collapse { display: none; }
-  }
+.admin-bar .navbar.fixed {
+    @media screen and (min-width: 600px) { top: 46px; }
+}
 
-
-  // Collapse button
-  .button-collapse {
+// Menu button
+.navbar-icon {
     float: left;
-    position: relative;
-    z-index: 1;
-    height: $navbar-height-mobile;
-
-    i {
-      font-size: 2.7rem;
-      height: $navbar-height-mobile;
-      line-height: $navbar-height-mobile;
-    }
-  }
-
-
-  // Logo
-  .brand-logo {
-    position: absolute;
-    color: #fff;
-    display: inline-block;
-    font-size: 2.1rem;
-    padding: 0;
-
-    &.center {
-      left: 50%;
-      @include transform(translateX(-50%));
-    }
-
-    @include upto(large-screens) {
-      left: 50%;
-      @include transform(translateX(-50%));
-    }
-
-    &.right {
-      right: 0.5rem;
-      padding: 0;
-    }
-  }
-
-
-  // Navbar Links
-  ul {
-    margin: 0;
-
-    li {
-      @include transition(background-color .3s);
-      float: left;
-      padding: 0;
-
-      &:hover, &.active {
-        background-color: rgba(0,0,0,.1);
-      }
-    }
-    a {
-      font-size: 1rem;
-      color: #fff;
-      display: block;
-      padding: 0 15px;
-    }
-
-    &.left {
-      float: left;
-    }
-  }
-
-  // Navbar Search Form
-  .input-field {
-    margin: 0;
-
-    input {
-      height: 100%;
-      font-size: 1.2rem;
-      border: none;
-      padding-left: 2rem;
-
-      &:focus, &[type=text]:valid, &[type=password]:valid,
-      &[type=email]:valid, &[type=url]:valid, &[type=date]:valid {
-        border: none;
-        box-shadow: none;
-      }
-    }
-    label {
-      top: 0;
-      left: 0;
-
-      i {
-        color: rgba(255,255,255,.7);
-        @include transition(color .3s);
-      }
-      &.active i { color: #fff; }
-      &.active {
-        @include transform(translateY(0));
-      }
-    }
-
-  }
-
+    width: 72px - $nb-padding;    
 }
 
-// Fixed Navbar
-.navbar-fixed {
-  position: relative;
-  height: $navbar-height-mobile;
-  z-index: 998;
-
-  nav {
-    position: fixed;
-  }
+//Title
+.navbar-title {
+    float: left;
+    
 }
-@include for(medium-screens) {
-  nav, nav .nav-wrapper i, nav a.button-collapse, nav a.button-collapse i {
-    height: $navbar-height;
-    line-height: $navbar-height;
-  }
-  .navbar-fixed {
-    height: $navbar-height;
-  }
+
+//Logo
+.navbar-logo {    
+    display: inline-block;        
+    position: absolute;   
+    top: 50%;
+    left: 50%;
+    @include transform(translateX(-50%) translateY(-50%));
+        
+    img {
+        height: 36px;
+        width: auto;
+        @include for(small-screens) {
+            height: 48px;
+        }
+    }
+}
+
+// Search
+.navbar-actions {
+    float: right;
 }

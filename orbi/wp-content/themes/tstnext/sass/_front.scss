@@ -9,12 +9,9 @@ html{
 
 body {	
 	text-rendering: optimizeLegibility;
-	font-size: rem(14);
-	line-height: 1.42857;
-	color: $off-black;;
-	font-family: $sans;
-	font-weight: normal;
-	background: color('grey', 'lighten-4');	
+	@include text-body-text;
+	color: $off-black;
+	background: color('grey', 'lighten-3');	
 }
 
 a {
