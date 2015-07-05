@@ -28,6 +28,37 @@ jQuery(document).ready(function($){
 	});
 	
 	
+	/** SideNav **/
+	$('.menu-trigger').on('click', function(e){
+		
+		e.preventDefault();
+		
+		var $this = $(this),
+			target_id = "#"+ $this.attr('data-activates'),
+			target = $(target_id);
+		
+		$('#material-overlay').fadeIn(200); //@to-do: make this smooth 
+		target.animate({left : 0}, 600, function(){
+			target.addClass('active');
+			
+			$('body').on('click', ':not('+target_id+')', function(ev){
+				if (target.hasClass('active')) {
+					target.animate({left : '-105%'}, 600).removeClass('active');
+					$('#material-overlay').fadeOut(200); 
+				}				
+			});
+			
+			$('body').keyup(function(ev) {
+				if (ev.keyCode == 27 && target.hasClass('active')) { // escape key maps to keycode `27`
+					target.animate({left : '-105%'}, 600).removeClass('active');
+					$('#material-overlay').fadeOut(200); 
+				}
+			});
+		}); //animate
+		
+	});
+	
+	
 	
 //    // focus on search form */
 //	$('.search-field').focus(function(){

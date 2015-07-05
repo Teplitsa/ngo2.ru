@@ -12,7 +12,7 @@
     position: fixed;
     top: 0;
     z-index: 1000;
-    left: 0; //-105%;
+    left: -105%;
     will-change: left;  
 }
 
@@ -55,13 +55,11 @@
 .side-nav-menu {
     padding: $sidenav-padding/2 0;   
     
-    li {
-        line-height: 48px;       
-    }
+    li { line-height: 48px; }
     
     a, a:visited {
         display: block;
-        padding: 0 $sidenav-padding;
+        padding: 0 $sidenav-padding 0 $sidenav-padding*1.5;
         font-size: rem(14);
         color: $color-text;
         @include transition(all 0.35s);
@@ -82,7 +80,7 @@
     
     .sub-menu {        
         @include for(small-screens) {
-            margin-left: $sidenav-padding;
+            margin-left: $sidenav-padding*1.5;
         }
     }
 }
