@@ -10,24 +10,23 @@
 	background: $color-white;
 	margin-bottom: $gut;
 	padding-bottom: 8px;
+	@include transition(box-shadow 0.35s);
 	
-	.card-content {
-		padding: 24px 16px 16px;
-	}
+	.card-link { display: block; }
+	
+	.card-content { padding: 24px 16px 16px; }
 	
 	.entry-title {
 		margin: 0;
 		padding-bottom: 16px;	
-		color: $link-color;
-		
-		a, a:visited {
-			color: inherit;
-		}
+		color: $link-color;		
 	}
 	
 	.entry-summary {
 		padding-top: 16px;
 		@include text-body2-text;
+		color: $color-text;
+		
 		p { margin: 0; }
 		time {
 			font-weight: 700;
@@ -35,21 +34,21 @@
 		}
 	}
 	
+	&:hover {
+		@extend .z-depth-2;
+	}
 }
 
 .card-image {
-	border-radius: 2px 2px 0 0;
-	a { display: block; }
+	border-radius: 2px 2px 0 0;	
 	img { border-radius: 2px 2px 0 0; }
 }
 
 .card.invert {
-	background: $primary-color;
-	color: transparentize($color-white, 0.25);
+	background: $primary-color;	
 	
-	.entry-title {		
-		color: $color-white;
-	}
+	.entry-title { color: $color-white; }
+	.entry-summary  { color: transparentize($color-white, 0.25); }
 }
 
 .card-footer {
@@ -73,8 +72,7 @@
 			@include text-body-text;
 			line-height: 1.714;
 			color: $color-text;
-			margin: 0;
-			a, a:visited { color: inherit; }
+			margin: 0;			
 		}
 		
 		p {

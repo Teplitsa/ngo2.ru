@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-05-31 12:03+0300\n"
-"PO-Revision-Date: 2015-05-31 12:03+0300\n"
+"POT-Creation-Date: 2015-07-05 21:03+0300\n"
+"PO-Revision-Date: 2015-07-05 21:03+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -13,7 +13,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n"
 "%10<=4 &&(n%100<10||n%100 >= 20)? 1 : 2);\n"
 "X-Poedit-SourceCharset: UTF-8\n"
-"X-Generator: Poedit 1.7.5\n"
+"X-Generator: Poedit 1.8.1\n"
 "X-Poedit-Basepath: ..\n"
 "X-Poedit-KeywordsList: _:1;gettext:1;dgettext:2;ngettext:1,2;dngettext:2,3;"
 "__:1;_e:1;_c:1;_n:1,2;_n_noop:1,2;_nc:1,2;__ngettext:1,2;"
@@ -42,11 +42,11 @@ msgstr "Теплица социальных технологий"
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
 
-#: functions.php:34
+#: functions.php:33
 msgid "Primary Menu"
 msgstr "﻿Главное меню"
 
-#: functions.php:35 inc/widgets.php:609
+#: functions.php:34 inc/widgets.php:609
 msgid "Social Buttons"
 msgstr "Социальные кнопки"
 
@@ -62,22 +62,34 @@ msgstr "﻿Главное меню"
 msgid "More"
 msgstr "Далее"
 
-#: inc/template-tags.php:279
+#: inc/template-tags.php:174
+msgid "More entries"
+msgstr "Еще публикации"
+
+#: inc/template-tags.php:295
 #, php-format
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:346
+#: inc/template-tags.php:362
 msgid "Event date"
 msgstr "Дата мероприятия"
 
-#: inc/template-tags.php:352
+#: inc/template-tags.php:368
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:358
+#: inc/template-tags.php:374
 msgid "Address"
 msgstr "Адрес"
+
+#: inc/template-tags.php:419
+msgid "Author"
+msgstr "Автор"
+
+#: inc/template-tags.php:441
+msgid "Logo"
+msgstr "Логотип"
 
 #: inc/widgets.php:194
 msgid "List of recent posts with some styling"
@@ -157,7 +169,7 @@ msgstr "Укажите ярлык (разделенный запятыми сп�
 msgid "Social links menu with optional text"
 msgstr "Меню социальных кнопок с сопроводительным текстом"
 
-#: partials/content.php:8
+#: partials/content.php:18
 msgid "Article"
 msgstr "Статья"
 
@@ -165,13 +177,45 @@ msgstr "Статья"
 msgid "Related posts"
 msgstr "Еще по теме"
 
-#: partials/title-section.php:45
+#: partials/title-section.php:36
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: partials/title-section.php:48
+#: partials/title-section.php:39
 msgid "404: Page not found"
 msgstr "404: Страница не найдена"
+
+#: js/materialize.js:221
+msgid "translateX"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "translateY"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "skewX"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "skewY"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "scale"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "scaleX"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "scaleY"
+msgstr ""
+
+#: js/materialize.js:221
+msgid "rotateZ"
+msgstr ""
 
 #~ msgid "Secondary Menu"
 #~ msgstr "Вспомогательное меню"

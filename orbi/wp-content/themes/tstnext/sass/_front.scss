@@ -94,4 +94,18 @@ $sh-base : 16px;
 //Elements
 .paging-navigation {
 	text-align: center;
+	padding: 24px 0 8px;
+	
+	a {
+		@extend .btn-flat;
+		background: $button-bg-color-disabled;
+		color: $button-color-disabled;
+		@include transition(all 0.35s);
+		
+		&:hover {
+			background: darken($button-bg-color-disabled, 15%);
+			color: $color-white;
+			@extend .z-depth-1;
+		}
+	}
 }

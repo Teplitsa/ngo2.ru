@@ -159,6 +159,10 @@ function tst_paging_nav($query = null) {
 	}
 		
 	$p = tst_load_more_link($query, false);
+	//if(!$p){
+	//	$p = "<a href='".get_pagenum_link(1)."'>".__('More entries', 'tst')."</a>";
+	//}
+	
 	if(!empty($p)) {
 ?>
 	<div class="paging-navigation"><?php echo $p;?></div>
