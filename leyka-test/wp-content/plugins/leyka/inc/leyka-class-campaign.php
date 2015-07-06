@@ -277,13 +277,13 @@ class Leyka_Campaign_Management {
 
     public function statistics_meta_box(WP_Post $campaign) { $campaign = new Leyka_Campaign($campaign);?>
 
-        <div>
-            <span><?php _e('Campaign was displayed:', 'leyka');?></span>
-            <span><?php echo $campaign->views_count;?> <?php _e('times', 'leyka');?></span>
+        <div class="stats-block">
+            <span class="stats-label"><?php _e('Views:', 'leyka');?></span>
+            <span class="stats-data"><?php echo $campaign->views_count;?> <?php _e('times', 'leyka');?></span>
         </div>
-        <div>
-            <span><?php _e('Donors attempted to make a donation:', 'leyka');?></span>
-            <span><?php echo $campaign->submits_count;?> <?php _e('times', 'leyka');?></span>
+        <div class="stats-block">
+            <span class="stats-label"><?php _e('Donation attempts:', 'leyka');?></span>
+            <span class="stats-data"><?php echo $campaign->submits_count;?> <?php _e('times', 'leyka');?></span>
         </div>
     <?php
     }
