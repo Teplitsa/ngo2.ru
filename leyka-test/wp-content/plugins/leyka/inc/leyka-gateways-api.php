@@ -137,7 +137,7 @@ abstract class Leyka_Gateway {
         add_action('leyka_cancel_recurrents-'.$this->_id, array($this, 'cancel_recurrents'));
 
         add_action("leyka_{$this->_id}_save_donation_data", array($this, 'save_donation_specific_data'));
-        add_action("leyka_{$this->_id}_add_donation_specific_data", array($this, 'add_donation_specific_data'));
+        add_action("leyka_{$this->_id}_add_donation_specific_data", array($this, 'add_donation_specific_data'), 10, 2);
 
         add_filter('leyka_get_unknown_donation_field', array($this, 'get_specific_data_value'), 10, 3);
         add_action('leyka_set_unknown_donation_field', array($this, 'set_specific_data_value'), 10, 3);
@@ -430,6 +430,7 @@ abstract class Leyka_Payment_Method {
     protected $_label = '';
     protected $_label_backend = '';
     protected $_description = '';
+    protected $_global_fields = array();
     protected $_support_global_fields = true;
     protected $_custom_fields = array();
     protected $_icons = array();
@@ -485,7 +486,8 @@ abstract class Leyka_Payment_Method {
             case 'desc':
             case 'description': $param = html_entity_decode($this->_description); break;
             case 'has_global_fields': $param = $this->_support_global_fields; break;
-            case 'custom_fields': $param = $this->_custom_fields; break;
+//            case 'global_fields': $param = $this->_global_fields ? $this->_global_fields; break;
+            case 'custom_fields': $param = $this->_custom_fields ? $this->_custom_fields : array(); break;
             case 'icons': $param = $this->_icons; break;
             case 'submit_label': $param = $this->_submit_label; break;
             case 'currencies': $param = $this->_supported_currencies; break;

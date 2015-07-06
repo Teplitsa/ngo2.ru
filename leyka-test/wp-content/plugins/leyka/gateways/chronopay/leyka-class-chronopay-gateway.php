@@ -466,7 +466,7 @@ class Leyka_Chronopay_Gateway extends Leyka_Gateway {
 
     public function add_donation_specific_data($donation_id, array $donation_params) {
 
-        if( !empty($params['chronopay_customer_id']) ) {
+        if( !empty($donation_params['chronopay_customer_id']) ) {
             update_post_meta($donation_id, '_chronopay_customer_id', $donation_params['chronopay_customer_id']);
         }
     }

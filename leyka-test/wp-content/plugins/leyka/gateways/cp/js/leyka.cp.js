@@ -49,8 +49,8 @@ jQuery(document).ready(function($){
                 $errors = $('#leyka-submit-errors'),
                 data = {};
 
-            /** @todo Add this checkbox to the donation forms if the gateway supports recurrents */
-            if($form.find('#recurrent').attr('checked')) {
+            /** @todo Make this a "Month" instead of a "Week" */
+            if($form.find('#leyka_cp-card_recurring').attr('checked')) {
                 data.cloudPayments = {recurrent: {interval: 'Week', period: 1}};
             }
 
