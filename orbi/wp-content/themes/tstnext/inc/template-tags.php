@@ -545,14 +545,14 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 					
 				<div class="author-content card-footer-content pci-content">
 					<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-					<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+					<p class="post-date pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>
 				</div>
 				
 			</div>	
 		<?php } else { ?>
 			<div class="entry-author plain-card-item">
 				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-				<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>				
+				<p class="author-role pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
 			</div>	
 		<?php } ?>
 		</div>
