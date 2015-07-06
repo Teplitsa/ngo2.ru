@@ -64,7 +64,9 @@ class FrmProPostAction extends FrmFormAction {
         $custom_fields = array();
         if ( isset( $form_action->post_content['post_custom_fields'] ) ) {
             foreach ( $form_action->post_content['post_custom_fields'] as $custom_field_opts ) {
-                $custom_fields[] = $custom_field_opts['meta_name'];
+				if ( isset( $custom_field_opts['meta_name'] ) ) {
+					$custom_fields[] = $custom_field_opts['meta_name'];
+				}
                 unset( $custom_field_opts );
             }
         }

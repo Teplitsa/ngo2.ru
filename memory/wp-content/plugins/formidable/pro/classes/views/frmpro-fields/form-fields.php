@@ -4,7 +4,7 @@ if ( 'date' == $field['type'] ) {
 <input type="text" id="<?php echo esc_attr( $html_id ) ?>" name="<?php echo esc_attr( $field_name ) ?>" value="<?php echo esc_attr( $field['value'] ) ?>" <?php do_action( 'frm_field_input_html', $field ) ?>/>
 <?php
 
-    if ( ! FrmProFieldsHelper::is_read_only( $field ) ) {
+    if ( ! FrmField::is_read_only( $field ) ) {
         if ( ! isset($frm_vars['datepicker_loaded']) || ! is_array($frm_vars['datepicker_loaded']) ) {
             $frm_vars['datepicker_loaded'] = array();
         }
@@ -96,13 +96,13 @@ if ( 'date' == $field['type'] ) {
 } else if ($field['type'] == 'image' ) { ?>
 <input type="<?php echo ($frm_settings->use_html) ? 'url' : 'text'; ?>" id="<?php echo esc_attr( $html_id ) ?>" name="<?php echo esc_attr( $field_name ) ?>" value="<?php echo esc_attr( $field['value'] ) ?>" <?php do_action( 'frm_field_input_html', $field ) ?>/>
 <?php if ( $field['value'] ) {
-        ?><img src="<?php echo $field['value'] ?>" height="50px" /><?php
+        ?><img src="<?php echo esc_attr( $field['value'] ) ?>" height="50px" /><?php
     }
 
 } else if ( $field['type'] == 'scale' ) {
     require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/10radio.php');
 
-    if ( isset($field['star']) && $field['star'] ) {
+	if ( FrmField::is_option_true( $field, 'star' ) ) {
         if ( ! isset($frm_vars['star_loaded']) || ! is_array($frm_vars['star_loaded']) ) {
             $frm_vars['star_loaded'] = array(true);
         }
@@ -152,7 +152,7 @@ if ( ! $field['size'] ) {
     }
 } else if ( $field['type'] == 'file' ) {
 
-    if ( isset($field['read_only']) && $field['read_only'] && ( ! isset($frm_vars['readonly']) || $frm_vars['readonly'] != 'disabled') ) {
+	if ( FrmField::is_read_only( $field ) ) {
         // Read only file upload field shows the entry without an upload button
         foreach ( (array) maybe_unserialize($field['value']) as $media_id ) {
             if ( ! is_numeric($media_id) ) {
@@ -161,14 +161,14 @@ if ( ! $field['size'] ) {
 ?>
 <input type="hidden" name="<?php
     echo esc_attr( $field_name );
-    if ( isset($field['multiple']) && $field['multiple'] ) {
+	if ( FrmField::is_option_true( $field, 'multiple' ) ) {
         echo '[]';
     }
 ?>" value="<?php echo esc_attr($media_id) ?>" />
 <div class="frm_file_icon"><?php echo FrmProFieldsHelper::get_file_icon($media_id); ?></div>
 <?php
         }
-    } else if ( isset($field['multiple']) && $field['multiple'] ) {
+	} else if ( FrmField::is_option_true( $field, 'multiple' ) ) {
 		$media_ids = maybe_unserialize($field['value']);
 		if ( ! is_array( $media_ids ) && strpos( $media_ids, ',' ) ) {
 			$media_ids = explode(',', $media_ids);

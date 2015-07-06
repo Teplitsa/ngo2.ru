@@ -1,4 +1,4 @@
-<table class="form_results<?php echo ( $atts['style'] ? FrmFormsHelper::get_form_style_class() : '' ); ?>" id="form_results<?php echo (int) $form->id ?>" cellspacing="0">
+<table class="form_results<?php echo ( $atts['style'] ? FrmFormsHelper::get_form_style_class() : '' ); ?>" id="form_results<?php echo (int) $atts['form']->id ?>" cellspacing="0">
     <thead>
     <tr>
     <?php if ( in_array( 'id', $atts['fields']) ) { ?>
@@ -37,7 +37,7 @@
 
             if ( $atts['edit_link'] ) { ?>
 			<td><?php
-				if ( FrmProEntriesHelper::user_can_edit( $entry, $form ) ) {
+				if ( FrmProEntriesHelper::user_can_edit( $entry, $atts['form'] ) ) {
         			?><a href="<?php echo esc_url( add_query_arg( array( 'frm_action' => 'edit', 'entry' => $entry->id ), $atts['permalink'] ) . $atts['anchor'] )  ?>"><?php echo $atts['edit_link']; ?></a><?php
         		} ?></td>
 <?php       }

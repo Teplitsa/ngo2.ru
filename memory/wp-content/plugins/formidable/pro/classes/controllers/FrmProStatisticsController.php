@@ -20,7 +20,7 @@ class FrmProStatisticsController{
             return;
         }
 
-        $exclude_types = FrmFieldsHelper::no_save_fields();
+		$exclude_types = FrmField::no_save_fields();
         $exclude_types = array_merge($exclude_types, array(
             'rte', 'textarea', 'file', 'grid',
             'signature', 'form', 'table',
@@ -222,6 +222,10 @@ class FrmProStatisticsController{
         $labels = FrmProAppHelper::reset_keys($labels);
         $values = FrmProAppHelper::reset_keys($values);
         $tooltips = FrmProAppHelper::reset_keys($tooltips);
+		foreach ( $f_values as $f_field_id => $f_value ) {
+			$f_values[ $f_field_id ] = FrmProAppHelper::reset_keys( $f_value );
+			unset( $f_field_id, $f_value );
+		}
 
         // Filter hooks
 		$values = apply_filters('frm_graph_values', $values, $args, $field);
@@ -311,7 +315,7 @@ class FrmProStatisticsController{
         $temp_values = array_count_values( array_map( 'strtolower', $inputs ) );
 
         // Get displayed values ( for DFE, separate values, or Other val )
-        if ( $field->type == 'data' || $field->field_options['separate_value'] || ( isset( $field->field_options['other'] ) && $field->field_options['other'] ) ) {
+		if ( $field->type == 'data' || $field->field_options['separate_value'] || FrmField::is_option_true( $field, 'other' ) ) {
             self::get_displayed_values( $temp_values, $field );
         } else if ( $field->type == 'user_id' ) {
             self::get_user_id_values($values, $labels, $tooltips, $pie, $temp_values, $field );
@@ -840,7 +844,7 @@ class FrmProStatisticsController{
         }
 
 	    //Break out any inner arrays (for checkbox or multi-select fields) and add them to the end of the $inputs array
-	    if ( ! $args['x_axis'] && FrmFieldsHelper::is_field_with_multiple_values( $field ) ) {
+		if ( ! $args['x_axis'] && FrmField::is_field_with_multiple_values( $field ) ) {
             $count = 0;
 		    foreach ( $inputs as $k => $i ) {
 			    $i = maybe_unserialize($i);
@@ -1123,16 +1127,14 @@ class FrmProStatisticsController{
                 $values[$entry_id]++;
             }
 
-            unset($entry_id);
-            unset($in);
+			unset( $entry_id, $in );
         }
 
         //TODO: Does this even work?
         if ( $args['data_type'] == 'average' ) {
             foreach ( $calc_array as $entry_id => $calc ) {
                 $values[$entry_id] = ($calc['total'] / $calc['count']);
-                unset($entry_id);
-                unset($calc);
+				unset( $entry_id, $calc );
             }
         }
 
@@ -1203,7 +1205,7 @@ class FrmProStatisticsController{
 
 			if ( isset( $used_vals[ $label ] ) ) {
 				$values[ $l_key ] += $values[ $used_vals[ $label ] ];
-                unset($values[$used_vals[$label]]);
+				unset( $values[ $used_vals[ $label ] ] );
 
 				foreach ( $args['ids'] as $f_id ) {
                     if ( ! isset($f_values[ $f_id ][ $l_key ]) ) {
@@ -1245,7 +1247,6 @@ class FrmProStatisticsController{
                 unset( $label, $calc );
             }
         }
-        unset($used_vals);
     }
 
     /**
@@ -1426,6 +1427,7 @@ class FrmProStatisticsController{
         $num_col = array();
 
         global $frm_vars;
+		$frm_vars['forms_loaded'][] = true;
         if ( ! isset($frm_vars['google_graphs']) ) {
             $frm_vars['google_graphs'] = array();
         }

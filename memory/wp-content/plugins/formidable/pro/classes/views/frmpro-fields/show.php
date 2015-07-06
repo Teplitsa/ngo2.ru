@@ -13,7 +13,6 @@
     <p class="howto frm_clear"><?php _e( 'Note: This field will not show in the form, but will link the user id to it as long as the user is logged in at the time of form submission.', 'formidable' ) ?></p>
 <?php } else if ( $field['type'] == 'image' ) { ?>
     <input type="url" id="<?php echo $html_id ?>" name="<?php echo $field_name ?>" value="<?php echo $field['default_value'] ?>" <?php do_action('frm_field_input_html', $field) ?> />
-	<?php if ( $field['default_value'] ) { ?><img src="<?php echo $field['default_value'] ?>" height="50px"><?php } ?>
 <?php
 	} else if ( $field['type'] == 'scale' ) {
         require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/10radio.php');
@@ -89,7 +88,7 @@
         }
 
 	} else if ( $field['type'] == 'file' ) { ?>
-    <input type="file"  disabled="disabled" <?php echo ( isset($field['size']) && $field['size'] ) ? 'style="width:'. $field['size'] . ( is_numeric($field['size']) ? 'px' : '') .';"' : ''; ?> />
+	<input type="file" disabled="disabled" <?php echo FrmField::is_option_true( $field, 'size' ) ? 'style="width:' . $field['size'] . ( is_numeric( $field['size'] ) ? 'px' : '' ) . ';"' : ''; ?> />
     <input type="hidden" name="<?php echo $field_name ?>" />
 <?php
 } else if ( $field['type'] == 'form' ) {

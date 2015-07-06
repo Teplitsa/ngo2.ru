@@ -28,7 +28,7 @@ if ( 'data' != $field['type'] || ! $form_list ) {
     if ( is_object($selected_field) ) {
         include(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-fields/field-selection.php');
     } else if ( $selected_field == 'taxonomy') { ?>
-        <span class="howto"><?php _e( 'Select a taxonomy on the Post tab of the Form Settings page', 'formidable' ); ?></span>
+        <span class="howto"><?php _e( 'Select a taxonomy on the Form Actions tab of the Form Settings page', 'formidable' ); ?></span>
         <input type="hidden" name="field_options[form_select_<?php echo $current_field_id ?>]" value="taxonomy" />
     <?php
     }

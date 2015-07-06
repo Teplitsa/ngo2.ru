@@ -1,6 +1,6 @@
 <?php
 // Check if field is read only
-$disabled = ( $field['read_only'] && ( ! isset($frm_vars['readonly']) || $frm_vars['readonly'] != 'disabled' ) && ! FrmAppHelper::is_admin() ) ?  ' disabled="disabled"' : '';
+$disabled = ( FrmField::is_read_only( $field ) && ! FrmAppHelper::is_admin() ) ?  ' disabled="disabled"' : '';
 
 // Dynamic Dropdowns
 if ( $field['data_type'] == 'select' ) {
@@ -17,7 +17,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <?php
     }
 
-    if ( ( empty($field['options']) || ! empty( $disabled ) ) && ! empty( $field['value'] ) ) {
+    if ( ( empty($field['options']) || ! empty( $disabled ) ) ) {
 		if ( is_array( $field['value'] ) ) {
 			foreach ( $field['value'] as $v ) { ?>
 <input name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id ) ?>" type="hidden" value="<?php echo esc_attr( $v ) ?>" />
@@ -82,7 +82,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 	</label>
 </div>
 <?php   }
-    } else if ( ! empty( $field['value'] ) ) {
+	} else {
         foreach ( (array) $field['value'] as $v ) { ?>
 <input name="<?php echo esc_attr( $field_name ) ?>[]" type="hidden" value="<?php echo esc_attr( $v ) ?>" />
 <?php   }
@@ -102,7 +102,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 </div>
 <?php
         }
-	} else if ( ! empty( $field['value'] ) ) { ?>
+	} else { ?>
 <input name="<?php echo esc_attr( $field_name ) ?>" type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" />
 <?php
 	}

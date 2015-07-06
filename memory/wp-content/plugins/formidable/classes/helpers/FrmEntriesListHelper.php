@@ -8,7 +8,7 @@ class FrmEntriesListHelper extends FrmListHelper {
 	public function prepare_items() {
         global $wpdb, $per_page;
 
-        $per_page = $this->get_items_per_page( 'formidable_page_formidable_entries_per_page');
+		$per_page = $this->get_items_per_page( 'formidable_page_formidable_entries_per_page' );
 
         $form_id = $this->params['form'];
         if ( ! $form_id ) {
@@ -28,7 +28,7 @@ class FrmEntriesListHelper extends FrmListHelper {
 		$s = isset( $_REQUEST['s'] ) ? stripslashes($_REQUEST['s']) : '';
 
 	    if ( $s != '' && FrmAppHelper::pro_is_installed() ) {
-	        $fid = isset( $_REQUEST['fid'] ) ? absint( $_REQUEST['fid'] ) : '';
+	        $fid = isset( $_REQUEST['fid'] ) ? sanitize_title( $_REQUEST['fid'] ) : '';
 	        $s_query = FrmProEntriesHelper::get_search_str( $s_query, $s, $form_id, $fid);
 	    }
 

@@ -33,7 +33,7 @@ class FrmProEntriesListHelper extends FrmEntriesListHelper {
 		}
 
 		if ( $form ) {
-			$field_list = FrmField::getAll( array( 'fi.form_id' => $form->id, 'fi.type not' => FrmFieldsHelper::no_save_fields() ), 'field_order' );
+			$field_list = FrmField::getAll( array( 'fi.form_id' => $form->id, 'fi.type not' => FrmField::no_save_fields() ), 'field_order' );
 		}
 
 		$fid = isset( $_REQUEST['fid'] ) ? esc_attr( stripslashes( $_REQUEST['fid'] ) ) : '';

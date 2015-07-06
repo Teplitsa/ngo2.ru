@@ -206,7 +206,7 @@ class FrmProXMLHelper{
             case 'file':
                 $metas[$field_id] = self::get_file_id($metas[$field_id]);
                 // If single file upload field, reset array
-                if ( ! isset($field->field_options['multiple']) || ! $field->field_options['multiple'] ) {
+				if ( ! FrmField::is_option_true( $field, 'multiple' ) ) {
                     $metas[$field_id] = reset( $metas[$field_id] );
                 }
             break;
@@ -343,7 +343,7 @@ class FrmProXMLHelper{
             return $value;
         }
 
-        if ( $field->type == 'select' && ( ! isset($field->field_options['multiple']) || ! $field->field_options['multiple'] ) ) {
+		if ( $field->type == 'select' && ! FrmField::is_option_true( $field, 'multiple' ) ) {
             return $value;
         }
 
@@ -365,7 +365,7 @@ class FrmProXMLHelper{
     public static function get_dfe_id($value, $field, $ids = array() ) {
         global $wpdb;
 
-        if ( ! $field || ! isset($field->field_options['data_type']) || $field->field_options['data_type'] == 'data' ) {
+		if ( ! $field || FrmProField::is_list_field( $field ) ) {
             return $value;
         }
 

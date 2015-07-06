@@ -200,7 +200,7 @@ class FrmListEntries extends WP_Widget {
 			  if ( $selected_display ) {
 				  $selected_form_id = get_post_meta( $selected_display->ID, 'frm_form_id', true );
 
-				  $title_opts = FrmField::getAll( array( 'fi.form_id' => (int) $selected_form_id, 'type not' => FrmFieldsHelper::no_save_fields() ), 'field_order' );
+				  $title_opts = FrmField::getAll( array( 'fi.form_id' => (int) $selected_form_id, 'type not' => FrmField::no_save_fields() ), 'field_order' );
 				  $instance['display_id'] = $selected_display->ID;
 			  }
 		  }

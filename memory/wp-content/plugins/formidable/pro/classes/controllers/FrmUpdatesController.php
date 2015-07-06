@@ -279,7 +279,7 @@ class FrmUpdatesController{
 			$transient = $this->queue_addon_update( $transient, $plugin, $force, false );
             unset($plugin);
 
-			if ( strpos( $transient->response[ $this->plugin_name ]->url, 'wordpress.org' ) ) {
+			if ( isset( $transient->response[ $this->plugin_name ] ) && strpos( $transient->response[ $this->plugin_name ]->url, 'wordpress.org' ) ) {
                 // the pro checking failed, but we still don't want to update to the free version
                 unset($transient->response[$this->plugin_name]);
             }

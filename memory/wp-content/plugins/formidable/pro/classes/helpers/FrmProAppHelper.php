@@ -41,9 +41,16 @@ class FrmProAppHelper{
      * @since 2.0
      * @return string
      */
-    public static function get_time() {
-        return date('H:i:s', strtotime(current_time('mysql')));
-    }
+	public static function get_time( $atts = array() ) {
+		$defaults = array( 'format' => 'H:i:s', 'round' => 0 );
+		$atts = array_merge( $defaults, (array) $atts );
+		$current_time = strtotime( current_time( 'mysql' ) );
+		if ( ! empty( $atts['round'] ) ) {
+			$round_numerator = 60 * (float) $atts['round'];
+			$current_time = round( $current_time / $round_numerator ) * $round_numerator;
+		}
+		return date( $atts['format'], $current_time );
+	}
 
     /**
      * Get a value from the current user profile
@@ -316,7 +323,7 @@ class FrmProAppHelper{
 
         if ( $where_field->type == 'date' && ! empty($args['where_val']) ) {
             $args['where_val'] = date('Y-m-d', strtotime($args['where_val']));
-        } else if ( $args['where_is'] == '=' && $args['where_val'] != '' && FrmFieldsHelper::is_field_with_multiple_values( $where_field ) ) {
+		} else if ( $args['where_is'] == '=' && $args['where_val'] != '' && FrmField::is_field_with_multiple_values( $where_field ) ) {
             if ( $where_field->type != 'data' || $where_field->field_options['data_type'] != 'checkbox' || is_numeric($args['where_val']) ) {
                 // leave $args['where_is'] the same if this is a data from entries checkbox with a numeric value
                 $args['where_is'] = 'LIKE';
@@ -394,7 +401,7 @@ class FrmProAppHelper{
         //Change $args['where_val'] to linked entry IDs
 		$linked_id = (array) $linked_id;
 		$args['where_val'] = $linked_id;
-        if ( FrmFieldsHelper::is_field_with_multiple_values( $where_field ) ) {
+		if ( FrmField::is_field_with_multiple_values( $where_field ) ) {
 			if ( in_array($args['where_is'], array( '!=', 'not LIKE') ) ) {
 				$args['temp_where_is'] = 'LIKE';
 			} else if ( in_array($args['where_is'], array( '=', 'LIKE') ) ) {
@@ -695,8 +702,8 @@ class FrmProAppHelper{
     }
 
 	public static function get_current_form_id() {
-        _deprecated_function( __FUNCTION__, '2.0', 'FrmEntriesHelper::get_current_form_id' );
-        return FrmEntriesHelper::get_current_form_id();
+        _deprecated_function( __FUNCTION__, '2.0', 'FrmForm::get_current_form_id' );
+        return FrmForm::get_current_form_id();
     }
 
 	public static function get_shortcodes( $content, $form_id ) {

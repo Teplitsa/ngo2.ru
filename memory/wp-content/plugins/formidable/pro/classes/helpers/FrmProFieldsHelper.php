@@ -9,8 +9,7 @@ class FrmProFieldsHelper{
 
         $prev_val = '';
 		if ( $field && $dynamic_default ) {
-            $field->field_options = maybe_unserialize($field->field_options);
-            if ( isset($field->field_options['dyn_default_value']) && $field->field_options['dyn_default_value'] != '' ) {
+            if ( FrmField::is_option_value_in_object( $field, 'dyn_default_value' ) ) {
                 $prev_val = $value;
                 $value = $field->field_options['dyn_default_value'];
             }
@@ -49,8 +48,6 @@ class FrmProFieldsHelper{
 	 */
 	private static function get_shortcode_to_functions() {
 		return array(
-			'date'          => array( 'FrmProAppHelper', 'get_date'),
-			'time'          => array( 'FrmProAppHelper', 'get_time'),
 			'email'         => array( 'FrmProAppHelper', 'get_current_user_value'),
 			'login'         => array( 'FrmProAppHelper', 'get_current_user_value'),
 			'username'      => array( 'FrmProAppHelper', 'get_current_user_value'),
@@ -95,7 +92,7 @@ class FrmProFieldsHelper{
 	private static function get_shortcodes_from_string( $string ) {
 		$shortcode_functions = self::get_shortcode_to_functions();
 		$match_shortcodes = implode( '|', array_keys( $shortcode_functions ) );
-		$match_shortcodes .= '|user_meta|post_meta|server|auto_id|get';
+		$match_shortcodes .= '|user_meta|post_meta|server|auto_id|date|time|get';
 		preg_match_all( '/\[(' . $match_shortcodes . '|get-(.?))\b(.*?)(?:(\/))?\]/s', $string, $matches, PREG_PATTERN_ORDER );
 		return $matches;
 	}
@@ -169,6 +166,14 @@ class FrmProFieldsHelper{
 				if ( isset( $atts['param'] ) ) {
 					$new_value = FrmAppHelper::get_server_value( $atts['param'] );
 				}
+			break;
+
+			case 'date':
+				$new_value = FrmProAppHelper::get_date( isset( $atts['format'] ) ? $atts['format'] : '' );
+			break;
+
+			case 'time':
+				$new_value = FrmProAppHelper::get_time( $atts );
 			break;
 
 			default:
@@ -328,7 +333,7 @@ class FrmProFieldsHelper{
         }
 
 		//If checkbox, multi-select dropdown, or checkbox data from entries field and default value has a comma
-		if ( FrmFieldsHelper::is_field_with_multiple_values( $field ) && ( $field->type == 'data' || ! in_array($value, $field->options) ) ) {
+		if ( FrmField::is_field_with_multiple_values( $field ) && ( $field->type == 'data' || ! in_array( $value, $field->options ) ) ) {
 			//If the default value does not match any options OR if data from entries field (never would have commas in values), explode to array
 			$value = explode(',', $value);
 		}
@@ -677,60 +682,98 @@ class FrmProFieldsHelper{
 	 * @since 2.0
 	 */
 	public static function update_for_repeat( $args ) {
-		// change the form_id for child fields
-		$where = array( 'id' => $args['children'], 'type !' => 'end_divider' );
-		FrmDb::get_where_clause_and_values( $where );
-		array_unshift( $where['values'], $args['form_id'] );
-
-		global $wpdb;
-		$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_fields SET form_id=%d ' . $where['where'], $where['values'] ) );
-
 		if ( $args['checked'] ) {
-			// get the ids of the entries saved in these fields
-			$item_ids = FrmDb::get_col( 'frm_item_metas', array( 'field_id' => $args['children'] ), 'item_id', array( 'group_by' => 'item_id' ) );
-
-			foreach ( $item_ids as $old_id ) {
-				// move the entries to the new form
-		        $new_id = FrmEntry::create( array( 'form_id' => $args['form_id'], 'parent_item_id' => $old_id ) );
-				$where = array( 'item_id' => $old_id, 'field_id' => $args['children'] );
-				FrmDb::get_where_clause_and_values( $where );
-				array_unshift( $where['values'], $new_id );
-
-				$c = $wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_item_metas SET item_id = %d ' . $where['where'], $where['values'] ) );
-				if ( $c ) {
-					// update the section field meta with the new entry ids
-					$u = FrmEntryMeta::update_entry_meta( $old_id, $args['field_id'], null, $new_id );
-					if ( ! $u ) {
-						// add the row if it wasn't there to update
-						FrmEntryMeta::add_entry_meta( $old_id, $args['field_id'], null, $new_id );
-					}
-				}
-			}
+			// Switching to repeatable
+			self::move_fields_to_form( $args['children'], $args['form_id'] );
+			self::move_entries_to_child_form( $args );
+			$form_select = $args['form_id'];
 		} else {
-			// get the ids of the entries saved in these fields
-			$items = FrmDb::get_results( $wpdb->prefix . 'frm_item_metas m LEFT JOIN ' . $wpdb->prefix . 'frm_items i ON i.id=m.item_id', array( 'field_id' => $args['children'] ), 'item_id,parent_item_id', array( 'order_by' => 'i.created_at ASC' ) );
-
-			$new_ids = array();
-			foreach ( $items as $item ) {
-				$old_id = $item->item_id;
-				$new_id = $item->parent_item_id;
-				if ( in_array( $new_id, $new_ids ) ) {
-					// we already have a row for this entry, so delete this one
-					FrmEntry::destroy( $old_id );
-				} else {
-					$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_item_metas SET item_id = %d WHERE item_id = %d', $new_id, $old_id ) );
-				}
-				$new_ids[] = $new_id;
-			}
-
-			// delete all the metas for the repeat section
-			$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'frm_item_metas WHERE field_id=%d', $args['field_id'] ) );
+			// Switching to non-repeatable
+			self::move_fields_to_form( $args['children'], $args['parent_form_id'] );
+			self::move_entries_to_parent_form( $args );
+			$form_select = '';
 		}
 
-		// update the repeat setting since we have made changes based on it
+		// update the repeat setting and form_select
 		$section = FrmField::getOne( $args['field_id'] );
 		$section->field_options['repeat'] = $args['checked'];
+		$section->field_options['form_select'] = $form_select;
 		FrmField::update( $args['field_id'], array( 'field_options' => $section->field_options ) );
+	}
+
+	/**
+	* Move fields to a different form
+	* Used when switching from repeating to non-repeating (or vice versa)
+	*/
+	private static function move_fields_to_form( $field_ids, $form_id ) {
+		global $wpdb;
+
+		$where = array( 'id' => $field_ids, 'type !' => 'end_divider' );
+		FrmDb::get_where_clause_and_values( $where );
+		array_unshift( $where['values'], $form_id );
+		$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_fields SET form_id=%d ' . $where['where'], $where['values'] ) );
+	}
+
+	/**
+	* Move entries from parent form to child form
+	*
+	* @since 2.0.09
+	*/
+	private static function move_entries_to_child_form( $args ) {
+		global $wpdb;
+
+		// get the ids of the entries saved in these fields
+		$item_ids = FrmDb::get_col( 'frm_item_metas', array( 'field_id' => $args['children'] ), 'item_id', array( 'group_by' => 'item_id' ) );
+
+		foreach ( $item_ids as $old_id ) {
+			// Create a new entry in the child form
+	        $new_id = FrmEntry::create( array( 'form_id' => $args['form_id'], 'parent_item_id' => $old_id ) );
+
+			// Move the parent item_metas to the child form
+			$where = array( 'item_id' => $old_id, 'field_id' => $args['children'] );
+			FrmDb::get_where_clause_and_values( $where );
+			array_unshift( $where['values'], $new_id );
+			$c = $wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_item_metas SET item_id = %d ' . $where['where'], $where['values'] ) );
+
+			if ( $c ) {
+				// update the section field meta with the new entry ID
+				$u = FrmEntryMeta::update_entry_meta( $old_id, $args['field_id'], null, $new_id );
+				if ( ! $u ) {
+					// add the row if it wasn't there to update
+					FrmEntryMeta::add_entry_meta( $old_id, $args['field_id'], null, $new_id );
+				}
+			}
+		}
+	}
+
+	/**
+	* Delete entries from repeating sections and transfer first row to parent entries
+	*/
+	private static function move_entries_to_parent_form( $args ) {
+		global $wpdb;
+
+		// get the ids of the entries saved in child fields
+		$items = FrmDb::get_results( $wpdb->prefix . 'frm_item_metas m LEFT JOIN ' . $wpdb->prefix . 'frm_items i ON i.id=m.item_id', array( 'field_id' => $args['children'] ), 'item_id,parent_item_id', array( 'order_by' => 'i.created_at ASC' ) );
+
+		$updated_ids = array();
+		foreach ( $items as $item ) {
+			$child_id = $item->item_id;
+			$parent_id = $item->parent_item_id;
+			if ( ! in_array( $parent_id, $updated_ids ) ) {
+				// Change the item_id in frm_item_metas to match the parent item ID
+				$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_item_metas SET item_id = %d WHERE item_id = %d', $parent_id, $child_id ) );
+				$updated_ids[] = $parent_id;
+			}
+
+			// Delete the child entry
+			FrmEntry::destroy( $child_id );
+		}
+
+		// delete all the metas for the repeat section
+		$wpdb->query( $wpdb->prepare( 'DELETE FROM ' . $wpdb->prefix . 'frm_item_metas WHERE field_id=%d', $args['field_id'] ) );
+
+		// Delete the child form
+		FrmForm::destroy( $args['form_id'] );
 	}
 
 	/**
@@ -872,7 +915,7 @@ class FrmProFieldsHelper{
             }
 
             // If field has confirmation field, add script for confirmation field as well
-            if ( isset( $field['conf_field'] ) && !empty( $field['conf_field'] ) ) {
+			if ( ! FrmField::is_option_empty( $field, 'conf_field' ) ) {
                 $conf_rule = $rule;
                 $conf_rule['Setting']['FieldName'] = 'conf_' . $conf_rule['Setting']['FieldName'];
                 $frm_vars['rules'][$parent_field->id][] = $conf_rule;
@@ -896,7 +939,11 @@ class FrmProFieldsHelper{
     }
 
 	public static function get_category_options( $field ) {
-        $field = (array) $field;
+		if ( is_object( $field ) ) {
+			$field = (array) $field;
+			$field = array_merge( $field, $field['field_options'] );
+		}
+
         $post_type = FrmProFormsHelper::post_type($field['form_id']);
         if ( ! isset($field['exclude_cat']) ) {
             $field['exclude_cat'] = 0;
@@ -1224,7 +1271,7 @@ class FrmProFieldsHelper{
             return false;
         }
 
-        return  ( ! FrmFieldsHelper::is_multiple_select($field) || ( isset($field->field_options['autocom']) && $field->field_options['autocom'] ) );
+		return  ( ! FrmField::is_multiple_select( $field ) || FrmField::is_option_true( $field, 'autocom' ) );
     }
 
 	public static function get_time_options( $values ) {
@@ -1377,12 +1424,12 @@ class FrmProFieldsHelper{
 				unset( $fields[ $k ] );
 			}
 
-			if ( $f->type != 'break' ) {
-				continue;
-			}
-
 			if ( $ajax ) {
 				self::set_ajax_field_globals( $f );
+			}
+
+			if ( $f->type != 'break' ) {
+				continue;
 			}
 
 			$page_numbers['page_breaks'][ $f->field_order ] = $f;
@@ -1465,7 +1512,7 @@ class FrmProFieldsHelper{
 
 		switch ( $f->type ) {
 			case 'date':
-				if ( ! self::is_read_only( $f ) ) {
+				if ( ! FrmField::is_read_only( $f ) ) {
 					if ( ! isset( $frm_vars['datepicker_loaded'] ) || ! is_array( $frm_vars['datepicker_loaded'] ) ) {
 						$frm_vars['datepicker_loaded'] = array();
 					}
@@ -1688,23 +1735,13 @@ DEFAULT_HTML;
 	 * @since 2.0.5
 	 */
 	public static function is_list_field( $field ) {
-		return $field->type == 'data' && ( ! isset( $field->field_options['data_type'] ) || $field->field_options['data_type'] == 'data' );
+		_deprecated_function( __FUNCTION__, '2.0.9', 'FrmProField::is_list_field' );
+		return FrmProField::is_list_field( $field );
 	}
 
-	/**
-	 * Check if a field is read only. Read only can be set in the field options,
-	 * but disabled with the shortcode options
-	 *
-	 * @since 2.0.5
-	 */
 	public static function is_read_only( $field ) {
-		if ( is_object( $field ) ) {
-			$field = (array) $field;
-			$field['read_only'] = isset( $field['field_options']['read_only'] ) ? $field['field_options']['read_only'] : 0;
-		}
-
-		global $frm_vars;
-		return ( isset( $field['read_only'] ) && $field['read_only'] && ( ! isset( $frm_vars['readonly'] ) || $frm_vars['readonly'] != 'disabled' ) );
+		_deprecated_function( __FUNCTION__, '2.0.9', 'FrmField::is_read_only' );
+		return FrmField::is_read_only( $field );
 	}
 
 	public static function before_replace_shortcodes( $html, $field ) {
@@ -1750,20 +1787,20 @@ DEFAULT_HTML;
                 $frm_vars['collapse_div'] = false;
             }
 
-            if ( isset($frm_vars['div']) && $frm_vars['div'] && $frm_vars['div'] != $field['id'] ) {
-                // close the div if it's from a different section
-                $html = "</div>\n". $html;
-                $frm_vars['div'] = false;
-            }
+			if ( isset($frm_vars['div']) && $frm_vars['div'] && $frm_vars['div'] != $field['id'] ) {
+				// close the div if it's from a different section
+				$html = "</div>\n". $html;
+				$frm_vars['div'] = false;
+			}
 
-            if ( isset($field['slide']) && $field['slide'] ) {
+			if ( FrmField::is_option_true( $field, 'slide' ) ) {
                 $trigger = ' frm_trigger';
                 $collapse_div = '<div class="frm_toggle_container" style="display:none;">';
             } else {
                 $trigger = $collapse_div = '';
             }
 
-            if ( isset($field['repeat']) && $field['repeat'] ) {
+			if ( FrmField::is_option_true( $field, 'repeat' ) ) {
                 $errors = isset($atts['errors']) ? $atts['errors'] : array();
                 $field_name = 'item_meta['. $field['id'] .']';
                 $html_id = FrmFieldsHelper::get_html_id($field);
@@ -1774,21 +1811,14 @@ DEFAULT_HTML;
                 $input = ob_get_contents();
                 ob_end_clean();
 
-                if ( isset($field['slide']) && $field['slide'] ) {
+				if ( FrmField::is_option_true( $field, 'slide' ) ) {
                     $input = $collapse_div . $input .'</div>';
                 }
 
                 $html = str_replace('[collapse_this]', $input, $html);
 
             } else {
-                if ( preg_match('/\<\/div\>$/', $html) ) {
-
-                    // indicate that the div is open
-                    $frm_vars['div'] = $field['id'];
-
-                    // if the HTML ends with a div, remove it
-                    $html = preg_replace('/\<\/div\>$/', '', $html);
-                }
+				self::remove_close_div( $field, $html );
 
                 if ( strpos($html, '[collapse_this]') !== false ) {
                     $html = str_replace('[collapse_this]', $collapse_div, $html);
@@ -1826,8 +1856,8 @@ DEFAULT_HTML;
 			}
             $html = apply_filters('frm_get_default_value', $html, (object) $field, false);
             $html = do_shortcode($html);
-        } else if ( isset($field['conf_field']) && $field['conf_field'] ) {//Add confirmation field
-
+		} else if ( FrmField::is_option_true( $field, 'conf_field' ) ) {
+			//Add confirmation field
             //Get confirmation field ready for replace_shortcodes function
             $conf_html = $field['custom_html'];
             $conf_field = $field;
@@ -1899,6 +1929,23 @@ DEFAULT_HTML;
         return $html;
     }
 
+	/**
+	* Remove the close div from HTML (specifically for divider field types)
+	*
+	* @since 2.0.09
+	* @param string $html - pass by reference
+	*/
+	private static function remove_close_div( $field, &$html ) {
+		$end_div = '/\<\/div\>(\s*)?$/';
+		if ( preg_match( $end_div, $html ) ) {
+			global $frm_vars;
+			// indicate that the div is open
+			$frm_vars['div'] = $field['id'];
+
+			$html = preg_replace( $end_div, '', $html );
+		}
+	}
+
 	public static function get_export_val( $val, $field, $entry = array() ) {
 		if ( $field->type == 'user_id' ) {
             $val = self::get_display_name($val, 'user_login');
@@ -1910,7 +1957,7 @@ DEFAULT_HTML;
 		} else if ( $field->type == 'data' ) {
             $new_val = maybe_unserialize($val);
 
-			if ( empty( $new_val ) && ! empty( $entry ) && self::is_list_field( $field ) ) {
+			if ( empty( $new_val ) && ! empty( $entry ) && FrmProField::is_list_field( $field ) ) {
 				FrmProEntriesHelper::get_dynamic_list_values( $field, $entry, $new_val );
 			}
 
@@ -2069,7 +2116,8 @@ DEFAULT_HTML;
 		} else {
 		    $user_id = FrmDb::get_var( 'frm_items', array( 'id' => $value), 'user_id' );
 		    if ( $user_id ) {
-		        $value = self::get_display_name( $user_id, $atts['show'], array( 'blank' => true ) );
+				$show = isset( $atts['show'] ) ? $atts['show'] : 'display_name';
+				$value = self::get_display_name( $user_id, $show, array( 'blank' => true ) );
 		    } else {
 		        $value = '';
 		    }
@@ -2214,12 +2262,7 @@ DEFAULT_HTML;
 
 		foreach ( $fields as $field ) {
 			$stop = ( $include != 'not' && ! in_array( $field->type, $types ) ) || ( $include == 'not' && in_array( $field->type, $types ) );
-			if ( $stop ) {
-				continue;
-			}
-
-			$stop = ( $field->type == 'data' && ( ! isset($field->field_options['data_type']) || $field->field_options['data_type'] == 'data' || $field->field_options['data_type'] == '' ) );
-			if ( $stop ) {
+			if ( $stop || FrmProField::is_list_field( $field ) ) {
 				continue;
 			}
 			unset( $stop );
@@ -2250,7 +2293,7 @@ DEFAULT_HTML;
         $where = array();
         if ( $value ) {
             $slash_val = ( strpos($value, '\\') === false ) ? addslashes($value) : $value;
-            if ( FrmFieldsHelper::is_field_with_multiple_values( $field ) ) {
+			if ( FrmField::is_field_with_multiple_values( $field ) ) {
 				$where[] = array( 'or' => 1, 'meta_value like' => $value, 'meta_value like ' => $slash_val );
                 //add extra slashes to match values that are escaped in the database
             } else {
@@ -2384,7 +2427,7 @@ DEFAULT_HTML;
 		$field_metas = FrmDb::get_col( $wpdb->prefix .'frm_item_metas it '. $join, $where, 'meta_value', array( 'order_by' => 'it.created_at DESC', 'limit' => $limit ) );
 
 		if ( ! empty( $post_ids ) ) {
-			if ( isset( $field->field_options['post_field'] ) && $field->field_options['post_field'] ) {
+			if ( FrmField::is_option_true( $field, 'post_field' ) ) {
 				if ( $field->field_options['post_field'] == 'post_custom' ) { //get custom post field value
                     $post_values = FrmDb::get_col( $wpdb->postmeta, array( 'meta_key' => $field->field_options['custom_field'], 'post_id' => $post_ids), 'meta_value' );
 				} else if ( $field->field_options['post_field'] == 'post_category' ) {
@@ -2625,14 +2668,12 @@ DEFAULT_HTML;
 
 	public static function get_shortcode_select( $form_id, $target_id = 'content', $type = 'all' ) {
         $field_list = array();
-        $exclude = FrmFieldsHelper::no_save_fields();
+		$exclude = FrmField::no_save_fields();
 
         if ( is_numeric($form_id) ) {
             if ( $type == 'field_opt' ) {
                 $exclude[] = 'data';
                 $exclude[] = 'checkbox';
-            } else if ( $type == 'calc' ) {
-                $exclude[] = 'data';
             }
 
             $field_list = FrmField::get_all_for_form($form_id, '', 'include');
@@ -2659,9 +2700,10 @@ DEFAULT_HTML;
                     continue;
                 }
 
-                if ( $field->type == 'data' && ( ! isset($field->field_options['data_type']) || $field->field_options['data_type'] == 'data' || $field->field_options['data_type'] == '' ) ) {
+				if ( $type != 'calc' && FrmProField::is_list_field( $field ) ) {
                     continue;
                 }
+
             ?>
                 <option value="<?php echo esc_attr( $field->id ) ?>"><?php echo $field_name = esc_html( FrmAppHelper::truncate($field->name, 60) ) ?> (<?php _e( 'ID', 'formidable' ) ?>)</option>
                 <option value="<?php echo esc_attr( $field->field_key ) ?>"><?php echo $field_name ?> (<?php _e( 'Key', 'formidable' ) ?>)</option>
@@ -2676,7 +2718,7 @@ DEFAULT_HTML;
                         $linked_form = FrmDb::get_var( 'frm_fields', array( 'id' => $field->field_options['form_select']), 'form_id' );
                         if ( ! in_array($linked_form, $linked_forms) ) {
                             $linked_forms[] = $linked_form;
-                            $linked_fields = FrmField::getAll( array( 'fi.type not' => FrmFieldsHelper::no_save_fields(), 'fi.form_id' => (int) $linked_form) );
+							$linked_fields = FrmField::getAll( array( 'fi.type not' => FrmField::no_save_fields(), 'fi.form_id' => (int) $linked_form ) );
                             foreach ( $linked_fields as $linked_field ) { ?>
                     <option class="frm_subopt" value="<?php echo esc_attr( $field->id .' show='. $linked_field->id ) ?>"><?php echo esc_html( FrmAppHelper::truncate($linked_field->name, 60) ) ?> (<?php _e( 'ID', 'formidable' ) ?>)</option>
                     <option class="frm_subopt" value="<?php echo esc_attr( $field->field_key .' show='. $linked_field->field_key ) ?>"><?php echo esc_html( FrmAppHelper::truncate($linked_field->name, 60) ) ?> (<?php _e( 'Key', 'formidable' ) ?>)</option>
@@ -3226,8 +3268,9 @@ DEFAULT_HTML;
         }
 
         $replace_with = wp_specialchars_decode(strip_tags($replace_with), ENT_QUOTES);
-        $part_one = substr($replace_with, 0, (int) $atts['truncate']);
-        $part_two = substr($replace_with, (int) $atts['truncate']);
+		$part_one = FrmAppHelper::mb_function( array( 'mb_substr', 'substr' ), array( $replace_with, 0, (int) $atts['truncate'] ) );
+		$part_two = FrmAppHelper::mb_function( array( 'mb_substr', 'substr' ), array( $replace_with, (int) $atts['truncate'] ) );
+
         if ( ! empty($part_two) ) {
             $replace_with = $part_one .'<a href="#" onclick="jQuery(this).next().css(\'display\', \'inline\');jQuery(this).css(\'display\', \'none\');return false;" class="frm_text_exposed_show"> '. $more_link_text .'</a><span style="display:none;">'. $part_two .'</span>';
         }
@@ -3506,12 +3549,12 @@ DEFAULT_HTML;
 			$observed_value = '';
 			if ( isset( $values['item_meta'][ $hide_field ] ) ) {
 				$observed_value = $values['item_meta'][ $hide_field ];
-			} else if ( $field->id != $field->temp_id ) {
+			} else if ( isset( $field->temp_id ) && $field->id != $field->temp_id ) {
 				// this field depends on a field in a repeating section
 
 				$id_parts = explode( '-', $field->temp_id );
 				if ( isset( $_POST['item_meta'][ $id_parts[1] ] ) && isset( $_POST['item_meta'][ $id_parts[1] ][ $id_parts[2] ] ) && isset( $_POST['item_meta'][ $id_parts[1] ][ $id_parts[2] ][ $hide_field ] ) ) {
-					$observed_value = $_POST['item_meta'][ $id_parts[1] ][ $id_parts[2] ][ $hide_field ];
+					$observed_value = stripslashes_deep( $_POST['item_meta'][ $id_parts[1] ][ $id_parts[2] ][ $hide_field ] );
 				}
 			}
 
@@ -3554,9 +3597,12 @@ DEFAULT_HTML;
 		if ( empty( $field->field_options['hide_opt'][ $key ] ) ) {
 			$field->field_options['hide_opt'][ $key ] = $observed_value;
 
-			// If logic is 'Dynamic parent is equal to anything' and no value is set in parent field, make sure logic doesn't return true
+			// If logic is 'Dynamic parent is equal to anything' and no value
+			// is set in parent field, make sure logic doesn't return true
 			if ( empty( $observed_value ) && $field->field_options['hide_field_cond'][$key] == '==' ) {
 				$field->field_options['hide_opt'][$key] = 'anything';
+				return;
+			} else if ( $field->field_options['data_type'] == 'data' ) {
 				return;
 			}
 		}
@@ -3590,7 +3636,7 @@ DEFAULT_HTML;
     public static function &is_field_visible_to_user($field) {
         $visible = true;
 
-        if ( ! isset($field->field_options['admin_only']) || empty($field->field_options['admin_only']) ) {
+		if ( FrmField::is_option_empty( $field, 'admin_only' ) ) {
             return $visible;
         }
 
@@ -3608,9 +3654,10 @@ DEFAULT_HTML;
         return $visible;
     }
 
-    public static function is_repeating_field($field) {
-        return ( 'divider' == $field->type && isset($field->field_options['repeat']) && $field->field_options['repeat'] );
-    }
+	public static function is_repeating_field( $field ) {
+		_deprecated_function( __FUNCTION__, '2.0.09', 'FrmField::is_repeating_field' );
+		return FrmField::is_repeating_field( $field );
+	}
 
     /**
      * Loop through value in hidden field and display arrays in separate fields
@@ -3648,7 +3695,7 @@ DEFAULT_HTML;
 		$html_id_end = $opt_key;
 		if ( isset( $field['original_type'] ) ) {
 
-			if ( $opt_key === false && in_array( $field['original_type'], array( 'radio', 'checkbox' ) ) ) {
+			if ( $opt_key === false && in_array( $field['original_type'], array( 'radio', 'checkbox', 'scale' ) ) ) {
 				$html_id_end = 0;
 			} else if ( $field['original_type'] == 'divider' ) {
 				// pull the field id from the field name
@@ -3721,11 +3768,11 @@ DEFAULT_HTML;
 		}
 
 		//If confirmation field on previous page, store value in hidden field
-		if ( isset($field['conf_field']) && $field['conf_field'] && isset( $_POST['item_meta']['conf_' . $field['id']] ) ) {
+		if ( FrmField::is_option_true( $field, 'conf_field' ) && isset( $_POST['item_meta']['conf_' . $field['id']] ) ) {
 		    self::insert_hidden_confirmation_fields( $field );
 
 		//If Other field on previous page, store value in hidden field
-		} else if ( isset( $field['other'] ) && $field['other'] && isset( $_POST['item_meta']['other'][ $field['id'] ] ) ) {
+		} else if ( FrmField::is_option_true( $field, 'other' ) && isset( $_POST['item_meta']['other'][ $field['id'] ] ) ) {
 			self::insert_hidden_other_fields( $field, $opt_key );
 		}
     }

@@ -39,15 +39,17 @@ class FrmHooksController {
 
     }
 
+    public static function trigger_load_form_hooks() {
+        self::trigger_load_hook( 'load_form_hooks' );
+    }
+
 	public static function load_hooks() {
         if ( ! is_admin() ) {
             add_filter( 'the_content', 'FrmAppController::page_route', 10 );
         }
 
         add_action( 'plugins_loaded', 'FrmAppController::load_lang' );
-        add_action( 'init', 'FrmAppController::front_head' );
         add_filter( 'widget_text', 'FrmAppController::widget_text_filter', 8 );
-        add_action( 'wp_footer', 'FrmAppController::footer_js', 1, 0 );
 
         // Entries controller
         add_action( 'wp', 'FrmEntriesController::process_entry', 10, 0 );
@@ -63,11 +65,14 @@ class FrmHooksController {
 
         // Forms Controller
         add_action( 'widgets_init', 'FrmFormsController::register_widgets' );
+		add_action( 'init', 'FrmFormsController::front_head' );
         add_filter( 'frm_content', 'FrmFormsController::filter_content', 10, 3 );
         add_filter( 'frm_replace_content_shortcodes', 'FrmFormsController::replace_content_shortcodes', 20, 3 );
         add_action( 'admin_bar_init', 'FrmFormsController::admin_bar_css' );
         add_action( 'wp_before_admin_bar_render', 'FrmFormsController::admin_bar_configure' );
-        add_action( 'wp_scheduled_delete', 'FrmFormsController::scheduled_delete' );
+		add_action( 'wp_footer', 'FrmFormsController::footer_js', 1, 0 );
+
+		add_action( 'wp_scheduled_delete', 'FrmForm::scheduled_delete' );
 
         // Form Shortcodes
         add_shortcode( 'formidable', 'FrmFormsController::get_form_shortcode' );
@@ -84,6 +89,8 @@ class FrmHooksController {
         add_action( 'admin_enqueue_scripts', 'FrmAppController::load_wp_admin_style' );
         add_action( 'admin_notices', 'FrmAppController::pro_get_started_headline' );
 		add_action( 'admin_init', 'FrmAppController::admin_init', 11 );
+		add_filter( 'admin_body_class', 'FrmAppController::wp_admin_body_class' );
+		add_filter( 'plugin_action_links_' . FrmAppHelper::plugin_folder() . '/formidable.php', 'FrmAppController::settings_link' );
         register_activation_hook( FrmAppHelper::plugin_path() . '/formidable.php', 'FrmAppController::activation_install' );
 
         // Entries Controller
@@ -137,9 +144,6 @@ class FrmHooksController {
         add_action( 'wp_ajax_frm_uninstall', 'FrmAppController::uninstall' );
         add_action( 'wp_ajax_frm_deauthorize', 'FrmAppController::deauthorize' );
 
-        add_action( 'wp_ajax_frmpro_css', 'FrmAppController::load_css' );
-        add_action( 'wp_ajax_nopriv_frmpro_css', 'FrmAppController::load_css' );
-
         // Fields Controller
         add_action( 'wp_ajax_frm_load_field', 'FrmFieldsController::load_field' );
         add_action( 'wp_ajax_frm_insert_field', 'FrmFieldsController::create' );
@@ -174,6 +178,8 @@ class FrmHooksController {
         add_action( 'wp_ajax_frm_change_styling', 'FrmStylesController::change_styling' );
         add_action( 'wp_ajax_frmpro_load_css', 'FrmStylesController::load_css' );
         add_action( 'wp_ajax_nopriv_frmpro_load_css', 'FrmStylesController::load_css' );
+		add_action( 'wp_ajax_frmpro_css', 'FrmStylesController::load_saved_css' );
+		add_action( 'wp_ajax_nopriv_frmpro_css', 'FrmStylesController::load_saved_css' );
 
         // XML Controller
         add_action( 'wp_ajax_frm_export_xml', 'FrmXMLController::export_xml' );
@@ -198,6 +204,7 @@ class FrmHooksController {
     }
 
 	public static function load_multisite_hooks() {
+		add_action( 'init', 'FrmAppController::front_head' );
 		add_action( 'wpmu_upgrade_site', 'FrmAppController::network_upgrade_site' );
 
         // drop tables when mu site is deleted

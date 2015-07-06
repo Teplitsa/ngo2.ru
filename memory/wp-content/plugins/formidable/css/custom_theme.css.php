@@ -130,6 +130,7 @@ legend.frm_hidden{
     border:none;
 }
 
+.with_frm_style .auto_width #loginform input,
 .with_frm_style .auto_width input,
 .with_frm_style input.auto_width,
 .with_frm_style select.auto_width,
@@ -137,11 +138,15 @@ legend.frm_hidden{
     width:auto;
 }
 
+.with_frm_style .frm_repeat_buttons{
+	white-space:nowrap;
+}
+
 .with_frm_style .frm_button{
     text-decoration:none;
     border:1px solid #eee;
 	padding:5px;
-	display:inline-block;
+	display:inline;
 }
 
 .with_frm_style .frm_submit{
@@ -562,7 +567,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 /* End Calendar Styling */
 
 .frm-loading-img{
-    background:url(<?php echo FrmAppHelper::plugin_url() ?>/images/ajax_loader.gif) no-repeat center center;
+    background:url(<?php echo FrmAppHelper::relative_plugin_url() ?>/images/ajax_loader.gif) no-repeat center center;
     padding:6px 12px;
 }
 
@@ -1108,6 +1113,10 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
     margin-right:0;
 }
 
+.with_frm_style .frm_inline_container.frm_scale_container label.frm_primary_label{
+	float:left;
+}
+
 .with_frm_style .frm_other_input.frm_other_full{
 	margin-top:10px;
 }
@@ -1123,6 +1132,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 
 .frm_form_field .frm_repeat_sec .frm_add_form_row{
     opacity:0;
+	display:none;
 	*visibility:visible;
 	-moz-transition: opacity .15s ease-in-out;
 	-webkit-transition: opacity .15s ease-in-out;
@@ -1132,6 +1142,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 
 .frm_section_heading div.frm_repeat_sec:last-child .frm_add_form_row{
     opacity:100;
+	display:inline;
     pointer-events:auto;
 }
 
@@ -1280,6 +1291,53 @@ html[xmlns] .frm_clearfix{
     height:1%;
 }
 
+/* Login form */
+.with_frm_style.frm_login_form.frm_inline_login .login-remember input{
+	vertical-align:baseline;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login label{
+	display:inline;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login .login-username,
+.with_frm_style.frm_login_form.frm_inline_login .login-password,
+.with_frm_style.frm_login_form.frm_inline_login .login-remember{
+	float:left;
+	margin-right:5px;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login form{
+	position:relative;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login .login-remember{
+	position:absolute;
+	top:35px;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login input[type=submit]{
+	margin:0 !important;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login.frm_no_labels .login-username label,
+.with_frm_style.frm_login_form.frm_inline_login.frm_no_labels .login-password label{
+	display:none;
+}
+
+.with_frm_style .frm-open-login{
+	float:left;
+	margin-right:15px;
+}
+
+.with_frm_style .frm-open-login a{
+	text-decoration:none;
+}
+
+.with_frm_style.frm_slide.frm_login_form form{
+	display:none;
+}
+
 /* Start Chosen */
 .with_frm_style .chosen-container{
     font-size:<?php echo $defaults['field_font_size'] ?>;
@@ -1354,7 +1412,7 @@ html[xmlns] .frm_clearfix{
     width:12px;
     height:12px;
     font-size:1px;
-    background:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') -42px 1px no-repeat;
+    background:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') -42px 1px no-repeat;
 }
 
 .with_frm_style .chosen-container-single .chosen-single abbr:hover{
@@ -1375,7 +1433,7 @@ html[xmlns] .frm_clearfix{
 }
 
 .with_frm_style .chosen-container-single .chosen-single div b{
-    background:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 0px 2px;
+    background:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 0px 2px;
     display:block;
     width:100%;
     height:100%;
@@ -1395,8 +1453,8 @@ html[xmlns] .frm_clearfix{
     box-sizing:border-box;
     width:100%;
     height:auto;
-    background:white url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 100% -20px;
-    background:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 100% -20px;
+    background:white url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 100% -20px;
+    background:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat 100% -20px;
     font-size:1em;
     font-family:sans-serif;
     line-height:normal;
@@ -1424,6 +1482,10 @@ html[xmlns] .frm_clearfix{
     max-height:240px;
     word-wrap:break-word;
     -webkit-overflow-scrolling:touch;
+}
+
+.with_frm_style .chosen-container .chosen-results li:before{
+	background:none;
 }
 
 .with_frm_style .chosen-container .chosen-results li{
@@ -1535,7 +1597,7 @@ html[xmlns] .frm_clearfix{
     display:block;
     width:12px;
     height:12px;
-    background:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') -42px 1px no-repeat;
+    background:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') -42px 1px no-repeat;
     font-size:1px;
 }
 
@@ -1675,7 +1737,7 @@ html[xmlns] .frm_clearfix{
 
 .with_frm_style .chosen-rtl .chosen-search input[type="text"]{
     padding:4px 5px 4px 20px;
-    background:white url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat -30px -20px;background:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat -30px -20px;
+    background:white url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat -30px -20px;background:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite.png') no-repeat -30px -20px;
     direction:rtl;
 }
 
@@ -1691,8 +1753,8 @@ html[xmlns] .frm_clearfix{
 /* Fonts */
 @font-face {
 	font-family:'s11-fp';
-	src:url('<?php echo FrmAppHelper::plugin_url() ?>/fonts/s11-fp.eot');
-	src:local('☺'), url('<?php echo FrmAppHelper::plugin_url() ?>/fonts/s11-fp.woff') format('woff'), url('<?php echo FrmAppHelper::plugin_url() ?>/fonts/s11-fp.ttf') format('truetype'), url('<?php echo FrmAppHelper::plugin_url() ?>/fonts/s11-fp.svg') format('svg');
+	src:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/fonts/s11-fp.eot');
+	src:local('☺'), url('<?php echo FrmAppHelper::relative_plugin_url() ?>/fonts/s11-fp.woff') format('woff'), url('<?php echo FrmAppHelper::relative_plugin_url() ?>/fonts/s11-fp.ttf') format('truetype'), url('<?php echo FrmAppHelper::relative_plugin_url() ?>/fonts/s11-fp.svg') format('svg');
 	font-weight:normal;
 	font-style:normal;
 }
@@ -1708,7 +1770,7 @@ html[xmlns] .frm_clearfix{
     .with_frm_style .chosen-container-multi .chosen-choices .search-choice .search-choice-close,
     .with_frm_style .chosen-container .chosen-results-scroll-down span,
     .with_frm_style .chosen-container .chosen-results-scroll-up span{
-        background-image:url('<?php echo FrmAppHelper::plugin_url() ?>/pro/images/chosen-sprite2x.png') !important;
+        background-image:url('<?php echo FrmAppHelper::relative_plugin_url() ?>/pro/images/chosen-sprite2x.png') !important;
         background-size:52px 37px !important;
         background-repeat:no-repeat !important;
     }
@@ -1736,14 +1798,27 @@ html[xmlns] .frm_clearfix{
     .frm_form_field.frm_fourth,
     .frm_form_field.frm_right_fourth,
     .frm_form_field.frm_first_fourth,
-    .frm_form_field.frm_last_fourth{
+	.frm_form_field.frm_last_fourth,
+	.frm_form_field.frm_fifth{
         width:48%;
     }
 
 	.frm_form_field.frm_first_fourth + .frm_form_field.frm_fourth,
-	.frm_form_field.frm_first.frm_fourth + .frm_form_field.frm_fourth{
+	.frm_form_field.frm_first.frm_fourth + .frm_form_field.frm_fourth,
+	.frm_form_field.frm_first.frm_fifth + .frm_form_field.frm_fifth,
+	.frm_form_field.frm_first.frm_fifth + .frm_form_field.frm_fifth + .frm_form_field.frm_fifth + .frm_form_field.frm_fifth{
         margin-right:0;
     }
+
+	.frm_form_field.frm_fifth.frm_first,
+	.frm_form_field.frm_first.frm_fifth + .frm_form_field.frm_fifth + .frm_form_field.frm_fifth{
+		margin-right:4%
+	}
+
+	.frm_form_field.frm_fifth.frm_last{
+		clear:both;
+		float:none;
+	}
 
     .frm_form_field.frm_first_inline,
     .frm_form_field.frm_inline,
@@ -1763,6 +1838,9 @@ html[xmlns] .frm_clearfix{
     .frm_form_field.frm_four_col .frm_checkbox:nth-child(2n+2){
     	margin-right:0;
     }
+	.frm_form_field .frm_repeat_grid.frm_first_repeat .frm_form_field.frm_repeat_buttons:not(.frm_fourth) label.frm_primary_label{
+		display:none !important;
+	}
 }
 
 @media only screen and (max-width: 500px) {
@@ -1775,6 +1853,23 @@ html[xmlns] .frm_clearfix{
         float: none;
         display:block;
     }
+
+	.frm_form_field input[type=file] {
+		max-width:220px;
+	}
+
+	.with_frm_style.frm_login_form.frm_inline_login p{
+		clear:both;
+		float:none;
+	}
+
+	.with_frm_style.frm_login_form.frm_inline_login form{
+		position:static;
+	}
+
+	.with_frm_style.frm_login_form.frm_inline_login .login-remember{
+		position:static;
+	}
 }
 <?php
 echo $defaults['custom_css'];

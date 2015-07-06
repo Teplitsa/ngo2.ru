@@ -44,7 +44,7 @@
 
 		foreach ( $values['fields'] as $fo ) {
             $fo = (array) $fo;
-            if ( ! FrmFieldsHelper::is_no_save_field($fo['type']) ) { ?>
+			if ( ! FrmField::is_no_save_field( $fo['type'] ) ) { ?>
 		<option value="<?php echo esc_attr( $fo['id'] ) ?>" <?php selected( $custom_data['field_id'], $fo['id'] ) ?>><?php echo FrmAppHelper::truncate( $fo['name'], 50 ) ?></option>
         <?php
             }

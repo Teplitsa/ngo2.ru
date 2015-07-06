@@ -1,6 +1,6 @@
 <?php
 global $frm_vars;
-FrmFormsHelper::form_loaded($form, $values['custom_style'], $frm_vars['load_css']);
+FrmFormsController::maybe_load_css( $form, $values['custom_style'], $frm_vars['load_css'] );
 ?>
 <div class="frm_form_fields <?php echo esc_attr( apply_filters( 'frm_form_fields_class', '', $values ) ); ?>">
 <fieldset>
@@ -39,10 +39,11 @@ do_action('frm_entry_form', $form, $form_action, $errors);
 
 global $frm_vars;
 // close open section div
-if ( isset($frm_vars['div']) && $frm_vars['div'] ) {
-    echo "</div>\n";
-    unset($frm_vars['div']);
+if ( isset( $frm_vars['div'] ) && $frm_vars['div'] ) {
+	echo "</div>\n";
+	unset( $frm_vars['div'] );
 }
+
 // close open collapsible toggle div
 if ( isset($frm_vars['collapse_div']) && $frm_vars['collapse_div'] ) {
     echo "</div>\n";

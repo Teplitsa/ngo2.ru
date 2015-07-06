@@ -42,6 +42,7 @@ class FrmProHooksController{
 
         add_filter('frmpro_fields_replace_shortcodes', 'FrmProEntriesController::filter_shortcode_value', 10, 3);
         add_filter('frm_display_value_custom', 'FrmProEntriesController::filter_display_value', 1, 3);
+		add_filter( 'frm_display_value_atts', 'FrmProEntriesController::display_value_atts', 10, 2 );
 
         add_action('frm_after_create_entry', 'FrmProEntriesController::maybe_set_cookie', 20, 2);
         add_filter('frm_setup_edit_entry_vars', 'FrmProEntriesController::setup_edit_vars');
@@ -156,7 +157,6 @@ class FrmProHooksController{
         add_action('frm_entry_shared_sidebar', 'FrmProEntriesController::add_sidebar_links');
         add_action('frm_entry_major_pub', 'FrmProEntriesController::add_edit_link');
         add_action('frm_entry_inside_h2', 'FrmProEntriesController::add_new_entry_link');
-		add_action( 'frm_display_value_atts', 'FrmProEntriesController::display_value_atts', 10, 2 );
 
         add_action('add_meta_boxes', 'FrmProEntriesController::create_entry_from_post_box', 10, 2);
 

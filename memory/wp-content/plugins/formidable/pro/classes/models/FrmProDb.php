@@ -11,9 +11,6 @@ class FrmProDb{
             return;
         }
 
-        // update rewrite rules for views
-        flush_rewrite_rules();
-
         if ( $old_db_version ) {
             if ( $db_version >= 16 && $old_db_version < 16 ) {
                 self::migrate_to_16();
@@ -30,6 +27,10 @@ class FrmProDb{
 
             if ( $db_version >= 27 && $old_db_version < 27 ) {
                 self::migrate_to_27();
+            }
+
+            if ( $db_version >= 28 && $old_db_version < 28 ) {
+                self::migrate_to_28();
             }
         }
 
@@ -64,6 +65,24 @@ class FrmProDb{
 		delete_site_option( 'frm_autoupdate' );
 		delete_site_option( 'frmpro-wpmu-sitewide' );
     }
+
+	/**
+	* Update incorrect end_divider form IDs
+	*/
+	private static function migrate_to_28() {
+		global $wpdb;
+		$query = $wpdb->prepare( "SELECT fi.id, fi.form_id, form.parent_form_id FROM " . $wpdb->prefix . "frm_fields fi INNER JOIN " . $wpdb->prefix . "frm_forms form ON fi.form_id = form.id WHERE fi.type = %s AND parent_form_id > %d", 'end_divider', 0 );
+		$end_dividers = $wpdb->get_results( $query );
+
+		foreach ( $end_dividers as $e ) {
+			// Update the form_id column for the end_divider field
+		    $wpdb->update( $wpdb->prefix .'frm_fields', array( 'form_id' => $e->parent_form_id ), array( 'id' => $e->id ) );
+
+			// Clear the cache
+			wp_cache_delete( $e->id, 'frm_field' );
+			FrmField::delete_form_transient( $e->form_id );
+		}
+	}
 
     /**
      * Migrate style to custom post type

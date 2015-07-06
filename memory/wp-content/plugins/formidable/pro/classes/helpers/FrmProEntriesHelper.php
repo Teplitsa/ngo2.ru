@@ -72,14 +72,14 @@ class FrmProEntriesHelper{
 
     public static function user_can_edit( $entry, $form = false ) {
         if ( empty($form) ) {
-            FrmEntriesHelper::maybe_get_entry($entry);
+			FrmEntry::maybe_get_entry( $entry );
 
             if ( is_object($entry) ) {
                 $form = $entry->form_id;
             }
         }
 
-        FrmFormsHelper::maybe_get_form($form);
+		FrmForm::maybe_get_form( $form );
 
         $allowed = self::user_can_edit_check($entry, $form);
         return apply_filters('frm_user_can_edit', $allowed, compact('entry', 'form'));
@@ -178,7 +178,7 @@ class FrmProEntriesHelper{
     }
 
     public static function user_can_delete($entry) {
-        FrmEntriesHelper::maybe_get_entry($entry);
+		FrmEntry::maybe_get_entry( $entry );
         if ( ! $entry ) {
             return false;
         }
@@ -282,7 +282,7 @@ class FrmProEntriesHelper{
 
     // check if entry being updated just switched draft status
     public static function is_new_entry($entry) {
-        FrmEntriesHelper::maybe_get_entry( $entry );
+		FrmEntry::maybe_get_entry( $entry );
 
         // this function will only be correct if the entry has already gone through FrmProEntriesController::check_draft_status
         return ( $entry->created_at == $entry->updated_at );
@@ -314,7 +314,7 @@ class FrmProEntriesHelper{
 	*/
 	public static function get_dynamic_list_values( $field, $entry, &$field_value ) {
 		// Exit now if a value is already set, field type is not Dynamic List, or conditional logic is not set
-		if ( $field_value || $field->type != 'data' || $field->field_options['data_type'] != 'data' || ! isset($field->field_options['hide_field']) ) {
+		if ( $field_value || $field->type != 'data' || ! FrmProField::is_list_field( $field ) || ! isset( $field->field_options['hide_field'] ) ) {
 			return;
 		}
 
@@ -348,16 +348,7 @@ class FrmProEntriesHelper{
         }
 
         if ( ! empty( $add_where ) ) {
-            if ( is_array( $where_clause ) ) {
-                $where_clause[] = $add_where;
-            } else {
-                global $wpdb;
-                $where = '';
-                $values = array();
-                FrmDb::parse_where_from_array( $add_where, '', $where, $values );
-                FrmDb::get_where_clause_and_values( $add_where );
-                $where_clause .= ' AND ('. $wpdb->prepare( $where, $values ) .')';
-            }
+			self::add_where_to_query( $add_where, $where_clause );
         }
 
         return $where_clause;
@@ -434,6 +425,22 @@ class FrmProEntriesHelper{
             $add_where['it.id'] = $meta_ids;
         }
     }
+
+	/**
+	 * @since 2.0.8
+	 */
+	private static function add_where_to_query( $add_where, &$where_clause ) {
+		if ( is_array( $where_clause ) ) {
+			$where_clause[] = $add_where;
+		} else {
+			global $wpdb;
+			$where = '';
+			$values = array();
+			FrmDb::parse_where_from_array( $add_where, '', $where, $values );
+			FrmDb::get_where_clause_and_values( $add_where );
+			$where_clause .= ' AND ('. $wpdb->prepare( $where, $values ) .')';
+        }
+	}
 
     /**
      * Check linked entries for the search query

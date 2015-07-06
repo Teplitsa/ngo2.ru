@@ -86,7 +86,7 @@
             <td colspan="2">
 				<label><?php _e( 'Customize Content', 'formidable' ) ?></label>
 				<span class="frm_help frm_icon_font frm_tooltip_icon" title="<?php esc_attr_e( 'The content shown on your single post page. If nothing is entered here, the regular post content will be used.', 'formidable' ) ?>" ></span><br/>
-                <textarea id="frm_dyncontent" placeholder="<?php esc_attr_e( 'Add text, HTML, and fields from your form to build your post content.', 'formidable' ) ?>" name="dyncontent" rows="10" style="width:98%"><?php
+                <textarea id="frm_dyncontent" placeholder="<?php esc_attr_e( 'Add text, HTML, and fields from your form to build your post content.', 'formidable' ) ?>" name="dyncontent" rows="10" class="large-text"><?php
                 if ( $display ) {
                     echo FrmAppHelper::esc_textarea($display->frm_show_count == 'one' ? $display->post_content : $display->frm_dyncontent);
                 }
@@ -191,7 +191,9 @@
 
                 <?php
                 foreach ( $form_action->post_content['post_custom_fields'] as $custom_data ) {
-                    include(dirname(__FILE__) .'/_custom_field_row.php');
+					if ( isset( $custom_data['meta_name'] ) && ! empty( $custom_data['meta_name'] ) ) {
+						include( dirname( __FILE__ ) . '/_custom_field_row.php' );
+					}
                     unset($custom_data);
                 }
                 ?>
