@@ -15,7 +15,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 ?>
 	</div></div><!-- .container #site_content -->
 
-	
+<?php if(tst_has_bottombar()) { ?>
 <div id="bottombar" class="widget-area"><div class="container">		
 	
 	
@@ -26,7 +26,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 	</div>
 	
 </div></div>
-
+<?php } ?>
 
 <footer id="colophon" class="site-footer" role="contentinfo">	
 

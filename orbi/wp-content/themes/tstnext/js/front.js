@@ -62,9 +62,8 @@ jQuery(document).ready(function($){
 	var $container = $('.masonry-grid');
     $container.imagesLoaded(function(){
 		
-		var donator = $('.movable-widget').detach();
-		
-		donator.insertAfter('.masonry-grid .masonry-item:nth-of-type(2)');
+		var sidebar = $container.find('.movable-widget').detach();		
+		sidebar.insertAfter('.masonry-grid .masonry-item:nth-of-type(2)');
 		
         $container.masonry({
             itemSelector: '.masonry-item'

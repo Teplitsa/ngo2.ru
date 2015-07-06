@@ -8,9 +8,7 @@ if(has_term('news', 'category')) {
 	$css = 'tpl-news card';
 }
 
-$author = wp_get_object_terms(get_the_ID(), 'auctor');
-if(!empty($author))
-	$author = $author[0];
+$author = tst_get_post_author();
 
 ?>
 
@@ -31,16 +29,7 @@ if(!empty($author))
 	
 	<?php if(!has_term('news', 'category') && !empty($author)) { ?>
 		<footer class="entry-author card-footer">
-		<?php
-			$avatar = (function_exists('get_field')) ? get_field('auctor_photo', 'auctor_'.$author->term_id) : '';
-			if(empty($avatar)){
-				$avatar = tst_get_default_author_avatar();
-			}
-			else {
-				$avatar = wp_get_attachment_image($avatar);
-			}
-		?>
-						
+		<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
 				
 			<div class="author-avatar round-image card-footer-img"><?php echo $avatar;?></div>
 				

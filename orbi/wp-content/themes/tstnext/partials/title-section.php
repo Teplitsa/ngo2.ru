@@ -29,7 +29,7 @@ global $post;
 			echo "</span>";
 		}
 	}
-	elseif(is_page()) {
+	elseif(is_page() || is_single()) {
 		echo get_the_title($post);
 	}
 	elseif(is_search()){

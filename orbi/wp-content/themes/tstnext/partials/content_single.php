@@ -9,32 +9,44 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
 
-	<header class="entry-header">
-		<h2 class="entry-title"><?php the_title(); ?></h2>
-			
-	</header>
+	<div class="entry-meta">
+		meta
+	</div>
 		
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	<div class="sharing-on-top"><?php tst_social_share();?></div>
 	
-	<?php if($show_thumb) { ?>
+	<?php if($show_thumb && has_post_thumbnail()) { ?>
 		<div class="entry-media">
-		<?php echo tst_get_post_thumbnail(null, 'embed'); ?>
+			<?php echo tst_get_post_thumbnail(null, 'embed'); ?>
 		</div>
 	<?php } ?>
 	
 	<div class="entry-content"><?php the_content(); ?></div>
 		
-	<?php if('post' == get_post_type()) { ?>
-		<div class="entry-footer">
-			<div class="row">
-				<div class="col s12 m8"><?php echo tst_posted_on(); ?></div>
-				<div class="col s12 m4"><?php tst_post_nav(); ?></div>
-			</div>
+	
+	<div class="entry-footer">
+		<div class="sharing-on-bottom"><?php tst_social_share();?></div>
+		
+	<?php
+		$author = tst_get_post_author();
+		if(!empty($author)) {
 			
-			<div class="sharing-on-bottom"><?php tst_social_share();?></div>
+			$avatar = tst_get_author_avatar($author->term_id) ;
+	?>
+		<div class="entry-author">
+			<div class="author-avatar round-image card-img"><?php echo $avatar;?></div>
+			
+			<div class="author-content">
+				<h5 class="author-name"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+				<p class="author-role"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+			</div>
 		</div>
-	<?php } ?>
+	<?php } ?>	
+		
+		
+	</div>
+	
 	
 </article><!-- #post-## -->
 

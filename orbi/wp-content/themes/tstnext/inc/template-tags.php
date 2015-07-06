@@ -122,6 +122,14 @@ function is_events() {
 	return false;
 }
 
+function tst_has_bottombar(){
+	
+	if(is_singular('post')){
+		return false;
+	}
+	
+	return true;
+}
 
 /** Menu filter sceleton **/
 add_filter('wp_nav_menu_objects', 'tst_custom_menu_items', 2, 2);
@@ -446,4 +454,32 @@ function tst_site_logo($size = 'regular'){
 ?>
 	<img src="<?php echo $file;?>.svg" onerror="this.onerror=null;this.src=<?php echo $file;?>.png" alt="<?php echo $alt;?>">
 <?php
+}
+
+
+/** Author **/
+function tst_get_post_author($cpost = null) {
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+	$author = wp_get_object_terms(get_the_ID(), 'auctor');
+	if(!empty($author))
+		$author = $author[0];
+	
+	return $author;
+}
+
+function tst_get_author_avatar($author_term_id){
+	
+	$avatar = (function_exists('get_field')) ? get_field('auctor_photo', 'auctor_'.$author_term_id) : '';
+	if(empty($avatar)){
+		$avatar = tst_get_default_author_avatar();
+	}
+	else {
+		$avatar = wp_get_attachment_image($avatar);
+	}
+	
+	return $avatar;
 }
