@@ -438,9 +438,9 @@ function tst_social_share() {
 	);
 ?>
 <div class="social-likes">
-	<div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
-	<div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
-	<div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
+	<div class="facebook" title="Поделиться ссылкой на Фейсбуке"></div>
+	<div class="twitter" title="Поделиться ссылкой в Твиттере"></div>
+	<div class="vkontakte" title="Поделиться ссылкой во Вконтакте"></div>
 </div>
 <?php
 }

@@ -36,4 +36,18 @@ $margin-base: 16px !default;
 	}
 	
 	@include wp-caption;
+	
+	@include for(large-screens) {
+		.wp-caption {
+			position: relative;
+		}
+		.wp-caption-text {
+			position: absolute;
+			top: 0;
+			left: -1*(168px + $gut);
+			width: 168px;
+			text-align: right;
+			font-size: rem(16);
+		}
+	}
 }
