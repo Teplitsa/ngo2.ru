@@ -485,7 +485,33 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 
 } //post-content
 
-
+@mixin wp-caption {
+	.wp-caption {
+		position: realtive;
+		margin-bottom: rem($b-margin);
+		&:last-child { margin-bottom: 0; }
+		
+		& > a { display: block; }
+	}
+	
+	.wp-caption.alignnone,
+	.wp-caption.aligncenter {
+		max-width: 100%;
+	}
+	
+	.wp-caption img[class*="wp-image-"] {
+		display: block;
+		margin: 0 auto;	
+	}
+	
+	.wp-caption-text {		
+		line-height: 1.35;
+		font-size: rem(13);
+		margin: rem($b-margin/2) 0 0;		
+		text-align: left;
+		color: $color-link-one;
+	}
+}
 
 // common cases
 @mixin post-content-defaults {	
@@ -531,29 +557,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 	}
 	  
    
-	.wp-caption {		
-		font-style: italic;
-		line-height: 1.35;
-		margin-bottom: rem($b-margin);		
-	}
-	
-	.wp-caption.alignnone,
-	.wp-caption.aligncenter {
-		max-width: 98%;
-	}
-	
-	.wp-caption img[class*="wp-image-"] {
-		display: block;
-		margin: 0 auto;	
-	}
-	
-	.wp-caption-text {
-		font-style: italic;
-		line-height: 1.35;
-		font-size: rem(13);
-		margin: rem($b-margin/2) 0 0;		
-		text-align: center; 
-	}
+	@include wp-caption;
 	
 	div.wp-video-shortcode {
 		margin-bottom: rem($b-margin);		

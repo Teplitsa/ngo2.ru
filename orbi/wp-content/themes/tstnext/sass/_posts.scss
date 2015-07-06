@@ -2,11 +2,38 @@
  Posts (_posts.scss)
 -------------------------------------------------------- */
 
+$margin-base: 16px !default;
 
 // Single post
 .tpl-post-full {
+	padding-top: 28px + 16px;
+	margin-bottom: 32px - 28px;
 	
+	.entry-meta {
+		border-bottom: 1px solid $color-border-normal;
+		padding-bottom: $margin-base;
+		margin-bottom: $margin-base*1.5;
+	}
+	
+	.entry-summary {
+		font-size: 1.14285em;
+		margin-bottom: $margin-base;
+	}
+	
+	.sharing-on-top,
+	.sharing-on-bottom {
+		margin: $margin-base*1.5 0;
+	}
+		
 	.author-link {
 		@include text-button-text;
 	}
+	
+	.entry-meta-bottom {
+		border-top: 1px solid $color-border-normal;
+		border-bottom: 1px solid $color-border-normal;
+		padding: $margin-base 0;
+	}
+	
+	@include wp-caption;
 }

@@ -91,17 +91,12 @@ $sh-base : 16px;
 }
 
 // single post modifications
-.single {
-	.site-header {
+body.single {	
+	background: color('shades', 'white');
 	
-		.section-header {
-			padding: rem($sh-base*7) 0 rem($sh-base*2);
-		}
-	}
-	
-	.tpl-post-full {
-		padding-top: 28px + 16px;
-	}
+	.site-header .section-header {
+		padding: rem($sh-base*7) 0 rem($sh-base*2);		
+	}	
 }
 
 
@@ -238,6 +233,18 @@ $sh-base : 16px;
 	}
 	
 	@include for(large-screens) {
+		h5 { display: block; }
+		
+		.fab {
+			position: relative;
+			bottom: auto;
+			right: auto;
+		}
+	}
+}
+
+.single .donate-widget {
+	@include for(medium-screens) {
 		h5 { display: block; }
 		
 		.fab {

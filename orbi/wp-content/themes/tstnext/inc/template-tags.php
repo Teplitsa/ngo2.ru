@@ -294,7 +294,7 @@ function tst_get_sep($mark = '//') {
 }
 
 
-/** Accessable thumbnail **/
+/** Accessable thumbnails **/
 function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 	global $post;
 	
@@ -306,7 +306,7 @@ function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 		return '';
 	
 	$att = get_post($thumb_id);
-	$att_label = sprintf(__('Thumbnail for - %s', 'svet'), get_the_title($cpost->ID));
+	$att_label = sprintf(__('Thumbnail for - %s', 'tst'), get_the_title($cpost->ID));
 	
 	$attr = array(
 		'alt'   => (!empty($att->post_excerpt)) ? $att->post_excerpt : $att_label,
@@ -315,6 +315,38 @@ function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 	
 	return wp_get_attachment_image($thumb_id, $size, false, $attr);
 }
+
+function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail'){
+	global $post;
+	
+	if(!$cpost)
+		$cpost = $post;
+		
+	$thumb_id = get_post_thumbnail_id($cpost->ID);
+	if(!$thumb_id)
+		return '';
+	
+	$att = get_post($thumb_id);
+	$att_label = sprintf(__('Thumbnail for - %s', 'tst'), get_the_title($cpost->ID));
+	
+	$attr = array(
+		'alt'   => (!empty($att->post_excerpt)) ? $att->post_excerpt : $att_label,
+		'class' => 'responsive-img'
+	);
+	
+	$img = wp_get_attachment_image($thumb_id, $size, false, $attr);
+	$caption =  (!empty($att->post_excerpt)) ? $att->post_excerpt : '';
+	
+?>
+	<figure class="wp-caption alignnone entry-media" >
+		<a href="<?php wp_get_attachment_url($thumb_id);?>" class=""><?php echo $img;?></a>
+		<?php if(!empty($caption)) { ?>
+			<figcaption class="wp-caption-text"><?php echo apply_filters('tst_the_title', $caption);?></figcaption>
+		<?php } ?>
+	</figure>
+<?php
+}
+
 
 
 /** Breadcrumbs  **/
