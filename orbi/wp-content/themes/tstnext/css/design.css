@@ -2937,6 +2937,8 @@ button.btn-floating {
   -webkit-transform: translateX(-50%) translateY(-50%);
   -ms-transform: translateX(-50%) translateY(-50%);
   transform: translateX(-50%) translateY(-50%); }
+  .navbar-logo a {
+    display: inline-block; }
   .navbar-logo img {
     height: 36px;
     width: auto; }
@@ -3048,11 +3050,6 @@ button.btn-floating {
       font-weight: 700;
       margin-right: 4px; }
 
-.card-image {
-  border-radius: 2px 2px 0 0; }
-  .card-image img {
-    border-radius: 2px 2px 0 0; }
-
 .card.invert {
   background: #e91e63; }
   .card.invert .entry-title {
@@ -3060,37 +3057,47 @@ button.btn-floating {
   .card.invert .entry-summary {
     color: rgba(255, 255, 255, 0.75); }
 
+.card-image {
+  border-radius: 2px 2px 0 0; }
+  .card-image img {
+    border-radius: 2px 2px 0 0; }
+
 .card-footer {
   padding: 16px; }
-  .card-footer::after {
-    clear: both;
-    content: "";
-    display: table; }
-  .card-footer .card-footer-img {
-    display: block;
-    width: 72px;
-    float: left; }
-    .card-footer .card-footer-img img {
-      width: 40px;
-      height: auto; }
-  .card-footer .card-footer-content {
-    margin-left: 72px; }
-    .card-footer .card-footer-content h5 {
-      font-family: "Roboto", sans-serif;
-      font-size: 1.4rem;
-      line-height: 1.42857;
-      font-weight: normal;
-      line-height: 1.714;
-      color: rgba(0, 0, 0, 0.87);
-      margin: 0; }
-    .card-footer .card-footer-content p {
-      font-family: "Roboto", sans-serif;
-      font-size: 1.2rem;
-      line-height: 1.3333;
-      font-weight: 400;
-      color: rgba(0, 0, 0, 0.54);
-      margin: 0; }
 
+.pictured-card-item::after {
+  clear: both;
+  content: "";
+  display: table; }
+.pictured-card-item .pci-img {
+  display: block;
+  width: 72px;
+  float: left; }
+  .pictured-card-item .pci-img img {
+    width: 40px;
+    height: auto; }
+.pictured-card-item .pci-content {
+  margin-left: 72px; }
+  .pictured-card-item .pci-content .pci-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.4rem;
+    line-height: 1.42857;
+    font-weight: normal;
+    line-height: 1.714;
+    color: rgba(0, 0, 0, 0.87);
+    margin: 0; }
+  .pictured-card-item .pci-content .pci-caption {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.2rem;
+    line-height: 1.3333;
+    font-weight: 400;
+    color: rgba(0, 0, 0, 0.54);
+    margin: 0; }
+
+/*---------------------------------------------------------
+ Modules (_modules.scss)
+-------------------------------------------------------- */
+/** Social buttons **/
 /*---------------------------------------------------------
  General styles (_front.scss)
 -------------------------------------------------------- */
@@ -3163,6 +3170,11 @@ p {
   position: relative;
   z-index: 100;
   top: -28px; }
+
+.single .site-header .section-header {
+  padding: 11.2rem 0 3.2rem; }
+.single .tpl-post-full {
+  padding-top: 44px; }
 
 #bottombar {
   margin: 24px 0 80px; }
@@ -3268,5 +3280,14 @@ p {
       position: relative;
       bottom: auto;
       right: auto; } }
+
+/*---------------------------------------------------------
+ Posts (_posts.scss)
+-------------------------------------------------------- */
+.tpl-post-full .author-link {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.4rem;
+  font-weight: 500;
+  text-transform: uppercase; }
 
 /*# sourceMappingURL=design.css.map */

@@ -3,14 +3,27 @@
  * @package bb
  */
 
-$show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail') : true;
+$show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumb') : true;
 
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
 
 	<div class="entry-meta">
-		meta
+		<div class="row">
+			<div class="col sm-4">
+				<div class="captioned-text">
+					<div class="caption"><?php _e('Author', 'tst');?></div>
+					<div class="text"><?php echo get_the_term_list(get_the_ID(), 'auctor', '', ', ', '');?></div>
+				</div>
+			</div>
+			<div class="col sm-8">
+				<div class="captioned-text">
+					<div class="caption"><?php _e('Published', 'tst');?></div>
+					<div class="text"><?php echo tst_posted_on();?></div>
+				</div>
+			</div>
+		</div>
 	</div>
 		
 	<div class="entry-summary"><?php the_excerpt();?></div>
@@ -34,16 +47,26 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumbnail')
 			
 			$avatar = tst_get_author_avatar($author->term_id) ;
 	?>
-		<div class="entry-author">
-			<div class="author-avatar round-image card-img"><?php echo $avatar;?></div>
+		<div class="row">
 			
-			<div class="author-content">
-				<h5 class="author-name"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-				<p class="author-role"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+			<div class="col sm-8">
+				<div class="entry-author pictured-card-item">
+					<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+					
+					<div class="author-content pci-content">
+						<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+						<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+					</div>
+				</div>
 			</div>
+			
+			<div class="col sm-4">
+				<a href="<?php echo get_term_link($author);?>" class="author-link"><?php _e('All author\'s articles', 'tst');?></a>
+			</div>
+			
 		</div>
-	<?php } ?>	
 		
+	<?php } ?>		
 		
 	</div>
 	

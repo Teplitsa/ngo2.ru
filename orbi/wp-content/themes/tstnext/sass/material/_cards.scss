@@ -39,11 +39,6 @@
 	}
 }
 
-.card-image {
-	border-radius: 2px 2px 0 0;	
-	img { border-radius: 2px 2px 0 0; }
-}
-
 .card.invert {
 	background: $primary-color;	
 	
@@ -51,11 +46,21 @@
 	.entry-summary  { color: transparentize($color-white, 0.25); }
 }
 
+.card-image {
+	border-radius: 2px 2px 0 0;	
+	img { border-radius: 2px 2px 0 0; }
+}
+
 .card-footer {
 	padding: $card-padding;	
+}
+
+
+// Pictured item
+.pictured-card-item {
 	@include clearfix;
 	
-	.card-footer-img {
+	.pci-img {
 		display: block;
 		width: 72px;
 		float: left;
@@ -65,17 +70,17 @@
 		}
 	}
 	
-	.card-footer-content {
+	.pci-content {
 		margin-left: 72px;
 		
-		h5 {
+		.pci-title {
 			@include text-body-text;
 			line-height: 1.714;
 			color: $color-text;
 			margin: 0;			
 		}
 		
-		p {
+		.pci-caption {
 			@include text-caption;
 			color: $color-text-semi;
 			margin: 0;

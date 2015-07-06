@@ -274,12 +274,14 @@ function tst_posted_on($cpost = null) {
 		
 	$meta = array();
 	
-	if('post' == $cpost->post_type){		
+	if('post' == $cpost->post_type){
+		$label = __('in the category', 'tst');
 		$meta[] = "<time class='date'>".esc_html(get_the_date('d.m.Y', $cpost))."</time>";
-		$meta[] = get_the_term_list(get_the_ID(), 'category', '<span class="category">', ', ', '</span>');
+		$meta[] = get_the_term_list(get_the_ID(), 'category', '<span class="category">'.$label.' ', ', ', '</span>');
+		$sep = ' ';
 	}
 	
-	$sep = tst_get_sep();
+	
 	
 	return implode($sep, $meta);		
 }
@@ -404,7 +406,9 @@ function tst_social_share() {
 	);
 ?>
 <div class="social-likes">
-	<div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div><div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div><div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div><div class="odnoklassniki" title="Поделиться ссылкой в Одноклассниках">Одноклассники</div><div class="plusone" title="Поделиться ссылкой в Гугл-плюсе">Google+</div>
+	<div class="facebook" title="Поделиться ссылкой на Фейсбуке">Facebook</div>
+	<div class="twitter" title="Поделиться ссылкой в Твиттере">Twitter</div>
+	<div class="vkontakte" title="Поделиться ссылкой во Вконтакте">Вконтакте</div>
 </div>
 <?php
 }

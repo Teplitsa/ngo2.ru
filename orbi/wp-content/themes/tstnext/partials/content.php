@@ -28,14 +28,14 @@ $author = tst_get_post_author();
 	</div>
 	
 	<?php if(!has_term('news', 'category') && !empty($author)) { ?>
-		<footer class="entry-author card-footer">
+		<footer class="entry-author card-footer pictured-card-item">
 		<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
 				
-			<div class="author-avatar round-image card-footer-img"><?php echo $avatar;?></div>
+			<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 				
-			<div class="card-footer-content">
-				<h5 class="author-name"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-				<p class="author-role"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+			<div class="author-content card-footer-content pci-content">
+				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+				<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
 			</div>
 			
 		</footer>
