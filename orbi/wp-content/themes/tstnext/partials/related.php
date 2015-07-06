@@ -5,33 +5,39 @@
 
 global $post;
 
-$r_query = frl_get_related_query($post, 'post_tag', 3); 
-if($r_query->have_posts()){  
+$r_query = frl_get_related_query($post, 'category', 3); 
+if($r_query->have_posts()){
+	
+	$cat = wp_get_object_terms($post->ID, 'category');
+	
+	$aside_title = ''; 
+	if(function_exists('get_field') && isset($cat[0])){
+		$aside_title = get_field('related_post_title', 'category_'.$cat[0]->term_id);
+	}
+	
+	if(empty($aside_title) && isset($cat[0])) {
+		$aside_title = 'Еще '.$cat[0]->name;
+	}
+	elseif($aside_title) {
+		$aside_title = __('More posts', 'tst'); 
+	}
 ?>
-<aside class="related-posts section">
-	<h5><?php _e('Related posts', 'tst');?></h5>
+<aside class="related-posts section"><div class="container">
 	
 	<div class="row">
-<?php
-	while($r_query->have_posts()){
-		$r_query->the_post();
-	?>
-		<div class="col s12 m4">
-			<div class="tpl-related-post">
-				<div class="row">
-					<div class="col s6 m12"><a href="<?php the_permalink();?>" class="thumbnail-link"><?php echo tst_get_post_thumbnail(); ?></a></div>
-					<div class="col s6 m12">
-						<h6 class="rp-title"><a href="<?php the_permalink();?>"><?php the_title();?></a></h6>
-						<div class="rp-meta"><?php echo tst_posted_on(); ?></div>
-					</div>
-				</div>
+		<div class="col md-8 lg-6 lg-offset-3">
+			<h5><?php echo apply_filters('tst_the_title', $aside_title);?></h5>
+	
+		<?php
+			while($r_query->have_posts()){
+				$r_query->the_post();
 				
-			</div>
-		</div>
-	<?php
-	}
-	wp_reset_postdata();	
-?>	
-	</div>	
-</aside>
+				tst_compact_post_item();
+			}
+			wp_reset_postdata();	
+		?>	
+		</div>		
+	</div><!-- .row -->
+	
+</div></aside>
 <?php  } ?>

@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 09:49+0300\n"
-"PO-Revision-Date: 2015-07-06 09:49+0300\n"
+"POT-Creation-Date: 2015-07-06 13:58+0300\n"
+"PO-Revision-Date: 2015-07-06 13:58+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -37,7 +37,7 @@ msgstr "К сожалению, по вашему запросу ничего н�
 msgid "Teplitsa of social technologies"
 msgstr "Теплица социальных технологий"
 
-#: footer.php:40
+#: footer.php:46
 #, php-format
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
@@ -70,28 +70,28 @@ msgstr "Еще публикации"
 msgid "in the category"
 msgstr "в рубрике"
 
-#: inc/template-tags.php:309
+#: inc/template-tags.php:309 inc/template-tags.php:330
 #, php-format
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:376
+#: inc/template-tags.php:408
 msgid "Event date"
 msgstr "Дата мероприятия"
 
-#: inc/template-tags.php:382
+#: inc/template-tags.php:414
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:388
+#: inc/template-tags.php:420
 msgid "Address"
 msgstr "Адрес"
 
-#: inc/template-tags.php:435 partials/content_single.php:16
+#: inc/template-tags.php:467 partials/content_single.php:16
 msgid "Author"
 msgstr "Автор"
 
-#: inc/template-tags.php:457
+#: inc/template-tags.php:489
 msgid "Logo"
 msgstr "Логотип"
 
@@ -181,13 +181,13 @@ msgstr "Статья"
 msgid "Published"
 msgstr "Опубликовано"
 
-#: partials/content_single.php:64
+#: partials/content_single.php:65
 msgid "All author's articles"
 msgstr "Все статьи автора"
 
-#: partials/related.php:12
-msgid "Related posts"
-msgstr "Еще по теме"
+#: partials/related.php:22
+msgid "More posts"
+msgstr "Еще публикации"
 
 #: partials/title-section.php:44
 msgid "Search results"
@@ -228,6 +228,9 @@ msgstr ""
 #: js/materialize.js:221
 msgid "rotateZ"
 msgstr ""
+
+#~ msgid "Related posts"
+#~ msgstr "Еще по теме"
 
 #~ msgid "Secondary Menu"
 #~ msgstr "Вспомогательное меню"

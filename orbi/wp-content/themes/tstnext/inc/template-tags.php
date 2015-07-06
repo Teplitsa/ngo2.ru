@@ -519,3 +519,49 @@ function tst_get_author_avatar($author_term_id){
 	
 	return $avatar;
 }
+
+
+/** Compact post item **/
+function tst_compact_post_item($cpost = null, $show_thumb = true){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+		
+	$author = tst_get_post_author();
+?>
+	<div class="tpl-related-post"><a href="<?php echo get_permalink($cpost);?>">
+	
+	<div class="row">
+		<div class="col mf-8">
+			<h4 class="entry-title"><?php the_title();?></h4>
+			
+		<?php if($show_thumb) { ?>	
+			<div class="entry-author pictured-card-item">
+			<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
+					
+				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+					
+				<div class="author-content card-footer-content pci-content">
+					<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+					<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+				</div>
+				
+			</div>	
+		<?php } else { ?>
+			<div class="entry-author plain-card-item">
+				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+				<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>				
+			</div>	
+		<?php } ?>
+		</div>
+		
+		<div class="col mf-4">
+			<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail'); ?>
+		</div>
+	</div>	
+	
+	</a></div>
+<?php
+}

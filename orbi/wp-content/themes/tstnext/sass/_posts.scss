@@ -33,6 +33,11 @@ $margin-base: 16px !default;
 		border-top: 1px solid $color-border-normal;
 		border-bottom: 1px solid $color-border-normal;
 		padding: $margin-base 0;
+		.sm-4 {
+			@include for(small-screens) {
+				text-align: right;
+			}
+		}
 	}
 	
 	@include wp-caption;

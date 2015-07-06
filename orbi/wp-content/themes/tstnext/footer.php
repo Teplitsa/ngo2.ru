@@ -13,7 +13,7 @@ $tst = __("Teplitsa of social technologies", 'tst');
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 ?>
-	</div></div><!-- .container #site_content -->
+</div></div><!-- .container #site_content -->
 
 <?php if(tst_has_bottombar()) { ?>
 <div id="bottombar" class="widget-area"><div class="container">		
@@ -27,6 +27,12 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 	
 </div></div>
 <?php } ?>
+
+<?php 
+	if(is_singular('post')) { //related block in post
+		get_template_part('partials/related', get_post_type());	
+	}
+?>
 
 <footer id="colophon" class="site-footer" role="contentinfo">	
 

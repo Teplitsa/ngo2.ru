@@ -26,43 +26,28 @@
 */
  
 @mixin icon-fontello {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
- 
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  /* opacity: .8; */
- 
-  /* For safety - reset parent styles, that can break glyph codes*/
-  font-variant: normal;
-  text-transform: none;
- 
-  /* fix buttons height, for twitter bootstrap */
-  line-height: 1em;
- 
-  /* Animation center compensation - margins should be symmetric */
-  /* remove if not needed */
-  margin-left: .2em;
- 
-  /* you can be more comfortable with increased icons size */
-  /* font-size: 120%; */
- 
-  /* Font smoothing. That was taken from TWBS */
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
- 
-  /* Uncomment for 3D effect */
-  /* text-shadow: 1px 1px 1px rgba(127, 127, 127, 0.3); */
+	font-family: "fontello";
+	font-style: normal;
+	font-weight: normal;
+	speak: none;
+	
+	display: inline-block;
+	text-decoration: inherit;
+	width: 1em;
+	margin-right: .2em;
+	text-align: center;
+	  
+	font-variant: normal;
+	text-transform: none;
+	
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
  
-.icon-fb:before { content: '\e800'; } /* '' */
-.icon-tw:before { content: '\e801'; } /* '' */
-.icon-vk:before { content: '\e802'; } /* '' */
+/*.icon-fb:before { content: '\e800'; }
+.icon-tw:before { content: '\e801'; } 
+.icon-vk:before { content: '\e802'; } */
 
 
 // Buttons styles
@@ -70,23 +55,45 @@
 	@include clearfix;
 }
 
-.social-likes__widget  {
+.social-likes__widget  {	
 	background: #325A97;
 	float: left;
 	height: 36px;
 	padding: 8px;
 	margin-right: 8px;
+	min-width: 80px;
+	cursor: pointer;
+	@include transition(box-shadow 0.35s);
+	
+	&:hover, &:focus, &:active {
+		@extend .z-depth-1;
+	}
+}
+
+.social-likes__widget_twitter {
+	background: #00ACED;
+}
+
+.social-likes__widget_vkontakte {
+	background: #4C75A3;
 }
 
 .social-likes__icon {
 	display: inline-block;
 	width: 32px;
 	color: #fff;
-	font-size: 18px;
+	font-size: 16px;
+	vertical-align: middle;
+	float: left;
+	line-height: 20px;
 }
 
 .social-likes__counter  {
+	display: inline-block;
 	color: rgba(255,255,255, 0.87);
+	float: right;
+	font-size: 14px;
+	line-height: 20px;
 }
 
 .social-likes__icon:before {
