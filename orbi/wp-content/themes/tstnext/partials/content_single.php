@@ -6,6 +6,7 @@
 global $post;
 $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumb') : true;
 $author = tst_get_post_author();
+$side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
@@ -32,11 +33,16 @@ $author = tst_get_post_author();
 	
 	<?php
 		if($show_thumb && has_post_thumbnail()) {
-			echo tst_single_post_thumbnail_html(null, 'embed');
+			echo tst_single_post_thumbnail_html(null, 'embed', $side_quote);
 		}
 	?>
 	
-	<div class="entry-content"><?php the_content(); ?></div>
+	<div class="entry-content">
+		<?php if(!empty($side_quote) && (!$show_thumb || !has_post_thumbnail())) { ?>
+			<aside class="side-quote"><?php echo apply_filters('tst_the_title', $side_quote);?></aside>	
+		<?php } ?>
+		<?php the_content(); ?>
+	</div>
 		
 	
 	<div class="entry-footer">
@@ -110,7 +116,13 @@ $author = tst_get_post_author();
 				</div>
 				<div class="col mf-4 sm-4 lg-3">
 				<span class="next-link btn-flat">
-					<?php echo get_next_post_link('%link', 'Следующая &raquo;', true, '', 'category' ); ?>
+				<?php
+					$next =  get_next_post_link('%link', 'Следующая &raquo;', true, '', 'category' );
+					if(empty($next)) {
+						$next = tst_next_fallback_link($post);
+					}
+					echo $next;
+				?>
 				</span>
 				</div>
 			</div><!-- .row -->

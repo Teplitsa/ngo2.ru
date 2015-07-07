@@ -18,7 +18,7 @@ if($r_query->have_posts()){
 	if(empty($aside_title) && isset($cat[0])) {
 		$aside_title = 'Еще '.$cat[0]->name;
 	}
-	elseif($aside_title) {
+	elseif(empty($aside_title)) {
 		$aside_title = __('More posts', 'tst'); 
 	}
 ?>
@@ -32,7 +32,13 @@ if($r_query->have_posts()){
 			while($r_query->have_posts()){
 				$r_query->the_post();
 				
-				tst_compact_post_item();
+				if(has_term('news', 'category')){
+					tst_compact_news_item();
+				}
+				else {
+					tst_compact_post_item();
+				}
+				
 			}
 			wp_reset_postdata();	
 		?>	

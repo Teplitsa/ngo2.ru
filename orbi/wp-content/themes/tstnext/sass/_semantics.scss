@@ -507,8 +507,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 	.wp-caption-text {		
 		line-height: 1.35;
 		font-size: 0.85714em;
-		margin: rem($b-margin/2) 0 0;		
-		text-align: left;
+		margin: rem($b-margin/2) 0 0;				
 		color: $color-text-semi;
 		font-style: italic;
 	}
@@ -568,6 +567,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 } //post-content
 
 .entry-content {
+	position: relative;
 	@include post-content-elements;
 	@include post-content-defaults;
 }

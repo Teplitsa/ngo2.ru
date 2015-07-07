@@ -316,7 +316,7 @@ function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 	return wp_get_attachment_image($thumb_id, $size, false, $attr);
 }
 
-function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail'){
+function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail', $caption = ''){
 	global $post;
 	
 	if(!$cpost)
@@ -335,7 +335,10 @@ function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail')
 	);
 	
 	$img = wp_get_attachment_image($thumb_id, $size, false, $attr);
-	$caption =  (!empty($att->post_excerpt)) ? $att->post_excerpt : '';
+	
+	if(empty($caption)) {
+		$caption =  (!empty($att->post_excerpt)) ? $att->post_excerpt : '';
+	}
 	
 ?>
 	<figure class="wp-caption alignnone entry-media" >
@@ -388,6 +391,43 @@ function tst_get_post_type_archive_title($post_type) {
 	
 	$pt_obj = get_post_type_object( $post_type );
 	return $pt_obj->labels->name;
+}
+
+/** Next fallback link **/
+function tst_next_fallback_link($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+	$cat = wp_get_object_terms($cpost->ID, 'category');
+	if(!empty($cat))
+		$cat = $cat[0]->term_id;
+		
+	$args = array(
+		'post_type' => $cpost->post_type,
+		'posts_per_page' => 1,
+		'orderby' => 'date',
+		'order' => 'ASC'
+	);
+	
+	if(!empty($cat)){
+		$args['tax_query'] = array(
+			array(
+				'taxonomy' => 'category',
+				'field' => 'id',
+				'terms' => $cat
+			)
+		);
+	}
+	
+	$query = new WP_Query($args);
+	$link = '';
+	if(isset($query->posts[0]) && $query->posts[0]->ID != $cpost->ID){
+		$link = "<a href='".get_permalink($query->posts[0])."' rel='next'>Следующая &raquo;</a>";
+	}
+	
+	return $link;
 }
 
 
@@ -539,20 +579,23 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 			
 		<?php if($show_thumb) { ?>	
 			<div class="entry-author pictured-card-item">
-			<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
+			<?php
+				$avatar = ($author) ? tst_get_author_avatar($author->term_id) : '';
+				$name = ($author) ? $author->name : '';
+			?>				
 					
 				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 					
 				<div class="author-content card-footer-content pci-content">
-					<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+					<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $name);?></h5>
 					<p class="post-date pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>
 				</div>
 				
 			</div>	
 		<?php } else { ?>
 			<div class="entry-author plain-card-item">
-				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-				<p class="author-role pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
+				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $name);?></h5>
+				<p class="post-date pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
 			</div>	
 		<?php } ?>
 		</div>
@@ -561,6 +604,24 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 			<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail'); ?>
 		</div>
 	</div>	
+	
+	</a></div>
+<?php
+}
+
+function tst_compact_news_item($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+?>
+	<div class="tpl-related-post news"><a href="<?php echo get_permalink($cpost);?>">
+	
+	
+		<h4 class="entry-title"><?php the_title();?></h4>
+		<p class="post-date pci-caption"><i class="material-icons">today</i> <time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
+		
 	
 	</a></div>
 <?php

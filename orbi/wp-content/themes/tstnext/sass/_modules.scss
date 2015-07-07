@@ -123,6 +123,7 @@
 
 // Floating panel on single
 #float-panel {
+	display: none;
 	background: color('shades', 'white');
 	z-index: 1100;
 	width: 100%;
@@ -131,17 +132,18 @@
 	left: 0;
 	padding: $card-padding;
 	@extend .z-depth-1;
+		
 	.mf-4 {
 		text-align: right;
 	}
+	
 	.hide-on-small {
 		display: none;
 		@include for(medium-screens) {
 			display: block;
 		}
 	}
-	
-	
+		
 	.hide-on-medium {
 		display: none;
 		@include for(large-screens) {
@@ -149,7 +151,13 @@
 		}
 	}
 	
-	.next-link {
-		padding: 0;
+	.entry-author > a { display: block; }
+	.author-role {
+		height: 16px;
+		@extend .truncate;		
+	}
+	.next-link { padding: 0; }
+	.text {
+		padding-top: 4px;				
 	}
 }

@@ -42,17 +42,35 @@ $margin-base: 16px !default;
 	
 	@include wp-caption;
 	
+	.side-quote {		
+		display: none;
+	}
+	
 	@include for(large-screens) {
+		
 		.wp-caption {
 			position: relative;
 		}
+		
 		.wp-caption-text {
 			position: absolute;
 			top: 0;
 			left: -1*(168px + $gut);
 			width: 168px;
+			text-align: right;			
+		}
+		
+		.side-quote {
+			display: block;
+			position: absolute;
+			top: 0;
+			left: -1*(168px + $gut);
+			width: 168px;
 			text-align: right;
-			
+			line-height: 1.35;
+			font-size: 0.85714em;
+			color: $color-text-semi;
+			font-style: italic;
 		}
 	}
 }
@@ -70,3 +88,16 @@ $margin-base: 16px !default;
 	}
 }
 
+.tpl-related-post.news  {
+	.post-date {
+		color: $color-text-semi;
+	}
+	
+	.material-icons {
+		font-size: 1.2em;
+		line-height: 1;
+		margin-right: 8px;
+		vertical-align: text-top;
+		color: $color-text-semi;
+	}
+}

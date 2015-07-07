@@ -2232,7 +2232,7 @@ a:link {
   margin-left: auto;
   margin-right: auto; }
 
-.truncate {
+.truncate, #float-panel .author-role {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
@@ -2561,6 +2561,7 @@ h6 {
   margin: 0.7rem 0 0.56rem 0; }
 
 .entry-content {
+  position: relative;
   /*blockquote {
   	margin: 20px 0;
   	padding-left: 1.5rem;
@@ -2710,7 +2711,6 @@ h6 {
     line-height: 1.35;
     font-size: 0.85714em;
     margin: 0.6rem 0 0;
-    text-align: left;
     color: rgba(0, 0, 0, 0.54);
     font-style: italic; }
   .entry-content div.wp-video-shortcode {
@@ -3230,6 +3230,7 @@ button.btn-floating {
   .sharing-on-panel .social-likes__counter {
     display: none; } }
 #float-panel {
+  display: none;
   background: #FFFFFF;
   z-index: 1100;
   width: 100%;
@@ -3249,8 +3250,14 @@ button.btn-floating {
     @media screen and (min-width: 1130px) {
       #float-panel .hide-on-medium {
         display: block; } }
+  #float-panel .entry-author > a {
+    display: block; }
+  #float-panel .author-role {
+    height: 16px; }
   #float-panel .next-link {
     padding: 0; }
+  #float-panel .text {
+    padding-top: 4px; }
 
 /*---------------------------------------------------------
  General styles (_front.scss)
@@ -3488,9 +3495,10 @@ body.single {
     line-height: 1.35;
     font-size: 0.85714em;
     margin: 0.6rem 0 0;
-    text-align: left;
     color: rgba(0, 0, 0, 0.54);
     font-style: italic; }
+  .tpl-post-full .side-quote {
+    display: none; }
   @media screen and (min-width: 1130px) {
     .tpl-post-full .wp-caption {
       position: relative; }
@@ -3499,7 +3507,18 @@ body.single {
       top: 0;
       left: -192px;
       width: 168px;
-      text-align: right; } }
+      text-align: right; }
+    .tpl-post-full .side-quote {
+      display: block;
+      position: absolute;
+      top: 0;
+      left: -192px;
+      width: 168px;
+      text-align: right;
+      line-height: 1.35;
+      font-size: 0.85714em;
+      color: rgba(0, 0, 0, 0.54);
+      font-style: italic; } }
 
 .related-posts.section {
   background: #f5f5f5;
@@ -3512,5 +3531,14 @@ body.single {
     font-weight: 500;
     margin-bottom: 16px;
     color: #e91e63; }
+
+.tpl-related-post.news .post-date {
+  color: rgba(0, 0, 0, 0.54); }
+.tpl-related-post.news .material-icons {
+  font-size: 1.2em;
+  line-height: 1;
+  margin-right: 8px;
+  vertical-align: text-top;
+  color: rgba(0, 0, 0, 0.54); }
 
 /*# sourceMappingURL=design.css.map */

@@ -70,6 +70,22 @@ jQuery(document).ready(function($){
         });
     });
 	
+	/** Float panel **/
+	var floatPanel = $('#float-panel');
+	
+	$(window).scroll(function() {
+		if($(window).scrollTop() >= 500){
+			floatPanel.slideDown(300,function(){
+				
+				if($(window).scrollTop() + $(window).height() == $(document).height()) {
+					floatPanel.slideUp(300);
+				}				
+			});			
+		} else {
+			floatPanel.slideUp(300);
+		}		
+	});		
+	
 	
 //    // focus on search form */
 //	$('.search-field').focus(function(){
