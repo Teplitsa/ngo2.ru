@@ -41,8 +41,10 @@ p,ul,ol,dl,blockquote {
 
 // Head
 $sh-base : 16px;
-.site-header {
-	background: #333 url('../img/header-default.jpg') no-repeat top center;
+.site-header {	
+	background-color: #333;
+	background-repeat: no-repeat;
+	background-position: top center;
 	background-size: cover;
 	//min-height: 200px;
 	color: $color-white;

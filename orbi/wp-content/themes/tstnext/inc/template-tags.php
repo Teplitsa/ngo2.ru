@@ -626,3 +626,26 @@ function tst_compact_news_item($cpost = null){
 	</a></div>
 <?php
 }
+
+
+/** Header image **/
+function tst_header_image_url(){
+	
+	$img = '';
+	if(is_tax()){
+		$qo = get_queried_object();
+		$img = (function_exists('get_field')) ? get_field('header_img', $qo->taxonomy.'_'.$qo->term_id) : 0;
+		$img = wp_get_attachment_url($img);
+	}
+	elseif(is_single()){
+		$qo = get_queried_object();
+		$img = (function_exists('get_field')) ? get_field('header_img', $qo->ID) : 0;
+		$img = wp_get_attachment_url($img);
+	}
+	
+	if(empty($img)){ // fallback
+		$img = get_template_directory_uri().'/img/header-default.jpg';
+	}
+	
+	return $img;
+}

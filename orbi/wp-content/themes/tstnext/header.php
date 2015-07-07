@@ -36,8 +36,8 @@
 	</div>	
 </nav>
 
-
-<header id="site_header" class="site-header" role="banner">
+<?php $bg = tst_header_image_url();?>
+<header id="site_header" class="site-header" role="banner"<?php if(!empty($bg)) echo " style='background-imgae: url({$bg});'";?>>
 	<div class="container">
 		<?php get_template_part('partials/title', 'section');?>
 	</div>

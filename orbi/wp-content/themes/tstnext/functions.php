@@ -7,7 +7,7 @@ define('TST_VERSION', '1.0');
  
  
 if ( ! isset( $content_width ) ) {
-	$content_width = 710; /* pixels */
+	$content_width = 640; /* pixels */
 }
 
 if ( ! function_exists( 'tst_setup' ) ) :

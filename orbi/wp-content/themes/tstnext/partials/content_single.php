@@ -13,13 +13,15 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 
 	<div class="entry-meta">
 		<div class="row">
+			<?php if($author) { ?>
 			<div class="col sm-4">
 				<div class="captioned-text">
 					<div class="caption"><?php _e('Author', 'tst');?></div>
 					<div class="text"><?php echo get_the_term_list(get_the_ID(), 'auctor', '', ', ', '');?></div>
 				</div>
 			</div>
-			<div class="col sm-8">
+			<?php } ?>
+			<div class="col <?php echo ($author) ? 'sm-8' : 'sm-12';?>">
 				<div class="captioned-text">
 					<div class="caption"><?php _e('Published', 'tst');?></div>
 					<div class="text"><?php echo tst_posted_on();?></div>
