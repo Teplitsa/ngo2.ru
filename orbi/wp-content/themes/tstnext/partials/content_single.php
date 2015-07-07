@@ -77,11 +77,11 @@ $author = tst_get_post_author();
 <div id="float-panel">
 	<div class="row">
 		
-		<div class="col md-7 hide-on-small">
+		<div class="col md-5 lg-7 hide-on-small">
 			<div class="row">
 				<div class="col md-12 lg-6">
 					<?php if(!has_term('news', 'category', $post) && !empty($author)) { ?>
-						<div class="entry-author pictured-card-item">
+						<div class="entry-author pictured-card-item"><a href="<?php echo get_term_link($author);?>">
 						<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
 								
 							<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
@@ -91,7 +91,7 @@ $author = tst_get_post_author();
 								<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
 							</div>
 							
-						</div>
+						</a></div>
 					<?php } ?>
 				</div>
 				<div class="col md-12 lg-6 hide-on-medium">
@@ -103,13 +103,15 @@ $author = tst_get_post_author();
 			</div><!-- .row -->
 		</div>
 		
-		<div class="col md-5">
+		<div class="col md-7 lg-5">
 			<div class="row">
-				<div class="col mf-8 sm-9">
+				<div class="col mf-8 sm-8 lg-9">
 					<div class="sharing-on-panel"><?php tst_social_share();?></div>
 				</div>
-				<div class="col mf-4 sm-3">
-					<a href="">Следующая</a>
+				<div class="col mf-4 sm-4 lg-3">
+				<span class="next-link btn-flat">
+					<?php echo get_next_post_link('%link', 'Следующая &raquo;', true, '', 'category' ); ?>
+				</span>
 				</div>
 			</div><!-- .row -->
 		</div>

@@ -3221,7 +3221,12 @@ button.btn-floating {
 .social-likes__icon_vkontakte:before {
   content: '\e802'; }
 
-@media screen and (max-width: 600px) {
+@media screen and (max-width: 800px) {
+  .sharing-on-panel .social-likes__widget {
+    width: 36px;
+    min-width: 0; }
+  .sharing-on-panel .social-likes__icon {
+    width: 100%; }
   .sharing-on-panel .social-likes__counter {
     display: none; } }
 #float-panel {
@@ -3231,7 +3236,9 @@ button.btn-floating {
   position: fixed;
   bottom: 0;
   left: 0;
-  padding: 16px 0; }
+  padding: 16px; }
+  #float-panel .mf-4 {
+    text-align: right; }
   #float-panel .hide-on-small {
     display: none; }
     @media screen and (min-width: 800px) {
@@ -3242,6 +3249,8 @@ button.btn-floating {
     @media screen and (min-width: 1130px) {
       #float-panel .hide-on-medium {
         display: block; } }
+  #float-panel .next-link {
+    padding: 0; }
 
 /*---------------------------------------------------------
  General styles (_front.scss)
@@ -3416,7 +3425,7 @@ body.single {
   .donate-widget .fab {
     z-index: 1100;
     position: fixed;
-    bottom: 24px;
+    bottom: 48px;
     right: 24px; }
   @media screen and (min-width: 1130px) {
     .donate-widget h5 {

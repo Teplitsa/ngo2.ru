@@ -104,10 +104,15 @@
 .social-likes__icon_twitter:before { content: '\e801'; }
 .social-likes__icon_vkontakte:before { content: '\e802'; }
 
-@include upto(small-screens) {
+@include upto(medium-screens) {
 	.sharing-on-panel {
 		.social-likes__widget {
-			
+			width: 36px;
+			min-width: 0;
+		}
+		
+		.social-likes__icon {
+			width: 100%;
 		}
 		
 		.social-likes__counter {
@@ -124,9 +129,11 @@
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	padding: $card-padding 0;
+	padding: $card-padding;
 	@extend .z-depth-1;
-	
+	.mf-4 {
+		text-align: right;
+	}
 	.hide-on-small {
 		display: none;
 		@include for(medium-screens) {
@@ -142,5 +149,7 @@
 		}
 	}
 	
-	
+	.next-link {
+		padding: 0;
+	}
 }
