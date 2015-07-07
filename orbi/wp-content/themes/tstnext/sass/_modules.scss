@@ -103,3 +103,44 @@
 .social-likes__icon_facebook:before { content: '\e800'; }
 .social-likes__icon_twitter:before { content: '\e801'; }
 .social-likes__icon_vkontakte:before { content: '\e802'; }
+
+@include upto(small-screens) {
+	.sharing-on-panel {
+		.social-likes__widget {
+			
+		}
+		
+		.social-likes__counter {
+			display: none;
+		}
+	}
+}
+
+// Floating panel on single
+#float-panel {
+	background: color('shades', 'white');
+	z-index: 1100;
+	width: 100%;
+	position: fixed;
+	bottom: 0;
+	left: 0;
+	padding: $card-padding 0;
+	@extend .z-depth-1;
+	
+	.hide-on-small {
+		display: none;
+		@include for(medium-screens) {
+			display: block;
+		}
+	}
+	
+	
+	.hide-on-medium {
+		display: none;
+		@include for(large-screens) {
+			display: block;
+		}
+	}
+	
+	
+}

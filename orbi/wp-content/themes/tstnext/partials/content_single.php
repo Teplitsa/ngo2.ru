@@ -3,8 +3,9 @@
  * @package bb
  */
 
+global $post;
 $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumb') : true;
-
+$author = tst_get_post_author();
 ?>
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
@@ -41,8 +42,7 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumb') : t
 	<div class="entry-footer">
 		<div class="sharing-on-bottom"><?php tst_social_share();?></div>
 		
-	<?php
-		$author = tst_get_post_author();
+	<?php		
 		if(!empty($author)) {
 			
 			$avatar = tst_get_author_avatar($author->term_id) ;
@@ -74,3 +74,45 @@ $show_thumb = (function_exists('get_field')) ? (bool)get_field('show_thumb') : t
 	
 </article><!-- #post-## -->
 
+<div id="float-panel">
+	<div class="row">
+		
+		<div class="col md-7 hide-on-small">
+			<div class="row">
+				<div class="col md-12 lg-6">
+					<?php if(!has_term('news', 'category', $post) && !empty($author)) { ?>
+						<div class="entry-author pictured-card-item">
+						<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
+								
+							<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+								
+							<div class="author-content pci-content">
+								<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+								<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+							</div>
+							
+						</div>
+					<?php } ?>
+				</div>
+				<div class="col md-12 lg-6 hide-on-medium">
+					<div class="captioned-text">
+						<div class="caption"><?php _e('Published', 'tst');?></div>
+						<div class="text"><?php echo tst_posted_on($post);?></div>
+					</div>
+				</div>
+			</div><!-- .row -->
+		</div>
+		
+		<div class="col md-5">
+			<div class="row">
+				<div class="col mf-8 sm-9">
+					<div class="sharing-on-panel"><?php tst_social_share();?></div>
+				</div>
+				<div class="col mf-4 sm-3">
+					<a href="">Следующая</a>
+				</div>
+			</div><!-- .row -->
+		</div>
+		
+	</div><!-- .row -->
+</div>

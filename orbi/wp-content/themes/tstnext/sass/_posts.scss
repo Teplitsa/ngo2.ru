@@ -58,3 +58,15 @@ $margin-base: 16px !default;
 }
 
 // Related block
+.related-posts.section {
+	background: color('grey', 'lighten-4');
+	padding: $margin-base*2.5 0 $margin-base*5;
+	
+	h5 {
+		@include text-subhead;
+		font-weight: 500;
+		margin-bottom: $margin-base;
+		color: $color-link-one;
+	}
+}
+

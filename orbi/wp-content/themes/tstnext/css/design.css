@@ -2249,7 +2249,7 @@ ul.staggered-list li {
       -ms-transform-origin: 0 50%;
           transform-origin: 0 50%; }
 
-.z-depth-1, .btn, .btn-large, .btn-floating, .navbar .navbar-panel, .side-nav, .card, .social-likes__widget:hover, .social-likes__widget:focus, .social-likes__widget:active, .site-footer, .paging-navigation a:hover {
+.z-depth-1, .btn, .btn-large, .btn-floating, .navbar .navbar-panel, .side-nav, .card, .social-likes__widget:hover, .social-likes__widget:focus, .social-likes__widget:active, #float-panel, .site-footer, .paging-navigation a:hover {
   box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.16), 0 2px 10px 0 rgba(0, 0, 0, 0.12); }
 
 .z-depth-1-half, .btn:hover, .btn-large:hover, .btn-floating:hover {
@@ -3116,6 +3116,25 @@ button.btn-floating {
     color: rgba(0, 0, 0, 0.54);
     margin: 0; }
 
+.tpl-related-post {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .tpl-related-post:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, 0.12); }
+  .tpl-related-post > a {
+    display: block; }
+  .tpl-related-post .entry-title {
+    font-family: "Roboto", sans-serif;
+    font-size: 2rem;
+    line-height: 1.3;
+    font-weight: 500;
+    color: rgba(0, 0, 0, 0.87);
+    font-weight: 400; }
+    .tpl-related-post .entry-title a {
+      color: inherit; }
+      .tpl-related-post .entry-title a:hover, .tpl-related-post .entry-title a:focus, .tpl-related-post .entry-title a:active {
+        color: #e91e63; }
+
 /*---------------------------------------------------------
  Modules (_modules.scss)
 -------------------------------------------------------- */
@@ -3201,6 +3220,28 @@ button.btn-floating {
 
 .social-likes__icon_vkontakte:before {
   content: '\e802'; }
+
+@media screen and (max-width: 600px) {
+  .sharing-on-panel .social-likes__counter {
+    display: none; } }
+#float-panel {
+  background: #FFFFFF;
+  z-index: 1100;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 16px 0; }
+  #float-panel .hide-on-small {
+    display: none; }
+    @media screen and (min-width: 800px) {
+      #float-panel .hide-on-small {
+        display: block; } }
+  #float-panel .hide-on-medium {
+    display: none; }
+    @media screen and (min-width: 1130px) {
+      #float-panel .hide-on-medium {
+        display: block; } }
 
 /*---------------------------------------------------------
  General styles (_front.scss)
@@ -3450,5 +3491,17 @@ body.single {
       left: -192px;
       width: 168px;
       text-align: right; } }
+
+.related-posts.section {
+  background: #f5f5f5;
+  padding: 40px 0 80px; }
+  .related-posts.section h5 {
+    font-family: "Roboto", sans-serif;
+    font-size: 1.6rem;
+    line-height: 1.5;
+    font-weight: normal;
+    font-weight: 500;
+    margin-bottom: 16px;
+    color: #e91e63; }
 
 /*# sourceMappingURL=design.css.map */
