@@ -91,5 +91,22 @@
 
 // Captioned items
 @mixin text-with-caption {
-	
+	.caption {
+		@include text-caption;
+		color: $color-text-semi;
+	}
+	.text {
+		@include text-body-text;
+		color: $color-text;
+		a {
+			color: #000;
+			&:hover, &:focus, &:active {
+				color: $color-link-one;		
+			}
+		}
+	}
+}
+
+.captioned-text {
+	@include text-with-caption();
 }
