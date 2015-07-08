@@ -61,7 +61,7 @@
 .navbar-icon {
     float: left;
     width: 72px - $navbar-padding;
-    a, a:visited { color: $color-white; }
+    a, a:visited, a:hover { color: $color-white; }
 }
 
 //Title

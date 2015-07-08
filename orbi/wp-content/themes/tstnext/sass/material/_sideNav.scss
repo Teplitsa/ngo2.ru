@@ -59,15 +59,30 @@
     
     a, a:visited {
         display: block;
+        position: relative;
         padding: 0 $sidenav-padding 0 $sidenav-padding*1.5;
         font-size: rem(14);
         color: $color-text;
         @include transition(all 0.35s);
+                
+        &:before {
+            content: '';
+            display: none;
+            height: 100%;
+            width: 4px;
+            background: color('grey', 'lighten-2');
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
         
         &:hover, &:focus, &:active {
             color: $color-text;
             background: color('grey', 'lighten-4');
+            &:before { display: block; }
         }
+        
+        
     }
     
     .current-menu-item > a, .current-menu-item > a:visited {
@@ -80,7 +95,7 @@
     
     .sub-menu {        
         @include for(small-screens) {
-            margin-left: $sidenav-padding*1.5;
+            a { padding-left: $sidenav-padding*3; }
         }
     }
 }
