@@ -25,7 +25,7 @@
 	
 	<div class="navbar-panel">
 		<div class="navbar-icon"><a href="#" data-activates="menu-slide-out" class="menu-trigger"><i class="material-icons">menu</i></a></div>
-		<div class="navbar-title"><?php tst_breadcrumbs();?></div>
+		<div class="navbar-title"><?php echo tst_breadcrumbs();?></div>
 		<div class="navbar-logo"><a href="<?php echo home_url();?>"><?php tst_site_logo('small');?></a></div>
 		<div class="navbar-actions"><i class="material-icons">search</i></div>
 	</div>

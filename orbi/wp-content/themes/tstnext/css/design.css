@@ -2710,9 +2710,9 @@ h6 {
   .entry-content .wp-caption-text {
     line-height: 1.35;
     font-size: 0.85714em;
-    margin: 0.6rem 0 0;
     color: rgba(0, 0, 0, 0.54);
-    font-style: italic; }
+    font-style: italic;
+    margin: 0.6rem 0 0; }
   .entry-content div.wp-video-shortcode {
     margin-bottom: 1.2rem; }
 
@@ -2949,7 +2949,25 @@ button.btn-floating {
     color: #ffffff; }
 
 .navbar-title {
-  float: left; }
+  float: left;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.6rem;
+  line-height: 1.5;
+  font-weight: normal;
+  color: rgba(255, 255, 255, 0.7); }
+  .navbar-title .crumbs {
+    display: none; }
+    .navbar-title .crumbs a {
+      color: inherit; }
+    .navbar-title .crumbs span {
+      display: none; }
+    @media screen and (min-width: 600px) {
+      .navbar-title .crumbs {
+        display: block;
+        line-height: 24px; } }
+    @media screen and (min-width: 800px) {
+      .navbar-title .crumbs {
+        line-height: 32px; } }
 
 .navbar-logo {
   display: inline-block;
@@ -3346,9 +3364,9 @@ p {
   z-index: 100;
   top: -28px; }
 
-body.single {
+body.single, body.page-template-default {
   background: #FFFFFF; }
-  body.single .site-header .section-header {
+  body.single .site-header .section-header, body.page-template-default .site-header .section-header {
     padding: 11.2rem 0 3.2rem; }
 
 #bottombar {
@@ -3433,6 +3451,9 @@ body.single {
       text-transform: uppercase;
       margin-top: 12px; }
 
+.sidebar .widget {
+  margin-bottom: 24px; }
+
 .donate-widget {
   position: relative; }
   .donate-widget h5 {
@@ -3442,7 +3463,7 @@ body.single {
     line-height: 1.3;
     color: #e91e63;
     margin-left: 72px;
-    margin-bottom: 28px; }
+    margin-bottom: 4px; }
   .donate-widget .fab {
     z-index: 1100;
     position: fixed;
@@ -3508,11 +3529,14 @@ body.single {
   .tpl-post-full .wp-caption-text {
     line-height: 1.35;
     font-size: 0.85714em;
-    margin: 0.6rem 0 0;
+    color: rgba(0, 0, 0, 0.54);
+    font-style: italic;
+    margin: 0.6rem 0 0; }
+  .tpl-post-full .side-quote {
+    line-height: 1.35;
+    font-size: 0.85714em;
     color: rgba(0, 0, 0, 0.54);
     font-style: italic; }
-  .tpl-post-full .side-quote {
-    display: none; }
   @media screen and (min-width: 1130px) {
     .tpl-post-full .wp-caption {
       position: relative; }
@@ -3523,16 +3547,11 @@ body.single {
       width: 168px;
       text-align: right; }
     .tpl-post-full .side-quote {
-      display: block;
       position: absolute;
       top: 0;
       left: -192px;
       width: 168px;
-      text-align: right;
-      line-height: 1.35;
-      font-size: 0.85714em;
-      color: rgba(0, 0, 0, 0.54);
-      font-style: italic; } }
+      text-align: right; } }
 
 .related-posts.section {
   background: #f5f5f5;
@@ -3554,5 +3573,9 @@ body.single {
   margin-right: 8px;
   vertical-align: text-top;
   color: rgba(0, 0, 0, 0.54); }
+
+.tpl-page {
+  padding-top: 52px;
+  margin-bottom: 4px; }
 
 /*# sourceMappingURL=design.css.map */

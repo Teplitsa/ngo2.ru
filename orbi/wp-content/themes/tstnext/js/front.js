@@ -37,7 +37,7 @@ jQuery(document).ready(function($){
 			target_id = "#"+ $this.attr('data-activates'),
 			target = $(target_id);
 		
-		$('#material-overlay').fadeIn(200); //@to-do: make this smooth 
+		$('#material-overlay').fadeIn(90); //@to-do: make this smooth 
 		target.animate({left : 0}, 600, function(){
 			target.addClass('active');
 			
@@ -84,7 +84,21 @@ jQuery(document).ready(function($){
 		} else {
 			floatPanel.slideUp(300);
 		}		
-	});		
+	});
+	
+	/* Smart crumbs **/
+	var crumb = $('.navbar-title').find('.crumbs').find('span');
+	if (crumb.length) {
+		$(window).scroll(function() {
+			//console.log($(window).scrollTop());
+			if($(window).scrollTop() >= 150){
+				crumb.fadeIn(300);			
+			} else {
+				crumb.fadeOut(300);	
+			}		
+		});
+	}
+	
 	
 	/** Responsive media **/
     var resize_embed_media = function(){

@@ -19,14 +19,9 @@ global $post;
 		if($p)
 			echo get_the_title($p);
 	}
-	elseif(is_category()){
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			echo get_the_title($p);
-			echo "<span>";
-			single_cat_title(' // ');
-			echo "</span>";
-		}
+	elseif(is_category()){		
+		single_cat_title();
+		
 	}
 	elseif(is_post_type_archive('event')) {
 		$p = get_post(get_option('page_for_posts'));

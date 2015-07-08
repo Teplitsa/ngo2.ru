@@ -67,7 +67,24 @@
 //Title
 .navbar-title {
     float: left;
+    @include text-subhead;
+    color: rgba(255,255,255,0.7);
     
+    .crumbs {
+        display: none;
+        a {
+            color: inherit;
+        }
+        span { display: none; }
+        
+        @include for(small-screens) {
+            display: block;
+            line-height: $navbar-height-mobile-extra - ($navbar-padding * 2);
+        }
+        @include for(medium-screens) {
+            line-height: $navbar-height-desktop - ($navbar-padding * 2);
+        }
+    }
 }
 
 //Logo

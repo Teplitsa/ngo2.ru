@@ -127,6 +127,9 @@ function tst_has_bottombar(){
 	if(is_singular('post')){
 		return false;
 	}
+	elseif(is_home() || is_category()){
+		return false;
+	}
 	
 	return true;
 }
@@ -358,26 +361,28 @@ function tst_breadcrumbs(){
 		
 	$links = array();
 	if(is_singular('post')) {
-		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
-			$cat = wp_get_object_terms($post->ID, 'category');
-			if(!empty($cat)){
-				$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('tst_the_title', $cat[0]->name)."</a>";
-			}
-		}	
+		
+		$cat = wp_get_object_terms($post->ID, 'category');
+		if(!empty($cat)){
+			$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('tst_the_title', $cat[0]->name)."</a>";
+		}			
 	}
 	elseif(is_singular('event')) {
 		
+		$p = get_page_by_path('calendar');
+		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";		
+	}
+	elseif(is_page()){
+		//@to-do - if treee ?
+		$links[] = get_the_title($post);
+	}
+	elseif(is_home()){
 		$p = get_post(get_option('page_for_posts'));
-		if($p){
-			$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";
-			$pt_link = get_post_type_archive_link('event');
-			$pt_name = tst_get_post_type_archive_title('event');
-			if(!empty($pt_name)){
-				$links[] = "<a href='".$pt_link."'>".$pt_name."</a>";
-			}
-		}	
+		if($p)
+			$links[] = "<span>".get_the_title($p)."</span>";
+	}
+	elseif(is_category()){
+		$links[] = "<span>".single_cat_title('', false)."</span>";
 	}
 	
 	$sep = tst_get_sep("&gt;");
