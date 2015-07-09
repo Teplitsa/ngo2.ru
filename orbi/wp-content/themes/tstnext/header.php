@@ -48,7 +48,7 @@
     </div><!-- .mdl-layout__header-row -->	
 </header>
 
-<div class="mdl-layout__drawer">
+<div id="site_nav" class="mdl-layout__drawer">
     <span class="mdl-layout-title"><span class="navigation-logo"><?php tst_site_logo('context');?></span></span>
 	<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'mdl-navigation')); ?>
 </div>
@@ -60,3 +60,5 @@
 <header id="page_header" class="page-header" <?php echo " style='background-image: url({$bg})'";?>>
 	<?php get_template_part('partials/title', 'section');?>	
 </header>
+
+<div class="page-content">

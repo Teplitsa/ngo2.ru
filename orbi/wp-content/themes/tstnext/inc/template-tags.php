@@ -372,13 +372,13 @@ function tst_breadcrumbs(){
 		
 		$cat = wp_get_object_terms($post->ID, 'category');
 		if(!empty($cat)){
-			$links[] = "<a href='".get_term_link($cat[0])."'>".apply_filters('tst_the_title', $cat[0]->name)."</a>";
+			$links[] = "<a href='".get_term_link($cat[0])."' class='crumb-link'>".apply_filters('tst_the_title', $cat[0]->name)."</a>";
 		}			
 	}
 	elseif(is_singular('event')) {
 		
 		$p = get_page_by_path('calendar');
-		$links[] = "<a href='".get_permalink($p)."'>".get_the_title($p)."</a>";		
+		$links[] = "<a href='".get_permalink($p)."' class='crumb-link'>".get_the_title($p)."</a>";		
 	}
 	elseif(is_page()){
 		//@to-do - if treee ?
@@ -387,10 +387,10 @@ function tst_breadcrumbs(){
 	elseif(is_home()){
 		$p = get_post(get_option('page_for_posts'));
 		if($p)
-			$links[] = "<span>".get_the_title($p)."</span>";
+			$links[] = "<span class='crumb-name'>".get_the_title($p)."</span>";
 	}
 	elseif(is_category()){
-		$links[] = "<span>".single_cat_title('', false)."</span>";
+		$links[] = "<span class='crumb-name'>".single_cat_title('', false)."</span>";
 	}
 	
 	$sep = tst_get_sep("&gt;");
@@ -509,7 +509,18 @@ function tst_get_post_excerpt($cpost = null, $l = 30){
 	$e = (!empty($cpost->post_excerpt)) ? $cpost->post_excerpt : wp_trim_words(strip_shortcodes($cpost->post_content), $l);
 	$date = get_the_date('d.m.Y', $cpost);
 	
-	return apply_filters('tst_the_content', "<time class='entry-date'>{$date}</time> ".$e);
+	return "<time class='entry-date'>{$date}</time> ".$e;
+}
+
+function tst_card_summary($cpost = null, $l = 30){
+	
+	$text = tst_get_post_excerpt($cpost, $l);
+	
+	$text = apply_filters('tst_the_content', $text);
+	$text = str_replace('<p>', '<div class="mdl-card__supporting-text">', $text);
+	$text = str_replace('</p>', '</div>', $text);
+	
+	return $text;
 }
 
 /** Default author avatar **/

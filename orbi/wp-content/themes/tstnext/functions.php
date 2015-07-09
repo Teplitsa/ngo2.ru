@@ -26,7 +26,7 @@ function tst_setup() {
 	set_post_thumbnail_size(395, 222, true ); // regular thumbnails 16:9
 	add_image_size('thumbnail-extra', 600, 337, true ); // large thumbnail 16:9
 	add_image_size('embed', 600, 420, true ); // fixed size for embedding 4:3
-	//add_image_size('long', 640, 280, true ); // long thumbnail for pages
+	add_image_size('embed-small', 350, 245, true ); // fixed size cards 4:3
 
 	// Menus
 	register_nav_menus(array(
@@ -100,109 +100,6 @@ add_action( 'widgets_init', 'tst_widgets_init' );
 /**
  * Enqueue scripts and styles.
  */
-function tst_scripts_old() {
-	
-	$theme_dir_url = get_template_directory_uri();
-	
-	// Styles
-	$style_dependencies = array();
-	
-	
-	// Fresco
-	wp_enqueue_style(
-		'tst-fresco',
-		$theme_dir_url . '/css/fresco.css',
-		array(),
-		TST_VERSION
-	);
-	$style_dependencies[] = 'tst-fresco';
-	
-	// Stylesheet
-	wp_enqueue_style(
-		'tst-materialize',
-		$theme_dir_url . '/css/materialize.css',
-		$style_dependencies,
-		TST_VERSION
-	);
-	$style_dependencies[] = 'tst-materialize';
-	
-	// Social buttons
-	wp_enqueue_style(
-		'tst-social-buttons',
-		$theme_dir_url . '/css/social-likes_flat.css',
-		array(),
-		'3.0.14'
-	);
-	$style_dependencies[] = 'tst-social-buttons';
-	
-	// Stylesheet
-	wp_enqueue_style(
-		'tst-style',
-		$theme_dir_url . '/css/design.css',
-		$style_dependencies,
-		TST_VERSION
-	);
-	
-	
-	// Scripts
-	$script_dependencies = array();
-
-	// jQuery
-	$script_dependencies[] = 'jquery';
-	
-	wp_enqueue_script(
-		'tst-fresco',
-		$theme_dir_url . '/js/fresco.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-	$script_dependencies[] = 'tst-fresco';
-	
-	wp_enqueue_script(
-		'tst-imageloaded',
-		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-	$script_dependencies[] = 'tst-imageloaded';
-	
-	//wp_enqueue_script('masonry');	
-	//$script_dependencies[] = 'masonry';
-	
-	wp_enqueue_script(
-		'tst-grids',
-		$theme_dir_url . '/js/grids.min.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-	$script_dependencies[] = 'tst-grids';
-	
-	wp_enqueue_script(
-		'tst-materialize',
-		$theme_dir_url . '/js/materialize.min.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-	$script_dependencies[] = 'tst-materialize';
-	
-	wp_enqueue_script(
-		'tst-front',
-		$theme_dir_url . '/js/front.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-}
-
 function tst_scripts() {
 	
 	$theme_dir_url = get_template_directory_uri();
@@ -252,22 +149,7 @@ function tst_scripts() {
 	);
 	
 	$script_dependencies[] = 'tst-mdl';
-	
-	
-	wp_enqueue_script(
-		'tst-imageloaded',
-		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	
-	$script_dependencies[] = 'tst-imageloaded';
-	
-	wp_enqueue_script('masonry');	
-	$script_dependencies[] = 'masonry';
-	
-	
+		
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',

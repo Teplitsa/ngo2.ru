@@ -14,7 +14,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 ?>
 
-
+</div><!-- .page-content -->
 <?php if(tst_has_bottombar()) { ?>
 <div id="bottombar" class="widget-area"><div class="container">		
 	

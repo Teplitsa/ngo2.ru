@@ -21,7 +21,7 @@ function tst_custom_widgets(){
 	
 	//register_widget('BB_RSS_Widget');
 	//register_widget('BB_Recent_Posts_Widget');
-	//register_widget('BB_Featured_Post_Widget');
+	register_widget('TST_Featured_Product_Widget');
 	register_widget('TST_Social_Links');
 	//register_widget('TST_Related_Widget');
 	
@@ -33,8 +33,8 @@ class TST_Featured_Product_Widget extends WP_Widget {
 	/** Widget setup */
 	function __construct() {
         		
-		WP_Widget::__construct('widget_featured_post',  'Рекомендуемый товар', array(
-			'classname'   => 'widget_featured_post',
+		WP_Widget::__construct('widget_featured_product',  'Рекомендуемый товар', array(
+			'classname'   => 'widget_featured_product',
 			'description' => 'Рекомендуемые товар из каталога для приобретения'
 		));	
 	}
@@ -54,24 +54,8 @@ class TST_Featured_Product_Widget extends WP_Widget {
 		//markup
 		echo $before_widget;
 		
-		
-	?>
-		<div class="fw-item">
-			<div class="entry-thumbnail">
-				<a href="<?php echo get_the_permalink($cpost);?>">
-					<?php echo get_the_post_thumbnail($cpost->ID, 'post-thumbnail');?>
-				</a>
-				<?php echo get_the_term_list($cpost->ID, 'topic', '<div class="entry-topics">', ', ', '</div>');?>
-			</div>
-			
-			<h1 class="entry-title">
-				<a href="<?php echo get_the_permalink($cpost);?>"><?php echo get_the_title($cpost); ?></a>
-			</h1>
-			
-			<div class="entry-summary"><?php echo apply_filters('tst_the_content', apl_get_excerpt_with_link($cpost));?></div>
-		</div>
-		
-	<?php	
+		tst_product_banner($cpost);
+	
 		echo $after_widget;
 	}
 	
@@ -124,14 +108,29 @@ class TST_Featured_Product_Widget extends WP_Widget {
 // product banner markup
 function tst_product_banner($cpost){
 	
-	$title = '';
-	$price = '';
-	$url = '';
-	$pic = '';
-?>
-<div class="tpl-product-banner">
 	
+	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
+	
+?>
+
+<div class="tpl-product-banner mdl-card mdl-shadow--2dp">
+	<div class="mdl-card__title">
+		<div class="mdl-card__title-text">
+			<a href="<?php echo get_permalink($cpost);?>"><?php echo apply_filters('tst_the_title', $cpost->post_title);?></a>
+		</div>		
+	</div>
+	<?php if(!empty($price)) { ?>
+		<div class="price-mark"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</div>
+	<?php } ?>
+	<div class="mdl-card__media">
+		<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail');?>
+	</div>
+	<div class="mdl-card__actions">
+		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Купить</a>
+		<div class="mdl-typography--caption">Средства пойдут на борьбу с инсультом</div>
+	</div>
 </div>
+
 <?php	
 }
 

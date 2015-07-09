@@ -1,15 +1,204 @@
+/** Project styles **/
+
+body {		
+	background: unquote("rgba(#{$palette-grey-200}, 1)");	
+}
+
+/**  Header **/ 
+$sh-base : $cell-elementary-2x;
+
+.site-logo {
+	display: block;
+	width: auto;	
+	position: absolute;
+	top: 7px;
+	left: 50%;	
+	@include transform(translateX(-50%));
+	max-height: $layout-desktop-header-height - 16px;
+	@media screen and (max-width: $layout-screen-size-threshold) {
+		max-height: $layout-mobile-header-height - 14px;
+	}
+	
+	a {
+		display: block;
+		height: 100%;
+		max-height: $layout-desktop-header-height - 16px;
+		@media screen and (max-width: $layout-screen-size-threshold) {
+			max-height: $layout-mobile-header-height - 14px;
+		}
+	}
+	
+	img {
+		width: auto;
+		vertical-align: middle;
+		max-height: $layout-desktop-header-height - 16px;
+		@media screen and (max-width: $layout-screen-size-threshold) {
+			max-height: $layout-mobile-header-height - 14px;
+		}
+	}
+}
+
+.crumb-name {
+	display: none;
+	@include for(tablet){
+		display: inline;
+	}
+	//opacity: 0;
+}
+
+// drawer
+#site_nav {
+	.mdl-layout-title {
+		border-bottom: 1px solid $tst-color-border;		
+	}
+	
+	.navigation-logo {
+		line-height: $layout-desktop-header-height;
+		img {
+			max-height: $layout-desktop-header-height - 16px;
+			width: auto;
+			vertical-align: middle;
+		}
+		
+		@media screen and (max-width: $layout-screen-size-threshold) {
+			line-height: $layout-mobile-header-height;
+			img {
+				max-height: $layout-mobile-header-height - 8;
+			}
+		}
+		
+		
+	}
+}
+
+.page-header {	
+	background-color: #333;
+	background-repeat: no-repeat;
+	background-position: top center;
+	background-size: cover;
+	//min-height: 200px;
+	color: $tst-color-white;
+	position: relative;
+		
+	&:before {
+		content: '';
+		display:block;
+		width: 100%;
+		height: 100%;
+		position: absolute;
+		top:0;
+		left: 0;		
+		z-index: 1;
+		
+		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.5+63,0.35+100 */
+		background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 63%, rgba(0,0,0,0.15) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(63%,rgba(0,0,0,0.35)), color-stop(100%,rgba(0,0,0,0.15))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* W3C */
+		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#59000000',GradientType=0 ); /* IE6-9 */
+	}
+		
+	.page-title {
+		position: relative;
+		margin: 0;
+		color: $tst-color-white;
+		font-weight: 200;
+		z-index: 10;
+		padding: $sh-base*4 0 $sh-base*2.5;		
+	}	
+}
+
+.page-content {
+	
+	position: relative;
+	z-index: 100;
+	top: -3.5*$sh-base;
+	
+}
+
+// single post and page modifications
+body.single, body.page-template-default {	
+	background: $tst-color-white;
+	
+	.site-header .section-header {
+		//padding: rem($sh-base*7) 0 rem($sh-base*2);		
+	}	
+}
 
 
+/** Bottom **/
 
+
+// Widgets
+.widget-bottom {
+	margin-bottom: $grid-desktop-gutter;
+	
+	&:last-child {
+		margin-bottom: 0;
+	}
+	
+	.widget-title {
+		@include typo-subhead;
+		font-weight: 500;
+		margin-bottom: $grid-desktop-gutter;
+	}
+	
+	.textwidget {
+		@include typo-body-1;		
+	}
+}
+
+
+/** Posts Grid **/
 .mdl-grid {
 	max-width: 1128px + $grid-desktop-margin *2;
 }
 
-.hentry .mdl-card {
+.mdl-cell .mdl-card {
 	width: 100%;
 	height: 100%;
 }
 
 .paging-navigation {
 	text-align: center;
+}
+
+
+/** Sidebar */
+.donate-widget {
+	
+	.fab {
+		@include upto(tablet){
+			z-index: 1200;
+			position: fixed;
+			bottom: 48px;
+			right: 48px;
+		}
+	}
+	
+	h4 {
+		display: none;
+		color: $tst-color-primary;
+		
+		@include for(desktop) {
+			display: block;
+			margin-left: 72px;
+			margin-bottom: 24px + 56px/2;
+		}
+	}
+}
+
+
+.tpl-product-banner {
+	
+	.mdl-card__title-text {
+		
+	}
+	.price-mark {
+		@include typo-display-1;
+		color: $tst-color-primary;
+		margin: 0;
+	}
 }

@@ -28,3 +28,25 @@ $tst-color-text-semi:  rgba(0,0,0,0.54) !default;
 $tst-color-link:       $text-link-color !default;
 $tst-color-white:      unquote("rgba(#{$color-white}, 1)") !default;
 $tst-color-primary:    unquote("rgba(#{$color-primary}, 1)") !default;
+
+
+/* Media Queries */
+
+@mixin for($media) {
+
+	@if $media == tablet {
+		@media screen and (min-width: $grid-tablet-breakpoint) { @content; }
+	}
+	@else if $media == desktop {
+		@media screen and (min-width: $grid-desktop-breakpoint) { @content; }
+	}
+}
+
+@mixin upto($media) {
+	@if $media == phone {
+		@media screen and (max-width: $grid-tablet-breakpoint - 1) { @content; }
+	}
+	@else if $media == tablet {
+		@media screen and (max-width: $grid-desktop-breakpoint - 1) { @content; }
+	}	
+}

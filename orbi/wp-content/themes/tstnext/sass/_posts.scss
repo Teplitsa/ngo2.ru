@@ -1,106 +1,35 @@
-/*---------------------------------------------------------
- Posts (_posts.scss)
--------------------------------------------------------- */
+/** Post cards **/
 
-$margin-base: 16px !default;
-
-@mixin side-quote-position {
-	position: absolute;
-	top: 0;
-	left: -1*(168px + $gut);
-	width: 168px;
-	text-align: right;	
-}
-
-// Single post
-.tpl-post-full {
-	padding-top: 28px + 16px;
-	margin-bottom: 32px - 28px;
+// Pictured item
+.pictured-card-item {
+	@include clearfix;
 	
-	.entry-meta {
-		border-bottom: 1px solid $color-border-normal;
-		padding-bottom: $margin-base;
-		margin-bottom: $margin-base*1.5;
-	}
-	
-	.entry-summary {
-		font-size: 1.14285em;
-		margin-bottom: $margin-base;
-	}
-	
-	.sharing-on-top,
-	.sharing-on-bottom {
-		margin: $margin-base*1.5 0;
-	}
+	.pci-img {
+		display: block;
+		width: 72px;
+		float: left;
+		border-radius: 50%;
 		
-	.author-link {
-		@include text-button-text;
-	}
-	
-	.entry-meta-bottom {
-		border-top: 1px solid $color-border-normal;
-		border-bottom: 1px solid $color-border-normal;
-		padding: $margin-base 0;
-		.sm-4 {
-			@include for(small-screens) {
-				text-align: right;
-			}
+		img {
+			width: 40px;
+			height: auto;
+			border-radius: 50%;
 		}
 	}
 	
-	@include wp-caption;
-	
-	.side-quote {		
+	.pci-content {
+		margin-left: 72px;
 		
-		@include caption-text;
-	}
-	
-	@include for(large-screens) {
-		
-		.wp-caption {
-			position: relative;
+		.mdl-typography--body-1 {			
+			line-height: 1.714;
+			color: $tst-color-text;
+			margin: 0;			
 		}
 		
-		.wp-caption-text {
-			@include side-quote-position;		
-		}
-		
-		.side-quote {			
-			@include side-quote-position;			
+		.mdl-typography--caption {			
+			line-height: 1.333;
+			color: $tst-color-text-semi;
+			margin: 0;
 		}
 	}
-}
-
-// Related block
-.related-posts.section {
-	background: color('grey', 'lighten-4');
-	padding: $margin-base*2.5 0 $margin-base*5;
-	
-	h5 {
-		@include text-subhead;
-		font-weight: 500;
-		margin-bottom: $margin-base;
-		color: $color-link-one;
-	}
-}
-
-.tpl-related-post.news  {
-	.post-date {
-		color: $color-text-semi;
-	}
-	
-	.material-icons {
-		font-size: 1.2em;
-		line-height: 1;
-		margin-right: 8px;
-		vertical-align: text-top;
-		color: $color-text-semi;
-	}
-}
-
-
-// page
-.tpl-page {
-	padding-top: 28px + 24px;
-	margin-bottom: 32px - 28px;
 }
