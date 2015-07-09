@@ -138,7 +138,8 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
             case 'check': // Check if payment is correct
 
-                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
+                // InvoiceId - leyka donation ID, SubscriptionId - CP recurring subscription ID
+                if(empty($_POST['InvoiceId']) && empty($_POST['SubscriptionId'])) {
                     die(json_encode(array('code' => '10')));
                 }
 
@@ -146,68 +147,102 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
                     die(json_encode(array('code' => '11')));
                 }
 
-                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
-                $donation->add_gateway_response($_POST);
+                if(empty($_POST['InvoiceId'])) { // Non-init recurring donation
 
-                switch($_POST['Currency']) {
-                    case 'RUB': $_POST['Currency'] = 'rur'; break;
-                    case 'USD': $_POST['Currency'] = 'usd'; break;
-                    case 'EUR': $_POST['Currency'] = 'eur'; break;
-                    default:
-                }
+                    if( !$this->get_init_recurrent_donation($_POST['SubscriptionId']) ) {
+                        die(json_encode(array('code' => '11')));
+                    }
 
-                if($donation->sum != $_POST['Amount'] || $donation->currency != $_POST['Currency']) {
-                    die(json_encode(array('code' => '11')));
+                } else { // Single or init recurring donation
+
+                    $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+                    $donation->add_gateway_response($_POST);
+
+                    switch($_POST['Currency']) {
+                        case 'RUB': $_POST['Currency'] = 'rur'; break;
+                        case 'USD': $_POST['Currency'] = 'usd'; break;
+                        case 'EUR': $_POST['Currency'] = 'eur'; break;
+                        default:
+                    }
+
+                    if($donation->sum != $_POST['Amount'] || $donation->currency != $_POST['Currency']) {
+                        die(json_encode(array('code' => '11')));
+                    }
                 }
 
                 die(json_encode(array('code' => '0'))); // Payment check passed
 
             case 'complete':
+            case 'fail':
 
-                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
+                // InvoiceId - leyka donation ID, SubscriptionId - CP recurring subscription ID
+                if(empty($_POST['InvoiceId']) && empty($_POST['SubscriptionId'])) {
                     die(json_encode(array('code' => '10')));
                 }
 
-                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+                if(empty($_POST['InvoiceId'])) { // Non-init recurring donation
+
+                    $donation = new Leyka_Donation(Leyka_Donation::add(array(
+                        'status' => 'submitted',
+                        'payment_type' => 'rebill',
+                    )));
+
+                    $init_recurrent_payment = $this->get_init_recurrent_donation($_POST['SubscriptionId']);
+
+                    $donation->init_recurring_donation_id = $init_recurrent_payment->id;
+
+                    $donation->payment_title = $init_recurrent_payment->title;
+                    $donation->campaign_id = $init_recurrent_payment->campaign_id;
+                    $donation->payment_method_id = $init_recurrent_payment->pm_id;
+                    $donation->gateway_id = $init_recurrent_payment->gateway_id;
+                    $donation->donor_name = $init_recurrent_payment->donor_name;
+                    $donation->donor_email = $init_recurrent_payment->donor_email;
+                    $donation->amount = $init_recurrent_payment->amount;
+                    $donation->currency = $init_recurrent_payment->currency;
+
+                } else { // Single or init recurring donation
+                    $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
+                }
 
                 if( !empty($_POST['SubscriptionId']) ) {
                     $donation->recurring_id = $_POST['SubscriptionId'];
                 }
 
                 $donation->add_gateway_response($_POST);
-                $donation->status = 'funded';
-                Leyka_Donation_Management::send_all_emails($donation->id);
 
-                die(json_encode(array('code' => '0'))); // Payment completed
+                if($call_type == 'completed') {
 
-            case 'fail':
+                    Leyka_Donation_Management::send_all_emails($donation->id);
+                    $donation->status = 'funded';
 
-                if(empty($_POST['InvoiceId']) || (int)$_POST['InvoiceId'] <= 0) { // Donation ID
-                    die(json_encode(array('code' => '10')));
+                } else {
+                    $donation->status = 'failed';
                 }
 
-                $donation = new Leyka_Donation((int)$_POST['InvoiceId']);
-
-                $donation->add_gateway_response($_POST);
-                $donation->status = 'failed';
-
-                die(json_encode(array('code' => '0'))); // Payment failure registered
+                die(json_encode(array('code' => '0'))); // Payment completed / fail registered
 
             default:
         }
     }
 
-    public function get_init_recurrent_donation(Leyka_Donation $donation) {
+    public function get_init_recurrent_donation($recurring) {
+
+        if(is_a($recurring, 'Leyka_Donation')) {
+            $recurring = $recurring->recurring_id;
+        } elseif(empty($recurring)) {
+            return false;
+        }
 
         $init_donation_post = get_posts(array( // Get init recurrent payment with customer_id given
             'posts_per_page' => 1,
             'post_type' => Leyka_Donation_Management::$post_type,
             'post_status' => 'funded',
+            'post_parent' => 0,
             'meta_query' => array(
                 'RELATION' => 'AND',
                 array(
                     'key'     => '_cp_recurring_id',
-                    'value'   => $donation->recurring_id,
+                    'value'   => $recurring,
                     'compare' => '=',
                 ),
                 array(

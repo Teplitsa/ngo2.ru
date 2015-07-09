@@ -236,7 +236,7 @@ abstract class Leyka_Gateway {
     // Handler for Gateway's service calls (activate the donations, etc.):
     abstract public function _handle_service_calls($call_type = '');
 
-    public function get_init_recurrent_donation(Leyka_Donation $donation) {
+    public function get_init_recurrent_donation($donation) {
         return false;
     }
 
