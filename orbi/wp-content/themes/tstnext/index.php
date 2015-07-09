@@ -33,6 +33,8 @@ get_header(); ?>
 	<div class="mdl-cell mdl-cell--4-col masonry-item movable-widget"><?php get_sidebar(); ?></div>
 </div>
 
-<?php tst_paging_nav(); ?>
+<div class="mdl-grid">
+	<div class="mdl-cell mdl-cell--12-col"><?php tst_paging_nav(); ?></div>
+</div>
 
 <?php get_footer(); ?>

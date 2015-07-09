@@ -180,6 +180,14 @@ function tst_paging_nav($query = null) {
 <?php }
 }
 
+
+add_filter('next_posts_link_attributes', 'tst_load_more_link_css');
+function tst_load_more_link_css($attr){
+	
+	$attr = " class='mdl-button mdl-js-button mdl-js-ripple-effect'";
+	
+	return $attr;
+}
 function tst_load_more_link($query = null, $echo = true) {
 	global $wp_query;
 	

@@ -9587,4 +9587,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 .mdl-grid {
   max-width: 1176px; }
 
+.paging-navigation {
+  text-align: center; }
+
 /*# sourceMappingURL=design.css.map */
