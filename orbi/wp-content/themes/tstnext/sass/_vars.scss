@@ -33,6 +33,8 @@ $sans:     $preferred_font;
 $heading : $preferred_font ;
 $mono : '  Lucida Sans Typewriter', 'Lucida Console', Monaco, monospace;
 
+
+
 /* Colors (shortcuts) */
 
 $color-text:          $text-color-primary !default;
@@ -41,3 +43,12 @@ $color-text-semi:     rgba(0,0,0,0.54) !default;
 $color-link-one:      $text-link-color !default;
 $color-white-full:    #fff;
 $color-primary-full:  unquote("rgba(#{$color-primary}, 1)") !default;
+
+
+/*  Navabr  */
+$navbar-height-mobile       : 48px;
+$navbar-height-mobile-extra : 56px;
+$navbar-height-desktop      : 64px;
+$navbar-padding             : $cell-elementary-2x;
+$sidenav-padding            : $cell-elementary-2x;
+$navbar-color-bg            : $color-primary-full !default;

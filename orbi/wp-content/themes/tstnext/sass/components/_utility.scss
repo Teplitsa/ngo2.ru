@@ -125,3 +125,13 @@ a:link {
 	background : rgb(23,119,175); 
 	color : rgb(250,250,250); 
 	text-shadow : none; }
+	
+	
+/* clreate color from definition */
+@mixin mdl-color($def, $opacity : 1){
+	color: unquote("rgba(#{$def}, 1)");
+}
+
+@mixin mdl-background-color($def, $opacity : 1){
+	background-color: unquote("rgba(#{$def}, $opacity)");
+}

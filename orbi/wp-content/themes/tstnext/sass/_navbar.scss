@@ -1,0 +1,114 @@
+/*---------------------------------------------------------
+ Navbar (_navbar.scss)
+-------------------------------------------------------- */
+
+// Panel
+.navbar {
+    height: $navbar-height-mobile;
+        
+    @include for(small-screens) {
+        height: $navbar-height-mobile-extra;
+    }
+    @include for(medium-screens) {
+        height: $navbar-height-desktop;
+    }
+    position: relative;
+    width: 100%;
+    z-index: 995;
+    
+    .navbar-panel {
+        position: relative;
+        @include clearfix;
+        @include shadow-2dp();
+        color: $color-white;
+        background: $navbar-color-bg;
+        padding: $navbar-padding;
+        height: $navbar-height-mobile;
+        z-index: 900;
+        width: 100%;
+        
+        @include for(small-screens) {
+            height: $navbar-height-mobile-extra;
+        }
+        @include for(medium-screens) {
+            height: $navbar-height-desktop;
+        }
+    }
+    
+    &.fixed  {
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+    
+    .material-icons { //vertical centering
+        vertical-align: middle;
+        line-height: $navbar-height-mobile - ($navbar-padding * 2);
+        @include for(small-screens) {
+            line-height: $navbar-height-mobile-extra - ($navbar-padding * 2);
+        }
+        @include for(medium-screens) {
+            line-height: $navbar-height-desktop - ($navbar-padding * 2);
+        }
+    }
+}
+
+.admin-bar .navbar.fixed { //fixes for adminbar 
+    @media screen and (min-width: 600px) { top: 46px; }
+    @media screen and (min-width: 780px) { top: 32px; }
+}
+
+// Menu button
+.navbar-icon {
+    float: left;
+    width: 72px - $navbar-padding;
+    a, a:visited, a:hover { color: $color-white-full; }
+}
+
+//Title
+.navbar-title {
+    float: left;
+    @include typo-subhead();
+    color: rgba(255,255,255,0.7);
+    
+    .crumbs {
+        display: none;
+        a {
+            color: inherit;
+        }
+        span { display: none; }
+        
+        @include for(small-screens) {
+            display: block;
+            line-height: $navbar-height-mobile-extra - ($navbar-padding * 2);
+        }
+        @include for(medium-screens) {
+            line-height: $navbar-height-desktop - ($navbar-padding * 2);
+        }
+    }
+}
+
+//Logo
+.navbar-logo {    
+    display: inline-block;        
+    position: absolute;   
+    top: 50%;
+    left: 50%;
+    @include transform(translateX(-50%) translateY(-50%));
+    
+    a {
+        display: inline-block;
+    }
+    img {
+        height: 36px;
+        width: auto;
+        @include for(small-screens) {
+            height: 48px;
+        }
+    }
+}
+
+// Search
+.navbar-actions {
+    float: right;
+}

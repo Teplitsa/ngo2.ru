@@ -4,32 +4,29 @@
 
 html{
 	font-size: 62.5%; //10px
-	background-color: $color-white;  
+	background-color: $color-white-full;  
 }
 
 body {	
-	text-rendering: optimizeLegibility;
-	@include text-body-text;
-	color: $off-black;
-	background: color('grey', 'lighten-3');	
+	text-rendering: optimizeLegibility;	
+	color: $color-text;
+	background: color($palette-grey-200);	
 }
 
 a {
-	color: $link-color;
+	color: $color-link-one;
 	text-decoration: none;
-	&:visited { color: $link-color; }
+	&:visited { color: $color-link-one; }
 	
 	// Gets rid of tap active state
 	-webkit-tap-highlight-color: transparent;
   
 	&:hover, &:focus, &:active {
-		color: darken($link-color, 15%);		
+		color: color($color-primary-dark);		
 	}
 }
 
-p {
-	margin-bottom: rem($gut/2);
-	margin-top: rem($gut/2);	
+p {	
 	&:first-child { margin-top: 0; }
 	&:last-child { margin-bottom: 0; }
 }
@@ -40,14 +37,14 @@ p,ul,ol,dl,blockquote {
 
 
 // Head
-$sh-base : 16px;
+$sh-base : $cell-elementary-2x;
 .site-header {	
 	background-color: #333;
 	background-repeat: no-repeat;
 	background-position: top center;
 	background-size: cover;
 	//min-height: 200px;
-	color: $color-white;
+	color: $color-white-full;
 	position: relative;
 	
 	&:before {
@@ -61,12 +58,12 @@ $sh-base : 16px;
 		z-index: 1;
 		
 		/* Permalink - use to edit and share this gradient: http://colorzilla.com/gradient-editor/#000000+0,000000+100&amp;0+0,0.5+63,0.35+100 */
-		background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.5) 63%, rgba(0,0,0,0.35) 100%); /* FF3.6+ */
-		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(63%,rgba(0,0,0,0.5)), color-stop(100%,rgba(0,0,0,0.35))); /* Chrome,Safari4+ */
-		background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 63%,rgba(0,0,0,0.35) 100%); /* Chrome10+,Safari5.1+ */
-		background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 63%,rgba(0,0,0,0.35) 100%); /* Opera 11.10+ */
-		background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 63%,rgba(0,0,0,0.35) 100%); /* IE10+ */
-		background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.5) 63%,rgba(0,0,0,0.35) 100%); /* W3C */
+		background: -moz-linear-gradient(top,  rgba(0,0,0,0) 0%, rgba(0,0,0,0.35) 63%, rgba(0,0,0,0.15) 100%); /* FF3.6+ */
+		background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0)), color-stop(63%,rgba(0,0,0,0.35)), color-stop(100%,rgba(0,0,0,0.15))); /* Chrome,Safari4+ */
+		background: -webkit-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* Chrome10+,Safari5.1+ */
+		background: -o-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* Opera 11.10+ */
+		background: -ms-linear-gradient(top,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* IE10+ */
+		background: linear-gradient(to bottom,  rgba(0,0,0,0) 0%,rgba(0,0,0,0.35) 63%,rgba(0,0,0,0.15) 100%); /* W3C */
 		filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#00000000', endColorstr='#59000000',GradientType=0 ); /* IE6-9 */
 	}
 	
@@ -80,7 +77,8 @@ $sh-base : 16px;
 	}
 	.section-title {
 		margin: 0;
-		color: $color-white;
+		color: $color-white-full;
+		font-weight: 200;
 	}	
 }
 
@@ -107,9 +105,9 @@ body.single, body.page-template-default {
 #bottombar { margin: 24px 0 80px; }
 
 .site-footer {
-	background: $color-white;
-	@extend .z-depth-1;
-	padding: $navbar-padding;
+	background: $color-white-full;
+	@include shadow-2dp();
+	padding: $cell-elementary-2x;
 	font-size: rem(12);
 	color: $color-text-semi;
 	a {
@@ -176,18 +174,6 @@ body.single, body.page-template-default {
 	text-align: center;
 	padding: 24px 0 8px;
 	
-	a {
-		@extend .btn-flat;
-		background: $button-bg-color-disabled;
-		color: $button-color-disabled;
-		@include transition(all 0.35s);
-		
-		&:hover {
-			background: darken($button-bg-color-disabled, 15%);
-			color: $color-white;
-			@extend .z-depth-1;
-		}
-	}
 }
 
 
@@ -200,16 +186,15 @@ body.single, body.page-template-default {
 	}
 	
 	.widget-title {
-		@include text-subhead;
+		@include typo-subhead;
 		font-weight: 500;
 		margin-bottom: $gut;
 	}
 	
 	.textwidget {
-		@include text-body-text;
+		@include typo-body-1;
 		.more-link {
-			display: inline-block;
-			@include text-button-text;
+			display: inline-block;			
 			margin-top: $gut - 12px;
 		}
 	}

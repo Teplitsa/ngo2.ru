@@ -17,7 +17,7 @@ jQuery(document).ready(function($){
 			stickyNav.addClass('fixed');
 			
 		} else {
-			stickyNav.removeClass('fixed');
+			stickyNav.removeClass('fixed');		
 			
 		}   
 	};
