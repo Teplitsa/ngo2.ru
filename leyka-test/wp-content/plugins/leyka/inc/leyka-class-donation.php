@@ -1185,6 +1185,7 @@ class Leyka_Donation {
         );
 
         $pm_data = leyka_pf_get_payment_method_value();
+        $pm_data = $pm_data ? $pm_data : array('payment_method_id' => '', 'gateway_id' => '',);
         update_post_meta(
             $id, 'leyka_payment_method',
             empty($params['payment_method_id']) ? $pm_data['payment_method_id'] : $params['payment_method_id']
