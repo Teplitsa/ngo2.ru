@@ -270,3 +270,17 @@ function tst_http_the_content($html){
 	return $html;
 }
 
+
+/** Material fixes **/
+
+// main menu
+add_filter('nav_menu_link_attributes', 'tst_main_menu_link', 2, 4);
+function tst_main_menu_link($atts, $item, $args, $depth){
+	
+	if($args->menu_class == 'mdl-navigation'){
+		$atts['class'] = 'mdl-navigation__link';
+	}
+	
+	return $atts;
+}
+

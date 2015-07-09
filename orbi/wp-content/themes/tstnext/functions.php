@@ -228,30 +228,42 @@ function tst_scripts() {
 	);
 	
 	// Scripts
-	
+		
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
+	// MDL
 	wp_enqueue_script(
-		'tst-imageloaded',
-		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
-		$script_dependencies,
+		'tst-mdl',
+		$theme_dir_url . '/js/material.min.js',
+		array(),
 		TST_VERSION,
 		true
 	);
 	
-	$script_dependencies[] = 'tst-imageloaded';
+	$script_dependencies[] = 'tst-mdl';
 	
-	wp_enqueue_script('masonry');	
-	$script_dependencies[] = 'masonry';
 	
-	wp_enqueue_script(
-		'tst-front',
-		$theme_dir_url . '/js/front.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
+	//wp_enqueue_script(
+	//	'tst-imageloaded',
+	//	$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
+	//	$script_dependencies,
+	//	TST_VERSION,
+	//	true
+	//);
+	//
+	//$script_dependencies[] = 'tst-imageloaded';
+	//
+	//wp_enqueue_script('masonry');	
+	//$script_dependencies[] = 'masonry';
+	//
+	//wp_enqueue_script(
+	//	'tst-front',
+	//	$theme_dir_url . '/js/front.js',
+	//	$script_dependencies,
+	//	TST_VERSION,
+	//	true
+	//);
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

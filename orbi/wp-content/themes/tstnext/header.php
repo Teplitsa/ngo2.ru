@@ -19,30 +19,46 @@
 
 <body id="top" <?php body_class(); ?>>
 <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
+<div class="mdl-layout mdl-js-layout mdl-layout--fixed-header">
 
-<nav id="site_nav" class="site-nav navbar" role="navigation">
-	<span class="screen-reader-text"><?php _e( 'Primary menu', 'tst' ); ?></span>
+<header class="mdl-layout__header">
+	<div class="mdl-layout__header-row">
+		<!-- Crumb -->
+		<span class="mdl-layout-title"><?php echo tst_breadcrumbs();?></span>
+		
+		<!-- Logo -->
+		<span class="site-logo"><a href="<?php echo home_url();?>"><?php tst_site_logo('small');?></a></span>
+		
+		<!-- Spacer -->
+		<div class="mdl-layout-spacer"> </div>
+		
+		<!-- Search -->
+		<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
+                    mdl-textfield--floating-label mdl-textfield--align-right">
+			<label class="mdl-button mdl-js-button mdl-button--icon"
+				   for="fixed-header-drawer-exp">
+			  <i class="material-icons">search</i>
+			</label>
+			<div class="mdl-textfield__expandable-holder">
+			  <input class="mdl-textfield__input" type="text" name="sample"
+					 id="fixed-header-drawer-exp" />
+			</div>
+        </div>
+		
+    </div><!-- .mdl-layout__header-row -->	
+</header>
+
+<div class="mdl-layout__drawer">
+    <span class="mdl-layout-title"><span class="navigation-logo"><?php tst_site_logo('context');?></span></span>
+	<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'mdl-navigation')); ?>
+</div>
+
+
+<main class="mdl-layout__content">
 	
-	<div class="navbar-panel">
-		<div class="navbar-icon"><a href="#" data-activates="menu-slide-out" class="menu-trigger"><i class="material-icons">menu</i></a></div>
-		<div class="navbar-title"><?php echo tst_breadcrumbs();?></div>
-		<div class="navbar-logo"><a href="<?php echo home_url();?>"><?php tst_site_logo('small');?></a></div>
-		<div class="navbar-actions"><i class="material-icons">search</i></div>
-	</div>
-</nav>
-<div id="menu-slide-out" class="side-nav">
-	<div class="side-nav-header"><?php tst_site_logo('context');?></div>
-	<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'side-nav-menu')); ?>
-</div>	
-
 <?php $bg = tst_header_image_url();?>
-<header id="site_header" class="site-header" role="banner"<?php echo " style='background-image: url({$bg})'";?>>
+<header id="page_header" class="page-header" <?php echo " style='background-image: url({$bg})'";?>>
 	<div class="container">
 		<?php get_template_part('partials/title', 'section');?>
 	</div>
 </header>
-
-
-
-<div id="site_content" class="site-content section">
-<div class="container">

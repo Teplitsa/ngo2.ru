@@ -13,7 +13,7 @@ $tst = __("Teplitsa of social technologies", 'tst');
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 ?>
-</div></div><!-- .container #site_content -->
+</main><!-- .container #site_content -->
 
 <?php if(tst_has_bottombar()) { ?>
 <div id="bottombar" class="widget-area"><div class="container">		
@@ -60,7 +60,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 </footer>
 
-<div id="material-overlay"><!-- overlay for MUI --></div>
+</div><!-- .mdl-layout -->
 
 <?php wp_footer(); ?>
 
