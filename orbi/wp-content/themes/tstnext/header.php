@@ -58,7 +58,5 @@
 	
 <?php $bg = tst_header_image_url();?>
 <header id="page_header" class="page-header" <?php echo " style='background-image: url({$bg})'";?>>
-	<div class="container">
-		<?php get_template_part('partials/title', 'section');?>
-	</div>
+	<?php get_template_part('partials/title', 'section');?>	
 </header>

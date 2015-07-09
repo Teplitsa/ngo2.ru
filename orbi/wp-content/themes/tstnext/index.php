@@ -12,7 +12,7 @@
  */
 
 get_header(); ?>
-<div class="row masonry-grid">
+<div class="mdl-grid masonry-grid">
 	
 	<?php
 		if(have_posts()){
@@ -30,7 +30,7 @@ get_header(); ?>
 			
 		}
 	?>
-	<div class="col md-6 lg-4 masonry-item movable-widget"><?php get_sidebar(); ?></div>
+	<div class="mdl-cell mdl-cell--4-col masonry-item movable-widget"><?php get_sidebar(); ?></div>
 </div>
 
 <?php tst_paging_nav(); ?>

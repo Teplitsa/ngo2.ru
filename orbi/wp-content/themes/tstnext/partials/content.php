@@ -12,7 +12,7 @@ $author = tst_get_post_author();
 
 ?>
 
-<article id="post-<?php the_ID(); ?>" <?php post_class('col sm-6 lg-4 masonry-item'); ?>>
+<article id="post-<?php the_ID(); ?>" <?php post_class('mdl-cell mdl-cell--4-col masonry-item'); ?>>
 <div class="screen-reader-text"><?php _e('Article', 'tst');?></div>
 <div class="<?php echo esc_attr($css);?>"><a href="<?php the_permalink();?>" class="card-link">
 	
