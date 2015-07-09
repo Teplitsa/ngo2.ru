@@ -210,13 +210,23 @@ function tst_scripts() {
 	$script_dependencies = array();
 	
 	
-	// Styles
+	// Styles	
+	wp_enqueue_style(
+		'tst-roboto',
+		'//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic&subset=latin,cyrillic',
+		$style_dependencies,
+		TST_VERSION
+	);
+	
+	$style_dependencies[] = 'tst-roboto';
+	
 	wp_enqueue_style(
 		'tst-material-icons',
 		'//fonts.googleapis.com/icon?family=Material+Icons',
 		$style_dependencies,
 		TST_VERSION
 	);
+	
 	$style_dependencies[] = 'tst-material-icons';
 	
 	
@@ -244,26 +254,27 @@ function tst_scripts() {
 	$script_dependencies[] = 'tst-mdl';
 	
 	
-	//wp_enqueue_script(
-	//	'tst-imageloaded',
-	//	$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
-	//	$script_dependencies,
-	//	TST_VERSION,
-	//	true
-	//);
-	//
-	//$script_dependencies[] = 'tst-imageloaded';
-	//
-	//wp_enqueue_script('masonry');	
-	//$script_dependencies[] = 'masonry';
-	//
-	//wp_enqueue_script(
-	//	'tst-front',
-	//	$theme_dir_url . '/js/front.js',
-	//	$script_dependencies,
-	//	TST_VERSION,
-	//	true
-	//);
+	wp_enqueue_script(
+		'tst-imageloaded',
+		$theme_dir_url . '/js/imagesloaded.pkgd.min.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
+	
+	$script_dependencies[] = 'tst-imageloaded';
+	
+	wp_enqueue_script('masonry');	
+	$script_dependencies[] = 'masonry';
+	
+	
+	wp_enqueue_script(
+		'tst-front',
+		$theme_dir_url . '/js/front.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

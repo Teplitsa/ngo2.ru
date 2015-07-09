@@ -509,7 +509,7 @@ function tst_get_post_excerpt($cpost = null, $l = 30){
 	$e = (!empty($cpost->post_excerpt)) ? $cpost->post_excerpt : wp_trim_words(strip_shortcodes($cpost->post_content), $l);
 	$date = get_the_date('d.m.Y', $cpost);
 	
-	return "<time class='entry-date'>{$date}</time> ".$e;
+	return apply_filters('tst_the_content', "<time class='entry-date'>{$date}</time> ".$e);
 }
 
 /** Default author avatar **/
