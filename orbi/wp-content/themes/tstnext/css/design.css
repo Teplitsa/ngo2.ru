@@ -9322,7 +9322,7 @@ a:link {
   color: #fafafa;
   text-shadow: none; }
 
-/* clreate color from definition */
+/** Low level elements **/
 /*---------------------------------------------------------
  Project vars (_vars.scss)
 -------------------------------------------------------- */
@@ -9904,6 +9904,42 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
     margin-bottom: 1.6rem; }
 
 /*---------------------------------------------------------
+ Elements (_elements.scss)
+-------------------------------------------------------- */
+#material-overlay {
+  display: none;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 120vh;
+  background-color: rgba(0, 0, 0, 0.5);
+  z-index: 997;
+  will-change: opacity; }
+
+.round-image {
+  border-radius: 50%; }
+  .round-image img {
+    border-radius: 50%; }
+
+.captioned-text .caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: rgba(0, 0, 0, 0.54); }
+.captioned-text .text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0;
+  color: rgba(0,0,0, 0.87); }
+  .captioned-text .text a {
+    color: rgba(0,0,0, 1); }
+    .captioned-text .text a:hover, .captioned-text .text a:focus, .captioned-text .text a:active {
+      color: rgb(233,30,99); }
+
+/*---------------------------------------------------------
  General styles (_front.scss)
 -------------------------------------------------------- */
 html {
@@ -9913,7 +9949,7 @@ html {
 body {
   text-rendering: optimizeLegibility;
   color: rgba(0,0,0, 0.87);
-  background: color("238,238,238"); }
+  background: rgba(238,238,238, 1); }
 
 a {
   color: rgb(233,30,99);
@@ -9922,7 +9958,7 @@ a {
   a:visited {
     color: rgb(233,30,99); }
   a:hover, a:focus, a:active {
-    color: color("197,17,98"); }
+    color: rgba(197,17,98, 1); }
 
 p:first-child {
   margin-top: 0; }
@@ -9976,7 +10012,7 @@ p:last-child {
   top: -28px; }
 
 body.single, body.page-template-default {
-  background: color("shades", "white"); }
+  background: #fff; }
   body.single .site-header .section-header, body.page-template-default .site-header .section-header {
     padding: 11.2rem 0 3.2rem; }
 
@@ -10093,7 +10129,7 @@ body.single, body.page-template-default {
   height: 48px;
   position: relative;
   width: 100%;
-  z-index: 995; }
+  z-index: 990; }
   @media screen and (min-width: 600px) {
     .navbar {
       height: 56px; } }
@@ -10197,12 +10233,12 @@ body.single, body.page-template-default {
   background: #fff;
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   width: 80%;
-  max-width: 280px;
+  max-width: 240px;
   height: 100%;
   overflow-y: auto;
   position: fixed;
   top: 0;
-  z-index: 1000;
+  z-index: 1200;
   left: -105%;
   will-change: left; }
 
@@ -10245,21 +10281,21 @@ body.single, body.page-template-default {
     padding: 0 16px 0 24px;
     font-size: 1.4rem;
     color: rgba(0,0,0, 0.87);
-    -webkit-transition: all 0.35s;
-    -moz-transition: all 0.35s;
-    transition: all 0.35s; }
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    transition: all 0.4s; }
     .side-nav-menu a:before, .side-nav-menu a:visited:before {
       content: '';
       display: none;
       height: 100%;
       width: 4px;
-      background: color("96,125,139");
+      background: rgba(158,158,158, 1);
       position: absolute;
       top: 0;
       left: 0; }
     .side-nav-menu a:hover, .side-nav-menu a:focus, .side-nav-menu a:active, .side-nav-menu a:visited:hover, .side-nav-menu a:visited:focus, .side-nav-menu a:visited:active {
       color: rgba(0,0,0, 0.87);
-      background: color("176,190,197"); }
+      background: rgba(245,245,245, 1); }
       .side-nav-menu a:hover:before, .side-nav-menu a:focus:before, .side-nav-menu a:active:before, .side-nav-menu a:visited:hover:before, .side-nav-menu a:visited:focus:before, .side-nav-menu a:visited:active:before {
         display: block; }
   .side-nav-menu .current-menu-item > a, .side-nav-menu .current-menu-item > a:visited {
@@ -10270,3 +10306,105 @@ body.single, body.page-template-default {
   @media screen and (min-width: 600px) {
     .side-nav-menu .sub-menu a {
       padding-left: 48px; } }
+
+/*---------------------------------------------------------
+ Cards (_cards.scss)
+-------------------------------------------------------- */
+.hentry.col {
+  margin-bottom: 0; }
+
+.card {
+  border-radius: 2px;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  background: #fff;
+  margin-bottom: 24px;
+  padding-bottom: 8px;
+  -webkit-transition: box-shadow 0.35s;
+  -moz-transition: box-shadow 0.35s;
+  transition: box-shadow 0.35s; }
+  .card .card-link {
+    display: block; }
+  .card .card-content {
+    padding: 24px 16px 16px; }
+  .card .entry-title {
+    margin: 0;
+    padding-bottom: 16px;
+    color: rgb(233,30,99); }
+  .card .entry-summary {
+    padding-top: 16px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    color: rgba(0,0,0, 0.87); }
+    .card .entry-summary p {
+      margin: 0; }
+    .card .entry-summary time {
+      font-weight: 700;
+      margin-right: 4px; }
+  .card:hover {
+    box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); }
+
+.card.invert {
+  background: rgba(233,30,99, 1); }
+  .card.invert .entry-title {
+    color: #fff; }
+  .card.invert .entry-summary {
+    color: rgba(255, 255, 255, 0.75); }
+
+.card-image {
+  border-radius: 2px 2px 0 0; }
+  .card-image img {
+    border-radius: 2px 2px 0 0; }
+
+.card-footer {
+  padding: 16px; }
+
+.pictured-card-item::after {
+  clear: both;
+  content: "";
+  display: table; }
+.pictured-card-item .pci-img {
+  display: block;
+  width: 72px;
+  float: left; }
+  .pictured-card-item .pci-img img {
+    width: 40px;
+    height: auto; }
+.pictured-card-item .pci-content {
+  margin-left: 72px; }
+  .pictured-card-item .pci-content .pci-title {
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0;
+    line-height: 1.714;
+    color: rgba(0,0,0, 0.87);
+    margin: 0; }
+  .pictured-card-item .pci-content .pci-caption {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    color: rgba(0, 0, 0, 0.54);
+    margin: 0; }
+
+.tpl-related-post {
+  padding: 16px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .tpl-related-post:first-of-type {
+    border-top: 1px solid rgba(0, 0, 0, 0.12); }
+  .tpl-related-post > a {
+    display: block; }
+  .tpl-related-post .entry-title {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em;
+    color: rgba(0,0,0, 0.87);
+    font-weight: 400; }
+    .tpl-related-post .entry-title a {
+      color: inherit; }
+      .tpl-related-post .entry-title a:hover, .tpl-related-post .entry-title a:focus, .tpl-related-post .entry-title a:active {
+        color: rgb(233,30,99); }

@@ -29,12 +29,11 @@
 		<div class="navbar-logo"><a href="<?php echo home_url();?>"><?php tst_site_logo('small');?></a></div>
 		<div class="navbar-actions"><i class="material-icons">search</i></div>
 	</div>
-	
-	<div id="menu-slide-out" class="side-nav">
-		<div class="side-nav-header"><?php tst_site_logo('context');?></div>
-		<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'side-nav-menu')); ?>
-	</div>	
 </nav>
+<div id="menu-slide-out" class="side-nav">
+	<div class="side-nav-header"><?php tst_site_logo('context');?></div>
+	<?php wp_nav_menu(array('theme_location' => 'primary', 'container' => false, 'menu_class' => 'side-nav-menu')); ?>
+</div>	
 
 <?php $bg = tst_header_image_url();?>
 <header id="site_header" class="site-header" role="banner"<?php echo " style='background-image: url({$bg})'";?>>

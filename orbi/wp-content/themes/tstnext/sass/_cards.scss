@@ -1,0 +1,115 @@
+/*---------------------------------------------------------
+ Cards (_cards.scss)
+-------------------------------------------------------- */
+
+.hentry.col { margin-bottom: 0; }
+
+.card {
+	border-radius: 2px;
+	@include shadow-2dp();
+	background: $color-white-full;
+	margin-bottom: $gut;
+	padding-bottom: $card-padding/2;
+	@include transition(box-shadow 0.35s);
+	
+	.card-link { display: block; }
+	
+	.card-content { padding: 1.5*$card-padding $card-padding $card-padding; }
+	
+	.entry-title {
+		margin: 0;
+		padding-bottom: $card-padding;	
+		color: $color-link-one;		
+	}
+	
+	.entry-summary {
+		padding-top: $card-padding;
+		@include typo-body-1;
+		color: $color-text;
+		
+		p { margin: 0; }
+		time {
+			font-weight: 700;
+			margin-right: 4px;
+		}
+	}
+	
+	&:hover {
+		@include shadow-6dp();
+	}
+}
+
+.card.invert {
+	background: unquote("rgba(#{$color-primary}, 1)");	
+	
+	.entry-title { color: $color-white-full; }
+	.entry-summary  { color: transparentize($color-white-full, 0.25); }
+}
+
+.card-image {
+	border-radius: 2px 2px 0 0;	
+	img { border-radius: 2px 2px 0 0; }
+}
+
+.card-footer {
+	padding: $card-padding;	
+}
+
+
+// Pictured item
+.pictured-card-item {
+	@include clearfix;
+	
+	.pci-img {
+		display: block;
+		width: 72px;
+		float: left;
+		img {
+			width: 40px;
+			height: auto;
+		}
+	}
+	
+	.pci-content {
+		margin-left: 72px;
+		
+		.pci-title {
+			@include typo-body-1;
+			line-height: 1.714;
+			color: $color-text;
+			margin: 0;			
+		}
+		
+		.pci-caption {
+			@include typo-caption;
+			color: $color-text-semi;
+			margin: 0;
+		}
+	}
+}
+
+
+// post in lists
+.tpl-related-post {
+	padding: $card-padding 0;
+	border-bottom: 1px solid $color-border-normal;
+	&:first-of-type {
+		border-top: 1px solid $color-border-normal;
+	}
+	
+	& > a {
+		display: block;
+	}
+	
+	.entry-title {
+		@include typo-title;
+		color: $color-text;
+		font-weight: 400;
+		a {
+			color: inherit;
+			&:hover, &:focus, &:active {
+				color: $color-link-one;		
+			}
+		}
+	}
+}

@@ -14,11 +14,11 @@ $width:				1128px !default;
 $col:				$width / 12;
 $gut:				24px !default;
 
-// Margins 
+// Margins & Paddings
 $cell-elementary:    8px;
 $cell-elementary-2x: $cell-elementary*2;
 $cell-elementary-3x: $cell-elementary*3;
-
+$card-padding:       $cell-elementary-2x;
 
 
 /* Typography */

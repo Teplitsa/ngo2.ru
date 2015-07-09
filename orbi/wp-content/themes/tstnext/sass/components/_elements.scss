@@ -1,0 +1,47 @@
+/*---------------------------------------------------------
+ Elements (_elements.scss)
+-------------------------------------------------------- */
+
+// Overlay
+#material-overlay {
+	display: none; 
+	position: fixed;
+	top: 0;
+	left: 0;
+	right: 0;
+	
+	height: 120vh;
+	background-color: rgba(0,0,0,.5);
+	z-index: 997;
+		
+	will-change: opacity;
+}
+
+//Images
+.round-image {
+	border-radius: 50%;
+	img { border-radius: 50%; }
+}
+
+
+// Captioned items
+@mixin text-with-caption {
+	.caption {
+		@include typo-caption;
+		color: $color-text-semi;
+	}
+	.text {
+		@include typo-body-1;
+		color: $color-text;
+		a {
+			color: unquote("rgba(#{$color-black}, 1)");
+			&:hover, &:focus, &:active {
+				color: $color-link-one;		
+			}
+		}
+	}
+}
+
+.captioned-text {
+	@include text-with-caption();
+}

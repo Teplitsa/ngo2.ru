@@ -10,7 +10,7 @@ html{
 body {	
 	text-rendering: optimizeLegibility;	
 	color: $color-text;
-	background: color($palette-grey-200);	
+	background: unquote("rgba(#{$palette-grey-200}, 1)");	
 }
 
 a {
@@ -22,7 +22,7 @@ a {
 	-webkit-tap-highlight-color: transparent;
   
 	&:hover, &:focus, &:active {
-		color: color($color-primary-dark);		
+		color: unquote("rgba(#{$color-primary-dark}, 1)");		
 	}
 }
 
@@ -92,7 +92,7 @@ $sh-base : $cell-elementary-2x;
 
 // single post and page modifications
 body.single, body.page-template-default {	
-	background: color('shades', 'white');
+	background: $color-white-full;
 	
 	.site-header .section-header {
 		padding: rem($sh-base*7) 0 rem($sh-base*2);		
