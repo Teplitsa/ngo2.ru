@@ -1,118 +1,153 @@
-.container {
-  padding: 0 $gutter-width;
-  margin: 0 auto;
-  max-width: 1280px;
-  width: 90%;
-}
-@media #{$medium-and-up} {
-  .container {
-    width: 85%;
-  }
-}
-@media #{$large-and-up} {
-  .container {
-    width: 70%;
-  }
-}
-.container .row {
-  margin-left: (-1 * $gutter-width / 2);
-  margin-right: (-1 * $gutter-width / 2);
+/*---------------------------------------------------------
+ Media Queries (_grid.scss)
+-------------------------------------------------------- */
+
+@mixin for($media) {
+	@if $media == small-screens {
+		@media screen and (min-width: $one) { @content; }
+	}
+	@else if $media == medium-screens {
+		@media screen and (min-width: $two) { @content; }
+	}
+	@else if $media == large-screens {
+		@media screen and (min-width: $three) { @content; }
+	}
 }
 
-.section {
-	padding-top: 1rem;
-	padding-bottom: 1rem;
-
-  &.no-pad {
-    padding: 0;
-  }
-  &.no-pad-bot {
-    padding-bottom: 0;
-  }
-  &.no-pad-top {
-    padding-top: 0;
-  }
+@mixin upto($media) {
+	@if $media == small-screens {
+		@media screen and (max-width: $one) { @content; }
+	}
+	@else if $media == medium-screens {
+		@media screen and (max-width: $two) { @content; }
+	}
+	@else if $media == large-screens {
+		@media screen and (max-width: $three) { @content; }
+	}
 }
 
+
+
+/*---------------------------------------------------------
+ Grid (_grid.scss)
+-------------------------------------------------------- */
+*,
+*:after,
+*:before {
+	margin: 0;
+	padding: 0;	
+	box-sizing: border-box;
+}
+	
+// Container
+.container {	
+	margin: 0 auto;
+	max-width: $width;
+	width: 90%;
+	
+	@include for(medium-screens) {
+		width: 95%;
+	}
+	@include for(large-screens) {
+		width: 95%;
+	}
+}
+
+// Rows and columns basics
+.col {
+	float: left;
+	padding: 0 $gut/2;
+	width: 100%;
+	margin-bottom: $gut;
+}
+
+.col:last-child {
+	margin-bottom: 0;
+}
 
 .row {
-  margin-left: auto;
-  margin-right: auto;
-  margin-bottom: 20px;
+	margin: 0 -1*$gut/2;
+}
+	
+.row:after {
+	content: "";
+	display: table;
+	clear: both;
+}
 
-  // Clear floating children
-  &:after {
-    content: "";
-    display: table;
-    clear: both;
-  }
 
-  .col {
-    float: left;
-    @include box-sizing(border-box);
-    padding: 0 $gutter-width / 2;
+// Mobile first - as for beginning we have only one column
+.mf-8 {
+	width: percentage(8/12);
+	margin-bottom: 0;
+}
 
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + "%");
-      &.s#{$i} {
-        width: $perc;
-        margin-left: 0;
-      }
-      $i: $i + 1;
-    }
-    $i: 1;
-    @while $i <= $num-cols {
-      $perc: unquote((100 / ($num-cols / $i)) + "%");
-      &.offset-s#{$i} {
-        margin-left: $perc;
-      }
-      $i: $i + 1;
-    }
+.mf-6 {
+	width: percentage(6/12);
+	margin-bottom: 0;
+}
 
-    @media #{$medium-and-up} {
+.mf-4 {
+	width: percentage(4/12);
+	margin-bottom: 0;
+}
 
-      $i: 1;
-      @while $i <= $num-cols {
-        $perc: unquote((100 / ($num-cols / $i)) + "%");
-        &.m#{$i} {
-          width: $perc;
-          margin-left: 0;
-        }
-        $i: $i + 1;
-      }
-      $i: 1;
-      @while $i <= $num-cols {
-        $perc: unquote((100 / ($num-cols / $i)) + "%");
-        &.offset-m#{$i} {
-          margin-left: $perc;
-        }
-        $i: $i + 1;
-      }
 
-    }
+// Small screens 
+@include for(small-screens) {
+	@for $i from 1 through 12 {
+		.sm-#{$i} {
+			width: percentage($i/12);
+			margin-bottom: 0;
+		}
+	}
+	
+	@for $i from 0 through 11 {
+	  .sm-offeset-#{$i} { margin-left: percentage($i/12) !important; }
+	}
+	
+	.sm-col-5 {
+		width: 20%;
+		margin-bottom: 0;
+	}
+}
 
-    @media #{$large-and-up} {
 
-      $i: 1;
-      @while $i <= $num-cols {
-        $perc: unquote((100 / ($num-cols / $i)) + "%");
-        &.l#{$i} {
-          width: $perc;
-          margin-left: 0;
-        }
-        $i: $i + 1;
-      }
-      $i: 1;
-      @while $i <= $num-cols {
-        $perc: unquote((100 / ($num-cols / $i)) + "%");
-        &.offset-l#{$i} {
-          margin-left: $perc;
-        }
-        $i: $i + 1;
-      }
+// Larger screen
+@include for(medium-screens) {
+	@for $i from 1 through 12 {
+		.md-#{$i} {
+			width: percentage($i/12);
+			margin-bottom: 0;
+		}
+	}
+	
+	@for $i from 0 through 11 {
+	  .md-offset-#{$i} { margin-left: percentage($i/12) !important; }
+	}
+	
+	.md-col-5 {
+		width: 20%;
+		margin-bottom: 0;
+	}
+}
 
-    }
 
-  }
+// The largest screen
+@include for(large-screens) {
+	@for $i from 1 through 12 {
+		.lg-#{$i} {
+			width: percentage($i/12);
+			margin-bottom: 0;
+		}
+	}
+	
+	@for $i from 0 through 11 {
+		.lg-offset-#{$i} { margin-left: percentage($i/12) !important; }
+	}
+	
+	.lg-col-5 {
+		width: 20%;
+		margin-bottom: 0;
+	}
 }

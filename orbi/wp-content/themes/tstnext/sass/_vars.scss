@@ -1,0 +1,43 @@
+/*---------------------------------------------------------
+ Project vars (_vars.scss)
+-------------------------------------------------------- */
+
+/* Grid Settings */
+
+//Break points
+$one:				600px !default;
+$two:				800px !default;
+$three:				1130px !default;
+
+//Grid
+$width:				1128px !default;
+$col:				$width / 12;
+$gut:				24px !default;
+
+// Margins 
+$cell-elementary:    8px;
+$cell-elementary-2x: $cell-elementary*2;
+$cell-elementary-3x: $cell-elementary*3;
+
+
+
+/* Typography */
+
+//Baseline
+$base:        24px;
+$em-base:     10px; //used by rem function of bourbon
+$margin-base: $cell-elementary-2x;
+
+// Fonts
+$sans:     $preferred_font;
+$heading : $preferred_font ;
+$mono : '  Lucida Sans Typewriter', 'Lucida Console', Monaco, monospace;
+
+/* Colors (shortcuts) */
+
+$color-text:          $text-color-primary !default;
+$color-border-normal: rgba(0,0,0,0.12) !default;
+$color-text-semi:     rgba(0,0,0,0.54) !default;
+$color-link-one:      $text-link-color !default;
+$color-white-full:    #fff;
+$color-primary-full:  unquote("rgba(#{$color-primary}, 1)") !default;
