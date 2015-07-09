@@ -989,7 +989,7 @@ dt {
 address {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0;
   font-style: normal; }
 
@@ -1162,20 +1162,20 @@ ul, ol {
 .mdl-typography--caption {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0; }
 
 .mdl-typography--caption-force-preferred-font {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0; }
 
 .mdl-typography--caption-color-contrast {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0;
   opacity: 0.54; }
 
@@ -1183,7 +1183,7 @@ ul, ol {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0;
   opacity: 0.54; }
 
@@ -9925,7 +9925,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 .captioned-text .caption {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1;
+  line-height: 1.2;
   letter-spacing: 0;
   color: rgba(0, 0, 0, 0.54); }
 .captioned-text .text {
@@ -10384,8 +10384,9 @@ body.single, body.page-template-default {
   .pictured-card-item .pci-content .pci-caption {
     font-size: 12px;
     font-weight: 400;
-    line-height: 1;
+    line-height: 1.2;
     letter-spacing: 0;
+    line-height: 1.333;
     color: rgba(0, 0, 0, 0.54);
     margin: 0; }
 

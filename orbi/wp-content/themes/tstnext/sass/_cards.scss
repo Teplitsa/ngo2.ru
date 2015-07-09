@@ -25,6 +25,7 @@
 	.entry-summary {
 		padding-top: $card-padding;
 		@include typo-body-1;
+		line-height: $card-supporting-text-line-height;
 		color: $color-text;
 		
 		p { margin: 0; }
@@ -82,6 +83,7 @@
 		
 		.pci-caption {
 			@include typo-caption;
+			line-height: 1.333;
 			color: $color-text-semi;
 			margin: 0;
 		}

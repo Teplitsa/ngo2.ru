@@ -2,53 +2,29 @@
  Project vars (_vars.scss)
 -------------------------------------------------------- */
 
-/* Grid Settings */
+/** Paddings **/
 
-//Break points
-$one:				600px !default;
-$two:				800px !default;
-$three:				1130px !default;
-
-//Grid
-$width:				1128px !default;
-$col:				$width / 12;
-$gut:				24px !default;
-
-// Margins & Paddings
 $cell-elementary:    8px;
 $cell-elementary-2x: $cell-elementary*2;
 $cell-elementary-3x: $cell-elementary*3;
-$card-padding:       $cell-elementary-2x;
+
+$base:               24px;
+$em-base:            10px; //used by rem function of bourbon
+$margin-base:        $cell-elementary-2x;
 
 
-/* Typography */
+/** Fonts  */
 
-//Baseline
-$base:        24px;
-$em-base:     10px; //used by rem function of bourbon
-$margin-base: $cell-elementary-2x;
-
-// Fonts
 $sans:     $preferred_font;
 $heading : $preferred_font ;
 $mono : '  Lucida Sans Typewriter', 'Lucida Console', Monaco, monospace;
 
 
-
 /* Colors (shortcuts) */
 
-$color-text:          $text-color-primary !default;
-$color-border-normal: rgba(0,0,0,0.12) !default;
-$color-text-semi:     rgba(0,0,0,0.54) !default;
-$color-link-one:      $text-link-color !default;
-$color-white-full:    #fff;
-$color-primary-full:  unquote("rgba(#{$color-primary}, 1)") !default;
-
-
-/*  Navabr  */
-$navbar-height-mobile       : 48px;
-$navbar-height-mobile-extra : 56px;
-$navbar-height-desktop      : 64px;
-$navbar-padding             : $cell-elementary-2x;
-$sidenav-padding            : $cell-elementary-2x;
-$navbar-color-bg            : $color-primary-full !default;
+$tst-color-text:       $text-color-primary !default;
+$tst-color-border:     rgba(0,0,0,0.12) !default;
+$tst-color-text-semi:  rgba(0,0,0,0.54) !default;
+$tst-color-link:       $text-link-color !default;
+$tst-color-white:      unquote("rgba(#{$color-white}, 1)") !default;
+$tst-color-primary:    unquote("rgba(#{$color-primary}, 1)") !default;

@@ -5,21 +5,12 @@
 @import "components/reset";
 @import "components/roboto";
 
-
 //mdl
 @import "mdl/mdl";
 
-
 //project utilities
-@import "components/utility";
 @import "vars";
-@import "components/grid";
+@import "components/utility";
 @import "components/semantics";
-@import "components/elements";
 
 
-// project files
-@import "front";
-@import "navbar";
-@import "sidenav";
-@import "cards";

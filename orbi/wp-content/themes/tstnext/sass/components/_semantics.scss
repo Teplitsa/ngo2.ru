@@ -1,9 +1,10 @@
 /*---------------------------------------------------------
  Elements (_semantics.scss)
 -------------------------------------------------------- */
-$color-dark: unquote("rgba(#{$color-light-contrast}, 1)") !default;
-$color-ins:  unquote("rgba(#{$palette-yellow-50}, 1)") !default; ;
-$color-code: unquote("rgba(#{$palette-blue-grey-500}, 1)") !default;
+$color-dark:   #212121 !default;
+$color-ins:    #fffde7 !default; 
+$color-code:   #607d8b !default;
+$color-pre-bg: #333333 !default;
 
 
 /*---------------------------------------------------------
@@ -99,14 +100,14 @@ address {
 }	
 hr {
 	border: 0; //reset
-	border-top: 1px solid $color-border-normal;
+	border-top: 1px solid $tst-color-border;
 	height: 1px;
 	margin-bottom: $base;
 	&.hr-line-dashed {
-		border-top: 1px dashed $color-border-normal;
+		border-top: 1px dashed $tst-color-border;
 	}
 	&.hr-line-double {
-		border-top: 6px double $color-border-normal;
+		border-top: 6px double $tst-color-border;
 	}
 }
 
@@ -143,7 +144,7 @@ li {
 
 // Header Styles
 h1, h2, h3, h4, h5, h6 {
-	color: $color-text;		
+	color: $tst-color-text;		
 	@extend .break;
 	
 	a, a:visited,
@@ -154,7 +155,7 @@ h1, h2, h3, h4, h5, h6 {
 		@include transition(all 0.5s);
 		
 		&:hover, &:focus, &:active {
-			color: $color-link-one;
+			color: $tst-color-link;
 		}
 	}
 	
@@ -202,7 +203,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 	blockquote {
 		margin: 2.5em 0;
 		padding-left: 1.5rem;
-		border-left: 5px solid $color-primary-full;
+		border-left: 5px solid $tst-color-primary;
 	   
 		p {
 			font-size: 1.1em;
@@ -226,9 +227,9 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
    
 	pre {		
 	   padding: 2% 2.5%;
-	   background: #333;
+	   background: $color-pre-bg;
 	   font-size: 0.8em;
-	   color: $color-white-full;	  
+	   color: $tst-color-white;	  
 	   border-radius: 6px;
 	}
 	
@@ -294,7 +295,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 @mixin caption-text {
 	line-height: 1.35;
 	font-size: 0.85714em;
-	color: $color-text-semi;
+	color: $tst-color-text-semi;
 	font-style: italic;
 }
 
