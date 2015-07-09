@@ -9710,13 +9710,34 @@ body.single, body.page-template-default {
       margin-left: 72px;
       margin-bottom: 52px; } }
 
+.tpl-product-banner .mdl-card__title {
+  padding-bottom: 0; }
+.tpl-product-banner .mdl-card__title-text {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 24px;
+  letter-spacing: 0.04em;
+  margin: 0;
+  color: rgba(0,0,0, 0.87); }
+  .tpl-product-banner .mdl-card__title-text a {
+    text-decoration: none;
+    color: inherit; }
+    .tpl-product-banner .mdl-card__title-text a:hover, .tpl-product-banner .mdl-card__title-text a:focus, .tpl-product-banner .mdl-card__title-text a:active {
+      color: rgba(233,30,99, 1); }
 .tpl-product-banner .price-mark {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 34px;
   font-weight: 400;
   line-height: 40px;
   color: rgba(233,30,99, 1);
-  margin: 0; }
+  margin: 0;
+  padding: 0 16px 16px 16px; }
+.tpl-product-banner .mdl-card__actions {
+  text-align: right;
+  padding: 16px; }
+.tpl-product-banner .mdl-typography--caption {
+  margin-top: 8px; }
 
 /** Post cards **/
 .pictured-card-item::after {
