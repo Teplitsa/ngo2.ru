@@ -164,3 +164,28 @@
 		padding-top: 4px;				
 	}
 }
+
+
+// Captioned items
+@mixin text-with-caption {
+	.caption {
+		@include typo-caption;
+		color: $tst-color-text-semi;
+		line-height: 1.333;
+		padding-bottom: 2px;
+	}
+	.text {
+		@include typo-body-1;
+		color: $tst-color-text;
+		a {
+			color: $tst-color-text;
+			&:hover, &:focus, &:active {
+				color: $tst-color-link;		
+			}
+		}
+	}
+}
+
+.captioned-text {
+	@include text-with-caption();
+}

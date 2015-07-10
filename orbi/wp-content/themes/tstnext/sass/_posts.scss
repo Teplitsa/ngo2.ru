@@ -135,35 +135,13 @@ $margin-base: 16px !default;
 	}
 }
 
-// Captioned items
-@mixin text-with-caption {
-	.caption {
-		@include typo-caption;
-		color: $tst-color-text-semi;
-		line-height: 1.333;
-		padding-bottom: 2px;
-	}
-	.text {
-		@include typo-body-1;
-		color: $tst-color-text;
-		a {
-			color: $tst-color-text;
-			&:hover, &:focus, &:active {
-				color: $tst-color-link;		
-			}
-		}
-	}
-}
-
-.captioned-text {
-	@include text-with-caption();
-}
 
 
 // Related block
 .related-posts.section {
 	background: unquote("rgba(#{$palette-grey-100}, 1)");
 	padding: $margin-base 0;
+	margin-top: -48px;
 	
 	h5 {
 		@include typo-subhead();
@@ -173,12 +151,11 @@ $margin-base: 16px !default;
 	}
 }
 
-.tpl-related-post {
-	padding: $card-vertical-padding 0;	
+.tpl-related-post {	
 	border-bottom: 1px solid $tst-color-border;
 	&:last-of-type { border-bottom: none; }
 	
-	& > a {
+	.grid-position > a {
 		display: block;
 		text-decoration: none;
 		* {
@@ -190,6 +167,7 @@ $margin-base: 16px !default;
 		@include typo-title;
 		color: $tst-color-text;
 		font-weight: 400;
+		margin: 0 0 $margin-base*1.5 0;
 		a {
 			color: inherit;
 			&:hover, &:focus, &:active {

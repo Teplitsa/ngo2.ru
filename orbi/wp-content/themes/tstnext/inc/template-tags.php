@@ -607,10 +607,10 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 		
 	$author = tst_get_post_author();
 ?>
-	<div class="tpl-related-post"><a href="<?php echo get_permalink($cpost);?>">
+	<div class="tpl-related-post"><div class="grid-position"><a href="<?php echo get_permalink($cpost);?>">
 	
-	<div class="row">
-		<div class="col mf-8">
+	<div class="mdl-grid">
+		<div class="mdl-cell mdl-cell--8-col">
 			<h4 class="entry-title"><?php the_title();?></h4>
 			
 		<?php if($show_thumb) { ?>	
@@ -623,25 +623,25 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 					
 				<div class="author-content card-footer-content pci-content">
-					<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $name);?></h5>
-					<p class="post-date pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>
+					<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $name);?></h5>
+					<p class="post-date mdl-typography--caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>
 				</div>
 				
 			</div>	
 		<?php } else { ?>
 			<div class="entry-author plain-card-item">
-				<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $name);?></h5>
-				<p class="post-date pci-caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
+				<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $name);?></h5>
+				<p class="post-date mdl-typography--caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
 			</div>	
 		<?php } ?>
 		</div>
 		
-		<div class="col mf-4">
+		<div class="mdl-cell mdl-cell--4-col">
 			<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail'); ?>
 		</div>
 	</div>	
 	
-	</a></div>
+	</a></div></div>
 <?php
 }
 
@@ -655,8 +655,8 @@ function tst_compact_news_item($cpost = null){
 	<div class="tpl-related-post news"><a href="<?php echo get_permalink($cpost);?>">
 	
 	
-		<h4 class="entry-title"><?php the_title();?></h4>
-		<p class="post-date pci-caption"><i class="material-icons">today</i> <time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
+		<h4 class="entry-title mdl-typography--body-1"><?php the_title();?></h4>
+		<p class="post-date mdl-typography--caption"><i class="material-icons">today</i> <time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
 		
 	
 	</a></div>

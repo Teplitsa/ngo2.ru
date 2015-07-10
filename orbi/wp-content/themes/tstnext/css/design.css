@@ -9567,6 +9567,141 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
   .entry-content div.wp-video-shortcode {
     margin-bottom: 1.6rem; }
 
+/*---------------------------------------------------------
+ Modules (_modules.scss)
+-------------------------------------------------------- */
+/** Social buttons **/
+@font-face {
+  font-family: 'fontello';
+  src: url("../font/fontello/fontello.eot?37317661");
+  src: url("../font/fontello/fontello.eot?37317661#iefix") format("embedded-opentype"), url("../font/fontello/fontello.woff?37317661") format("woff"), url("../font/fontello/fontello.ttf?37317661") format("truetype"), url("../font/fontello/fontello.svg?37317661#fontello") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
+/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
+/*
+@media screen and (-webkit-min-device-pixel-ratio:0) {
+  @font-face {
+    font-family: 'fontello';
+    src: url('../font/fontello.svg?37317661#fontello') format('svg');
+  }
+}
+*/
+/*.icon-fb:before { content: '\e800'; }
+.icon-tw:before { content: '\e801'; } 
+.icon-vk:before { content: '\e802'; } */
+.social-likes::after {
+  clear: both;
+  content: "";
+  display: table; }
+.social-likes * {
+  box-sizing: border-box; }
+
+.social-likes__widget {
+  background: #325A97;
+  float: left;
+  height: 36px;
+  padding: 8px;
+  margin-right: 8px;
+  min-width: 80px;
+  cursor: pointer;
+  -webkit-transition: box-shadow 0.35s;
+  -moz-transition: box-shadow 0.35s;
+  transition: box-shadow 0.35s; }
+  .social-likes__widget:hover, .social-likes__widget:focus, .social-likes__widget:active {
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+
+.social-likes__widget_twitter {
+  background: #00ACED; }
+
+.social-likes__widget_vkontakte {
+  background: #4C75A3; }
+
+.social-likes__icon {
+  display: inline-block;
+  width: 32px;
+  color: #fff;
+  font-size: 16px;
+  vertical-align: middle;
+  float: left;
+  line-height: 20px; }
+
+.social-likes__counter {
+  display: inline-block;
+  color: rgba(255, 255, 255, 0.87);
+  float: right;
+  font-size: 14px;
+  line-height: 20px; }
+
+.social-likes__icon:before {
+  font-family: "fontello";
+  font-style: normal;
+  font-weight: normal;
+  speak: none;
+  display: inline-block;
+  text-decoration: inherit;
+  width: 1em;
+  margin-right: .2em;
+  text-align: center;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale; }
+
+.social-likes__icon_facebook:before {
+  content: '\e800'; }
+
+.social-likes__icon_twitter:before {
+  content: '\e801'; }
+
+.social-likes__icon_vkontakte:before {
+  content: '\e802'; }
+
+#float-panel {
+  display: none;
+  background: rgba(255,255,255, 1);
+  z-index: 1100;
+  width: 100%;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  padding: 16px 16px;
+  @inclide shadow-2dp(); }
+  #float-panel .mf-4 {
+    text-align: right; }
+  #float-panel .hide-on-small {
+    display: none; }
+  #float-panel .hide-on-medium {
+    display: none; }
+  #float-panel .entry-author > a {
+    display: block; }
+  #float-panel .author-role {
+    height: 16px; }
+  #float-panel .next-link {
+    padding: 0; }
+  #float-panel .text {
+    padding-top: 4px; }
+
+.captioned-text .caption {
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1;
+  letter-spacing: 0;
+  color: rgba(0, 0, 0, 0.54);
+  line-height: 1.333;
+  padding-bottom: 2px; }
+.captioned-text .text {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  color: rgba(0,0,0, 0.87); }
+  .captioned-text .text a {
+    color: rgba(0,0,0, 0.87); }
+    .captioned-text .text a:hover, .captioned-text .text a:focus, .captioned-text .text a:active {
+      color: rgb(233,30,99); }
+
 /** Project styles **/
 body {
   background: rgba(238,238,238, 1);
@@ -9838,122 +9973,6 @@ body.single, body.page-template-default {
   .single .tpl-product-banner {
     min-height: 368px; } }
 
-/*---------------------------------------------------------
- Modules (_modules.scss)
--------------------------------------------------------- */
-/** Social buttons **/
-@font-face {
-  font-family: 'fontello';
-  src: url("../font/fontello/fontello.eot?37317661");
-  src: url("../font/fontello/fontello.eot?37317661#iefix") format("embedded-opentype"), url("../font/fontello/fontello.woff?37317661") format("woff"), url("../font/fontello/fontello.ttf?37317661") format("truetype"), url("../font/fontello/fontello.svg?37317661#fontello") format("svg");
-  font-weight: normal;
-  font-style: normal; }
-/* Chrome hack: SVG is rendered more smooth in Windozze. 100% magic, uncomment if you need it. */
-/* Note, that will break hinting! In other OS-es font will be not as sharp as it could be */
-/*
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  @font-face {
-    font-family: 'fontello';
-    src: url('../font/fontello.svg?37317661#fontello') format('svg');
-  }
-}
-*/
-/*.icon-fb:before { content: '\e800'; }
-.icon-tw:before { content: '\e801'; } 
-.icon-vk:before { content: '\e802'; } */
-.social-likes::after {
-  clear: both;
-  content: "";
-  display: table; }
-.social-likes * {
-  box-sizing: border-box; }
-
-.social-likes__widget {
-  background: #325A97;
-  float: left;
-  height: 36px;
-  padding: 8px;
-  margin-right: 8px;
-  min-width: 80px;
-  cursor: pointer;
-  -webkit-transition: box-shadow 0.35s;
-  -moz-transition: box-shadow 0.35s;
-  transition: box-shadow 0.35s; }
-  .social-likes__widget:hover, .social-likes__widget:focus, .social-likes__widget:active {
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
-
-.social-likes__widget_twitter {
-  background: #00ACED; }
-
-.social-likes__widget_vkontakte {
-  background: #4C75A3; }
-
-.social-likes__icon {
-  display: inline-block;
-  width: 32px;
-  color: #fff;
-  font-size: 16px;
-  vertical-align: middle;
-  float: left;
-  line-height: 20px; }
-
-.social-likes__counter {
-  display: inline-block;
-  color: rgba(255, 255, 255, 0.87);
-  float: right;
-  font-size: 14px;
-  line-height: 20px; }
-
-.social-likes__icon:before {
-  font-family: "fontello";
-  font-style: normal;
-  font-weight: normal;
-  speak: none;
-  display: inline-block;
-  text-decoration: inherit;
-  width: 1em;
-  margin-right: .2em;
-  text-align: center;
-  font-variant: normal;
-  text-transform: none;
-  line-height: 1;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale; }
-
-.social-likes__icon_facebook:before {
-  content: '\e800'; }
-
-.social-likes__icon_twitter:before {
-  content: '\e801'; }
-
-.social-likes__icon_vkontakte:before {
-  content: '\e802'; }
-
-#float-panel {
-  display: none;
-  background: rgba(255,255,255, 1);
-  z-index: 1100;
-  width: 100%;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  padding: 16px 16px;
-  @inclide shadow-2dp(); }
-  #float-panel .mf-4 {
-    text-align: right; }
-  #float-panel .hide-on-small {
-    display: none; }
-  #float-panel .hide-on-medium {
-    display: none; }
-  #float-panel .entry-author > a {
-    display: block; }
-  #float-panel .author-role {
-    height: 16px; }
-  #float-panel .next-link {
-    padding: 0; }
-  #float-panel .text {
-    padding-top: 4px; }
-
 /** Post cards **/
 .pictured-card-item {
   position: relative; }
@@ -10063,28 +10082,10 @@ body.single, body.page-template-default {
       width: 168px;
       text-align: right; } }
 
-.captioned-text .caption {
-  font-size: 12px;
-  font-weight: 400;
-  line-height: 1;
-  letter-spacing: 0;
-  color: rgba(0, 0, 0, 0.54);
-  line-height: 1.333;
-  padding-bottom: 2px; }
-.captioned-text .text {
-  font-size: 14px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0;
-  color: rgba(0,0,0, 0.87); }
-  .captioned-text .text a {
-    color: rgba(0,0,0, 0.87); }
-    .captioned-text .text a:hover, .captioned-text .text a:focus, .captioned-text .text a:active {
-      color: rgb(233,30,99); }
-
 .related-posts.section {
   background: rgba(245,245,245, 1);
-  padding: 16px 0; }
+  padding: 16px 0;
+  margin-top: -48px; }
   .related-posts.section h5 {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 16px;
@@ -10096,14 +10097,13 @@ body.single, body.page-template-default {
     color: rgb(233,30,99); }
 
 .tpl-related-post {
-  padding: 16px 0;
   border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
   .tpl-related-post:last-of-type {
     border-bottom: none; }
-  .tpl-related-post > a {
+  .tpl-related-post .grid-position > a {
     display: block;
     text-decoration: none; }
-    .tpl-related-post > a * {
+    .tpl-related-post .grid-position > a * {
       color: rgba(0,0,0, 0.87); }
   .tpl-related-post .entry-title {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -10112,7 +10112,8 @@ body.single, body.page-template-default {
     line-height: 1;
     letter-spacing: 0.02em;
     color: rgba(0,0,0, 0.87);
-    font-weight: 400; }
+    font-weight: 400;
+    margin: 0 0 24px 0; }
     .tpl-related-post .entry-title a {
       color: inherit; }
       .tpl-related-post .entry-title a:hover, .tpl-related-post .entry-title a:focus, .tpl-related-post .entry-title a:active {
