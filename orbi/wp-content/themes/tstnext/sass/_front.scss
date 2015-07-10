@@ -137,14 +137,20 @@ $sh-base : $cell-elementary-2x;
 }
 
 // single post and page modifications
-body.single, body.page-template-default {	
-	background: $tst-color-white;
-	
+body.single {	
+	background: $tst-color-white;	
+}
+
+body.single,
+body.page-template-default {
 	.page-header .page-title {
-		padding: $sh-base*6 0 $sh-base*2;
-		
+		padding: $sh-base*6 0 $sh-base*2;		
 		line-height: 1.2;
-	}	
+	}
+	
+	.page-content {			
+		top: auto;		
+	}
 }
 
 
@@ -175,11 +181,12 @@ body.single, body.page-template-default {
 // Bottombar
 #bottombar { margin: 24px 0 80px; }
 
-.site-footer {
+.site-footer {	
 	background: $tst-color-white;
-	@include shadow-2dp();	
+	@include shadow-2dp();
 	font-size: 12px;
 	color: $tst-color-text-semi;
+		
 	a {
 		color: $tst-color-text;
 		text-decoration: underline;

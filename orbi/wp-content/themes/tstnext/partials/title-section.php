@@ -5,7 +5,7 @@ global $post;
 
 ?>
 
-<?php if(is_singular('post')) { ?>
+<?php if(is_singular('post') || is_page()) { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	
@@ -13,7 +13,7 @@ global $post;
 	</div>
 	<div class="mdl-cell mdl-cell--3-col "></div>
 </div>
-		
+
 <?php } else { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell--12-col">
@@ -35,10 +35,7 @@ global $post;
 				post_type_archive_title(' // ');
 				echo "</span>";
 			}
-		}
-		elseif(is_page() || is_single()) {
-			echo get_the_title($post);
-		}
+		}		
 		elseif(is_search()){
 			_e('Search results', 'tst');
 		}

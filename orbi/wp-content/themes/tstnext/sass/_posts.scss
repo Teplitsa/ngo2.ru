@@ -192,6 +192,20 @@ $margin-base: 16px !default;
 
 
 // Page
+.page-template-default .page-content-grid {
+	background: $tst-color-white;
+}
 .tpl-page {
-	padding-top: 72px;
+	padding-top: 8px;
+	padding-bottom: 32px;
+}
+
+.page-footer {
+	background: transparent;	
+	min-height: 80px;
+	
+	.donate-widget {
+		margin-top: -48px;
+		z-index: 200;
+	}
 }

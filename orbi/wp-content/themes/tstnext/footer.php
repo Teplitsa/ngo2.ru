@@ -32,6 +32,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 	if(is_singular('post')) { //related block in post
 		get_template_part('partials/related', get_post_type());	
 	}
+	
 ?>
 
 <footer id="colophon" class="site-footer" role="contentinfo">	
