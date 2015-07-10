@@ -38,7 +38,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 	
 	<div class="mdl-grid full-width">
-		<div class="mdl-cell mdl-cell--6-col">
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
 			<div class="credits">
 			<div class="bottom-logo"><?php tst_site_logo('context');?></div>
 			<div class="copy">
@@ -48,7 +48,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 			</div>
 		</div><!-- .col -->
 		
-		<div class="mdl-cell mdl-cell--6-col">
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
 			<div class="te-st-bn">
 				<span class="support">Сайт сделан <br>при поддержке</span>
 				<a title="<?php echo $tst;?>" href="http://te-st.ru/">

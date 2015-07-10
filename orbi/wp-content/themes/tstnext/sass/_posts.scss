@@ -165,15 +165,14 @@ $margin-base: 16px !default;
 	
 	.entry-title {
 		@include typo-title;
+		letter-spacing: normal;
 		color: $tst-color-text;
 		font-weight: 400;
-		margin: 0 0 $margin-base*1.5 0;
-		a {
-			color: inherit;
-			&:hover, &:focus, &:active {
-				color: $tst-color-link;		
-			}
-		}
+		margin: 0 0 $margin-base*1.5 0;		
+	}
+	
+	a:hover .entry-title  {
+		color: $tst-color-primary;
 	}
 }
 
@@ -189,4 +188,10 @@ $margin-base: 16px !default;
 		vertical-align: text-top;
 		color: $tst-color-text-semi;
 	}
+}
+
+
+// Page
+.tpl-page {
+	padding-top: 72px;
 }

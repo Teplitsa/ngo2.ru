@@ -124,7 +124,7 @@ function is_events() {
 
 function tst_has_bottombar(){
 	
-	if(is_singular('post')){
+	if(is_singular('post') || is_page()){
 		return false;
 	}
 	elseif(is_home() || is_category()){
