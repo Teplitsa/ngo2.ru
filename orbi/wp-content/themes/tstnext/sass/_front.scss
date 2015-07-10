@@ -1,7 +1,8 @@
 /** Project styles **/
 
 body {		
-	background: unquote("rgba(#{$palette-grey-200}, 1)");	
+	background: unquote("rgba(#{$palette-grey-200}, 1)");
+	@include typo-body-1(false, true);
 }
 
 /**  Header **/ 
@@ -140,15 +141,83 @@ body.single, body.page-template-default {
 	}
 	
 	.widget-title {
-		@include typo-subhead;
-		font-weight: 500;
+		@include typo-preferred-font(true);
+		font-size: 16px;
+		font-weight: 400;
+		line-height: 24px;		
 		margin-bottom: $grid-desktop-gutter;
 	}
 	
 	.textwidget {
-		@include typo-body-1;		
+		@include typo-body-1(false, true);		
 	}
 }
+
+// Bottombar
+#bottombar { margin: 24px 0 80px; }
+
+.site-footer {
+	background: $tst-color-white;
+	@include shadow-2dp();	
+	font-size: 12px;
+	color: $tst-color-text-semi;
+	a {
+		color: $tst-color-text;
+		text-decoration: underline;
+		&:hover, &:focus, &:active {
+			color: $tst-color-link;		
+		}
+	}	
+	
+	.bottom-logo {
+		float: left;
+		height: 50px;
+		img {
+			height: 100%;
+			width: auto;
+		}
+	}
+	
+	.credits {
+		@include clearfix;
+	}
+	
+	.copy {
+		margin-left: 92px;
+		padding-top: 10px;
+	}
+}
+
+.te-st-bn {
+	text-align: right;
+	position: relative;
+	height: 54px;
+	
+	a {
+		display: block;
+		width: 106px;
+		position: absolute;
+		top: 0;
+		right: 0;		
+		&:hover, &:focus, &:active {
+			
+		}
+	}
+	
+	img {
+		vertical-align: top;
+	}
+	
+	span {
+		font-size: 12px;
+		line-height: 16px;
+		color: $tst-color-text-semi;
+		display: inline-block;
+		margin-right: 115px;
+		padding-top: 10px;
+	}
+}
+
 
 
 /** Posts Grid **/
@@ -163,6 +232,19 @@ body.single, body.page-template-default {
 
 .paging-navigation {
 	text-align: center;
+	
+	.mdl-button {
+		background: unquote("rgba(#{$palette-grey-300}, 1)");
+		padding-left: $cell-elementary-2x;
+		padding-right: $cell-elementary-2x;
+		color:  unquote("rgba(#{$palette-grey-500}, 1)");
+		@include transition(all 0.35s);
+		
+		&:hover, &:focus, &:active {
+			background: unquote("rgba(#{$palette-grey-400}, 1)");
+			color: $tst-color-white; 
+		}
+	}
 }
 
 
@@ -185,17 +267,37 @@ body.single, body.page-template-default {
 		@include for(desktop) {
 			display: block;
 			margin-left: 72px;
-			margin-bottom: 24px + 56px/2;
+			margin-top: 12px;
+			margin-bottom: 12px+ 56px/2;
 		}
 	}
 }
 
+.movable-widget {
+	.sidebar {
+		height: 100%;
+	}
+	
+	.widget_featured_product {
+		height: 100%;
+		@include for(desktop) {
+			height: auto;
+			min-height: 368px;
+		}
+	}
+}
 
 .tpl-product-banner {
+	height: 100%;
+	@include for(desktop) {
+		height: auto;
+		min-height: 368px;
+	}
 	
 	.mdl-card__title {
 		padding-bottom: 0;
 	}
+	
 	.mdl-card__title-text {
 		@include typo-subhead;
 		margin: 0;
@@ -215,6 +317,13 @@ body.single, body.page-template-default {
 		color: $tst-color-primary;
 		margin: 0;
 		padding: 0 $card-horizontal-padding $card-vertical-padding $card-horizontal-padding;		
+	}
+	
+	.mdl-card__media {
+		background-color: transparent;
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center center;
 	}
 	
 	.mdl-card__actions {

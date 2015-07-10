@@ -949,7 +949,7 @@ h6 {
 p {
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0;
   margin-bottom: 16px; }
 
@@ -966,14 +966,14 @@ dt {
 address {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0;
   font-style: normal; }
 
 ul, ol {
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0; }
 
 /**
@@ -1096,13 +1096,13 @@ ul, ol {
 .mdl-typography--body-1 {
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0; }
 
 .mdl-typography--body-1-color-contrast {
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0;
   opacity: 0.87; }
 
@@ -1125,34 +1125,34 @@ ul, ol {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0; }
 
 .mdl-typography--body-1-force-preferred-font-color-contrast {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0;
   opacity: 0.87; }
 
 .mdl-typography--caption {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0; }
 
 .mdl-typography--caption-force-preferred-font {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0; }
 
 .mdl-typography--caption-color-contrast {
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0;
   opacity: 0.54; }
 
@@ -1160,7 +1160,7 @@ ul, ol {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 12px;
   font-weight: 400;
-  line-height: 1.2;
+  line-height: 1;
   letter-spacing: 0;
   opacity: 0.54; }
 
@@ -5163,7 +5163,7 @@ input.mdl-button[type="submit"] {
 .mdl-mega-footer--link-list li {
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0;
   line-height: 20px; }
 
@@ -5878,7 +5878,7 @@ input.mdl-button[type="submit"] {
   overflow: hidden;
   font-size: 14px;
   font-weight: 400;
-  line-height: 24px;
+  line-height: 20px;
   letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
@@ -9564,7 +9564,12 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 
 /** Project styles **/
 body {
-  background: rgba(238,238,238, 1); }
+  background: rgba(238,238,238, 1);
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0; }
 
 /**  Header **/
 .site-logo {
@@ -9674,14 +9679,60 @@ body.single, body.page-template-default {
     font-size: 16px;
     font-weight: 400;
     line-height: 24px;
-    letter-spacing: 0.04em;
-    font-weight: 500;
     margin-bottom: 24px; }
   .widget-bottom .textwidget {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 24px;
+    line-height: 20px;
     letter-spacing: 0; }
+
+#bottombar {
+  margin: 24px 0 80px; }
+
+.site-footer {
+  background: rgba(255,255,255, 1);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  font-size: 12px;
+  color: rgba(0, 0, 0, 0.54); }
+  .site-footer a {
+    color: rgba(0,0,0, 0.87);
+    text-decoration: underline; }
+    .site-footer a:hover, .site-footer a:focus, .site-footer a:active {
+      color: rgb(233,30,99); }
+  .site-footer .bottom-logo {
+    float: left;
+    height: 50px; }
+    .site-footer .bottom-logo img {
+      height: 100%;
+      width: auto; }
+  .site-footer .credits::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .site-footer .copy {
+    margin-left: 92px;
+    padding-top: 10px; }
+
+.te-st-bn {
+  text-align: right;
+  position: relative;
+  height: 54px; }
+  .te-st-bn a {
+    display: block;
+    width: 106px;
+    position: absolute;
+    top: 0;
+    right: 0; }
+  .te-st-bn img {
+    vertical-align: top; }
+  .te-st-bn span {
+    font-size: 12px;
+    line-height: 16px;
+    color: rgba(0, 0, 0, 0.54);
+    display: inline-block;
+    margin-right: 115px;
+    padding-top: 10px; }
 
 /** Posts Grid **/
 .mdl-grid {
@@ -9693,6 +9744,17 @@ body.single, body.page-template-default {
 
 .paging-navigation {
   text-align: center; }
+  .paging-navigation .mdl-button {
+    background: rgba(224,224,224, 1);
+    padding-left: 16px;
+    padding-right: 16px;
+    color: rgba(158,158,158, 1);
+    -webkit-transition: all 0.35s;
+    -moz-transition: all 0.35s;
+    transition: all 0.35s; }
+    .paging-navigation .mdl-button:hover, .paging-navigation .mdl-button:focus, .paging-navigation .mdl-button:active {
+      background: rgba(189,189,189, 1);
+      color: rgba(255,255,255, 1); }
 
 /** Sidebar */
 @media screen and (max-width: 839px) {
@@ -9708,60 +9770,100 @@ body.single, body.page-template-default {
     .donate-widget h4 {
       display: block;
       margin-left: 72px;
-      margin-bottom: 52px; } }
+      margin-top: 12px;
+      margin-bottom: 40px; } }
 
-.tpl-product-banner .mdl-card__title {
-  padding-bottom: 0; }
-.tpl-product-banner .mdl-card__title-text {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 24px;
-  letter-spacing: 0.04em;
-  margin: 0;
-  color: rgba(0,0,0, 0.87); }
-  .tpl-product-banner .mdl-card__title-text a {
-    text-decoration: none;
-    color: inherit; }
-    .tpl-product-banner .mdl-card__title-text a:hover, .tpl-product-banner .mdl-card__title-text a:focus, .tpl-product-banner .mdl-card__title-text a:active {
-      color: rgba(233,30,99, 1); }
-.tpl-product-banner .price-mark {
-  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-  font-size: 34px;
-  font-weight: 400;
-  line-height: 40px;
-  color: rgba(233,30,99, 1);
-  margin: 0;
-  padding: 0 16px 16px 16px; }
-.tpl-product-banner .mdl-card__actions {
-  text-align: right;
-  padding: 16px; }
-.tpl-product-banner .mdl-typography--caption {
-  margin-top: 8px; }
+.movable-widget .sidebar {
+  height: 100%; }
+.movable-widget .widget_featured_product {
+  height: 100%; }
+  @media screen and (min-width: 840px) {
+    .movable-widget .widget_featured_product {
+      height: auto;
+      min-height: 368px; } }
+
+.tpl-product-banner {
+  height: 100%; }
+  @media screen and (min-width: 840px) {
+    .tpl-product-banner {
+      height: auto;
+      min-height: 368px; } }
+  .tpl-product-banner .mdl-card__title {
+    padding-bottom: 0; }
+  .tpl-product-banner .mdl-card__title-text {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    margin: 0;
+    color: rgba(0,0,0, 0.87); }
+    .tpl-product-banner .mdl-card__title-text a {
+      text-decoration: none;
+      color: inherit; }
+      .tpl-product-banner .mdl-card__title-text a:hover, .tpl-product-banner .mdl-card__title-text a:focus, .tpl-product-banner .mdl-card__title-text a:active {
+        color: rgba(233,30,99, 1); }
+  .tpl-product-banner .price-mark {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+    color: rgba(233,30,99, 1);
+    margin: 0;
+    padding: 0 16px 16px 16px; }
+  .tpl-product-banner .mdl-card__media {
+    background-color: transparent;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center center; }
+  .tpl-product-banner .mdl-card__actions {
+    text-align: right;
+    padding: 16px; }
+  .tpl-product-banner .mdl-typography--caption {
+    margin-top: 8px; }
 
 /** Post cards **/
-.pictured-card-item::after {
-  clear: both;
-  content: "";
-  display: table; }
-.pictured-card-item .pci-img {
-  display: block;
-  width: 72px;
-  float: left;
-  border-radius: 50%; }
-  .pictured-card-item .pci-img img {
-    width: 40px;
-    height: auto;
+.pictured-card-item {
+  position: relative; }
+  .pictured-card-item::after {
+    clear: both;
+    content: "";
+    display: table; }
+  .pictured-card-item .pci-img {
+    display: block;
+    width: 72px;
+    float: left;
     border-radius: 50%; }
-.pictured-card-item .pci-content {
-  margin-left: 72px; }
-  .pictured-card-item .pci-content .mdl-typography--body-1 {
-    line-height: 1.714;
-    color: rgba(0,0,0, 0.87);
-    margin: 0; }
-  .pictured-card-item .pci-content .mdl-typography--caption {
-    line-height: 1.333;
-    color: rgba(0, 0, 0, 0.54);
-    margin: 0; }
+    .pictured-card-item .pci-img img {
+      width: 40px;
+      height: auto;
+      border-radius: 50%; }
+  .pictured-card-item .pci-content {
+    margin-left: 72px; }
+    .pictured-card-item .pci-content .mdl-typography--body-1 {
+      line-height: 1.714;
+      color: rgba(0,0,0, 0.87);
+      margin: 0; }
+    .pictured-card-item .pci-content .mdl-typography--caption {
+      line-height: 1.333;
+      color: rgba(0, 0, 0, 0.54);
+      margin: 0; }
+
+.tpl-post {
+  background: rgba(233,30,99, 1);
+  color: rgba(255, 255, 255, 0.8); }
+  .tpl-post .mdl-card__title-text {
+    color: rgba(255,255,255, 1);
+    font-weight: 400; }
+    .tpl-post .mdl-card__title-text a, .tpl-post .mdl-card__title-text a:hover {
+      color: inherit; }
+  .tpl-post .mdl-card__supporting-text {
+    color: rgba(255, 255, 255, 0.8); }
+  .tpl-post time {
+    font-weight: 500; }
+  .tpl-post .mdl-button {
+    color: rgba(255,255,255, 1); }
+    .tpl-post .mdl-button:hover {
+      color: rgba(255,255,255, 1); }
 
 /*# sourceMappingURL=design.css.map */

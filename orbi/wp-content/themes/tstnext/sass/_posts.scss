@@ -3,6 +3,7 @@
 // Pictured item
 .pictured-card-item {
 	@include clearfix;
+	position: relative;
 	
 	.pci-img {
 		display: block;
@@ -30,6 +31,31 @@
 			line-height: 1.333;
 			color: $tst-color-text-semi;
 			margin: 0;
+		}
+	}
+}
+
+
+// post cards
+.tpl-post {
+	background: $tst-color-primary;
+	color: $tst-color-white-semi;
+	
+	.mdl-card__title-text {
+		color: $tst-color-white;
+		font-weight: 400;
+		a, a:hover {
+			color: inherit;
+		}
+	}
+	
+	.mdl-card__supporting-text { color: $tst-color-white-semi; }
+	time { font-weight: 500; }
+	
+	.mdl-button {
+		color: $tst-color-white;
+		&:hover {
+			color: $tst-color-white;
 		}
 	}
 }

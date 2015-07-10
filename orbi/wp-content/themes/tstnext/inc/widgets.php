@@ -110,7 +110,7 @@ function tst_product_banner($cpost){
 	
 	
 	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
-	
+	$img = tst_get_post_thumbnail_src($cpost, 'embed');
 ?>
 
 <div class="tpl-product-banner mdl-card mdl-shadow--2dp">
@@ -122,8 +122,9 @@ function tst_product_banner($cpost){
 	<?php if(!empty($price)) { ?>
 		<div class="price-mark"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</div>
 	<?php } ?>
-	<div class="mdl-card__media">
-		<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail');?>
+	
+	<div class="mdl-card__media mdl-card--expand" style="background-image: url(<?php echo esc_url($img);?>);">
+		
 	</div>
 	<div class="mdl-card__actions">
 		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Купить</a>

@@ -327,6 +327,18 @@ function tst_get_post_thumbnail($cpost = null, $size = 'post-thumbnail'){
 	return wp_get_attachment_image($thumb_id, $size, false, $attr);
 }
 
+function tst_get_post_thumbnail_src($cpost = null, $size = 'post-thumbnail'){
+	if(!$cpost)
+		$cpost = $post;
+		
+	$thumb_id = get_post_thumbnail_id($cpost->ID);
+	if(!$thumb_id)
+		return '';
+	
+	$img = wp_get_attachment_image_src($thumb_id, $size);
+	return $img[0];
+}
+
 function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail', $caption = ''){
 	global $post;
 	

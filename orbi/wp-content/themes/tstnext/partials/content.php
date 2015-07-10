@@ -17,22 +17,23 @@ $author = tst_get_post_author();
 <div class="<?php echo esc_attr($css);?>">
 	
 	<?php if(has_post_thumbnail()){ ?>
-		<div class="mdl-card__media">
-			<?php echo tst_get_post_thumbnail(null, 'thumbnail-extra'); ?>
-		</div>			
+	<div class="mdl-card__media">
+		<?php echo tst_get_post_thumbnail(null, 'thumbnail-extra'); ?>		
+	</div>			
 	<?php } ?>
 	
 	<?php if(!empty($author)) { ?>
-		<div class="entry-author mdl-card__supporting-text pictured-card-item">
+		<div class="entry-author mdl-card__supporting-text">
 		<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
-				
-			<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
-				
-			<div class="author-content card-footer-content pci-content">
-				<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-				<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
-			</div>
 			
+			<div class="pictured-card-item">
+				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+					
+				<div class="author-content card-footer-content pci-content">
+					<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+					<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+				</div>
+			</div>
 		</div>
 	<?php } ?>
 	

@@ -19,10 +19,10 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 <div id="bottombar" class="widget-area"><div class="container">		
 	
 	
-	<div class="row">		
-		<div class="col md-4"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
-		<div class="col md-4"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
-		<div class="col md-4"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>					
+	<div class="mdl-grid">		
+		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
+		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
+		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>					
 	</div>
 	
 </div></div>
@@ -37,8 +37,8 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 <footer id="colophon" class="site-footer" role="contentinfo">	
 
 	
-	<div class="row ">
-		<div class="col sm-6 md-8">
+	<div class="mdl-grid full-width">
+		<div class="mdl-cell mdl-cell--6-col">
 			<div class="credits">
 			<div class="bottom-logo"><?php tst_site_logo('context');?></div>
 			<div class="copy">
@@ -48,7 +48,7 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 			</div>
 		</div><!-- .col -->
 		
-		<div class="col sm-6 md-4">
+		<div class="mdl-cell mdl-cell--6-col">
 			<div class="te-st-bn">
 				<span class="support">Сайт сделан <br>при поддержке</span>
 				<a title="<?php echo $tst;?>" href="http://te-st.ru/">
