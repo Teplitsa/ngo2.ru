@@ -105,6 +105,12 @@ img.wp-smiley {
 	word-wrap: break-word;
 }
 
+.truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+
 
 /* selections */
 a:link {

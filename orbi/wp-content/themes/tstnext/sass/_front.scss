@@ -123,8 +123,10 @@ $sh-base : $cell-elementary-2x;
 body.single, body.page-template-default {	
 	background: $tst-color-white;
 	
-	.site-header .section-header {
-		//padding: rem($sh-base*7) 0 rem($sh-base*2);		
+	.page-header .page-title {
+		padding: $sh-base*6 0 $sh-base*2;
+		
+		line-height: 1.2;
 	}	
 }
 
@@ -221,6 +223,10 @@ body.single, body.page-template-default {
 
 
 /** Posts Grid **/
+.grid-position {
+	margin: 0 -1 * $grid-desktop-gutter;
+}
+	
 .mdl-grid {
 	max-width: 1128px + $grid-desktop-margin *2;
 }
@@ -289,6 +295,7 @@ body.single, body.page-template-default {
 
 .tpl-product-banner {
 	height: 100%;
+	
 	@include for(desktop) {
 		height: auto;
 		min-height: 368px;
@@ -333,5 +340,11 @@ body.single, body.page-template-default {
 	
 	.mdl-typography--caption {
 		margin-top: 8px;
+	}
+}
+
+.single .tpl-product-banner {
+	@include for(tablet) {		
+		min-height: 368px;
 	}
 }

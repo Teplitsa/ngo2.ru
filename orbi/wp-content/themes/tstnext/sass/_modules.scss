@@ -53,6 +53,9 @@
 // Buttons styles
 .social-likes {
 	@include clearfix;
+	* {
+		box-sizing: border-box;
+	}
 }
 
 .social-likes__widget  {	
@@ -66,7 +69,7 @@
 	@include transition(box-shadow 0.35s);
 	
 	&:hover, &:focus, &:active {
-		@extend .z-depth-1;
+		@include shadow-2dp() ;
 	}
 }
 
@@ -124,14 +127,14 @@
 // Floating panel on single
 #float-panel {
 	display: none;
-	background: color('shades', 'white');
+	background: $tst-color-white;
 	z-index: 1100;
 	width: 100%;
 	position: fixed;
 	bottom: 0;
 	left: 0;
-	padding: $card-padding;
-	@extend .z-depth-1;
+	padding: $card-vertical-padding $card-horizontal-padding;
+	@inclide shadow-2dp() ;
 		
 	.mf-4 {
 		text-align: right;

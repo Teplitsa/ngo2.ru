@@ -7,9 +7,11 @@ global $post;
 
 <?php if(is_singular('post')) { ?>
 <div class="mdl-grid">
-	<div class="mdl-cell--12-col">
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	
 		<h1 class="page-title"><?php echo get_the_title($post);?></h1>
 	</div>
+	<div class="mdl-cell mdl-cell--3-col "></div>
 </div>
 		
 <?php } else { ?>

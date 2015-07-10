@@ -22,10 +22,11 @@ if($r_query->have_posts()){
 		$aside_title = __('More posts', 'tst'); 
 	}
 ?>
-<aside class="related-posts section"><div class="container">
+<aside class="related-posts section">
 	
-	<div class="row">
-		<div class="col md-8 lg-6 lg-offset-3">
+	<div class="mdl-grid">
+		<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+		<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">
 			<h5><?php echo apply_filters('tst_the_title', $aside_title);?></h5>
 	
 		<?php
@@ -42,8 +43,10 @@ if($r_query->have_posts()){
 			}
 			wp_reset_postdata();	
 		?>	
-		</div>		
+		</div>
+		<div class="mdl-cell mdl-cell--3-col "></div>
+		
 	</div><!-- .row -->
 	
-</div></aside>
+</aside>
 <?php  } ?>

@@ -11,24 +11,24 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
 
-	<div class="entry-meta">
-		<div class="row">
+	<div class="entry-meta"><div class="grid-position">
+		<div class="mdl-grid">
 			<?php if($author) { ?>
-			<div class="col sm-4">
+			<div class="mdl-cell mdl-cell--4-col">
 				<div class="captioned-text">
 					<div class="caption"><?php _e('Author', 'tst');?></div>
 					<div class="text"><?php echo get_the_term_list(get_the_ID(), 'auctor', '', ', ', '');?></div>
 				</div>
 			</div>
 			<?php } ?>
-			<div class="col <?php echo ($author) ? 'sm-8' : 'sm-12';?>">
+			<div class="mdl-cell <?php echo ($author) ? 'mdl-cell--8-col' : 'mdl-cell--12-col';?>">
 				<div class="captioned-text">
 					<div class="caption"><?php _e('Published', 'tst');?></div>
 					<div class="text"><?php echo tst_posted_on();?></div>
 				</div>
 			</div>
 		</div>
-	</div>
+	</div></div>
 		
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	<div class="sharing-on-top"><?php tst_social_share();?></div>
@@ -55,26 +55,26 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 			
 			$avatar = tst_get_author_avatar($author->term_id) ;
 	?>
-		<div class="entry-meta-bottom">
-			<div class="row">
+		<div class="entry-meta-bottom"><div class="grid-position">
+			<div class="mdl-grid">
 				
-				<div class="col sm-8">
+				<div class="mdl-cell mdl-cell--8-col">
 					<div class="entry-author pictured-card-item">
 						<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 						
 						<div class="author-content pci-content">
-							<h5 class="author-name pci-title"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-							<p class="author-role pci-caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+							<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+							<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
 						</div>
 					</div>
-				</div>
+				</div>				
 				
-				<div class="col sm-4">
-					<a href="<?php echo get_term_link($author);?>" class="author-link"><?php _e('All author\'s articles', 'tst');?></a>
+				<div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-phone mdl-cell--8-col-tablet">
+					<a href="<?php echo get_term_link($author);?>" class="author-link mdl-button mdl-js-button mdl-button--primary"><?php _e('All author\'s articles', 'tst');?></a>
 				</div>
 				
 			</div>
-		</div><!-- .entry-meta -->
+		</div></div><!-- .entry-meta -->
 	<?php } ?>		
 		
 	</div>

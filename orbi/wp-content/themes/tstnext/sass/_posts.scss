@@ -59,3 +59,156 @@
 		}
 	}
 }
+
+
+/** Single **/
+$margin-base: 16px !default;
+
+@mixin side-quote-position {
+	position: absolute;
+	top: 0;
+	left: -1*(168px + $grid-desktop-gutter);
+	width: 168px;
+	text-align: right;	
+}
+
+// Single post
+.tpl-post-full {
+	padding-top: 32px;
+		
+	.entry-meta {
+		border-bottom: 1px solid $tst-color-border;		
+		margin-bottom: $margin-base*1.5;		
+	}
+	
+	.entry-summary {
+		&, & p {
+			font-size: 1.14285em;
+			line-height: 1.5;
+		}
+		margin-bottom: $margin-base;
+	}
+	
+	.sharing-on-top,
+	.sharing-on-bottom {
+		margin: $margin-base*1.5 0;
+	}
+		
+	.author-link {
+		padding: 0;
+		background: transparent;
+		height: auto;
+		line-height: 24px;
+		@include upto(desktop) {
+			margin-left: 72px;
+		}
+	}
+	
+	.entry-meta-bottom {
+		border-top: 1px solid $tst-color-border;		
+		padding: $margin-base 0 0;
+		@include for(desktop) {
+			.mdl-cell--4-col { text-align: right; }
+		}
+	}
+	
+	@include wp-caption;
+	
+	.side-quote {		
+		
+		@include caption-text;
+	}
+	
+	@include for(desktop) {
+		
+		.wp-caption {
+			position: relative;
+		}
+		
+		.wp-caption-text {
+			@include side-quote-position;		
+		}
+		
+		.side-quote {			
+			@include side-quote-position;			
+		}
+	}
+}
+
+// Captioned items
+@mixin text-with-caption {
+	.caption {
+		@include typo-caption;
+		color: $tst-color-text-semi;
+		line-height: 1.333;
+		padding-bottom: 2px;
+	}
+	.text {
+		@include typo-body-1;
+		color: $tst-color-text;
+		a {
+			color: $tst-color-text;
+			&:hover, &:focus, &:active {
+				color: $tst-color-link;		
+			}
+		}
+	}
+}
+
+.captioned-text {
+	@include text-with-caption();
+}
+
+
+// Related block
+.related-posts.section {
+	background: unquote("rgba(#{$palette-grey-100}, 1)");
+	padding: $margin-base 0;
+	
+	h5 {
+		@include typo-subhead();
+		font-weight: 500;
+		margin: 0;
+		color: $tst-color-link;
+	}
+}
+
+.tpl-related-post {
+	padding: $card-vertical-padding 0;	
+	border-bottom: 1px solid $tst-color-border;
+	&:last-of-type { border-bottom: none; }
+	
+	& > a {
+		display: block;
+		text-decoration: none;
+		* {
+			color: $tst-color-text;
+		}
+	}
+	
+	.entry-title {
+		@include typo-title;
+		color: $tst-color-text;
+		font-weight: 400;
+		a {
+			color: inherit;
+			&:hover, &:focus, &:active {
+				color: $tst-color-link;		
+			}
+		}
+	}
+}
+
+.tpl-related-post.news  {
+	.post-date {
+		color: $tst-color-text-semi;
+	}
+	
+	.material-icons {
+		font-size: 1.2em;
+		line-height: 1;
+		margin-right: 8px;
+		vertical-align: text-top;
+		color: $tst-color-text-semi;
+	}
+}
