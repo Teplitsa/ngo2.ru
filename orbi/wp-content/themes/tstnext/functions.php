@@ -135,9 +135,6 @@ function tst_scripts() {
 	);
 	
 	// Scripts
-		
-	// jQuery
-	$script_dependencies[] = 'jquery';
 	
 	// MDL
 	wp_enqueue_script(
@@ -145,11 +142,12 @@ function tst_scripts() {
 		$theme_dir_url . '/js/material.min.js',
 		array(),
 		TST_VERSION,
-		true
+		false
 	);
 	
-	$script_dependencies[] = 'tst-mdl';
-		
+	// jQuery
+	$script_dependencies[] = 'jquery';
+			
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',
@@ -157,6 +155,8 @@ function tst_scripts() {
 		TST_VERSION,
 		true
 	);
+	
+	
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

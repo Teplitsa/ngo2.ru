@@ -44,7 +44,7 @@ $sh-base : $cell-elementary-2x;
 	@include for(tablet){
 		display: inline;
 	}
-	//opacity: 0;
+	opacity: 0;
 }
 
 // drawer

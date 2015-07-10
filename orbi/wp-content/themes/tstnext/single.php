@@ -9,9 +9,10 @@ global $post;
 
 get_header();
 ?>
-<div class="row">
-
-	<div class="col md-8 lg-6 lg-offset-3">
+<div class="mdl-grid">
+	
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	<div class="mdl-cell mdl-cell--6-col">
 		<?php		
 			while(have_posts()){
 				the_post();
@@ -20,7 +21,7 @@ get_header();
 		?>		
 	</div>
 	
-	<div class="col md-4 lg-3"><?php get_sidebar(); ?></div>
+	<div class="mdl-cell mdl-cell--3-col"><?php get_sidebar(); ?></div>
 	
 </div><!-- .row -->
 

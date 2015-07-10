@@ -12,9 +12,20 @@ jQuery(document).ready(function($){
 	var sidebar = $('.masonry-grid').find('.movable-widget').detach();		
 	sidebar.insertAfter('.masonry-grid .masonry-item:nth-of-type(2)');
 	
-	$(window).scroll(function(){ console.log($(window).scrollTop()); });
 	
-	
+	/** smart crumbs **/
+	var crumb = $('.crumb-name');
+	if (crumb.length) {
+		$('.mdl-layout__content').scroll(function(){
+			
+			if($(this).scrollTop() >= 165){
+				crumb.css({opacity : 1});			
+			} else {
+				console.log($(this).scrollTop());
+				crumb.css({opacity : 0});		
+			}		
+		});
+	}
 	
 	
 	
