@@ -15,7 +15,7 @@ get_header(); ?>
 			
 			<?php
 				$markers = array();
-				foreach(get_posts(array('post_type' => 'marker')) as $marker) {
+				foreach(get_posts(array('post_type' => 'marker', 'nopaging' => 1,)) as $marker) {
 	
 					$coords = get_field('coords', $marker->ID);
 					$history = (function_exists('get_field')) ? get_field('history_photo', $marker->ID) : ''; 
