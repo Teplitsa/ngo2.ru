@@ -81,8 +81,22 @@ $margin-base: 16px !default;
 }
 
 // Single post
+@mixin lead {
+	&, & p {
+		font-size: 1.14285em;
+		line-height: 1.5;
+	}
+	margin-bottom: $margin-base;
+}
+
+.sharing-on-top,
+.sharing-on-bottom {
+	margin: $margin-base*1.5 0;
+}
+
 .tpl-post-full {
-			
+	padding-bottom: $margin-base;
+	
 	.entry-meta {
 		border-bottom: 1px solid $tst-color-border;		
 		margin-bottom: $margin-base*1.5;
@@ -90,16 +104,7 @@ $margin-base: 16px !default;
 	}
 	
 	.entry-summary {
-		&, & p {
-			font-size: 1.14285em;
-			line-height: 1.5;
-		}
-		margin-bottom: $margin-base;
-	}
-	
-	.sharing-on-top,
-	.sharing-on-bottom {
-		margin: $margin-base*1.5 0;
+		@include lead;
 	}
 		
 	.author-link {
@@ -162,11 +167,12 @@ $margin-base: 16px !default;
 	}
 }
 
-.tpl-related-post {	
+.tpl-related-post {
+	padding: $grid-desktop-gutter 0;
 	border-bottom: 1px solid $tst-color-border;
 	&:last-of-type { border-bottom: none; }
 	
-	.grid-position > a {
+	& > a {
 		display: block;
 		text-decoration: none;
 		* {
@@ -197,25 +203,6 @@ $margin-base: 16px !default;
 			color: $tst-color-text;
 		}
 	}
-	
-	/*.entry-title {
-		margin-bottom: $margin-base;	
-	}
-	
-	.post-date {
-		margin: 0;
-		&, & * {
-			color: $tst-color-text-semi;
-		}		
-	}
-	
-	.material-icons {
-		font-size: 1.2em;
-		line-height: 1;
-		margin-right: 8px;
-		vertical-align: text-top;
-		color: $tst-color-text-semi;
-	}*/
 }
 
 
@@ -233,4 +220,45 @@ $margin-base: 16px !default;
 		margin-top: -48px;
 		z-index: 200;
 	}
+}
+
+
+// single event
+.tpl-event-full {
+	
+	.entry-meta {
+		display: none;
+		@include for(tablet){
+			display: block;
+			margin-bottom: $grid-desktop-gutter;
+		}
+		@include for(desktop){
+			display: none;
+		}
+	}
+	
+	.entry-summary {
+		@include lead;
+	}
+	
+	@include wp-caption;
+}
+
+.em-field {
+	border-bottom: 1px solid $tst-color-border;
+	padding: $cell-elementary-2x 0;
+		
+	.mdl-typography--caption {
+		color: $tst-color-text-semi;
+		padding-bottom: 2px;
+	}
+	
+	.mdl-typography--body-1 {
+		
+	}
+}
+
+
+.related-posts.ev-future h5 {
+	margin-bottom: $cell-elementary-2x;
 }

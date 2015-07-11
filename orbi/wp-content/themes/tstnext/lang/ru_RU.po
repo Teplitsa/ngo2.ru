@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-06 13:58+0300\n"
-"PO-Revision-Date: 2015-07-06 13:58+0300\n"
+"POT-Creation-Date: 2015-07-11 22:20+0300\n"
+"PO-Revision-Date: 2015-07-11 22:21+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -37,7 +37,7 @@ msgstr "К сожалению, по вашему запросу ничего н�
 msgid "Teplitsa of social technologies"
 msgstr "Теплица социальных технологий"
 
-#: footer.php:46
+#: footer.php:26
 #, php-format
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
@@ -46,7 +46,7 @@ msgstr "Все материалы сайта доступны по лиценц�
 msgid "Primary Menu"
 msgstr "﻿Главное меню"
 
-#: functions.php:34 inc/widgets.php:609
+#: functions.php:34 inc/widgets.php:242
 msgid "Social Buttons"
 msgstr "Социальные кнопки"
 
@@ -54,122 +54,48 @@ msgstr "Социальные кнопки"
 msgid "Skip to content"
 msgstr "Перейти к содержанию"
 
-#: header.php:24
-msgid "Primary menu"
-msgstr "﻿Главное меню"
-
 #: inc/extras.php:38
 msgid "More"
 msgstr "Далее"
 
-#: inc/template-tags.php:186
+#: inc/template-tags.php:197
 msgid "More entries"
 msgstr "Еще публикации"
 
-#: inc/template-tags.php:278
+#: inc/template-tags.php:290
 msgid "in the category"
 msgstr "в рубрике"
 
-#: inc/template-tags.php:309 inc/template-tags.php:330
+#: inc/template-tags.php:321 inc/template-tags.php:354
 #, php-format
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:408
+#: inc/template-tags.php:475
 msgid "Event date"
 msgstr "Дата мероприятия"
 
-#: inc/template-tags.php:414
+#: inc/template-tags.php:481
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:420
+#: inc/template-tags.php:487
+msgid "Location"
+msgstr "Место проведения"
+
+#: inc/template-tags.php:493
 msgid "Address"
 msgstr "Адрес"
 
-#: inc/template-tags.php:467 partials/content_single.php:16
+#: inc/template-tags.php:551 partials/content_single.php:19
 msgid "Author"
 msgstr "Автор"
 
-#: inc/template-tags.php:489
+#: inc/template-tags.php:573
 msgid "Logo"
 msgstr "Логотип"
 
-#: inc/widgets.php:194
-msgid "List of recent posts with some styling"
-msgstr "Список последних записей с настройками оформления"
-
-#: inc/widgets.php:196
-msgid "Recent Posts"
-msgstr "Последние записи"
-
-#: inc/widgets.php:301
-#, php-format
-msgid "Permalink to %s"
-msgstr "Постоянная ссылка %s"
-
-#: inc/widgets.php:411
-msgid "Don't show"
-msgstr "Не показывать"
-
-#: inc/widgets.php:412
-msgid "Square thumbnail"
-msgstr "Квадратная миниатюра"
-
-#: inc/widgets.php:413
-msgid "Landscape thumnbail"
-msgstr "Горизонтальная миниатюра"
-
-#: inc/widgets.php:418
-msgid "Title"
-msgstr "Заголовок"
-
-#: inc/widgets.php:423
-msgid "Limit"
-msgstr "Кол.-во"
-
-#: inc/widgets.php:431
-msgid "Display Date?"
-msgstr "Отображать дату?"
-
-#: inc/widgets.php:435
-msgid "Display Excerpt?"
-msgstr "Отображать аннотацию?"
-
-#: inc/widgets.php:439
-msgid "Excerpt Length"
-msgstr "Длина аннотации"
-
-#: inc/widgets.php:446
-msgid "Thumbnail"
-msgstr "Миниатюра"
-
-#: inc/widgets.php:457
-msgid "Choose the Post Type"
-msgstr "Тип контента"
-
-#: inc/widgets.php:460
-msgid "Select post type"
-msgstr "Выбрать"
-
-#: inc/widgets.php:468
-msgid "Choose the Taxonomy"
-msgstr "Выбрать таксономию"
-
-#: inc/widgets.php:471
-msgid "Select taxonomy"
-msgstr "Выбрать"
-
-#: inc/widgets.php:480
-msgid "Term slug"
-msgstr "Ярлык термина"
-
-#: inc/widgets.php:482
-msgid ""
-"Copy paste a slug (or comma-separated list of several slugs) of the term"
-msgstr "Укажите ярлык (разделенный запятыми список ярлыков) термина"
-
-#: inc/widgets.php:611
+#: inc/widgets.php:244
 msgid "Social links menu with optional text"
 msgstr "Меню социальных кнопок с сопроводительным текстом"
 
@@ -177,11 +103,11 @@ msgstr "Меню социальных кнопок с сопроводитель
 msgid "Article"
 msgstr "Статья"
 
-#: partials/content_single.php:22
+#: partials/content_single.php:26 partials/content_single.php:109
 msgid "Published"
 msgstr "Опубликовано"
 
-#: partials/content_single.php:65
+#: partials/content_single.php:75
 msgid "All author's articles"
 msgstr "Все статьи автора"
 
@@ -189,45 +115,71 @@ msgstr "Все статьи автора"
 msgid "More posts"
 msgstr "Еще публикации"
 
-#: partials/title-section.php:44
+#: partials/title-section.php:42
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: partials/title-section.php:47
+#: partials/title-section.php:45
 msgid "404: Page not found"
 msgstr "404: Страница не найдена"
 
-#: js/materialize.js:221
-msgid "translateX"
-msgstr ""
+#~ msgid "Primary menu"
+#~ msgstr "﻿Главное меню"
 
-#: js/materialize.js:221
-msgid "translateY"
-msgstr ""
+#~ msgid "List of recent posts with some styling"
+#~ msgstr "Список последних записей с настройками оформления"
 
-#: js/materialize.js:221
-msgid "skewX"
-msgstr ""
+#~ msgid "Recent Posts"
+#~ msgstr "Последние записи"
 
-#: js/materialize.js:221
-msgid "skewY"
-msgstr ""
+#~ msgid "Permalink to %s"
+#~ msgstr "Постоянная ссылка %s"
 
-#: js/materialize.js:221
-msgid "scale"
-msgstr ""
+#~ msgid "Don't show"
+#~ msgstr "Не показывать"
 
-#: js/materialize.js:221
-msgid "scaleX"
-msgstr ""
+#~ msgid "Square thumbnail"
+#~ msgstr "Квадратная миниатюра"
 
-#: js/materialize.js:221
-msgid "scaleY"
-msgstr ""
+#~ msgid "Landscape thumnbail"
+#~ msgstr "Горизонтальная миниатюра"
 
-#: js/materialize.js:221
-msgid "rotateZ"
-msgstr ""
+#~ msgid "Title"
+#~ msgstr "Заголовок"
+
+#~ msgid "Limit"
+#~ msgstr "Кол.-во"
+
+#~ msgid "Display Date?"
+#~ msgstr "Отображать дату?"
+
+#~ msgid "Display Excerpt?"
+#~ msgstr "Отображать аннотацию?"
+
+#~ msgid "Excerpt Length"
+#~ msgstr "Длина аннотации"
+
+#~ msgid "Thumbnail"
+#~ msgstr "Миниатюра"
+
+#~ msgid "Choose the Post Type"
+#~ msgstr "Тип контента"
+
+#~ msgid "Select post type"
+#~ msgstr "Выбрать"
+
+#~ msgid "Choose the Taxonomy"
+#~ msgstr "Выбрать таксономию"
+
+#~ msgid "Select taxonomy"
+#~ msgstr "Выбрать"
+
+#~ msgid "Term slug"
+#~ msgstr "Ярлык термина"
+
+#~ msgid ""
+#~ "Copy paste a slug (or comma-separated list of several slugs) of the term"
+#~ msgstr "Укажите ярлык (разделенный запятыми список ярлыков) термина"
 
 #~ msgid "Related posts"
 #~ msgstr "Еще по теме"

@@ -107,7 +107,7 @@
 .social-likes__icon_twitter:before { content: '\e801'; }
 .social-likes__icon_vkontakte:before { content: '\e802'; }
 
-@include upto(medium-screens) {
+@include upto(phone) {
 	.sharing-on-panel {
 		.social-likes__widget {
 			width: 36px;
@@ -126,42 +126,25 @@
 
 // Floating panel on single
 #float-panel {
-	display: none;
+	//display: none;
 	background: $tst-color-white;
 	z-index: 1100;
 	width: 100%;
 	position: fixed;
 	bottom: 0;
-	left: 0;
-	padding: $card-vertical-padding $card-horizontal-padding;
-	@inclide shadow-2dp() ;
-		
-	.mf-4 {
-		text-align: right;
-	}
+	left: 0;	
+	box-shadow: -3px -3px -3px 0 rgba(0,0,0,0.65);
 	
-	.hide-on-small {
-		display: none;
-		@include for(medium-screens) {
-			display: block;
-		}
+	.entry-author {
+		padding-right: $grid-desktop-gutter;
 	}
-		
-	.hide-on-medium {
-		display: none;
-		@include for(large-screens) {
-			display: block;
-		}
-	}
-	
-	.entry-author > a { display: block; }
 	.author-role {
 		height: 16px;
 		@extend .truncate;		
 	}
-	.next-link { padding: 0; }
+	
 	.text {
-		padding-top: 4px;				
+		padding-top: 4px;
 	}
 }
 

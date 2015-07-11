@@ -366,7 +366,7 @@ function tst_single_post_thumbnail_html($cpost = null, $size = 'post-thumbnail',
 	
 ?>
 	<figure class="wp-caption alignnone entry-media" >
-		<a href="<?php wp_get_attachment_url($thumb_id);?>" class=""><?php echo $img;?></a>
+		<a href="<?php echo wp_get_attachment_url($thumb_id);?>" class=""><?php echo $img;?></a>
 		<?php if(!empty($caption)) { ?>
 			<figcaption class="wp-caption-text"><?php echo apply_filters('tst_the_title', $caption);?></figcaption>
 		<?php } ?>
@@ -449,6 +449,7 @@ function tst_next_fallback_link($cpost = null){
 	
 	$query = new WP_Query($args);
 	$link = '';
+	
 	if(isset($query->posts[0]) && $query->posts[0]->ID != $cpost->ID){
 		$link = "<a href='".get_permalink($query->posts[0])."' rel='next'>Следующая &raquo;</a>";
 	}
@@ -463,10 +464,11 @@ function tst_event_meta($cpost = null) {
 	global $post;
 		
 	if(!$cpost)
-		$cpost = $post;
+		$cpost = $post; 
 		
 	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : $cpost->post_date;
 	$time = (function_exists('get_field')) ? get_field('event_time', $cpost->ID) : '';
+	$lacation = (function_exists('get_field')) ? get_field('event_location', $cpost->ID) : '';
 	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
 
 	if(!empty($date)){
@@ -481,10 +483,16 @@ function tst_event_meta($cpost = null) {
 		echo "<div class='em-time mdl-typography--body-1'>".apply_filters('tst_the_title', $time)."</div>";
 		echo "</div>";
 	}
+	if(!empty($lacation)){
+		echo "<div class='em-field'>";
+		echo "<div class='em-label mdl-typography--caption'>".__('Location', 'tst').":</div>";
+		echo "<div class='em-location mdl-typography--body-1'>".apply_filters('tst_the_title', $lacation)."</div>";
+		echo "</div>";
+	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
 		echo "<div class='em-label mdl-typography--caption'>".__('Address', 'tst').":</div>";
-		echo "<div class='em-time mdl-typography--body-1'>".apply_filters('tst_the_title', $addr)."</div>";
+		echo "<div class='em-addr mdl-typography--body-1'>".apply_filters('tst_the_title', $addr)."</div>";
 		echo "</div>";
 	}
 	
@@ -609,9 +617,9 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 	$author = tst_get_post_author();
 	$name = ($author) ? $author->name : '';
 ?>
-	<div class="tpl-related-post"><div class="grid-position"><a href="<?php echo get_permalink($cpost);?>">
+	<div class="tpl-related-post"><a href="<?php echo get_permalink($cpost);?>">
 	
-	<div class="mdl-grid">
+	<div class="mdl-grid mdl-grid--no-spacing">
 		<div class="mdl-cell mdl-cell--8-col">
 			<h4 class="entry-title"><?php echo get_the_title($cpost);?></h4>
 			
@@ -640,7 +648,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 		</div>
 	</div>	
 	
-	</a></div></div>
+	</a></div>
 <?php
 }
 

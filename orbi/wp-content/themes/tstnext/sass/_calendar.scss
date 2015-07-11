@@ -135,14 +135,14 @@ table.calendar {
 		@include typo-subhead();
 		font-weight: 500;
 		margin: 0 0 $cell-elementary-2x;		
-	}
-	
-	.tpl-compact-event {
-		padding: $cell-elementary-2x 0;
-		border-bottom: 1px solid $tst-color-border;
-		&:last-child { border-bottom: none; }
 	}	
 }
+
+.tpl-compact-event {
+	padding: $cell-elementary-2x 0;
+	border-bottom: 1px solid $tst-color-border;
+	&:last-child { border-bottom: none; }
+}	
 
 .ev-future {
 	.widget-title {

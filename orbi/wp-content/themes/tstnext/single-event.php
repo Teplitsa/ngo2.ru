@@ -26,7 +26,7 @@ get_header();
 			
 			<?php
 				if(has_post_thumbnail()) {
-					echo tst_get_post_thumbnail(null, 'embed');
+					tst_single_post_thumbnail_html(null, 'embed');
 				}
 			?>
 			
@@ -40,7 +40,7 @@ get_header();
 		</article>	
 	
 	</div>	
-	<div class="mdl-cell mdl-cell--3-col "><?php get_sidebar(); ?></div>
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--4-col-phone"><?php get_sidebar(); ?></div>
 	
 <?php }	//endwhile ?>
 
