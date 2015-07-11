@@ -171,8 +171,8 @@ class TST_Calendar_Table {
 		//@to_do: markup for modals
 		foreach($query->posts as $event){
 			$title_full = get_the_title($event->ID);
-			$title = apply_filters('tst_the_title', mb_substr ($title_full, 0, 20));
-			$links[] = "<a href='".get_permalink($event)."' title='".esc_attr($title_full)."' class='day-link'><span>{$title}</span></a>";
+			$icon = '<i class="material-icons">event</i>';
+			$links[] = "<a href='".get_permalink($event)."' title='".esc_attr($title_full)."' class='day-link mdl-button mdl-js-button mdl-button--icon'>{$icon}</a>";
 		}
 		return implode('', $links);
 	}

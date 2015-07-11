@@ -612,7 +612,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 	
 	<div class="mdl-grid">
 		<div class="mdl-cell mdl-cell--8-col">
-			<h4 class="entry-title"><?php the_title();?></h4>
+			<h4 class="entry-title"><?php echo get_the_title($cpost);?></h4>
 			
 		<?php if($show_thumb) { ?>	
 			<div class="entry-author pictured-card-item">
@@ -654,7 +654,7 @@ function tst_compact_news_item($cpost = null, $show_thumb = true){
 ?>
 <div class="tpl-related-post news"><a href="<?php echo get_permalink($cpost);?>">	
 
-	<h4 class="entry-title"><?php the_title();?></h4>
+	<h4 class="entry-title"><?php echo get_the_title($cpost);?></h4>
 	<?php if($show_thumb) { ?>	
 		<div class="entry-author pictured-card-item">
 		<?php $avatar = ($author) ? tst_get_author_avatar($author->term_id) : ''; ?>				
@@ -676,6 +676,32 @@ function tst_compact_news_item($cpost = null, $show_thumb = true){
 	
 
 </a></div>
+<?php
+}
+
+function tst_compact_event_item($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+	
+	$e_date = get_post_meta($cpost->ID, 'event_date', true);	
+?>
+<div class="tpl-compact-event">	
+	<div class="pictured-card-item">
+		<div class="event-avatar round-image pci-img">
+			<?php echo get_the_post_thumbnail($cpost->ID, 'thumbnail');?>
+		</div>
+			
+		<div class="event-content pci-content">
+			<h5 class="event-title mdl-typography--body-1"><a href="<?php echo get_permalink($cpost);?>">
+				<?php echo get_the_title($cpost);?>
+			</a></h5>
+			<p class="event-date mdl-typography--caption"><time><?php echo date_i18('d.m.Y', strtotime($e_date));?></time></p>
+		</div>
+		
+	</div>	
+</div>
 <?php
 }
 

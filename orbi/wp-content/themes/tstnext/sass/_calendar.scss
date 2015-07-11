@@ -9,14 +9,6 @@
 			display: block;
 		}
 	}
-	
-	.mdl-typography--subhead {
-		color: rgba(255,255,255, 0.7);
-	}
-	
-	.mdl-typography--headline {
-		color: $tst-color-white;
-	}
 }
 
 .calendar-footer {
@@ -29,43 +21,107 @@
 }
 
 
+//calendar columns
+.calendar-block {
+	background: $tst-color-primary;
+	display: block;
+	width: 100%;
+	position: relative;
+}
+
+.cb-caption {
+	display: block;
+	padding: $grid-desktop-gutter;
+	box-sizing: border-box;
+	
+	.mdl-typography--subhead {
+		color: rgba(255,255,255, 0.7); 
+	}
+	
+	.mdl-typography--headline {
+		color: $tst-color-white;
+	}
+	
+	@include for(desktop) {
+		width: 240px;
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
+}
+
+.cb-grid {
+	display: block;
+	background: $tst-color-white;
+	padding: $grid-desktop-gutter;
+	box-sizing: border-box;
+	
+	@include for(desktop) {
+		margin-left: 240px;
+	}
+}
 
 // table
 table.calendar {
 	width: 100%;
 	border-collapse: collapse;
-	
+		
 	th {
 		text-align: right;
 		width: 14.2857%;
 		border: none;
-	}
-	td {
-		border: 1px solid $tst-color-border;
-		text-align: right;		
-		width: 14.2857%;
-		
+		font-weight: 400;
+		text-align: center;
+		font-size: 21px;
+		padding-bottom: $grid-desktop-gutter;
 	}
 	
+	td {
+		font-size: 14px;
+		text-align: right;		
+		width: 14.2857%;		
+		position:relative;
+	}
+	
+	.calendar-day,
+	.calendar-day-np {
+		border: 1px solid $tst-color-border;	
+	}
+		
+	.calendar-day:after {
+		content:'';
+		display:block;
+		margin-top:100%;
+	}
+		
 	.calendar-cell {
 		padding: 4px;
+		position:absolute;
+		top:0;
+		bottom:0;
+		left:0;
+		right:0;
+	}
+	
+	.day-number {
+		display: block;
+		padding-bottom: 10%;
 	}
 }
 
 .day-link {
-	display: block;
-	padding: 6px;
-	border-radius: 4px;
-	font-size: 10px;
-	font-weight: 400;
-	text-decoration: none;
-	text-align: left;
 	background: unquote("rgba(#{$color-accent}, 1)");
 	color: $tst-color-white;
-	line-height: 1.3;
-	@include transition(all 0.35s);
+	@include transition(all 0.35s);	
+	width: 28px;
+	height: 28px;
+	min-width: 0;
+	i {
+		font-size: 20px;
+	}
 	
 	&:hover {
+		background: unquote("rgba(#{$color-accent}, 1)");
 		@include focus-shadow();
 	}
 }
