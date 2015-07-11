@@ -697,12 +697,39 @@ function tst_compact_event_item($cpost = null){
 			<h5 class="event-title mdl-typography--body-1"><a href="<?php echo get_permalink($cpost);?>">
 				<?php echo get_the_title($cpost);?>
 			</a></h5>
-			<p class="event-date mdl-typography--caption"><time><?php echo date_i18('d.m.Y', strtotime($e_date));?></time></p>
+			<p class="event-date mdl-typography--caption"><time><?php echo date_i18n('d.m.Y', strtotime($e_date));?></time></p>
+			<div class="add-to-calendar">
+				<a href="<?php echo tst_add_to_calendar_url($cpost);?>" class=""><?php echo tst_material_icon('schedule');?></a>
+			</div>
 		</div>
 		
 	</div>	
 </div>
 <?php
+}
+
+function tst_add_to_calendar_url($event){
+
+
+//<a href="http://www.google.com/calendar/event?
+//action=TEMPLATE
+//&text=[event-title]
+//&dates=[start-custom format='Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z']
+//&details=[description]
+//&location=[location]
+//&trp=false
+//&sprop=
+//&sprop=name:"
+//target="_blank" rel="nofollow">Add to my calendar</a>
+
+return '#';
+
+}
+
+function tst_material_icon($icon){
+	
+	$icon = esc_attr($icon);
+	return "<i class='material-icons'>{$icon}</i>";
 }
 
 

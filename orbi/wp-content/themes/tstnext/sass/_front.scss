@@ -270,6 +270,7 @@ body.tax-auctor {
 		color: $tst-color-primary;
 		
 		@include for(desktop) {
+			font-size: 22px;
 			display: block;
 			margin-left: 72px;
 			margin-top: 12px;
@@ -320,6 +321,7 @@ body.tax-auctor {
 	
 	.price-mark {
 		@include typo-display-1;
+		font-size: 28px;
 		color: $tst-color-primary;
 		margin: 0;
 		padding: 0 $card-horizontal-padding $card-vertical-padding $card-horizontal-padding;		
