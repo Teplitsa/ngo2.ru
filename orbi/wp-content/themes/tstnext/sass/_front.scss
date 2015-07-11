@@ -1,7 +1,7 @@
 /** Project styles **/
 
 body {		
-	background: unquote("rgba(#{$palette-grey-200}, 1)");
+	background: unquote("rgba(#{$palette-grey-100}, 1)");
 	@include typo-body-1(false, true);
 }
 
@@ -132,17 +132,13 @@ $sh-base : $cell-elementary-2x;
 .page-content {	
 	position: relative;
 	z-index: 100;
-	top: -3.5*$sh-base;
-	
+	top: -3.5*$sh-base;	
 }
 
-// single post and page modifications
-body.single {	
-	background: $tst-color-white;	
-}
-
+// context header modifications
 body.single,
-body.page-template-default {
+body.page-template-default  {
+	
 	.page-header .page-title {
 		padding: $sh-base*6 0 $sh-base*2;		
 		line-height: 1.2;
@@ -150,6 +146,19 @@ body.page-template-default {
 	
 	.page-content {			
 		top: auto;		
+	}
+}
+
+body.tax-auctor {
+	.page-header .page-title {
+		padding: $sh-base*5 0 $sh-base/2;		
+		line-height: 1.2;
+	}
+	.author-description {
+		position: relative;
+		padding-bottom: $sh-base*3;
+		z-index: 10;
+		color: rgba(255,255,255, 0.7);
 	}
 }
 
@@ -245,46 +254,8 @@ body.page-template-default {
 }
 
 
-
-/** Posts Grid **/
-.grid-position {
-	margin: 0 -1 * $grid-desktop-gutter;
-}
-	
-.mdl-grid {
-	max-width: 1128px + $grid-desktop-margin *2;
-}
-
-.mdl-grid.full-width  {
-	max-width: none;
-}
-
-.mdl-cell .mdl-card {
-	width: 100%;
-	height: 100%;
-}
-
-.paging-navigation {
-	text-align: center;
-	
-	.mdl-button {
-		background: unquote("rgba(#{$palette-grey-300}, 1)");
-		padding-left: $cell-elementary-2x;
-		padding-right: $cell-elementary-2x;
-		color:  unquote("rgba(#{$palette-grey-500}, 1)");
-		@include transition(all 0.35s);
-		
-		&:hover, &:focus, &:active {
-			background: unquote("rgba(#{$palette-grey-400}, 1)");
-			color: $tst-color-white; 
-		}
-	}
-}
-
-
 /** Sidebar */
-.donate-widget {
-	
+.donate-widget {	
 	.fab {
 		@include upto(tablet){
 			z-index: 1200;
@@ -323,10 +294,10 @@ body.page-template-default {
 
 .tpl-product-banner {
 	height: 100%;
+	min-height: 368px;
 	
 	@include for(desktop) {
 		height: auto;
-		min-height: 368px;
 	}
 	
 	.mdl-card__title {
@@ -356,7 +327,7 @@ body.page-template-default {
 	
 	.mdl-card__media {
 		background-color: transparent;
-		background-size: contain;
+		background-size: cover;
 		background-repeat: no-repeat;
 		background-position: center center;
 	}
@@ -375,5 +346,25 @@ body.page-template-default {
 .single .tpl-product-banner {
 	@include for(tablet) {		
 		min-height: 368px;
+	}
+}
+
+
+
+/** Elements **/
+.paging-navigation {
+	text-align: center;
+	
+	.mdl-button {
+		background: unquote("rgba(#{$palette-grey-300}, 1)");
+		padding-left: $cell-elementary-2x;
+		padding-right: $cell-elementary-2x;
+		color:  unquote("rgba(#{$palette-grey-500}, 1)");
+		@include transition(all 0.35s);
+		
+		&:hover, &:focus, &:active {
+			background: unquote("rgba(#{$palette-grey-400}, 1)");
+			color: $tst-color-white; 
+		}
 	}
 }

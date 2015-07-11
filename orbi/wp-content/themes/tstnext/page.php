@@ -32,7 +32,7 @@ get_header(); ?>
 	
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	
-</div><!-- .row -->
+</div><!-- .mdl-grid -->
 </div>
 
 <div class="page-footer"><div class="mdl-grid">

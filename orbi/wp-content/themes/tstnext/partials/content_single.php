@@ -64,7 +64,9 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 						
 						<div class="author-content pci-content">
 							<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-							<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+							<p class="author-role mdl-typography--caption">
+								<?php echo apply_filters('tst_the_title', $author->description);?>
+							</p>
 						</div>
 					</div>
 				</div>				

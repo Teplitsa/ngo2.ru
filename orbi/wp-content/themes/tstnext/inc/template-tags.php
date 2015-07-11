@@ -127,7 +127,7 @@ function tst_has_bottombar(){
 	if(is_singular('post') || is_page()){
 		return false;
 	}
-	elseif(is_home() || is_category()){
+	elseif(is_home() || is_category() || is_tax()){
 		return false;
 	}
 	
@@ -606,6 +606,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 		
 		
 	$author = tst_get_post_author();
+	$name = ($author) ? $author->name : '';
 ?>
 	<div class="tpl-related-post"><div class="grid-position"><a href="<?php echo get_permalink($cpost);?>">
 	
@@ -615,10 +616,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 			
 		<?php if($show_thumb) { ?>	
 			<div class="entry-author pictured-card-item">
-			<?php
-				$avatar = ($author) ? tst_get_author_avatar($author->term_id) : '';
-				$name = ($author) ? $author->name : '';
-			?>				
+			<?php $avatar = ($author) ? tst_get_author_avatar($author->term_id) : ''; ?>				
 					
 				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 					
@@ -645,21 +643,39 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 <?php
 }
 
-function tst_compact_news_item($cpost = null){
+function tst_compact_news_item($cpost = null, $show_thumb = true){
 	global $post;
 		
 	if(!$cpost)
 		$cpost = $post;
-		
+	
+	$author = tst_get_post_author();
+	$name = ($author) ? $author->name : '';
 ?>
-	<div class="tpl-related-post news"><a href="<?php echo get_permalink($cpost);?>">
+<div class="tpl-related-post news"><a href="<?php echo get_permalink($cpost);?>">	
+
+	<h4 class="entry-title"><?php the_title();?></h4>
+	<?php if($show_thumb) { ?>	
+		<div class="entry-author pictured-card-item">
+		<?php $avatar = ($author) ? tst_get_author_avatar($author->term_id) : ''; ?>				
+				
+			<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+				
+			<div class="author-content card-footer-content pci-content">
+				<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $name);?></h5>
+				<p class="post-date mdl-typography--caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>
+			</div>
+			
+		</div>	
+	<?php } else { ?>
+		<div class="entry-author plain-card-item">
+			<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $name);?></h5>
+			<p class="post-date mdl-typography--caption"><time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
+		</div>	
+	<?php } ?>
 	
-	
-		<h4 class="entry-title mdl-typography--body-1"><?php the_title();?></h4>
-		<p class="post-date mdl-typography--caption"><i class="material-icons">today</i> <time><?php echo get_the_date('d.m.Y.', $cpost);?></time></p>				
-		
-	
-	</a></div>
+
+</a></div>
 <?php
 }
 
@@ -673,7 +689,7 @@ function tst_header_image_url(){
 		$img = (function_exists('get_field')) ? get_field('header_img', $qo->taxonomy.'_'.$qo->term_id) : 0;
 		$img = wp_get_attachment_url($img);
 	}
-	elseif(is_single()){
+	elseif(is_single() || is_page()){
 		$qo = get_queried_object();
 		$img = (function_exists('get_field')) ? get_field('header_img', $qo->ID) : 0;
 		$img = wp_get_attachment_url($img);

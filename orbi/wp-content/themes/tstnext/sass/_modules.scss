@@ -189,3 +189,22 @@
 .captioned-text {
 	@include text-with-caption();
 }
+
+
+// Grid corrections
+.grid-position {
+	margin: 0 -1 * $grid-desktop-gutter;
+}
+	
+.mdl-grid {
+	max-width: 1128px + $grid-desktop-margin *2;
+}
+
+.mdl-grid.full-width  {
+	max-width: none;
+}
+
+.mdl-cell .mdl-card {
+	width: 100%;
+	height: 100%;
+}

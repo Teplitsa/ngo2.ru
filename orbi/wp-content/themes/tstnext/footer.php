@@ -9,31 +9,10 @@
 
 $cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons СС-BY-SA 3.0</a>';
 $tst = __("Teplitsa of social technologies", 'tst');
-
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
-
 ?>
 
 </div><!-- .page-content -->
-<?php if(tst_has_bottombar()) { ?>
-<div id="bottombar" class="widget-area"><div class="container">		
-	
-	
-	<div class="mdl-grid">		
-		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_1-sidebar' );?></div>
-		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_2-sidebar' );?></div>
-		<div class="mdl-cell mdl-cell--4-col"><?php dynamic_sidebar( 'footer_3-sidebar' );?></div>					
-	</div>
-	
-</div></div>
-<?php } ?>
-
-<?php 
-	if(is_singular('post')) { //related block in post
-		get_template_part('partials/related', get_post_type());	
-	}
-	
-?>
 
 <footer id="colophon" class="site-footer" role="contentinfo">	
 

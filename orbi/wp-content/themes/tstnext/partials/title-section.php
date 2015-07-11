@@ -13,20 +13,19 @@ global $post;
 	</div>
 	<div class="mdl-cell mdl-cell--3-col "></div>
 </div>
-
 <?php } else { ?>
 <div class="mdl-grid">
-	<div class="mdl-cell--12-col">
+	<div class="mdl-cell mdl-cell--12-col">
 	<h1 class="page-title"><?php
 		if(is_home()){
 			$p = get_post(get_option('page_for_posts'));
 			if($p)
 				echo get_the_title($p);
 		}
-		elseif(is_category()){		
+		elseif(is_category() || is_tax()){		
 			single_cat_title();
 			
-		}
+		}		
 		elseif(is_post_type_archive('event')) {
 			$p = get_post(get_option('page_for_posts'));
 			if($p){
@@ -44,6 +43,15 @@ global $post;
 		}
 	?>
 	</h1>
+	<?php if(is_tax('auctor')) {
+		$qo = get_queried_object();
+		echo "<div class='author-description'>"; //print event empty - we need it for layout
+		if(isset($qo->description)){			
+			echo apply_filters('tst_the_title', $qo->description);			
+		}
+		echo "</div>";
+	}
+	?>
 	</div>
 </div>
 <?php } //singular ?>

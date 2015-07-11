@@ -1,0 +1,21 @@
+/** Calendar page **/
+
+
+.calendar-content {
+	.widget { display: none; }
+	
+	@include for(desktop) {
+		.donate-widget {
+			display: block;
+		}
+	}
+}
+
+.calendar-footer {
+	
+	@include for(desktop) {
+		.donate-widget {
+			display: none;
+		}
+	}
+}

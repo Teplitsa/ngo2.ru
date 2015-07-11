@@ -5,6 +5,7 @@ function tst_custom_content(){
 
     /** Existing post types settings: */
     deregister_taxonomy_for_object_type('post_tag', 'post');
+	remove_post_type_support('page', 'thumbnail' );
 	
 	register_taxonomy('auctor', array('post',), array(
         'labels' => array(

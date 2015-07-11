@@ -50,7 +50,7 @@
 	}
 	
 	.mdl-card__supporting-text { color: $tst-color-white-semi; }
-	time { font-weight: 500; }
+	time { font-weight: 700; }
 	
 	.mdl-button {
 		color: $tst-color-white;
@@ -58,6 +58,10 @@
 			color: $tst-color-white;
 		}
 	}
+}
+
+.tpl-news {
+	time { font-weight: 700; }
 }
 
 
@@ -72,13 +76,19 @@ $margin-base: 16px !default;
 	text-align: right;	
 }
 
+.page-content-grid {
+	background: $tst-color-white;
+}
+
 // Single post
 .tpl-post-full {
-	padding-top: 32px;
-		
+			
 	.entry-meta {
 		border-bottom: 1px solid $tst-color-border;		
-		margin-bottom: $margin-base*1.5;		
+		margin-bottom: $margin-base*1.5;
+		.mdl-grid {
+			padding-top: 0;
+		}
 	}
 	
 	.entry-summary {
@@ -135,13 +145,16 @@ $margin-base: 16px !default;
 	}
 }
 
-
+// sidebar
+.single .sidebar {
+	@include for(tablet){
+		margin-top: -52px;
+	}
+}
 
 // Related block
 .related-posts.section {
-	background: unquote("rgba(#{$palette-grey-100}, 1)");
 	padding: $margin-base 0;
-	margin-top: -48px;
 	
 	h5 {
 		@include typo-subhead();
@@ -177,8 +190,25 @@ $margin-base: 16px !default;
 }
 
 .tpl-related-post.news  {
+	padding: $grid-desktop-gutter 0;
+	
+	& > a {
+		display: block;
+		text-decoration: none;
+		* {
+			color: $tst-color-text;
+		}
+	}
+	
+	/*.entry-title {
+		margin-bottom: $margin-base;	
+	}
+	
 	.post-date {
-		color: $tst-color-text-semi;
+		margin: 0;
+		&, & * {
+			color: $tst-color-text-semi;
+		}		
 	}
 	
 	.material-icons {
@@ -187,14 +217,11 @@ $margin-base: 16px !default;
 		margin-right: 8px;
 		vertical-align: text-top;
 		color: $tst-color-text-semi;
-	}
+	}*/
 }
 
 
 // Page
-.page-template-default .page-content-grid {
-	background: $tst-color-white;
-}
 .tpl-page {
 	padding-top: 8px;
 	padding-bottom: 32px;

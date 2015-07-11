@@ -22,31 +22,22 @@ if($r_query->have_posts()){
 		$aside_title = __('More posts', 'tst'); 
 	}
 ?>
-<aside class="related-posts section">
+<aside class="related-posts section">	
+	<h5><?php echo apply_filters('tst_the_title', $aside_title);?></h5>
 	
-	<div class="mdl-grid">
-		<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
-		<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">
-			<h5><?php echo apply_filters('tst_the_title', $aside_title);?></h5>
-	
-		<?php
-			while($r_query->have_posts()){
-				$r_query->the_post();
-				
-				if(has_term('news', 'category')){
-					tst_compact_news_item();
-				}
-				else {
-					tst_compact_post_item();
-				}
-				
+	<?php
+		while($r_query->have_posts()){
+			$r_query->the_post();
+			
+			if(has_term('news', 'category')){
+				tst_compact_news_item();
 			}
-			wp_reset_postdata();	
-		?>	
-		</div>
-		<div class="mdl-cell mdl-cell--3-col "></div>
-		
-	</div><!-- .row -->
-	
+			else {
+				tst_compact_post_item();
+			}
+			
+		}
+		wp_reset_postdata();	
+	?>
 </aside>
 <?php  } ?>
