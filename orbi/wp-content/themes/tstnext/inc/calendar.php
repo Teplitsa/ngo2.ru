@@ -112,7 +112,7 @@ class TST_Calendar_Table {
 	
 		// keep going with days.... 
 		for($list_day = 1; $list_day <= $this->days_in_month; $list_day++):
-			$calendar.= '<td class="calendar-day">';
+			$calendar.= '<td class="calendar-day"><div class="calendar-cell">';
 			
 				//day content 
 				$calendar.= '<span class="day-number">'.$list_day.'</span>';
@@ -120,7 +120,7 @@ class TST_Calendar_Table {
 				//links of items
 				$calendar .= $this->day_content($list_day);
 				
-			$calendar.= '</td>';
+			$calendar.= '</div></td>';
 			if($running_day == 7):
 				$calendar.= '</tr>';
 				if(($day_counter+1) != $this->days_in_month):
@@ -149,7 +149,32 @@ class TST_Calendar_Table {
 	}
 
 	function day_content($day){
+		//2015-07-03
+		$args = array(
+			'post_type' => 'event',
+			'posts_per_page' => -1,
+			'meta_query' => array(
+				array(
+					'key' => 'event_date',
+					'value' => $this->year.$this->month.zeroise($day, 2),
+					'compare' => '=',
+				),
+			)
+		);
 		
+		$query = new WP_Query($args); 
+		if(!$query->have_posts())
+			return '';
+		
+		$links = array();
+		
+		//@to_do: markup for modals
+		foreach($query->posts as $event){
+			$title_full = get_the_title($event->ID);
+			$title = apply_filters('tst_the_title', mb_substr ($title_full, 0, 20));
+			$links[] = "<a href='".get_permalink($event)."' title='".esc_attr($title_full)."' class='day-link'><span>{$title}</span></a>";
+		}
+		return implode('', $links);
 	}
 	
 	
