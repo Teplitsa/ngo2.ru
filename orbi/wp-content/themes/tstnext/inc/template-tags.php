@@ -471,20 +471,20 @@ function tst_event_meta($cpost = null) {
 
 	if(!empty($date)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Event date', 'tst').":</span>";
-		echo "<time class='e-date'>".date('d.m.Y', strtotime($date))."</time>";
+		echo "<div class='em-label mdl-typography--caption'>".__('Event date', 'tst').":</div>";
+		echo "<div class='em-date mdl-typography--body-1'>".date('d.m.Y', strtotime($date))."</div>";
 		echo "</div>";
 	}
 	if(!empty($time)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Time', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('tst_the_title', $time)."</time>";
+		echo "<div class='em-label mdl-typography--caption'>".__('Time', 'tst').":</div>";
+		echo "<div class='em-time mdl-typography--body-1'>".apply_filters('tst_the_title', $time)."</div>";
 		echo "</div>";
 	}
 	if(!empty($addr)){
 		echo "<div class='em-field'>";
-		echo "<span class='label'>".__('Address', 'tst').":</span>";
-		echo "<time class='e-time'>".apply_filters('tst_the_title', $addr)."</time>";
+		echo "<div class='em-label mdl-typography--caption'>".__('Address', 'tst').":</div>";
+		echo "<div class='em-time mdl-typography--body-1'>".apply_filters('tst_the_title', $addr)."</div>";
 		echo "</div>";
 	}
 	

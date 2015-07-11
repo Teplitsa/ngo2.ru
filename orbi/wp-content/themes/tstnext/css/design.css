@@ -10550,9 +10550,8 @@ body.tax-auctor .author-description {
 
 .tpl-post-full .entry-meta {
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  margin-bottom: 24px; }
-  .tpl-post-full .entry-meta .mdl-grid {
-    padding-top: 0; }
+  margin-bottom: 24px;
+  padding-bottom: 24px; }
 .tpl-post-full .entry-summary {
   margin-bottom: 16px; }
   .tpl-post-full .entry-summary, .tpl-post-full .entry-summary p {
@@ -10692,9 +10691,7 @@ body.tax-auctor .author-description {
   display: none; }
 @media screen and (min-width: 940px) {
   .calendar-content .widget {
-    display: block; }
-  .calendar-content .tpl-product-banner .price-mark {
-    font-size: 28px; } }
+    display: block; } }
 
 .calendar-block {
   background: rgba(233,30,99, 1);

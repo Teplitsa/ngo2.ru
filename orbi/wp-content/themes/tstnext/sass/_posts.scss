@@ -86,9 +86,7 @@ $margin-base: 16px !default;
 	.entry-meta {
 		border-bottom: 1px solid $tst-color-border;		
 		margin-bottom: $margin-base*1.5;
-		.mdl-grid {
-			padding-top: 0;
-		}
+		padding-bottom: $margin-base*1.5;		
 	}
 	
 	.entry-summary {

@@ -11,8 +11,8 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 
 <article id="post-<?php the_ID(); ?>" <?php post_class('tpl-post-full'); ?>>
 
-	<div class="entry-meta"><div class="grid-position">
-		<div class="mdl-grid">
+	<div class="entry-meta">
+		<div class="mdl-grid mdl-grid--no-spacing">
 			<?php if($author) { ?>
 			<div class="mdl-cell mdl-cell--4-col">
 				<div class="captioned-text">
@@ -28,7 +28,7 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 				</div>
 			</div>
 		</div>
-	</div></div>
+	</div>
 		
 	<div class="entry-summary"><?php the_excerpt();?></div>
 	<div class="sharing-on-top"><?php tst_social_share();?></div>
