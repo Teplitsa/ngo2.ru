@@ -21,6 +21,7 @@ get_header(); ?>
 				<?php
 					$cal = new TST_Calendar_Table();
 					echo $cal->generate();
+					var_dump(get_field('event_date', 162));
 				?>
 				</div>
 			</div>

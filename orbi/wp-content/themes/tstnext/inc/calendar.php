@@ -5,7 +5,7 @@
 
 class TST_Calendar_Table {
 	
-	var $week_days = array('Пн.','Вт.','Ср.','Чт.','Пт.','Сб.','Вс.');
+	var $week_days = array('Пн','Вт','Ср','Чт','Пт','Сб','Вс');
 	var $month;
 	var $year;
 	var $today = array();
@@ -18,7 +18,7 @@ class TST_Calendar_Table {
 		
 		if($month && $year){
 			$this->month = $month;
-			$this->year = $year;
+			$this->year =  $year;
 		}
 		else {
 			//get data from today
@@ -26,7 +26,8 @@ class TST_Calendar_Table {
 			$this->year  = $this->today['y'];
 		}
 		
-		$this->days_in_month = date('t',mktime(0,0,0,$month,1,$year));		
+		$this->days_in_month = date('t',mktime(0,0,0,$month,1,$year));
+		
 	}
 	
 	function setup_today() {
@@ -114,7 +115,10 @@ class TST_Calendar_Table {
 			$calendar.= '<td class="calendar-day">';
 			
 				//day content 
-				$calendar.= '<a href="#" class="day-number">'.$list_day.'</a>';								
+				$calendar.= '<span class="day-number">'.$list_day.'</span>';
+				
+				//links of items
+				$calendar .= $this->day_content($list_day);
 				
 			$calendar.= '</td>';
 			if($running_day == 7):
@@ -144,5 +148,9 @@ class TST_Calendar_Table {
 		return $calendar;
 	}
 
+	function day_content($day){
+		
+	}
+	
 	
 } //class end

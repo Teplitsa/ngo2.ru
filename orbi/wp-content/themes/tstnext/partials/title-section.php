@@ -5,7 +5,7 @@ global $post;
 
 ?>
 
-<?php if(is_singular('post') || is_page()) { ?>
+<?php if((is_singular('post') || is_page()) && !is_page('calendar')) { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	
@@ -34,7 +34,10 @@ global $post;
 				post_type_archive_title(' // ');
 				echo "</span>";
 			}
-		}		
+		}
+		elseif(is_page()){
+			echo get_the_title($post);
+		}
 		elseif(is_search()){
 			_e('Search results', 'tst');
 		}
