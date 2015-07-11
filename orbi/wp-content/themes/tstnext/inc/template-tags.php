@@ -284,6 +284,7 @@ function tst_posted_on($cpost = null) {
 		$cpost = $post;
 		
 	$meta = array();
+	$sep = '';
 	
 	if('post' == $cpost->post_type){
 		$label = __('in the category', 'tst');
