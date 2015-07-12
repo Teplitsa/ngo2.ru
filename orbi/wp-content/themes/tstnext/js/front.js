@@ -27,6 +27,26 @@ jQuery(document).ready(function($){
 		});
 	}
 	
+	/** Float panel **/
+	var floatPanel = $('#float-panel'),
+		docHeight = $(document).height();
+		
+	$('.mdl-layout__content').scroll(function() {
+		if($('.mdl-layout__content').scrollTop() >= 450 && ($('.mdl-layout__content').scrollTop() + $(window).height() +50 <= docHeight)){
+			floatPanel.slideDown(300);			
+		} else {
+			floatPanel.slideUp(300);
+		}		
+	});
+	
+	/**  Second sharing **/
+	if ($('.sharing-on-bottom').length) {
+		var sharingDist = $('.sharing-on-bottom').offset().top - $('.sharing-on-top').offset().top;
+		if (sharingDist <= $(window).height() *0.8) {
+			$('.sharing-on-bottom').hide();
+		}
+	}
+	
 	
 	
 }); //jQuery

@@ -80,60 +80,9 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 		</div><!-- .entry-meta -->
 	<?php } ?>		
 		
-	</div>
-	
-	
+	</div>	
 </article><!-- #post-## -->
 
-<div id="float-panel">
-	<div class="mdl-grid full-width">
-		
-		<div class="mdl-cell mdl-cell--7-col mdl-cell--hide-phone mdl-cell--hide-tablet">
-			<div class="mdl-grid mdl-grid--no-spacing">
-				<div class="mdl-cell mdl-cell--6-col">
-					<?php if(!empty($author)) { ?>
-					<div class="entry-author pictured-card-item">
-						<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
-						
-						<div class="author-content pci-content">
-							<h5 class="author-name mdl-typography--body-1">
-								<a href="<?php echo get_term_link($author);?>"><?php echo apply_filters('tst_the_title', $author->name);?></a>
-							</h5>
-							<p class="author-role mdl-typography--caption">
-								<?php echo apply_filters('tst_the_title', $author->description);?>
-							</p>
-						</div>
-					</div>
-					<?php } ?>
-				</div>
-				<div class="mdl-cell mdl-cell--6-col">
-					<div class="captioned-text">
-						<div class="caption"><?php _e('Published', 'tst');?></div>
-						<div class="text"><?php echo tst_posted_on($post);?></div>
-					</div>
-				</div>
-			</div><!-- .row -->
-		</div>
-		
-		<div class="mdl-cell mdl-cell--8-col-tablet mdl-cell--5-col">
-			<div class="mdl-grid mdl-grid--no-spacing">
-				<div class="mdl-cell mdl-cell--9-col mdl-cell--2-col-phone mdl-cell--5-col-tablet">
-					<div class="sharing-on-panel"><?php tst_social_share();?></div>
-				</div>
-				<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone mdl-cell--3-col-tablet">
-					<span class="next-link">
-					<?php
-						
-						$next =  get_next_post_link('%link', 'Следующая &raquo;', true); 
-						if(empty($next)) {
-							$next = tst_next_fallback_link($post);
-						}
-						echo $next;
-					?>
-					</span>
-				</div>
-			</div><!-- .row -->
-		</div>
-		
-	</div><!-- .row -->
-</div>
+<!-- panel -->
+<?php get_template_part('partials/panel', 'float');?>
+

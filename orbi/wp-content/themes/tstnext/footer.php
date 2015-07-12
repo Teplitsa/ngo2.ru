@@ -40,6 +40,8 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 
 </footer>
 
+
+
 </main><!-- mdl-layout__content -->
 </div><!-- .mdl-layout -->
 
