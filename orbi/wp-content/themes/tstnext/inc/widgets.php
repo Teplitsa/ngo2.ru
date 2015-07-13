@@ -123,12 +123,13 @@ function tst_product_banner($cpost){
 		<div class="price-mark"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</div>
 	<?php } ?>
 	
-	<div class="mdl-card__media mdl-card--expand" style="background-image: url(<?php echo esc_url($img);?>);">
-		
+	<div class="mdl-card__media mdl-card--expand" style="background-image: url(<?php echo $img;?>);">
+		<?php //echo tst_get_post_thumbnail($cpost, 'post-thumbnail'); ?>
 	</div>
+	
+	<div class="mdl-card__supporting-text">Средства пойдут на борьбу с инсультом</div>
 	<div class="mdl-card__actions">
-		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Купить</a>
-		<div class="mdl-typography--caption">Средства пойдут на борьбу с инсультом</div>
+		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Купить</a>	
 	</div>
 </div>
 

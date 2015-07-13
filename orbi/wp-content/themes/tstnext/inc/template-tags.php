@@ -704,6 +704,37 @@ function tst_compact_news_item($cpost = null, $show_thumb = true){
 <?php
 }
 
+function tst_compact_product_item($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+	
+	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
+?>
+<div class="tpl-compact-product">	
+	<div class="pictured-card-item">
+		<div class="pr-avatar round-image pci-img">
+			<?php echo get_the_post_thumbnail($cpost->ID, 'thumbnail');?>
+		</div>
+			
+		<div class="pr-content pci-content">
+			<h5 class="pr-title mdl-typography--body-1">
+				<a href="<?php echo get_permalink($cpost);?>">
+					<?php echo get_the_title($cpost);?>
+				</a>
+			</h5>
+			<p class="pr-price mdl-typography--caption"><time><?php echo date_i18n('d.m.Y', strtotime($e_date));?></time></p>
+			<div class="buy">
+				<a href="<?php echo get_the_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
+			</div>
+		</div>
+		
+	</div>	
+</div>
+<?php
+}
+
 function tst_compact_event_item($cpost = null){
 	global $post;
 		

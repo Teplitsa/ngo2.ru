@@ -9957,6 +9957,9 @@ body.tax-auctor .author-description {
       height: auto;
       min-height: 368px; } }
 
+.contact-widget {
+  padding-top: 28px; }
+
 /** Elements **/
 .paging-navigation {
   text-align: center; }
@@ -10225,12 +10228,11 @@ body.tax-auctor .author-description {
     background-color: transparent;
     background-size: cover;
     background-repeat: no-repeat;
-    background-position: center center; }
+    background-position: center center;
+    min-height: 200px; }
   .tpl-product-banner .mdl-card__actions {
     text-align: right;
     padding: 16px; }
-  .tpl-product-banner .mdl-typography--caption {
-    margin-top: 8px; }
 
 @media screen and (min-width: 480px) {
   .page .tpl-product-banner,
@@ -10257,7 +10259,7 @@ body.tax-auctor .author-description {
 .tpl-product .mdl-card__title {
   padding-bottom: 0; }
 .tpl-product .mdl-typography--caption {
-  margin-top: 16px;
+  margin-top: 8px;
   font-weight: 500; }
 .tpl-product .price-mark {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
@@ -10267,6 +10269,8 @@ body.tax-auctor .author-description {
   color: rgba(233,30,99, 1);
   margin: 0;
   padding: 0 16px 16px; }
+.tpl-product .mdl-card__actions {
+  text-align: right; }
 
 .tpl-product-full {
   padding-bottom: 24px; }
