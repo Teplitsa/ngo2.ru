@@ -36,6 +36,6 @@ global $post;
 	
 	<div class="mdl-card--expand"></div>
 	<div class="mdl-card__actions mdl-card--border">
-		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
+		<a href="<?php the_permalink();?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
 	</div>
 </div>

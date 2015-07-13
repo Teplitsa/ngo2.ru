@@ -10268,34 +10268,43 @@ body.tax-auctor .author-description {
   margin: 0;
   padding: 0 16px 16px; }
 
-.tpl-product-full .entry-summary {
-  margin-bottom: 16px; }
-  .tpl-product-full .entry-summary, .tpl-product-full .entry-summary p {
-    font-size: 1.14285em;
-    line-height: 1.5; }
-.tpl-product-full .wp-caption {
-  position: realtive;
-  margin-bottom: 1.6rem; }
-  .tpl-product-full .wp-caption:last-child {
-    margin-bottom: 0; }
-  .tpl-product-full .wp-caption > a {
-    display: block; }
-.tpl-product-full .wp-caption.alignnone,
-.tpl-product-full .wp-caption.aligncenter {
-  max-width: 100%; }
-.tpl-product-full .wp-caption img[class*="wp-image-"] {
-  display: block;
-  margin: 0 auto; }
-.tpl-product-full .wp-caption-text {
-  line-height: 1.35;
-  font-size: 0.85714em;
-  color: rgba(0, 0, 0, 0.54);
-  font-style: italic;
-  margin: 0.8rem 0 0; }
-.tpl-product-full .entry-meta {
-  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
-  padding-bottom: 24px;
-  margin-bottom: 24px; }
+.tpl-product-full {
+  padding-bottom: 24px; }
+  .tpl-product-full .entry-summary {
+    margin-bottom: 16px; }
+    .tpl-product-full .entry-summary, .tpl-product-full .entry-summary p {
+      font-size: 1.14285em;
+      line-height: 1.5; }
+  .tpl-product-full .wp-caption {
+    position: realtive;
+    margin-bottom: 1.6rem; }
+    .tpl-product-full .wp-caption:last-child {
+      margin-bottom: 0; }
+    .tpl-product-full .wp-caption > a {
+      display: block; }
+  .tpl-product-full .wp-caption.alignnone,
+  .tpl-product-full .wp-caption.aligncenter {
+    max-width: 100%; }
+  .tpl-product-full .wp-caption img[class*="wp-image-"] {
+    display: block;
+    margin: 0 auto; }
+  .tpl-product-full .wp-caption-text {
+    line-height: 1.35;
+    font-size: 0.85714em;
+    color: rgba(0, 0, 0, 0.54);
+    font-style: italic;
+    margin: 0.8rem 0 0; }
+  .tpl-product-full .entry-meta {
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+    padding-bottom: 24px;
+    margin-bottom: 24px; }
+  .tpl-product-full .price-mark {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+    color: rgba(233,30,99, 1);
+    font-size: 28px; }
 
 /** Calendar page **/
 .calendar-content .widget {

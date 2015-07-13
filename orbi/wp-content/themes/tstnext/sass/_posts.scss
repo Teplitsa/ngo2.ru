@@ -365,6 +365,8 @@ $margin-base: 16px !default;
 }
 
 .tpl-product-full {
+	padding-bottom: $margin-base*1.5;
+	
 	.entry-summary {
 		@include lead;
 	}
@@ -377,4 +379,9 @@ $margin-base: 16px !default;
 		margin-bottom: $margin-base*1.5;
 	}
 	
+	.price-mark {
+		@include typo-display-1;
+		color: $tst-color-primary;
+		font-size: 28px;
+	}
 }
