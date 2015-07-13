@@ -293,63 +293,7 @@ body.tax-auctor {
 	}
 }
 
-.tpl-product-banner {
-	height: 100%;
-	min-height: 368px;
-	
-	@include for(desktop) {
-		height: auto;
-	}
-	
-	.mdl-card__title {
-		padding-bottom: 0;
-	}
-	
-	.mdl-card__title-text {
-		@include typo-subhead;
-		margin: 0;
-		color: $tst-color-text;
-		
-		a {
-			text-decoration: none;
-			color: inherit;
-			&:hover, &:focus, &:active {
-				color: $tst-color-primary;
-			}
-		}
-	}
-	
-	.price-mark {
-		@include typo-display-1;
-		font-size: 28px;
-		color: $tst-color-primary;
-		margin: 0;
-		padding: 0 $card-horizontal-padding $card-vertical-padding $card-horizontal-padding;		
-	}
-	
-	.mdl-card__media {
-		background-color: transparent;
-		background-size: cover;
-		background-repeat: no-repeat;
-		background-position: center center;
-	}
-	
-	.mdl-card__actions {
-		text-align:  right;
-		padding: $card-horizontal-padding;
-	}
-	
-	.mdl-typography--caption {
-		margin-top: 8px;
-	}
-}
 
-.page .tpl-product-banner,
-.single .tpl-product-banner {
-	@include for(tablet) {		
-		min-height: 368px;
-	}
-}
 
 
 

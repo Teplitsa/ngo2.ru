@@ -24,15 +24,9 @@ if((is_singular(array('post', 'event')) || is_page()) && !is_page('calendar')) {
 		elseif(is_category() || is_tax()){		
 			single_cat_title();
 			
-		}		
-		elseif(is_post_type_archive('event')) {
-			$p = get_post(get_option('page_for_posts'));
-			if($p){
-				echo get_the_title($p);
-				echo "<span>";
-				post_type_archive_title(' // ');
-				echo "</span>";
-			}
+		}				
+		elseif(is_post_type_archive('product')){
+			echo tst_get_post_type_archive_title('product');
 		}
 		elseif(is_page()){
 			echo get_the_title($post);

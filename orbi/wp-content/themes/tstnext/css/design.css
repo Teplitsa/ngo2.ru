@@ -9957,52 +9957,6 @@ body.tax-auctor .author-description {
       height: auto;
       min-height: 368px; } }
 
-.tpl-product-banner {
-  height: 100%;
-  min-height: 368px; }
-  @media screen and (min-width: 940px) {
-    .tpl-product-banner {
-      height: auto; } }
-  .tpl-product-banner .mdl-card__title {
-    padding-bottom: 0; }
-  .tpl-product-banner .mdl-card__title-text {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-size: 16px;
-    font-weight: 400;
-    line-height: 24px;
-    letter-spacing: 0.04em;
-    margin: 0;
-    color: rgba(0,0,0, 0.87); }
-    .tpl-product-banner .mdl-card__title-text a {
-      text-decoration: none;
-      color: inherit; }
-      .tpl-product-banner .mdl-card__title-text a:hover, .tpl-product-banner .mdl-card__title-text a:focus, .tpl-product-banner .mdl-card__title-text a:active {
-        color: rgba(233,30,99, 1); }
-  .tpl-product-banner .price-mark {
-    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-    font-size: 34px;
-    font-weight: 400;
-    line-height: 40px;
-    font-size: 28px;
-    color: rgba(233,30,99, 1);
-    margin: 0;
-    padding: 0 16px 16px 16px; }
-  .tpl-product-banner .mdl-card__media {
-    background-color: transparent;
-    background-size: cover;
-    background-repeat: no-repeat;
-    background-position: center center; }
-  .tpl-product-banner .mdl-card__actions {
-    text-align: right;
-    padding: 16px; }
-  .tpl-product-banner .mdl-typography--caption {
-    margin-top: 8px; }
-
-@media screen and (min-width: 480px) {
-  .page .tpl-product-banner,
-  .single .tpl-product-banner {
-    min-height: 368px; } }
-
 /** Elements **/
 .paging-navigation {
   text-align: center; }
@@ -10236,6 +10190,83 @@ body.tax-auctor .author-description {
 
 .related-posts.ev-future h5 {
   margin-bottom: 16px; }
+
+.tpl-product-banner {
+  height: 100%;
+  min-height: 368px; }
+  @media screen and (min-width: 940px) {
+    .tpl-product-banner {
+      height: auto; } }
+  .tpl-product-banner .mdl-card__title {
+    padding-bottom: 0; }
+  .tpl-product-banner .mdl-card__title-text {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    margin: 0;
+    color: rgba(0,0,0, 0.87); }
+    .tpl-product-banner .mdl-card__title-text a {
+      text-decoration: none;
+      color: inherit; }
+      .tpl-product-banner .mdl-card__title-text a:hover, .tpl-product-banner .mdl-card__title-text a:focus, .tpl-product-banner .mdl-card__title-text a:active {
+        color: rgba(233,30,99, 1); }
+  .tpl-product-banner .price-mark {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 34px;
+    font-weight: 400;
+    line-height: 40px;
+    font-size: 28px;
+    color: rgba(233,30,99, 1);
+    margin: 0;
+    padding: 0 16px 16px 16px; }
+  .tpl-product-banner .mdl-card__media {
+    background-color: transparent;
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center center; }
+  .tpl-product-banner .mdl-card__actions {
+    text-align: right;
+    padding: 16px; }
+  .tpl-product-banner .mdl-typography--caption {
+    margin-top: 8px; }
+
+@media screen and (min-width: 480px) {
+  .page .tpl-product-banner,
+  .single .tpl-product-banner {
+    min-height: 368px; } }
+
+.post-type-archive-product .page-header .mdl-grid,
+.catalogue-grid {
+  max-width: 830px; }
+
+.tpl-product .mdl-card__title-text {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 24px;
+  font-weight: 400;
+  line-height: 32px;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  color: rgba(0,0,0, 0.87); }
+  .tpl-product .mdl-card__title-text a {
+    text-decoration: none;
+    color: inherit; }
+    .tpl-product .mdl-card__title-text a:hover, .tpl-product .mdl-card__title-text a:focus, .tpl-product .mdl-card__title-text a:active {
+      color: rgba(233,30,99, 1); }
+.tpl-product .mdl-card__title {
+  padding-bottom: 0; }
+.tpl-product .mdl-typography--caption {
+  margin-top: 16px;
+  font-weight: 500; }
+.tpl-product .price-mark {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  font-size: 34px;
+  font-weight: 400;
+  line-height: 40px;
+  color: rgba(233,30,99, 1);
+  margin: 0;
+  padding: 0 16px 16px; }
 
 /** Calendar page **/
 .calendar-content .widget {

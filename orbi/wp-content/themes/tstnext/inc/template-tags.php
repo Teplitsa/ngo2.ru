@@ -405,6 +405,14 @@ function tst_breadcrumbs(){
 	elseif(is_category()){
 		$links[] = "<span class='crumb-name'>".single_cat_title('', false)."</span>";
 	}
+	elseif(is_post_type_archive('product')) {
+		$links[] = "<span class='crumb-name'>".tst_get_post_type_archive_title('product')."</span>";
+		
+	}
+	elseif(is_singular('product')) {		
+		$links[] = "<a href='".get_post_type_archive_link('product')."' class='crumb-link'>".tst_get_post_type_archive_title('product')."</a>";
+		
+	}
 	
 	$sep = tst_get_sep("&gt;");
 	
@@ -416,7 +424,15 @@ function tst_breadcrumbs(){
 function tst_get_post_type_archive_title($post_type) {
 	
 	$pt_obj = get_post_type_object( $post_type );
-	return $pt_obj->labels->name;
+	
+	if($post_type == 'product'){
+		$name = $pt_obj->labels->menu_name;
+	}
+	else {
+		$name = $pt_obj->labels->name;
+	}
+	
+	return $name;
 }
 
 /** Next fallback link **/

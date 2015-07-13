@@ -27,6 +27,7 @@ function tst_setup() {
 	add_image_size('thumbnail-extra', 600, 337, true ); // large thumbnail 16:9
 	add_image_size('embed', 600, 420, true ); // fixed size for embedding 4:3
 	add_image_size('embed-small', 350, 245, true ); // fixed size cards 4:3
+	add_image_size('thumbnail-long', 810, 320, true ); // large thumbnail 16:9
 
 	// Menus
 	register_nav_menus(array(

@@ -15,13 +15,14 @@ global $post;
 			<a href="<?php the_permalink();?>"><?php the_title();?></a>
 		</div>		
 	</div>
+	
 	<?php if(!empty($price)) { ?>
 		<div class="price-mark"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</div>
 	<?php } ?>
-	
+		
 	<?php if(has_post_thumbnail()){ ?>
 	<div class="mdl-card__media">
-		<?php echo tst_get_post_thumbnail(null, 'embed'); ?>		
+		<?php echo tst_get_post_thumbnail(null, 'thumbnail-long'); ?>		
 	</div>			
 	<?php } ?>
 	
@@ -34,7 +35,7 @@ global $post;
 	</div>
 	
 	<div class="mdl-card--expand"></div>
-	<div class="mdl-card__actions">
-		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Купить</a>
+	<div class="mdl-card__actions mdl-card--border">
+		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
 	</div>
 </div>
