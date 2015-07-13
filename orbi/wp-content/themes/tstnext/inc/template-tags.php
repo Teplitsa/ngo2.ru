@@ -100,7 +100,7 @@ function is_tax_branch($slug, $tax) {
 
 function is_posts() {
 	
-	if(is_home() || is_category())
+	if(is_home() || is_category() || is_tax('auctor'))
 		return true;
 	
 		
@@ -113,7 +113,7 @@ function is_posts() {
 function is_events() {
 	
 		
-	if(is_post_type_archive('event'))
+	if(is_post_type_archive('event') || is_page('calendar'))
 		return true;
 		
 	if(is_singular('event'))
@@ -122,16 +122,16 @@ function is_events() {
 	return false;
 }
 
-function tst_has_bottombar(){
+function is_products(){
 	
-	if(is_singular('post') || is_page()){
-		return false;
-	}
-	elseif(is_home() || is_category() || is_tax()){
-		return false;
-	}
+	if(is_post_type_archive('product'))
+		return true;
 	
-	return true;
+	if(is_singular('product'))
+		return true;
+	
+	return false;
+	
 }
 
 /** Menu filter sceleton **/
@@ -536,9 +536,9 @@ function tst_get_post_excerpt($cpost = null, $l = 30){
 function tst_card_summary($cpost = null, $l = 30){
 	
 	$text = tst_get_post_excerpt($cpost, $l);
-	
+		
 	$text = apply_filters('tst_the_content', $text);
-	$text = str_replace('<p>', '<div class="mdl-card__supporting-text">', $text);
+	$text = str_replace('<p>', '<div class="mdl-card__supporting-text">', $text);	
 	$text = str_replace('</p>', '</div>', $text);
 	
 	return $text;
