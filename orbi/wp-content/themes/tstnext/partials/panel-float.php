@@ -32,6 +32,22 @@ global $post;
 			</div>
 		</div>
 	</div>
+<?php } elseif(is_singular('product')) { ?>
+	<div class="mdl-cell mdl-cell--7-col mdl-cell--hide-phone mdl-cell--hide-tablet">
+		<div class="product-meta-panel pictured-card-item">
+		<?php $price = (function_exists('get_field')) ? get_field('product_price', get_the_ID()) : ''; ?>
+			<div class="pr-avatar round-image pci-img"><?php echo get_the_post_thumbnail(get_the_ID(), 'thumbnail')?></div>
+			
+			<div class="pr-content pci-content">
+				<h5 class="pr-title mdl-typography--body-1">
+					<?php the_title();?>
+				</h5>
+				<p class="pr-price mdl-typography--caption">
+					<?php echo number_format ((int)$price , 0 , "." , " " );?> руб.
+				</p>
+			</div>
+		</div>
+	</div>
 <?php } else { ?>	
 	<div class="mdl-cell mdl-cell--7-col mdl-cell--hide-phone mdl-cell--hide-tablet">
 		<div class="mdl-grid mdl-grid--no-spacing">

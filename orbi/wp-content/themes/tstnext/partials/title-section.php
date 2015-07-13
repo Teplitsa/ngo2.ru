@@ -4,7 +4,7 @@
 global $post;
 
 
-if((is_singular(array('post', 'event')) || is_page()) && !is_page('calendar')) { ?>
+if((is_singular(array('post', 'event', 'product')) || is_page()) && !is_page('calendar')) { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	

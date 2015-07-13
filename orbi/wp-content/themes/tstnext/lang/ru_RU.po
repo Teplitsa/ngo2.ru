@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-11 22:20+0300\n"
-"PO-Revision-Date: 2015-07-11 22:21+0300\n"
+"POT-Creation-Date: 2015-07-13 10:14+0300\n"
+"PO-Revision-Date: 2015-07-13 10:14+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -42,11 +42,11 @@ msgstr "Теплица социальных технологий"
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
 
-#: functions.php:33
+#: functions.php:34
 msgid "Primary Menu"
 msgstr "﻿Главное меню"
 
-#: functions.php:34 inc/widgets.php:242
+#: functions.php:35 inc/widgets.php:242
 msgid "Social Buttons"
 msgstr "Социальные кнопки"
 
@@ -71,27 +71,27 @@ msgstr "в рубрике"
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:475
+#: inc/template-tags.php:492
 msgid "Event date"
 msgstr "Дата мероприятия"
 
-#: inc/template-tags.php:481
+#: inc/template-tags.php:498
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:487
+#: inc/template-tags.php:504
 msgid "Location"
 msgstr "Место проведения"
 
-#: inc/template-tags.php:493
+#: inc/template-tags.php:510
 msgid "Address"
 msgstr "Адрес"
 
-#: inc/template-tags.php:551 partials/content_single.php:19
+#: inc/template-tags.php:568 partials/content_single.php:20
 msgid "Author"
 msgstr "Автор"
 
-#: inc/template-tags.php:573
+#: inc/template-tags.php:590
 msgid "Logo"
 msgstr "Логотип"
 
@@ -103,11 +103,11 @@ msgstr "Меню социальных кнопок с сопроводитель
 msgid "Article"
 msgstr "Статья"
 
-#: partials/content_single.php:26 partials/content_single.php:109
+#: partials/content_single.php:27 partials/panel-float.php:60
 msgid "Published"
 msgstr "Опубликовано"
 
-#: partials/content_single.php:75
+#: partials/content_single.php:76
 msgid "All author's articles"
 msgstr "Все статьи автора"
 
@@ -115,13 +115,17 @@ msgstr "Все статьи автора"
 msgid "More posts"
 msgstr "Еще публикации"
 
-#: partials/title-section.php:42
+#: partials/title-section.php:35
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: partials/title-section.php:45
+#: partials/title-section.php:38
 msgid "404: Page not found"
 msgstr "404: Страница не найдена"
+
+#: single-product.php:24
+msgid "Price"
+msgstr "Цена"
 
 #~ msgid "Primary menu"
 #~ msgstr "﻿Главное меню"

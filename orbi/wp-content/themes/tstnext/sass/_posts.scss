@@ -364,3 +364,17 @@ $margin-base: 16px !default;
 	}
 }
 
+.tpl-product-full {
+	.entry-summary {
+		@include lead;
+	}
+	
+	@include wp-caption;
+	
+	.entry-meta {
+		border-bottom: 1px solid $tst-color-border;
+		padding-bottom: $margin-base*1.5;
+		margin-bottom: $margin-base*1.5;
+	}
+	
+}
