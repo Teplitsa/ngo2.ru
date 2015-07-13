@@ -29,23 +29,21 @@ add_filter( 'jpeg_quality', create_function( '', 'return 95;' ) );
 
 /** more link */
 function memo_get_excerpt_with_link($cpost) {
-	$more = memo_get_more_text();
+
 	$exerpt = $cpost->post_excerpt;
 	if(empty($exerpt))
 		return '';
 	
 	$url = get_permalink($cpost);
-	return $exerpt.'&nbsp;<a href="'. esc_url($url) . '"><span class="meta-nav">'.$more.'</span></a>';
+	return $exerpt.'&nbsp;<a href="'.esc_url($url).'"><span class="meta-nav">'.memo_get_more_text().'</span></a>';
 }
 
 function memo_continue_reading_link() {
-	$more = memo_get_more_text();
-	return '&nbsp;<a href="'. esc_url( get_permalink() ) . '"><span class="meta-nav">'.$more.'</span></a>';
+	return '&nbsp;<a href="'. esc_url( get_permalink() ) . '"><span class="meta-nav">'.memo_get_more_text().'</span></a>';
 }
 
-function memo_get_more_text(){
-	
-	return "&raquo;";
+function memo_get_more_text() {
+	return "Подробнее &raquo;";
 }
 
 /** excerpt filters  */
@@ -66,8 +64,8 @@ function memo_custom_excerpt_more( $output ) {
 	
 	if(is_singular() || is_search())
 		return $output;
-	
-	$output .= memo_continue_reading_link();
+
+	$output .= '1111'.memo_continue_reading_link();
 	return $output;
 }
 

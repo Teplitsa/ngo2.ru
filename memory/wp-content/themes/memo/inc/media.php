@@ -9,8 +9,8 @@ function memo_medialib_custom_image_sizes($sizes) {
 	
 	$addsizes = apply_filters('memo_medialib_custom_image_sizes', array(
 		"post-thumb" => __("Column-width", "bb")
-	));	
-	
+	));
+
 	return array_merge($sizes, $addsizes);
 }
 

@@ -456,37 +456,28 @@ function memo_document_attached_gallery($post_id, $columns){
 	unset($query->posts[0]);
 	$items = $query->posts;	
 	$gallery_ref = uniqid('gallery-');
-	
-	
-	
+
 	$url = wp_get_attachment_url($att->ID);
 	$img = wp_get_attachment_image($att->ID, 'full');
 	$caption = esc_attr(trim($att->post_excerpt.' '.$att->post_content));
-	
-	$html = "<div class='full-img'><a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a></div>";
-	
-	$html .= "<div class='gallery-img lam-gallery'><ul class='lam-clearfix cols-{$columns}'>";
-	
-	foreach($items as $picture) {
-		
-		$caption = esc_attr(trim($att->post_excerpt.' '.$att->post_content));		
-		$attr = array(
-			'title' => '',
-			'alt' => (!empty($title)) ? $caption : ''
-		);
-		
-        $img = wp_get_attachment_image($picture->ID, 'post-thumbnail', false, $attr);
-        $url = wp_get_attachment_url($picture->ID);
-        
 
-        // HTML for lightbox
-        $html .= '<li>';
-        $html .= "<a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a>";
-        $html .= '</li>';
+	$html = "<div class='full-img'><a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'>{$img}</a></div>";
+
+	$html .= "<div class='gallery-img lam-gallery'><ul class='lam-clearfix cols-{$columns}'>";
+
+	foreach($items as $picture) {
+
+		$caption = esc_attr(trim($picture->post_excerpt.' '.$picture->post_content));
+
+        $url = wp_get_attachment_url($picture->ID);
+        //$img = wp_get_attachment_image($picture->ID, 'post-thumbnail', false, $attr);
+
+        // HTML for lightbox:
+        $html .= "<li><a data-fresco-group='{$gallery_ref}' href='{$url}' data-fresco-caption='{$caption}' rel='image-overlay' class='img-padder fresco'><img src='".aq_resize($url, 320, 210, true, true, true)."' width='320' height='210' alt=''></a></li>";
     }
-	
+
 	$html .= "</ul></div>";
-	
+
 	return $html;
 }
 
