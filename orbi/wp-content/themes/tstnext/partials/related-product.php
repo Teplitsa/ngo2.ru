@@ -22,7 +22,7 @@ $r_query = new WP_Query(
 );
 ?>
 <aside class="related-posts ev-future section">	
-	<h5>Еще события</h5>
+	<h5>Еще товары</h5>
 	
 	<?php
 		while($r_query->have_posts()){
