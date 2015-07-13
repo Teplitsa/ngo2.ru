@@ -43,7 +43,7 @@ function memo_continue_reading_link() {
 }
 
 function memo_get_more_text() {
-	return "Подробнее &raquo;";
+	return " &raquo;";
 }
 
 /** excerpt filters  */
@@ -58,15 +58,14 @@ function memo_custom_excerpt_length( $l ) {
 }
 
 /** inject */
-add_filter( 'get_the_excerpt', 'memo_custom_excerpt_more' );
-function memo_custom_excerpt_more( $output ) {
-	global $post;
-	
-	if(is_singular() || is_search())
-		return $output;
+add_filter('get_the_excerpt', 'memo_custom_excerpt_more');
+function memo_custom_excerpt_more($output) {
 
-	$output .= '1111'.memo_continue_reading_link();
-	return $output;
+	if(is_singular() || is_search()) {
+        return $output;
+    }
+
+	return trim($output, " \n\r").memo_continue_reading_link();
 }
 
 /**

@@ -10,10 +10,7 @@ $css = ' bit md-4';
 
 <div class="post-inner">
 	<a href="<?php the_permalink();?>" class="thumbnail-link">
-	<?php
-		$attr = array('alt' => sprintf(__('Thumbnail for - %s', 'memo'), get_the_title()));
-		the_post_thumbnail('post-thumbnail', $attr);
-	?>
+	    <?php the_post_thumbnail('post-thumbnail', array('alt' => get_the_title()));?>
 	</a>
 
 	<div class="card-content">
