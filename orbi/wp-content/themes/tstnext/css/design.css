@@ -10027,9 +10027,13 @@ body.tax-auctor .author-description {
     color: rgba(255,255,255, 1); }
     .tpl-post .mdl-button:hover {
       color: rgba(255,255,255, 1); }
+  .tpl-post .mdl-card__actions {
+    text-align: right; }
 
 .tpl-news time {
   font-weight: 700; }
+.tpl-news .mdl-card__actions {
+  text-align: right; }
 
 /** Single **/
 .page-content-grid {
@@ -10466,5 +10470,16 @@ table.calendar {
 
 .ev-past .add-to-calendar {
   display: none; }
+
+/** Home **/
+.page-template-page-home .mdl-cell .mdl-card {
+  height: auto; }
+.page-template-page-home .tpl-post.featured {
+  margin-right: 24px; }
+.page-template-page-home .blog-list {
+  margin-left: 24px; }
+
+.home-blog-section-header {
+  margin: 40px 0 16px; }
 
 /*# sourceMappingURL=design.css.map */

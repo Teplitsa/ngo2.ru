@@ -1,1 +1,20 @@
 /** Home **/
+
+.page-template-page-home {
+
+	.mdl-cell .mdl-card  {
+		height: auto;	
+	}
+	
+	.tpl-post.featured {
+		margin-right: $grid-desktop-gutter;
+	}
+	
+	.blog-list {
+		margin-left: $grid-desktop-gutter;
+	}
+}
+
+.home-blog-section-header {
+	margin: $margin-base*2.5 0 $margin-base;
+}

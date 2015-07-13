@@ -623,7 +623,7 @@ function tst_get_author_avatar($author_term_id){
 
 
 /** Compact post item **/
-function tst_compact_post_item($cpost = null, $show_thumb = true){
+function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 'post-thumbnail'){
 	global $post;
 		
 	if(!$cpost)
@@ -660,13 +660,28 @@ function tst_compact_post_item($cpost = null, $show_thumb = true){
 		</div>
 		
 		<div class="mdl-cell mdl-cell--4-col">
-			<?php echo tst_get_post_thumbnail($cpost, 'post-thumbnail'); ?>
+		<?php
+			$thumb = tst_get_post_thumbnail($cpost, $thumb_size);
+			if(empty($thumb)){
+				$thumb = tst_get_default_post_thumbnail($thumb_size);
+			}
+			
+			echo $thumb;
+		?>
 		</div>
 	</div>	
 	
 	</a></div>
 <?php
 }
+
+// deafult thumbnail for posts
+function tst_get_default_post_thumbnail($size){
+		
+	$default_thumb_id = 180; //@to_do: make this real option	
+	return wp_get_attachment_image($default_thumb_id, $size);	
+}
+
 
 function tst_compact_news_item($cpost = null, $show_thumb = true){
 	global $post;
@@ -813,4 +828,47 @@ function tst_header_image_url(){
 	}
 	
 	return $img;
+}
+
+
+/** Post card content **/
+function tst_post_card_content($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+	$author = tst_get_post_author($cpost);
+?>
+	<?php if(has_post_thumbnail($cpost->ID)){ ?>
+	<div class="mdl-card__media">
+		<?php echo tst_get_post_thumbnail($cpost, 'thumbnail-extra'); ?>		
+	</div>			
+	<?php } ?>
+	
+	<?php if(!empty($author)) { ?>
+		<div class="entry-author mdl-card__supporting-text">
+		<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
+			
+			<div class="pictured-card-item">
+				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
+					
+				<div class="author-content card-footer-content pci-content">
+					<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
+					<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+				</div>
+			</div>
+		</div>
+	<?php } ?>
+	
+	<div class="mdl-card__title">
+		<h4 class="mdl-card__title-text"><a href="<?php echo get_permalink($cpost);?>"><?php echo get_the_title($cpost->ID);?></a></h4>
+	</div>
+	
+	<?php echo tst_card_summary($cpost); ?>
+	<div class="mdl-card--expand"></div>
+	<div class="mdl-card__actions mdl-card--border">
+		<a href="<?php echo get_permalink($cpost);?>" class="mdl-button mdl-js-button">Подробнее</a>
+	</div>
+<?php
 }
