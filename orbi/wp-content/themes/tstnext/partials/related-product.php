@@ -27,7 +27,7 @@ $r_query = new WP_Query(
 	<?php
 		while($r_query->have_posts()){
 			$r_query->the_post();		
-			tst_compact_event_item();		
+			tst_compact_product_item();		
 		}
 		wp_reset_postdata();	
 	?>

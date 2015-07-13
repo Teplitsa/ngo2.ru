@@ -724,7 +724,7 @@ function tst_compact_product_item($cpost = null){
 					<?php echo get_the_title($cpost);?>
 				</a>
 			</h5>
-			<p class="pr-price mdl-typography--caption"><time><?php echo date_i18n('d.m.Y', strtotime($e_date));?></time></p>
+			<p class="pr-price mdl-typography--caption"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</p>
 			<div class="buy">
 				<a href="<?php echo get_the_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
 			</div>
