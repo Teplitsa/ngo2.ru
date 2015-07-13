@@ -6,24 +6,22 @@
 
 global $wp_query;
 
-
-$card_loop = (is_post_type_archive(array('document', 'book'))) ? ' card-board' : '';
-get_header(); ?>
+get_header();?>
 
 <?php get_template_part('partials/title', 'section');?>	
 
-<?php if(is_home() || is_tax('place')) { ?>
-<div class="complex-loop content-area <?php echo $card_loop;?>">
-	
+<?php if(is_home() || is_tax('place')) {?>
+<div class="complex-loop content-area <?php echo is_post_type_archive(array('document', 'book')) ? 'card-board' : '';?>">
+
 	<?php if(is_home() || is_tax('place')) { ?>
 		<div class="tag-nav"><?php memo_tags_widget();?></div>
 	<?php } ?>
 	<div class="frame">
 	<?php
-		if(have_posts()){
+		if(have_posts()) {
 			$count = 1; $col = 1;
 			while(have_posts()){			
-				
+
 				if($count > ceil(count($wp_query->posts)/3)){
 					$count = 1;
 					$col++;
@@ -35,7 +33,13 @@ get_header(); ?>
 				}
 				
 				the_post();
-				get_template_part( 'partials/content', get_post_type() );
+
+                if(is_tax('place')) {
+                    get_template_part('partials/content', 'story');
+                } else {
+                    get_template_part('partials/content', get_post_type());
+                }
+
 				$count++;			
 			}
 			echo "</div>";

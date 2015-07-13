@@ -28,12 +28,12 @@ get_header(); ?>
 	<div class="frame">
 	<?php
 		memo_tags_widget();
-	
-		while ($query->have_posts() ) {
+
+		while($query->have_posts() ) {
 			$query->the_post();
 			
 			//to-do add tags widget
-			get_template_part( 'partials/content', 'story');
+			get_template_part('partials/content', 'story');
 		}
 		wp_reset_postdata();
 	?>

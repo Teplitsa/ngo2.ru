@@ -361,3 +361,15 @@ function memo_http_the_content($html){
 	return $html;
 }
 
+add_action('pre_get_posts', function(WP_Query $query){
+
+    if( !$query->is_main_query() ) {
+        return;
+    }
+
+    if(is_home() || is_tax('place')) {
+
+        $query->set('orderby', 'title');
+        $query->set('order', 'ASC');
+    }
+});
