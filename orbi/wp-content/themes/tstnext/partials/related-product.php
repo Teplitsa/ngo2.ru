@@ -1,6 +1,6 @@
 <?php
 /**
- * Related events template
+ * Related products template
  **/
 
 global $post;
