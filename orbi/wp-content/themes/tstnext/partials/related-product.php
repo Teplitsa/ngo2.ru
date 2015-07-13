@@ -8,16 +8,10 @@ global $post;
 $today = strtotime(sprintf('now %s hours', get_option('gmt_offset'))); 
 $r_query = new WP_Query(
 	array(
-		'post_type' => 'event',
+		'post_type' => 'product',
 		'posts_per_page' => 4,
 		'orderby' => 'rand',
-		'meta_query' => array(
-			array(
-				'key' => 'event_date',
-				'value' => date('Y', $today).date('m', $today).date('d', $today),
-				'compare' => '>=',
-			),
-		)
+		'post__not_in' => array($post->ID)
 	)
 );
 ?>

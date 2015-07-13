@@ -4,7 +4,14 @@
 global $post;
 
 
-if((is_singular(array('post', 'event', 'product')) || is_page()) && !is_page('calendar')) { ?>
+
+if(is_front_page()) { ?>
+<div class="mdl-grid">
+	<div class="mdl-cell mdl-cell--12-col">
+		<div class="home-logo"><?php tst_site_logo('regular');?></div>
+	</div>
+</div>
+<?php } elseif((is_singular(array('post', 'event', 'product')) || is_page()) && !is_page('calendar')) { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	

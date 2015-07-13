@@ -11,6 +11,7 @@ $r_query = new WP_Query(
 		'post_type' => 'event',
 		'posts_per_page' => 4,
 		'orderby' => 'rand',
+		'post__not_in' => array($post->ID),
 		'meta_query' => array(
 			array(
 				'key' => 'event_date',

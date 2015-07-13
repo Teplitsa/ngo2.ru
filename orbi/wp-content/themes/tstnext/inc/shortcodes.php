@@ -4,70 +4,7 @@
  **/
 
 
-
-/**
- * Repeateble blocks
- **/
-add_shortcode('repeatable_blocks', 'repeatable_blocks_screen');
-function repeatable_blocks_screen($atts){
-	global $post, $wp_query;
-	
-	if(!function_exists('get_field'))
-		return '';
-	
-	$css = get_field('repeatable_blocks_css');
-	$thumb_size = (get_field('repeatable_blocks_thumb_size')) ? get_field('repeatable_blocks_thumb_size') : 'thumbnail';
-	$out = '';
-	
-	if(have_rows('repeatable_blocks')): 
-	ob_start();
-	
-	echo "<div class='repeatable-blocks {$css}'>";
-	while(have_rows('repeatable_blocks')): the_row(); 
-
-		// vars
-		$img_obj = get_sub_field('block_image');
-		$content = get_sub_field('block_html');
-		$title = get_sub_field('block_title');
-		$img = '';
-		$content_css = 'bit';
-		
-		if(isset($img_obj['id']) && $img_obj['id'] > 0){
-			$img = wp_get_attachment_image($img_obj['id'], $thumb_size);
-			$content_css = 'bit md-8 lg-9';
-		}
-	?>
-		<section class="rb-item">
-
-			<?php if(!empty($title)): ?>
-				<h3><?php echo apply_filters('tst_the_title', $title);?></h3>
-			<?php endif; ?>
-			
-			<div class="rb-section frame">
-			
-				<?php if(!empty($img)): ?>
-				<div class="bit md-4 lg-3">
-					<div class="rb-image"><?php echo $img;?></div>
-				</div>
-				<?php endif;?>
-				
-				<div class="rb-content <?php echo esc_attr($content_css);?>">
-					<?php echo apply_filters('the_content', $content); ?>
-				</div>
-			
-			</div>
-		</section>
-<?php
-	endwhile;
-	echo "</div>";
-	
-	$out = ob_get_contents();
-	ob_end_clean();
-	endif;
-	
-	return $out;
-}
-
+/** == Defaults == **/
 
 /**
  * Clear

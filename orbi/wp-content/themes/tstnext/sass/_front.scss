@@ -20,6 +20,10 @@ $sh-base : $cell-elementary-2x;
 		max-height: $layout-mobile-header-height - 14px;
 	}
 	
+	@include upto(phone) {
+		display: none;
+	}
+	
 	a {
 		display: block;
 		height: 100%;
@@ -37,6 +41,10 @@ $sh-base : $cell-elementary-2x;
 			max-height: $layout-mobile-header-height - 14px;
 		}
 	}
+}
+
+.page-template-page-home .site-logo {
+	display: none;
 }
 
 .crumbs {
@@ -126,7 +134,12 @@ $sh-base : $cell-elementary-2x;
 		font-weight: 200;
 		z-index: 10;
 		padding: $sh-base*4 0 $sh-base*2.5;		
-	}	
+	}
+	
+	.home-logo {
+		position: relative;
+		z-index: 10;
+	}
 }
 
 .page-content {	

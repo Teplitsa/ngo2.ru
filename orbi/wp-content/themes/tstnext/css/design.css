@@ -9754,6 +9754,9 @@ body {
   @media screen and (max-width: 850px) {
     .site-logo {
       max-height: 42px; } }
+  @media screen and (max-width: 479px) {
+    .site-logo {
+      display: none; } }
   .site-logo a {
     display: block;
     height: 100%;
@@ -9768,6 +9771,9 @@ body {
     @media screen and (max-width: 850px) {
       .site-logo img {
         max-height: 42px; } }
+
+.page-template-page-home .site-logo {
+  display: none; }
 
 .crumbs {
   display: none; }
@@ -9842,6 +9848,9 @@ body {
     font-weight: 200;
     z-index: 10;
     padding: 64px 0 40px; }
+  .page-header .home-logo {
+    position: relative;
+    z-index: 10; }
 
 .page-content {
   position: relative;
@@ -10309,6 +10318,22 @@ body.tax-auctor .author-description {
     line-height: 40px;
     color: rgba(233,30,99, 1);
     font-size: 28px; }
+
+.tpl-compact-product {
+  padding: 24px 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+  .tpl-compact-product:last-child {
+    border-bottom: none; }
+  .tpl-compact-product .pr-content {
+    position: relative;
+    padding-right: 88px; }
+  .tpl-compact-product .pci-content .pr-price {
+    color: rgba(233,30,99, 1); }
+  .tpl-compact-product .buy {
+    width: 88px;
+    position: absolute;
+    top: 0;
+    right: 0; }
 
 /** Calendar page **/
 .calendar-content .widget {

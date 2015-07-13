@@ -726,7 +726,7 @@ function tst_compact_product_item($cpost = null){
 			</h5>
 			<p class="pr-price mdl-typography--caption"><?php echo number_format ((int)$price , 0 , "." , " " );?> руб.</p>
 			<div class="buy">
-				<a href="<?php echo get_the_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--colored">Купить</a>
+				<a href="<?php echo get_the_permalink($cpost);?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect">Купить</a>
 			</div>
 		</div>
 		
@@ -755,18 +755,17 @@ function tst_compact_event_item($cpost = null){
 			</a></h5>
 			<p class="event-date mdl-typography--caption"><time><?php echo date_i18n('d.m.Y', strtotime($e_date));?></time></p>
 			<div class="add-to-calendar">
-				<a href="<?php echo tst_add_to_calendar_url($cpost);?>" class=""><?php echo tst_material_icon('schedule');?></a>
+				<a href="<?php echo tst_add_to_calendar_url($cpost);?>" class="" target="_blank"><?php echo tst_material_icon('schedule');?></a>
 			</div>
-		</div>
-		
+		</div>		
 	</div>	
 </div>
 <?php
 }
 
 function tst_add_to_calendar_url($event){
-
-
+//
+//
 //<a href="http://www.google.com/calendar/event?
 //action=TEMPLATE
 //&text=[event-title]
@@ -777,6 +776,11 @@ function tst_add_to_calendar_url($event){
 //&sprop=
 //&sprop=name:"
 //target="_blank" rel="nofollow">Add to my calendar</a>
+
+$tst = "http://www.google.com/calendar/event?";
+$tst .= "action=TEMPLATE";
+$tst .= "&text=Проверка события";
+$tst .= "&dates=20150722T133000/20150722T135000";
 
 return '#';
 

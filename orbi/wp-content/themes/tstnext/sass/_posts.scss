@@ -387,3 +387,27 @@ $margin-base: 16px !default;
 		font-size: 28px;
 	}
 }
+
+.tpl-compact-product{
+	padding: $grid-desktop-gutter 0;
+	border-bottom: 1px solid $tst-color-border;
+	&:last-child {
+		border-bottom: none;
+	}
+	
+	.pr-content {
+		position: relative;
+		padding-right: 88px;
+	}
+	
+	.pci-content  .pr-price {
+		color: $tst-color-primary;		
+	}
+	
+	.buy {
+		width: 88px;
+		position: absolute;
+		top: 0;
+		right: 0;
+	}
+}
