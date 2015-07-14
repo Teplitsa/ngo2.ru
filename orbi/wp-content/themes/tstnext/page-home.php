@@ -73,16 +73,20 @@ get_header();
 			$meta[] = date_i18n('j M. Y', strtotime($date));
 			$meta[] = (function_exists('get_field')) ? get_field('event_location', $f_event->ID) : '';
 	?>
-		<div class="home-featured-event mdl-card mdl-shadow--2dp" style="background-image: url(<?php echo $img;?>);">
-			<!--<div class="hfe-content ">-->
-				<div class="">Скоро</div>
-				<h4 class=""><?php echo get_the_title($f_event);?></h4>
-				<div class=""><?php echo implode(', ', $meta);?></div>
-				<div class="mdl-card--expand"></div>
+		<div class="home-featured-event mdl-card mdl-shadow--2dp">
+			<div class="mdl-card--expand mdl-card__media"><?php echo tst_get_post_thumbnail($f_event, 'thumbnail-extra');?></div>
+				
+				<div class="mdl-card__title">
+					<div class="">Скоро</div>
+					<h4 class="mdl-card__title-text"><?php echo get_the_title($f_event);?></h4>
+				</div>
+				
+				<div class="mdl-card__supporting-text"><?php echo implode(', ', $meta);?></div>
+				
 				<div class="mdl-card__actions mdl-card--border">
 					<a href="<?php echo get_permalink($f_event);?>" class="mdl-button mdl-js-button mdl-button--colored">Принять участие</a>
 				</div>
-			<!--</div>	-->
+			
 		</div>
 		<?php } ?>
 		
