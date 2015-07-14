@@ -144,13 +144,25 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
                 }
 
                 if(empty($_POST['Amount']) || (float)$_POST['Amount'] <= 0 || empty($_POST['Currency'])) {
-                    die(json_encode(array('code' => '11')));
+                    die(json_encode(array(
+                        'code' => '11',
+                        'reason' => sprintf(
+                            'Amount or Currency in POST are empty. Amount: %s, Currency: %s',
+                            $_POST['Amount'], $_POST['Currency']
+                        )
+                    )));
                 }
 
                 if(empty($_POST['InvoiceId'])) { // Non-init recurring donation
 
                     if( !$this->get_init_recurrent_donation($_POST['SubscriptionId']) ) {
-                        die(json_encode(array('code' => '11')));
+                        die(json_encode(array(
+                            'code' => '11',
+                            'reason' => sprintf(
+                                'Init recurring payment is not found. POST SubscriptionId: %s',
+                                $_POST['SubscriptionId']
+                            )
+                        )));
                     }
 
                 } else { // Single or init recurring donation
@@ -166,7 +178,13 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
                     }
 
                     if($donation->sum != $_POST['Amount'] || $donation->currency != $_POST['Currency']) {
-                        die(json_encode(array('code' => '11')));
+                        die(json_encode(array(
+                            'code' => '11',
+                            'reason' => sprintf(
+                                'Amount of original data and POST are mismatching. Original: %.2f %s, POST: %.2f %s',
+                                $donation->sum, $donation->currency, $_POST['Amount'], $_POST['Currency']
+                            )
+                        )));
                     }
                 }
 
