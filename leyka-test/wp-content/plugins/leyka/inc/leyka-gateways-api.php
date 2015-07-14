@@ -400,18 +400,20 @@ abstract class Leyka_Gateway {
     public function display_donation_specific_data_fields($donation = false) {
     }
 
-    /** Filter function for "leyka_get_unknown_donation_field" hook to get gateway specific donation data values. */
+    /** For "leyka_get_unknown_donation_field" filter hook, to get gateway specific donation data values. */
     public function get_specific_data_value($value, $field_name, Leyka_Donation $donation) {
         return $value;
     }
 
-    /** Action function for "leyka_set_unknown_donation_field" hook to set gateway specific donation data values. */
+    /** For "leyka_set_unknown_donation_field" action hook, to set gateway specific donation data values. */
     public function set_specific_data_value($field_name, $value, Leyka_Donation $donation) {
     }
 
+    /** To save gateway specific fields when donation editing page is being saved */
     public function save_donation_specific_data(Leyka_Donation $donation) {
     }
 
+    /** Action called when new donation (Leyka_Donation::add()) is being created to add gateway-specific fields. */
     public function add_donation_specific_data($donation_id, array $donation_params) {
     }
 } //class end

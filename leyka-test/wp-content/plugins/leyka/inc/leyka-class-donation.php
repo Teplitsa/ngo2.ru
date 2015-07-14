@@ -1204,11 +1204,7 @@ class Leyka_Donation {
         if( !get_post_meta($id, '_leyka_managers_emails_date', true) )
             update_post_meta($id, '_leyka_managers_emails_date', 0);
 
-        update_post_meta(
-            $id,
-            '_status_log',
-            array(array('date' => time(), 'status' => $status))
-        );
+        update_post_meta($id, '_status_log', array(array('date' => time(), 'status' => $status)));
 
         $params['payment_type'] = empty($params['payment_type']) ?
             'single' : ($params['payment_type'] == 'rebill' ? 'rebill' : 'correction');
