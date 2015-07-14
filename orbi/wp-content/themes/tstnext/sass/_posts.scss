@@ -127,8 +127,9 @@ $margin-base: 16px !default;
 	.entry-meta-bottom {
 		border-top: 1px solid $tst-color-border;		
 		padding: $margin-base 0 0;
-		@include for(desktop) {
-			.mdl-cell--4-col { text-align: right; }
+		.mdl-cell--4-col { text-align: right; }
+		@include upto(desktop) {
+			.mdl-cell--4-col { margin-top: 4px; }
 		}
 	}
 	
@@ -199,12 +200,16 @@ $margin-base: 16px !default;
 		color: $tst-color-primary;
 	}
 	
-	.mdl-cell--4-col {
-		margin-left: $grid-desktop-gutter /2 ;
+	.post-date {
+		margin: 0;
 	}
 	
-	.mdl-cell--8-col {
-		margin-right: $grid-desktop-gutter /2 ;
+	.mdl-grid .mdl-cell--4-col {
+		padding-left: $grid-desktop-gutter;
+	}
+	
+	.mdl-grid .mdl-cell--8-col {
+		//padding-right: $grid-desktop-gutter /2 ;
 	}
 }
 

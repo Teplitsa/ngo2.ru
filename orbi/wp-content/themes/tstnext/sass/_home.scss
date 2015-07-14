@@ -6,19 +6,47 @@
 		height: auto;	
 	}
 	
-	@include for(desktop) {
+	.widget_featured_product {
+		margin-bottom: $grid-desktop-gutter + 16px;			
+	}
+	
+	.blog-list {
+		margin-top: $grid-desktop-gutter;			
+	}
+	@include for(tablet) {
 		.tpl-post.featured {
 			margin-right: $grid-desktop-gutter;
 		}
 		
 		.blog-list {
-			margin-left: $grid-desktop-gutter;
+			margin-left: $grid-desktop-gutter;			
 		}
 	}
 }
 
 .home-blog-section-header {
 	margin: $margin-base*2.5 0 $margin-base;
+	position: relative;
+	
+	h3 {
+		@include typo-headline();
+		font-weight: 100;
+		margin-top: 0;
+		margin-bottom: 0;
+	}
+	
+	.all-stories {
+		display: inline-block;
+		font-weight: 400;
+		
+		@include for(tablet) {
+			position: absolute;
+			right: 0;
+			top: 12px;
+		}
+	}
+	
+	
 }
 
 .blog-list .tpl-related-post {

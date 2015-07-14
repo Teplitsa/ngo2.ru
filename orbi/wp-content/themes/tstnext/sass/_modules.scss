@@ -136,6 +136,15 @@
 	//box-shadow: -3px -3px 3px 0 rgba(0,0,0,0.65);
 	@include shadow-2dp_up();
 	
+	.mdl-grid.full-width {
+		padding-top: 0;
+		padding-bottom: 0;
+		& > .mdl-cell {
+			margin-top: 8px;
+			margin-bottom: 7px;
+		}
+	}
+	
 	.entry-author {
 		padding-right: $grid-desktop-gutter;
 	}
@@ -145,8 +154,8 @@
 		@extend .truncate;		
 	}
 	
-	.text {
-		padding-top: 4px;
+	.author-name {
+		line-height: 1.6;
 	}
 	
 	.next-link {

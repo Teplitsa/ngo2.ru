@@ -636,7 +636,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 
 	<div class="tpl-related-post"><a href="<?php echo get_permalink($cpost);?>">
 	
 	<div class="mdl-grid mdl-grid--no-spacing">
-		<div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet">
+		<div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet mdl-cell--2-col-phone">
 			<h4 class="entry-title"><?php echo get_the_title($cpost);?></h4>
 			
 		<?php if($show_thumb) { ?>	
@@ -659,7 +659,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 
 		<?php } ?>
 		</div>
 		
-		<div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet">
+		<div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet mdl-cell--2-col-phone">
 		<?php
 			$thumb = tst_get_post_thumbnail($cpost, $thumb_size);
 			if(empty($thumb)){
