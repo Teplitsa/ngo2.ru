@@ -601,7 +601,7 @@ function tst_get_post_author($cpost = null) {
 	if(!$cpost)
 		$cpost = $post;
 		
-	$author = wp_get_object_terms(get_the_ID(), 'auctor');
+	$author = wp_get_object_terms($cpost->ID, 'auctor');
 	if(!empty($author))
 		$author = $author[0];
 	
@@ -636,7 +636,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 
 	<div class="tpl-related-post"><a href="<?php echo get_permalink($cpost);?>">
 	
 	<div class="mdl-grid mdl-grid--no-spacing">
-		<div class="mdl-cell mdl-cell--8-col">
+		<div class="mdl-cell mdl-cell--8-col mdl-cell--5-col-tablet">
 			<h4 class="entry-title"><?php echo get_the_title($cpost);?></h4>
 			
 		<?php if($show_thumb) { ?>	
@@ -659,7 +659,7 @@ function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 
 		<?php } ?>
 		</div>
 		
-		<div class="mdl-cell mdl-cell--4-col">
+		<div class="mdl-cell mdl-cell--4-col mdl-cell--3-col-tablet">
 		<?php
 			$thumb = tst_get_post_thumbnail($cpost, $thumb_size);
 			if(empty($thumb)){
@@ -838,7 +838,7 @@ function tst_post_card_content($cpost = null){
 	if(!$cpost)
 		$cpost = $post;
 		
-	$author = tst_get_post_author($cpost);
+	$author = tst_get_post_author($cpost); 
 ?>
 	<?php if(has_post_thumbnail($cpost->ID)){ ?>
 	<div class="mdl-card__media">

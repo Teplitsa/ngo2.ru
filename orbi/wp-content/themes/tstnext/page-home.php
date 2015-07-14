@@ -96,7 +96,7 @@ get_header();
 		</div>
 		
 		<div class="mdl-grid mdl-grid--no-spacing blog-items">
-			<div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet">				
+			<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">				
 			<?php
 				if(isset($f_post->posts[0])){
 					echo "<div class='tpl-post featured mdl-card mdl-shadow--2dp invert'>";
@@ -106,7 +106,7 @@ get_header();
 			?>
 			</div><!-- .mdl-cell -->
 			
-			<div class="mdl-cell mdl-cell--6-col mdl-cell--4-col-tablet"><div class="blog-list">
+			<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet"><div class="blog-list">
 			<?php
 				if($blog->have_posts()){
 					while($blog->have_posts()){
@@ -124,7 +124,7 @@ get_header();
 	<div class="mdl-cell mdl-cell--4-col">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet"><?php get_sidebar(); ?></div>
-			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet">
+			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet ev-future">
 			<?php
 				if($events->have_posts()){
 					foreach($events->posts as $ev){

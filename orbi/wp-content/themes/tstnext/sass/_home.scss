@@ -6,15 +6,36 @@
 		height: auto;	
 	}
 	
-	.tpl-post.featured {
-		margin-right: $grid-desktop-gutter;
-	}
-	
-	.blog-list {
-		margin-left: $grid-desktop-gutter;
+	@include for(desktop) {
+		.tpl-post.featured {
+			margin-right: $grid-desktop-gutter;
+		}
+		
+		.blog-list {
+			margin-left: $grid-desktop-gutter;
+		}
 	}
 }
 
 .home-blog-section-header {
 	margin: $margin-base*2.5 0 $margin-base;
+}
+
+.blog-list .tpl-related-post {
+	padding: $margin-base 0;
+	
+	.entry-title {
+		font-size: 16px;
+		line-height: 20px;
+		margin: 0 0 4px 0;
+	}
+	
+	.author-name {
+		margin: 0 0 4px 0;
+	}
+	
+	.post-date time {
+		font-size: 14px;
+		color: rgba(0,0,0,0.54) !important;
+	}
 }

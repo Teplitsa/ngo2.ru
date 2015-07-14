@@ -10143,6 +10143,10 @@ body.tax-auctor .author-description {
     margin: 0 0 24px 0; }
   .tpl-related-post a:hover .entry-title {
     color: rgba(233,30,99, 1); }
+  .tpl-related-post .mdl-cell--4-col {
+    margin-left: 12px; }
+  .tpl-related-post .mdl-cell--8-col {
+    margin-right: 12px; }
 
 .tpl-related-post.news {
   padding: 24px 0; }
@@ -10474,12 +10478,25 @@ table.calendar {
 /** Home **/
 .page-template-page-home .mdl-cell .mdl-card {
   height: auto; }
-.page-template-page-home .tpl-post.featured {
-  margin-right: 24px; }
-.page-template-page-home .blog-list {
-  margin-left: 24px; }
+@media screen and (min-width: 940px) {
+  .page-template-page-home .tpl-post.featured {
+    margin-right: 24px; }
+  .page-template-page-home .blog-list {
+    margin-left: 24px; } }
 
 .home-blog-section-header {
   margin: 40px 0 16px; }
+
+.blog-list .tpl-related-post {
+  padding: 16px 0; }
+  .blog-list .tpl-related-post .entry-title {
+    font-size: 16px;
+    line-height: 20px;
+    margin: 0 0 4px 0; }
+  .blog-list .tpl-related-post .author-name {
+    margin: 0 0 4px 0; }
+  .blog-list .tpl-related-post .post-date time {
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.54) !important; }
 
 /*# sourceMappingURL=design.css.map */

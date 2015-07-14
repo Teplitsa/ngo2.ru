@@ -198,6 +198,14 @@ $margin-base: 16px !default;
 	a:hover .entry-title  {
 		color: $tst-color-primary;
 	}
+	
+	.mdl-cell--4-col {
+		margin-left: $grid-desktop-gutter /2 ;
+	}
+	
+	.mdl-cell--8-col {
+		margin-right: $grid-desktop-gutter /2 ;
+	}
 }
 
 .tpl-related-post.news  {
