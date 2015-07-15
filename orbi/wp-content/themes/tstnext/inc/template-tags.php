@@ -381,7 +381,10 @@ function tst_breadcrumbs(){
 	global $post;
 		
 	$links = array();
-	if(is_singular('post')) {
+	if(is_front_page()){
+		$links[] = "<span class='crumb-name'>".get_bloginfo('name')."</span>";
+	}
+	elseif(is_singular('post')) {
 		
 		$cat = wp_get_object_terms($post->ID, 'category');
 		if(!empty($cat)){
