@@ -47,14 +47,21 @@ jQuery(document).ready(function($){
 		}
 	}
 	
-	$('#modal-card').easyModal({
+	$('.event-modal').easyModal({
 		overlayParent :'.page-content',
-		hasVariableWidth : true
+		hasVariableWidth : true,
+		transitionIn: 'animated zoomIn',
+		transitionOut: 'animated zoomOut',
+		onClose : function(){ $('#modal-card').empty(); }
 	});
 	
+	
 	$('.day-link').click(function(e) {
-		var target = '#modal-card'; //$(this).attr('href');
-		$(target).trigger('openModal');
+		var target = $(this).attr('data-emodal'),
+			targetEl = $(target).clone();
+		
+		$('#modal-card').empty().append(targetEl).trigger('openModal');
+		
 		e.preventDefault();
 	});
 	

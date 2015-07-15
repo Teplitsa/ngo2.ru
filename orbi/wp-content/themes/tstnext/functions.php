@@ -108,26 +108,36 @@ function tst_scripts() {
 	$script_dependencies = array();
 	
 	
-	// Styles	
+	/*  Styles */
+	
+	// fonts
 	wp_enqueue_style(
 		'tst-roboto',
 		'//fonts.googleapis.com/css?family=Roboto:400,100,100italic,300,300italic,400italic,500,500italic,700,700italic&subset=latin,cyrillic',
 		$style_dependencies,
 		TST_VERSION
 	);
-	
 	$style_dependencies[] = 'tst-roboto';
 	
+	// icons
 	wp_enqueue_style(
 		'tst-material-icons',
 		'//fonts.googleapis.com/icon?family=Material+Icons',
 		$style_dependencies,
 		TST_VERSION
-	);
-	
+	);	
 	$style_dependencies[] = 'tst-material-icons';
 	
+	// animations
+	wp_enqueue_style(
+		'tst-animate',
+		$theme_dir_url . '/css/animate.css',
+		$style_dependencies,
+		TST_VERSION
+	);	
+	$style_dependencies[] = 'tst-animate';
 	
+	// design
 	wp_enqueue_style(
 		'tst-design',
 		$theme_dir_url . '/css/design.css',
@@ -135,9 +145,10 @@ function tst_scripts() {
 		TST_VERSION
 	);
 	
-	// Scripts
 	
-	// MDL
+	/* Scripts  */
+	
+	// mdl
 	wp_enqueue_script(
 		'tst-mdl',
 		$theme_dir_url . '/js/material.min.js',
@@ -149,7 +160,7 @@ function tst_scripts() {
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
-	// Easy modal	
+	// easy modal	
 	wp_enqueue_script(
 		'tst-easymodal',
 		$theme_dir_url . '/js/jquery.easyModal.js',
@@ -159,6 +170,7 @@ function tst_scripts() {
 	);
 	$script_dependencies[] = 'tst-easymodal';
 	
+	// front
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',

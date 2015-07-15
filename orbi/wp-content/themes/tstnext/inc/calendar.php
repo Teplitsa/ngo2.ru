@@ -144,7 +144,9 @@ class TST_Calendar_Table {
 	
 		// end the table 
 		$calendar.= '</tbody></table>';
-				
+		
+		
+		
 		return $calendar;
 	}
 
@@ -167,15 +169,34 @@ class TST_Calendar_Table {
 			return '';
 		
 		$links = array();
+		$modals = array();
 		
 		//@to_do: markup for modals
 		foreach($query->posts as $event){
 			$title_full = get_the_title($event->ID);
 			$icon = '<i class="material-icons">event</i>';
-			$links[] = "<a href='".get_permalink($event)."' title='".esc_attr($title_full)."' class='day-link mdl-button mdl-js-button mdl-button--icon'>{$icon}</a>";
+			$m_id = 'e-modal-'.$event->ID;
+			
+			$links[] = "<a href='".get_permalink($event)."' title='".esc_attr($title_full)."' class='day-link mdl-button mdl-js-button mdl-button--icon' data-emodal='#{$m_id}'>{$icon}</a>";
+			
+			$modals[] = $this->create_modal($event);
 		}
-		return implode('', $links);
+		
+		$out = implode('', $links); 
+		$out .= implode('', $modals);
+		
+		return $out;
 	}
 	
+	function create_modal($event){
+		
+		$m_id = 'e-modal-'.$event->ID;
+		
+		$out = "<div id='{$m_id}' class='event-modal-content'>";
+		$out .= $event->post_title;
+		$out .= "</div>";
+				
+		return $out;
+	}
 	
 } //class end

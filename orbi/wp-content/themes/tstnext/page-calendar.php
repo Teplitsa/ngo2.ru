@@ -43,7 +43,7 @@ get_header(); ?>
 	</div><!-- .mdl-grid -->
 	
 </div>
-<div id="modal-card" class="event-modal mdl-animation--fast-out-slow-in"><div class="card-content">Event card</div></div>
+<div id="modal-card" class="event-modal mdl-card mdl-shadow--2dp"></div>
 
 <div class="calendar-footer">
 	<div class="mdl-grid">

@@ -188,9 +188,18 @@ table.calendar {
 //modal
 .event-modal {
 	display: none;
+	box-sizing: border-box;	
 	width: 90%;
 	max-width: 600px;
 	padding: 2em;
 	box-shadow: 1px 1px 3px rgba(0,0,0,0.35);
 	background-color: white;
+	
+	.event-modal-content {
+		display: block;
+	}
+}
+
+.event-modal-content {
+	display: none;
 }
