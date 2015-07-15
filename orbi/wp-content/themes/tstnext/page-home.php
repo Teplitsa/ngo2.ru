@@ -39,8 +39,16 @@ $dnd[] = (isset($f_post->posts[0])) ? $f_post->posts[0]->ID : 0;
 // posts
 $blog = new WP_Query(array(
 	'post_type' => 'post',
-	'posts_per_page' => 4,
-	'post__not_in' => $dnd
+	'posts_per_page' => 5,
+	'post__not_in' => $dnd,
+	'tax_query' => array(
+		array(
+			'taxonomy' => 'category',
+			'field' => 'slug',
+			'terms' => array('news'),
+			'operator' => 'NOT IN'
+		)
+	)
 ));
 
 
@@ -48,7 +56,7 @@ $blog = new WP_Query(array(
 $events = new WP_Query(
 	array(
 		'post_type' => 'event',
-		'posts_per_page' => 4,
+		'posts_per_page' => 5,
 		'meta_query' => array(
 			array(
 				'key' => 'event_date',
@@ -60,12 +68,38 @@ $events = new WP_Query(
 	)
 );
 
+// news
+$news = new WP_Query(array(
+	'post_type' => 'post',
+	'posts_per_page' => 4,
+	'post__not_in' => $dnd,
+	'tax_query' => array(
+		array(
+			'taxonomy' => 'category',
+			'field' => 'slug',
+			'terms' => array('news'),
+			//'operator' => 'NOT IN'
+		)
+	)
+));
+
+/* functions */
 function tst_featured_event_media($fe, $size = 'embed'){
 	
 	$img = tst_get_post_thumbnail_src($fe, $size);	
 ?>
 	<div class="hfe-media-content" style="background-image: url('<?php echo $img;?>');"></div>	
 <?php
+}
+
+function tst_home_news_summary($npost, $l = 20) {
+	
+	$e = (!empty($npost->post_excerpt)) ? $npost->post_excerpt : $npost->post_content;
+	$e = wp_trim_words(strip_shortcodes($e), $l);
+	$date = get_the_date('d.m.Y', $npost);
+	
+	$e = "<time class='entry-date'>{$date}</time> ".$e;
+	return apply_filters('tst_the_title', $e);
 }
 
 get_header();
@@ -124,7 +158,7 @@ get_header();
 		
 		<div class="home-blog-section-header">
 			<h3>Бежим вместе</h3>
-			<a href="" class="all-stories">Все истории</a>
+			<a href="<?php echo get_term_link('members-blogs', 'category');?>" class="all-stories">Все истории</a>
 		</div>
 		
 		<div class="mdl-grid mdl-grid--no-spacing blog-items">
@@ -156,21 +190,90 @@ get_header();
 	<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet mdl-cell--6-col-phone">
 		<div class="mdl-grid mdl-grid--no-spacing">
 			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet"><?php get_sidebar(); ?></div>
-			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet ev-future">
-			<?php
-				if($events->have_posts()){
-					foreach($events->posts as $ev){
-						tst_compact_event_item($ev);
+			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet">
+				<div class="no-spacing-correct-right ev-future">
+				<?php
+					if($events->have_posts()){
+						foreach($events->posts as $ev){
+							tst_compact_event_item($ev);
+						}
 					}
-				}
-			?>
-			</div>
+				?>
+				</div>
+			</div><!-- mdl-cell--4-col-tablet -->
 		</div>
 	</div>
 </div>
 </section>
 
-<section class="home-partners-block">
-	partners
+<?php
+	$partner_bg = (function_exists('get_field')) ? get_field('partners_bg', $home_id) : 0;
+	$parnter_bg = wp_get_attachment_url($partner_bg);
+?>
+<section class="home-partners-block"<?php if($parnter_bg) echo " style='background-image: url($parnter_bg);'";?>>
+<div class="mdl-grid">
+<div class="mdl-cell mdl-cell--12-col">
+	<h5 class="widget-title">Нас поддерживают</h5>
+	<div class="widget-content mdl-shadow--2dp">
+		
+		<!-- gallery -->
+		<?php if(function_exists('have_rows')) { if(have_rows('our_partners', $home_id)) { ?>
+		<div class="partners-gallery">
+		<?php
+			while(have_rows('our_partners', $home_id)){
+				the_row();
+				
+				$title = get_sub_field('partner_title');  
+				$url = get_sub_field('partner_link');
+				$url = (!empty($url)) ? esc_url($url) : $url;
+				$logo_id = get_sub_field('partner_logo');
+				$logo = wp_get_attachment_image($logo_id, 'full', false, array('alt' => $title));
+			?>	
+			<div class="logo"><div class="logo-frame">			
+				<a class="logo-link" title="<?php echo esc_attr($title);?>" href="<?php echo $url;?>"><?php echo $logo ;?></a>
+			</div></div>
+		<?php } ?>
+		</div>
+		<?php }} ?>
+	</div>
+</div>
+</div>
+</section>
+
+
+<section class="home-footer-block">
+	<div class="mdl-grid">
+	
+	<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
+		<h5 class="widget-title">О проекте</h5>
+		<div class="widget-content"><?php echo get_the_content();?></div>
+		<div class="widget-action">
+			<a href="<?php echo home_url('about');?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Подробнее</a>
+		</div>
+	</div>
+	<div class="mdl-cell mdl-cell--8-col">
+		<h5 class="widget-title">Новости</h5>
+		<div class="widget-content news-list">
+			<div class="mdl-grid mdl-grid--no-spacing">	
+			<?php
+				if($news->have_posts()){ foreach($news->posts as $np) {
+			?>
+				<div class="mdl-cell mdl-cell--4-col mdl-cell--6-col-desktop">
+					<a href="<?php echo get_the_permalink($np);?>" class="tpl-hn-item">
+						<h4 class="hn-title"><?php echo get_the_title($np);?></h4>
+						<div class="hn-summary"><?php echo tst_home_news_summary($np, 15); ?></div>
+					</a>				
+				</div>
+			<?php
+				}}
+			?>			
+			</div>
+		</div>
+		
+		<div class="widget-action">
+			<a href="<?php echo get_term_link('news', 'category');?>" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored">Все истории</a>
+		</div>
+	</div>
+	
 </section>
 <?php get_footer(); ?>
