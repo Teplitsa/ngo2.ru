@@ -50,6 +50,7 @@ jQuery(document).ready(function($){
 	$('.event-modal').easyModal({
 		overlayParent :'.page-content',
 		hasVariableWidth : true,
+		top : 70,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
 		onClose : function(){ $('#modal-card').empty(); }

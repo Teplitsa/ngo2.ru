@@ -520,6 +520,7 @@ function tst_event_meta($cpost = null) {
 
 function tst_events_card_content($event){
 	
+	$img = tst_get_post_thumbnail_src($event, 'thumbnail-extra');
 	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
 	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
 	$lacation = (function_exists('get_field')) ? get_field('event_location', $event->ID) : '';
@@ -528,31 +529,36 @@ function tst_events_card_content($event){
 	$e = (!empty($event->post_excerpt)) ? $event->post_excerpt : wp_trim_words(strip_shortcodes($event->post_content), 20);
 	
 	ob_start();
-?>
-	<div class="mdl-card__media"><?php echo tst_get_post_thumbnail($event, 'thumbnail-extra');?></div>
+?>	
+	<div class="mdl-card__media">
+		<?php echo tst_get_post_thumbnail($event, 'thumbnail-extra'); ?>
+	</div>
+	
 	<div class="mdl-card__title">
 		<h4 class="mdl-card__title-text"><a href="<?php echo get_permalink($event);?>"><?php echo get_the_title($event);?></a></h4>
 	</div>
 	<div class="event-meta">
 		<div class="pictured-card-item event-date">
-			<div class="em-icon pci-img"><?php tst_material_icon('schedule'); ?></div>				
+			<div class="em-icon pci-img"><?php echo tst_material_icon('schedule'); ?></div>				
 			<div class="em-content pci-content">
 				<h5 class="mdl-typography--body-1"><?php echo date('d.m.Y', strtotime($date));?></h5>
 				<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $time); ?></p>
 			</div>
 		</div>
 		<div class="pictured-card-item event-location">
-			<div class="em-icon pci-img"><?php tst_material_icon('room'); ?></div>				
+			<div class="em-icon pci-img"><?php echo tst_material_icon('room'); ?></div>				
 			<div class="em-content pci-content">
 				<h5 class="mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $lacation); ?></h5>
 				<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $addr); ?></p>
 			</div>
 		</div>	
-	</div>
+	</div>	
 	<div class="mdl-card__supporting-text"><?php echo apply_filters('tst_the_title', $e);?></div>
+	
 	<div class="mdl-card__actions mdl-card--border">
 		<a href="<?php echo get_permalink($event);?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Принять участие</a>
 	</div>
+	
 <?php
 	$out = ob_get_contents();
 	ob_end_clean();

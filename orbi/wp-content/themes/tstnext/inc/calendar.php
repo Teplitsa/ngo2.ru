@@ -192,7 +192,7 @@ class TST_Calendar_Table {
 		
 		$m_id = 'e-modal-'.$event->ID;
 		
-		$out = "<div id='{$m_id}' class='event-modal-content'>";
+		$out = "<div id='{$m_id}' class='event-modal-content tpl-event'>";
 		$out .= tst_events_card_content($event);
 		$out .= "</div>";
 				
