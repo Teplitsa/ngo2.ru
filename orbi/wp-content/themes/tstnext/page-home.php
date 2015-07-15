@@ -60,6 +60,14 @@ $events = new WP_Query(
 	)
 );
 
+function tst_featured_event_media($fe, $size = 'embed'){
+	
+	$img = tst_get_post_thumbnail_src($fe, $size);	
+?>
+	<div class="hfe-media-content" style="background-image: url('<?php echo $img;?>');"></div>	
+<?php
+}
+
 get_header();
 ?>
 <section class="home-content-grid">
@@ -68,26 +76,49 @@ get_header();
 	<div class="mdl-cell mdl-cell--8-col">
 	<?php
 		if($f_event) {
-			//$img = tst_get_post_thumbnail_src($f_event, 'thumbnail-long');
+			
 			$date = (function_exists('get_field')) ? get_field('event_date', $f_event->ID) : $f_event->post_date;
 			$meta[] = date_i18n('j M. Y', strtotime($date));
 			$meta[] = (function_exists('get_field')) ? get_field('event_location', $f_event->ID) : '';
 	?>
 		<div class="home-featured-event mdl-card mdl-shadow--2dp">
-			<div class="mdl-card--expand mdl-card__media"><?php echo tst_get_post_thumbnail($f_event, 'thumbnail-long');?></div>
-				
-				<div class="mdl-card__title">					
-					<h4 class="mdl-card__title-text">
-						<div class="mdl-typography--caption">Скоро</div>
-						<span><?php echo get_the_title($f_event);?></span></h4>
-				</div>
-				
-				<div class="mdl-card__supporting-text"><?php echo implode(', ', $meta);?></div>
-				
-				<div class="mdl-card__actions mdl-card--border">
-					<a href="<?php echo get_permalink($f_event);?>" class="mdl-button mdl-js-button mdl-button--colored">Принять участие</a>
-				</div>
 			
+			<div class="mdl-grid mdl-grid--no-spacing">
+			
+				<div class="mdl-cell mdl-cell--8-col mdl-cell--hide-desktop mdl-cell--hide-tablet hfe-media">
+					<?php tst_featured_event_media($f_event);?>
+				</div>
+					
+				<div class="mdl-cell mdl-cell--8-col mdl-cell--2-col-tablet mdl-cell--4-col-desktop">
+					
+					<div class="hfe-content">
+						
+						<header class="hfe-content-element">
+							<div class="mdl-typography--caption ">Скоро</div>
+							<h4 class="mdl-typography--title">
+								<a href="<?php echo get_permalink($f_event);?>"><?php echo get_the_title($f_event);?></a>
+							</h4>
+						</header>
+												
+						<div class="hfe-summary hfe-content-element">
+							<h6><?php echo implode(', ', $meta);?></h6>
+						<?php
+							$e = (!empty($f_event->post_excerpt)) ? $f_event->post_excerpt : wp_trim_words(strip_shortcodes($f_event->post_content), 30);
+							echo apply_filters('tst_the_title', $e);
+						?>
+						</div>
+						
+						<div class="mdl-card__actions mdl-card--border hfe-action">
+							<a href="<?php echo get_permalink($f_event);?>" class="mdl-button mdl-js-button mdl-button--colored">Принять участие</a>
+						</div>
+					</div>
+					
+				</div>
+				<div class="mdl-cell mdl-cell--hide-phone mdl-cell--6-col-tablet mdl-cell--8-col-desktop hfe-media">
+					<?php tst_featured_event_media($f_event);?>
+				</div>
+				
+			</div><!-- .mdl-grid -->
 		</div>
 		<?php } ?>
 		
