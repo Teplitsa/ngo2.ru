@@ -8,6 +8,28 @@
 global $post;
 
 get_header();
+
+if( !empty($_GET['tst']) ) {
+	
+	echo '<pre>';
+	echo 'Current: '; print_r(get_post_meta($post->ID, 'event_date', true));
+
+	$next = get_posts(array(
+		'post_type' => 'event',
+		'meta_key' => 'event_date',
+		'orderby' => 'meta_value',
+		'order' => 'DESC', // 'ASC' to get a chronologically next event, 'DESC' to get a previous one
+		'posts_per_page' => 1,
+		//'' => '',
+	));
+	$next = reset($next);
+
+	echo 'Next:'; print_r(get_post_meta($next->ID, 'event_date', true));
+	//print_r(get_post_meta($post->ID, 'event_date', true));
+	echo '</pre>';
+	
+	
+}
 ?>
 <div class="page-content-grid">
 <div class="mdl-grid">
