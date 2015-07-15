@@ -187,7 +187,7 @@
     @media screen and (min-width: 900px) {
       #payment-settings-area .pm-active-panel {
         float: left;
-        width: 60%;
+        width: 65%;
         max-width: 712px;
         min-height: 600px; } }
     #payment-settings-area .pm-active-panel .panel-title {
@@ -215,7 +215,7 @@
     @media screen and (min-width: 900px) {
       #payment-settings-area .pm-order-panel {
         float: left;
-        width: 39%;
+        width: 34%;
         max-width: 400px;
         margin-left: -1px; } }
     #payment-settings-area .pm-order-panel .panel-content {
@@ -359,10 +359,10 @@
     max-width: 420px;
     height: 10px; }
 
+#leyka_campaign_statistics .stats-block {
+  margin-bottom: 3px; }
 #leyka_campaign_statistics .stats-block:first-child {
   margin-top: 10px; }
-#leyka_campaign_statistics .stats-block:last-child {
-  margin-bottom: 10px; }
 #leyka_campaign_statistics .stats-data {
   font-weight: bold; }
 
