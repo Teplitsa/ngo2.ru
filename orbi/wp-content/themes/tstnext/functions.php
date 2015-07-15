@@ -148,7 +148,17 @@ function tst_scripts() {
 	
 	// jQuery
 	$script_dependencies[] = 'jquery';
-			
+	
+	// Easy modal	
+	wp_enqueue_script(
+		'tst-easymodal',
+		$theme_dir_url . '/js/jquery.easyModal.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
+	$script_dependencies[] = 'tst-easymodal';
+	
 	wp_enqueue_script(
 		'tst-front',
 		$theme_dir_url . '/js/front.js',

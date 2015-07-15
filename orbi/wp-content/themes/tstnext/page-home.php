@@ -56,7 +56,7 @@ $blog = new WP_Query(array(
 $events = new WP_Query(
 	array(
 		'post_type' => 'event',
-		'posts_per_page' => 5,
+		'posts_per_page' => 4,
 		'meta_query' => array(
 			array(
 				'key' => 'event_date',
@@ -192,6 +192,7 @@ get_header();
 			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet"><?php get_sidebar(); ?></div>
 			<div class="mdl-cell mdl-cell--12-col mdl-cell--4-col-tablet">
 				<div class="no-spacing-correct-right ev-future">
+					<h5 class="widget-title">Календарь</h5>
 				<?php
 					if($events->have_posts()){
 						foreach($events->posts as $ev){

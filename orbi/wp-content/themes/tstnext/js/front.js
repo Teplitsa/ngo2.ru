@@ -47,6 +47,15 @@ jQuery(document).ready(function($){
 		}
 	}
 	
+	$('#modal-card').easyModal({
+		overlayParent :'.page-content',
+		hasVariableWidth : true
+	});
 	
+	$('.day-link').click(function(e) {
+		var target = '#modal-card'; //$(this).attr('href');
+		$(target).trigger('openModal');
+		e.preventDefault();
+	});
 	
 }); //jQuery
