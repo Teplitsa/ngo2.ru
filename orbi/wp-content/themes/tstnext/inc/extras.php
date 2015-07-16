@@ -284,3 +284,41 @@ function tst_main_menu_link($atts, $item, $args, $depth){
 	return $atts;
 }
 
+
+
+/** Options in customizer **/
+add_action('customize_register', 'tst_customize_register');
+function tst_customize_register(WP_Customize_Manager $wp_customize) {
+
+    $wp_customize->add_section('tst_spec_settings', array(
+        'title'      => __('Website settings', 'tst'),
+        'priority'   => 30,
+    ));
+   
+
+    $wp_customize->add_setting('default_thumbnail', array(
+        'default'   => false,
+        'transport' => 'refresh', // postMessage
+    ));
+	
+    $wp_customize->add_control(new WP_Customize_Image_Control($wp_customize, 'default_thumbnail', array(
+        'label'    => __('Default thumbnail', 'tst'),
+        'section'  => 'tst_spec_settings',
+        'settings' => 'default_thumbnail',
+        'priority' => 1,
+    )));
+
+    
+    $wp_customize->add_setting('footer_text', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    
+    $wp_customize->add_control('footer_text', array(
+        'type'     => 'textarea',		
+        'label'    => __('Footer text', 'tst'),
+        'section'  => 'tst_spec_settings',
+        'settings' => 'footer_text',
+        'priority' => 30,
+    ));
+}

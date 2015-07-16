@@ -7,8 +7,8 @@
 
 global $post;
 
-get_header();?>
-
+get_header();
+?>
 <div class="page-content-grid">
 <div class="mdl-grid">
 	
@@ -24,7 +24,7 @@ get_header();?>
 			<div class="entry-summary"><?php the_excerpt();?></div>
 			<div class="sharing-on-top"><?php tst_social_share();?></div>
 			
-			<?php
+			<?php  
 				if(has_post_thumbnail()) {
 					tst_single_post_thumbnail_html(null, 'embed');
 				}

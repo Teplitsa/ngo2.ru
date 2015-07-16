@@ -2,8 +2,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2015-07-13 10:14+0300\n"
-"PO-Revision-Date: 2015-07-13 10:14+0300\n"
+"POT-Creation-Date: 2015-07-16 21:40+0300\n"
+"PO-Revision-Date: 2015-07-16 21:41+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -37,7 +37,7 @@ msgstr "К сожалению, по вашему запросу ничего н�
 msgid "Teplitsa of social technologies"
 msgstr "Теплица социальных технологий"
 
-#: footer.php:26
+#: footer.php:29
 #, php-format
 msgid "All materials of the site are avaliabe under license %s."
 msgstr "Все материалы сайта доступны по лиценции %s."
@@ -46,7 +46,7 @@ msgstr "Все материалы сайта доступны по лиценц�
 msgid "Primary Menu"
 msgstr "﻿Главное меню"
 
-#: functions.php:35 inc/widgets.php:242
+#: functions.php:35 inc/widgets.php:243
 msgid "Social Buttons"
 msgstr "Социальные кнопки"
 
@@ -58,44 +58,60 @@ msgstr "Перейти к содержанию"
 msgid "More"
 msgstr "Далее"
 
+#: inc/extras.php:294
+msgid "Website settings"
+msgstr "Настройки сайта"
+
+#: inc/extras.php:305
+msgid "Default thumbnail"
+msgstr "Миниатюра по умолчанию"
+
+#: inc/extras.php:319
+msgid "Footer text"
+msgstr "Текст в футере"
+
+#: inc/template-tags.php:197
+msgid "More results"
+msgstr "Еще результаты"
+
 #: inc/template-tags.php:197
 msgid "More entries"
 msgstr "Еще публикации"
 
-#: inc/template-tags.php:290
+#: inc/template-tags.php:291
 msgid "in the category"
 msgstr "в рубрике"
 
-#: inc/template-tags.php:321 inc/template-tags.php:354
+#: inc/template-tags.php:322 inc/template-tags.php:355
 #, php-format
 msgid "Thumbnail for - %s"
 msgstr "Заставка для - %s"
 
-#: inc/template-tags.php:492
+#: inc/template-tags.php:545
 msgid "Event date"
 msgstr "Дата мероприятия"
 
-#: inc/template-tags.php:498
+#: inc/template-tags.php:551
 msgid "Time"
 msgstr "Время"
 
-#: inc/template-tags.php:504
+#: inc/template-tags.php:557
 msgid "Location"
 msgstr "Место проведения"
 
-#: inc/template-tags.php:510
+#: inc/template-tags.php:563
 msgid "Address"
 msgstr "Адрес"
 
-#: inc/template-tags.php:568 partials/content_single.php:20
+#: inc/template-tags.php:675 partials/content_single.php:20
 msgid "Author"
 msgstr "Автор"
 
-#: inc/template-tags.php:590
+#: inc/template-tags.php:697
 msgid "Logo"
 msgstr "Логотип"
 
-#: inc/widgets.php:244
+#: inc/widgets.php:245
 msgid "Social links menu with optional text"
 msgstr "Меню социальных кнопок с сопроводительным текстом"
 
@@ -103,7 +119,7 @@ msgstr "Меню социальных кнопок с сопроводитель
 msgid "Article"
 msgstr "Статья"
 
-#: partials/content_single.php:27 partials/panel-float.php:60
+#: partials/content_single.php:27 partials/panel-float.php:76
 msgid "Published"
 msgstr "Опубликовано"
 
@@ -115,11 +131,11 @@ msgstr "Все статьи автора"
 msgid "More posts"
 msgstr "Еще публикации"
 
-#: partials/title-section.php:35
+#: partials/title-section.php:26
 msgid "Search results"
 msgstr "Результаты поиска"
 
-#: partials/title-section.php:38
+#: partials/title-section.php:50
 msgid "404: Page not found"
 msgstr "404: Страница не найдена"
 

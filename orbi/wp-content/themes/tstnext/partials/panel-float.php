@@ -87,16 +87,7 @@ global $post;
 				<div class="sharing-on-panel"><?php tst_social_share();?></div>
 			</div>
 			<div class="mdl-cell mdl-cell--3-col mdl-cell--2-col-phone mdl-cell--3-col-tablet">
-				<span class="next-link">
-				<?php
-					
-					$next =  get_next_post_link('%link', 'Следующая &raquo;', true); 
-					if(empty($next)) {
-						$next = tst_next_fallback_link($post);
-					}
-					echo $next;
-				?>
-				</span>
+				<span class="next-link"><?php echo tst_next_link($post); ?></span>
 			</div>
 		</div><!-- .row -->
 	</div>

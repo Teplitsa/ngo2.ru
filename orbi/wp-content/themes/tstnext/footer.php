@@ -10,6 +10,8 @@
 $cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons СС-BY-SA 3.0</a>';
 $tst = __("Teplitsa of social technologies", 'tst');
 $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
+$footer_text = get_theme_mod('footer_text');
+
 ?>
 
 </div><!-- .page-content -->
@@ -22,8 +24,9 @@ $banner = get_template_directory_uri().'/img/te-st-logo-10x50';
 			<div class="credits">
 			<div class="bottom-logo"><?php tst_site_logo('context');?></div>
 			<div class="copy">
-				<a href="<?php home_url();?>"><?php bloginfo('name');?></a> - программа фонда "ОРБИ".</a><br>
-				<?php printf(__('All materials of the site are avaliabe under license %s.', 'tst'), $cc_link);?>
+				<?php echo apply_filters('tst_the_content', $footer_text);?>
+				<p><a href="<?php home_url();?>"><?php bloginfo('name');?></a> - программа фонда "ОРБИ".</a> 
+				<?php printf(__('All materials of the site are avaliabe under license %s.', 'tst'), $cc_link);?></p>
 			</div>
 			</div>
 		</div><!-- .col -->

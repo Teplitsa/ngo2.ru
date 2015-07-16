@@ -175,9 +175,10 @@ function tst_paging_nav($query = null) {
 	//}
 	
 	if(!empty($p)) {
-?>
-	<div class="paging-navigation"><?php echo $p;?></div>
-<?php }
+		$p = "<div class='paging-navigation'>$p</div>";
+	}
+
+	return $p;
 }
 
 
@@ -194,7 +195,8 @@ function tst_load_more_link($query = null, $echo = true) {
 	if(!$query)
 		$query = $wp_query;
 	
-	$l = get_next_posts_link(__('More entries', 'tst'), $query->max_num_pages);
+	$label = (is_search()) ? __('More results', 'tst') : __('More entries', 'tst');
+	$l = get_next_posts_link($label, $query->max_num_pages);
 	
 	if($echo){
 		echo $l;
@@ -438,7 +440,56 @@ function tst_get_post_type_archive_title($post_type) {
 	return $name;
 }
 
-/** Next fallback link **/
+/** Next link **/
+function tst_next_link($cpost = null){
+	global $post;
+		
+	if(!$cpost)
+		$cpost = $post;
+		
+	if($cpost->post_type == 'event'){
+		
+		//get next event
+		$news_query = new WP_Query(array(
+			'post_type' => 'event',			
+			'meta_key' => 'event_date',
+			'orderby' => 'meta_value',
+			'order' => 'ASC', 
+			'posts_per_page' => 1,
+			'meta_query' => array(
+				array(
+					'key'     => 'event_date',
+					'value'   => get_post_meta($cpost->ID, 'event_date', true),
+					'compare' => '>', // '>' to get a chronologically next event
+				),
+			),
+		));
+		
+		if(!$news_query->have_posts()){
+			$news_query = new WP_Query(array(
+				'post_type' => 'event',			
+				'meta_key' => 'event_date',
+				'orderby' => 'meta_value',
+				'order' => 'ASC', 
+				'posts_per_page' => 1				
+			));
+		}
+		$next = '';
+		
+		if(isset($news_query->posts[0]) && $news_query->posts[0]->ID != $cpost->ID){
+			$next = "<a href='".get_permalink($news_query->posts[0])."' rel='next'>Следующий &raquo;</a>";
+		}
+	}
+	else {
+		$next =  get_next_post_link('%link', 'Следующая &raquo;', true);
+		if(empty($next)) {
+			$next = tst_next_fallback_link($post);
+		}
+	}
+		
+	return $next;				
+}
+
 function tst_next_fallback_link($cpost = null){
 	global $post;
 		
@@ -485,7 +536,7 @@ function tst_event_meta($cpost = null) {
 	if(!$cpost)
 		$cpost = $post; 
 		
-	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : $cpost->post_date;
+	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : //$cpost->post_date;var_dump($date);
 	$time = (function_exists('get_field')) ? get_field('event_time', $cpost->ID) : '';
 	$lacation = (function_exists('get_field')) ? get_field('event_location', $cpost->ID) : '';
 	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
@@ -735,8 +786,13 @@ function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 
 // deafult thumbnail for posts
 function tst_get_default_post_thumbnail($size){
 		
-	$default_thumb_id = 180; //@to_do: make this real option	
-	return wp_get_attachment_image($default_thumb_id, $size);	
+	$default_thumb_id = attachment_url_to_postid(get_theme_mod('default_thumbnail'));
+	$img = '';
+	if($default_thumb_id){
+		$img = wp_get_attachment_image($default_thumb_id, $size);	
+	}
+	
+	return $img;
 }
 
 
@@ -783,11 +839,14 @@ function tst_compact_product_item($cpost = null){
 		$cpost = $post;
 	
 	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
+	$thumb = get_the_post_thumbnail($cpost->ID, 'thumbnail');
+	if(empty($thumb))
+		$thumb = tst_get_default_post_thumbnail('thumbnail');
 ?>
 <div class="tpl-compact-product">	
 	<div class="pictured-card-item">
 		<div class="pr-avatar round-image pci-img">
-			<?php echo get_the_post_thumbnail($cpost->ID, 'thumbnail');?>
+			<?php echo $thumb; ?>
 		</div>
 			
 		<div class="pr-content pci-content">
@@ -813,12 +872,15 @@ function tst_compact_event_item($cpost = null){
 	if(!$cpost)
 		$cpost = $post;
 	
-	$e_date = get_post_meta($cpost->ID, 'event_date', true);	
+	$e_date = get_post_meta($cpost->ID, 'event_date', true);
+	$thumb = get_the_post_thumbnail($cpost->ID, 'thumbnail');
+	if(empty($thumb))
+		$thumb = tst_get_default_post_thumbnail('thumbnail');
 ?>
 <div class="tpl-compact-event">	
 	<div class="pictured-card-item">
 		<div class="event-avatar round-image pci-img">
-			<?php echo get_the_post_thumbnail($cpost->ID, 'thumbnail');?>
+			<?php echo $thumb; ?>
 		</div>
 			
 		<div class="event-content pci-content">

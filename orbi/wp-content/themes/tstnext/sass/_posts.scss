@@ -465,3 +465,27 @@ $margin-base: 16px !default;
 		right: 0;
 	}
 }
+
+
+// Search
+.tpl-search {
+	
+	.search-header {
+		margin-bottom: $margin-base/2;		
+	}
+	
+	h4 {
+		margin-bottom: 0;		
+	}
+	
+	cite {
+		font-style: normal;
+		color: $tst-color-text-semi;
+	}
+}
+
+.search-holder {
+	.mdl-textfield {
+		@include calc(width, "100% - 40px");
+	}
+}
