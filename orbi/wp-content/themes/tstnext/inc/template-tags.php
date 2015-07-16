@@ -530,8 +530,8 @@ function tst_events_card_content($event){
 	
 	ob_start();
 ?>	
-	<div class="mdl-card__media">
-		<?php echo tst_get_post_thumbnail($event, 'thumbnail-extra'); ?>
+	<div class="mdl-card__media" style="background-image: url(<?php echo $img;?>);?>">
+		<?php //echo tst_get_post_thumbnail($event, 'thumbnail-extra'); ?>
 	</div>
 	
 	<div class="mdl-card__title">

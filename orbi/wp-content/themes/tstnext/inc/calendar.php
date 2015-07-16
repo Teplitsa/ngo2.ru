@@ -43,33 +43,42 @@ class TST_Calendar_Table {
 	function prev_month_link(){		
 		$text = '&lt;';
 		
-        //code to obtain url		
-		$url = '';
+        // find next month		
+		$prev_month_stamp = strtotime("-1 month".$this->year.'-'.$this->month.'-01');
+		$limit_stamp = strtotime("-4 months".$this->today['y'].'-'.$this->today['m'].'-01');
 		
-		if(!empty($url)) {
-			$link = "<a href='".esc_url($url)."'>{$text}</a>";
+		// build html
+		if($prev_month_stamp > $limit_stamp){
+			$m = date('m', $prev_month_stamp);
+			$y = date('Y', $prev_month_stamp);
+			
+			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll'>{$text}</a>";
 		}
 		else {
 			$link = "<span>{$text}</span>";
 		}
-        
+				
 		return $link;
 	}
 	
 	function next_month_link(){		
 		$text = '&gt;';
 		
-        //code to obtain url		
-		$url = '';
+        // find next month		
+		$next_month_stamp = strtotime("+1 month".$this->year.'-'.$this->month.'-01');
+		$limit_stamp = strtotime("+4 months".$this->today['y'].'-'.$this->today['m'].'-01');
 		
-		
-		if(!empty($url)) {
-			$link = "<a href='".esc_url($url)."'>{$text}</a>";
+		// build html
+		if($next_month_stamp < $limit_stamp){
+			$m = date('m', $next_month_stamp);
+			$y = date('Y', $next_month_stamp);
+			
+			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll'>{$text}</a>";
 		}
 		else {
 			$link = "<span>{$text}</span>";
 		}
-        
+				
 		return $link;
 	}
 	
@@ -143,8 +152,7 @@ class TST_Calendar_Table {
 		$calendar.= '</tr>';
 	
 		// end the table 
-		$calendar.= '</tbody></table>';
-		
+		$calendar.= '</tbody></table>';	
 		
 		
 		return $calendar;

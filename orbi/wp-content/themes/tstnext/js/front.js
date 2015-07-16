@@ -47,10 +47,11 @@ jQuery(document).ready(function($){
 		}
 	}
 	
+	/** Calendar **/
 	$('.event-modal').easyModal({
 		overlayParent :'.page-content',
 		hasVariableWidth : true,
-		top : 70,
+		top : 120,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
 		onClose : function(){ $('#modal-card').empty(); }
@@ -64,6 +65,12 @@ jQuery(document).ready(function($){
 		$('#modal-card').empty().append(targetEl).trigger('openModal');
 		
 		e.preventDefault();
+	});
+	
+	$('.calendar-scroll').on('click', function(e){
+		
+		e.preventDefault();
+		
 	});
 	
 }); //jQuery

@@ -244,14 +244,16 @@ $margin-base: 16px !default;
 
 // Events
 .tpl-event {
-	max-height: 600px;
 	
 	.mdl-card__media {
-		max-height: 300px;
-		img {
-			max-height: 300px;
-			width:auto;
+		height:  200px;
+		
+		@include for(tablet) {
+			height:  250px;
 		}
+		background-size: cover;
+		background-repeat: no-repeat;
+		background-position: center top;
 	}
 	
 	.event-meta {

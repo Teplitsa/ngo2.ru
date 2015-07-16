@@ -91,7 +91,10 @@ table.calendar {
 	.calendar-day:after {
 		content:'';
 		display:block;
-		margin-top:100%;
+		margin-top:150%;
+		@include for(tablet) {
+			margin-top:100%;
+		}
 	}
 		
 	.calendar-cell {
@@ -105,19 +108,46 @@ table.calendar {
 	
 	.day-number {
 		display: block;
-		padding-bottom: 10%;
+		padding-bottom: 2px;
+		
+		@include for(tablet) {
+			padding-bottom: 10%;
+		}
+	}
+	
+	.calendar-month-nav {
+		.prev { text-align: right; }
+		.next { text-align: left; }
+		
+		a {
+			display: inline-block;
+			padding: 4px 8px;
+			border-raius: 3px;			
+			text-decoration: none;
+			@include transition(all 0.2s);
+			
+			&:hover {
+				background: unquote("rgba(#{$palette-grey-100}, 1)");
+			}
+		}		
+		span { color: $tst-color-text-semi; }
 	}
 }
 
 .day-link {
 	background: unquote("rgba(#{$color-accent}, 1)");
 	color: $tst-color-white;
-	@include transition(all 0.35s);	
-	width: 28px;
-	height: 28px;
+	@include transition(all 0.35s);
 	min-width: 0;
-	i {
-		font-size: 20px;
+	
+	width: 15px;
+	height: 15px;
+	i { font-size: 10px; }
+		
+	@include for(tablet) {
+		width: 28px;
+		height: 28px;
+		i { font-size: 20px; }
 	}
 	
 	&:hover {
@@ -190,12 +220,18 @@ table.calendar {
 	display: none;
 	box-sizing: border-box;	
 	width: 90%;
+	@include for(tablet) {
+		width: 80%;
+	}
 	max-width: 600px;		
 	background-color: white;
 	
 	.event-modal-content {
 		display: block;
 	}
+	
+	//animation duration
+	@include animation-duration(0.5s);
 }
 
 .event-modal-content {
