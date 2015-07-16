@@ -566,6 +566,12 @@ function tst_events_card_content($event){
 	return $out;
 }
 
+// loader panel
+function tst_loader_panel(){
+
+	return '<div class="loader-panel"><div class="spinner"></div></div>';
+
+}
 
 /** Social buttons **/
 function tst_social_share() {

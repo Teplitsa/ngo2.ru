@@ -212,8 +212,6 @@ class TST_Calendar_Table {
 } //class end
 
 
-
-
 /** Ajax for scrolling */
 add_action("wp_ajax_calendar_scroll", "tst_calendar_scroll_screen");
 add_action("wp_ajax_nopriv_calendar_scroll", "tst_calendar_scroll_screen");
@@ -237,11 +235,12 @@ function tst_calendar_scroll_screen() {
 	
 	$cal = new TST_Calendar_Table($month, $year);	
 	$result['data'] = $cal->generate();
-	
-	if(empty($result['data'])){
-		$result['type'] = 'error';
-	}
+	$result['data'] .= tst_loader_panel();
 		
+	//if(empty($result['data'])){
+	//	$result['type'] = 'error';
+	//}
+	//	
 	echo json_encode($result);
 	die();
 }

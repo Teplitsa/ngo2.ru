@@ -100,7 +100,7 @@ jQuery(document).ready(function($){
 			success: function(response) {
 				
 				if (response.type == 'ok') {
-					container.empty().html(response.data).removeClass('loading');
+					container.empty().html(response.data).removeClass('loading').removeAttr('style');
 				}
 			}
 		});

@@ -237,19 +237,53 @@ table.calendar {
 	display: none;
 }
 
+.loader-panel {
+	display: none;
+	position: absolute;
+	top: 0;
+	left: 0;
+	bottom: 0;
+	right: 0;
+	background: rgba(255,255,255,0.75);
+	z-index: 10;		
+}
+
+.spinner {
+  box-sizing: border-box;
+  height: 48px;
+  width: 48px;
+  margin: 0;
+  border: 0px solid $tst-color-primary;
+  border-radius: 50%;
+  box-shadow: 0 -16px 0 19px $tst-color-primary inset;
+  -webkit-animation: rotate 1s infinite linear;
+          animation: rotate 1s infinite linear;
+}
+
+@-webkit-keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    -webkit-transform: rotate(0deg);
+            transform: rotate(0deg);
+  }
+  100% {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+} 
+
 #calendar-place {
 	position: relative;
 	
-	.calendar-loader {
-		display: none;
-		position: absolute;
-		top: 0;
-		left: 0;
-		bottom: 0;
-		right: 0;
-		background: rgba(255,255,255,0.75);
-		z-index: 10;		
-	}
-	
-	&.loading .calendar-loader { display: block; }
+	&.loading .loader-panel { display: block; }
 }
