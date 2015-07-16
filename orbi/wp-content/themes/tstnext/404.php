@@ -7,23 +7,57 @@
 
 get_header(); ?>
 
-	<div id="primary" class="content-area">
-		<main id="main" class="site-main" role="main">
+<div class="page-content-grid">
+<div class="mdl-grid">
+	
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+		<section class="error-404 not-found">
+			<h3>Кажется, мы потеряли запрошенную страницу</h3>
+			<p>Пожалуйста, не беспокойтесь, мы обязательно найдем ее снова.</p>
+			
+			<div class="search-holder"><?php get_search_form();?></div>
+		</section>
+	</div>
+	
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	
+</div><!-- .mdl-grid -->
+</div>
 
-			<section class="error-404 not-found">
-				<header class="page-header">
-					<h1 class="page-title"><?php _e( 'Oops! That page can&rsquo;t be found.', 'tst' ); ?></h1>
-				</header><!-- .page-header -->
+<div class="page-footer"><div class="mdl-grid">
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+<?php
+	$r_query = new WP_Query(
+	array(
+		'post_type' => 'post',
+		'posts_per_page' => 4,		
+		'tax_query' => array(
+			array(
+				'taxonomy' => 'category',
+				'field' => 'slug',
+				'terms' => array('news'),
+				'operator' => 'NOT IN'
+			)
+		)
+	)
+);
+?>
+	<aside class="related-posts section">	
+		<h5>Почитайте наши новости</h5>
+		
+		<?php
+			while($r_query->have_posts()){
+				$r_query->the_post();			
+				tst_compact_post_item();			
+			}
+			wp_reset_postdata();	
+		?>
+	</aside>	
+	</div>
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+</div></div>
 
-				<div class="page-content">
-					<p><?php _e( 'It looks like nothing was found at this location.', 'tst' ); ?></p>
-
-					
-
-				</div><!-- .page-content -->
-			</section><!-- .error-404 -->
-
-		</main><!-- #main -->
-	</div><!-- #primary -->
 
 <?php get_footer(); ?>

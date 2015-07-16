@@ -5,7 +5,7 @@
 
 global $post;
 
-$today = strtotime(sprintf('now %s hours', get_option('gmt_offset'))); 
+
 $r_query = new WP_Query(
 	array(
 		'post_type' => 'product',

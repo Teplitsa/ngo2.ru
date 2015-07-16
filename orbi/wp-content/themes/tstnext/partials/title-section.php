@@ -19,11 +19,20 @@ if(is_front_page()) { ?>
 	</div>
 	<div class="mdl-cell mdl-cell--3-col "></div>
 </div>
-<?php } elseif(is_search()) { ?>
+<?php } elseif(is_search() || is_404()) { ?>
 <div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">	
-		<h1 class="page-title"><?php _e('Search results', 'tst');?></h1>
+		<h1 class="page-title">
+		<?php
+			if(is_search()) {
+				_e('Search results', 'tst');
+			}
+			else {
+				_e('404: Page not found', 'tst');
+			}
+		?>
+		</h1>
 	</div>
 	<div class="mdl-cell mdl-cell--3-col "></div>
 </div>
@@ -45,10 +54,7 @@ if(is_front_page()) { ?>
 		}
 		elseif(is_page()){
 			echo get_the_title($post);
-		}		
-		elseif(is_404()){
-			_e('404: Page not found', 'tst');
-		}
+		}				
 	?>
 	</h1>
 	<?php if(is_tax('auctor')) {

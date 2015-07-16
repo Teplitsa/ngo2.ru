@@ -9870,10 +9870,12 @@ body {
   z-index: 100;
   top: -56px; }
 
+body.error404 .page-header .page-title,
 body.single .page-header .page-title,
 body.page-template-default .page-header .page-title {
   padding: 96px 0 32px;
   line-height: 1.2; }
+body.error404 .page-content,
 body.single .page-content,
 body.page-template-default .page-content {
   top: auto; }
@@ -10010,6 +10012,9 @@ body.tax-auctor .author-description {
     .paging-navigation .mdl-button:hover, .paging-navigation .mdl-button:focus, .paging-navigation .mdl-button:active {
       background: rgba(189,189,189, 1);
       color: rgba(255,255,255, 1); }
+
+section.error-404 {
+  margin-bottom: 32px; }
 
 /** Post cards **/
 .pictured-card-item {

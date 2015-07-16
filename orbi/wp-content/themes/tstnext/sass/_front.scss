@@ -160,6 +160,7 @@ $sh-base : $cell-elementary-2x;
 }
 
 // context header modifications
+body.error404,
 body.single,
 body.page-template-default  {
 	
@@ -362,4 +363,8 @@ body.tax-auctor {
 			color: $tst-color-white; 
 		}
 	}
+}
+
+section.error-404 {
+	margin-bottom: $margin-base*2;
 }

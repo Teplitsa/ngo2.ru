@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: TST Next Project Design\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2015-07-16 21:40+0300\n"
-"PO-Revision-Date: 2015-07-16 21:41+0300\n"
+"PO-Revision-Date: 2015-07-16 23:48+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language-Team: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
@@ -137,7 +137,7 @@ msgstr "Результаты поиска"
 
 #: partials/title-section.php:50
 msgid "404: Page not found"
-msgstr "404: Страница не найдена"
+msgstr "404: Страница не&nbsp;найдена"
 
 #: single-product.php:24
 msgid "Price"
