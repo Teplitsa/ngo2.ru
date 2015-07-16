@@ -27,10 +27,13 @@ get_header(); ?>
 						</div>
 					</div>				
 					<div class="cb-grid">
-					<?php
-						$cal = new TST_Calendar_Table();
-						echo $cal->generate();						
-					?>
+						<div id="calendar-place">
+						<?php
+							$cal = new TST_Calendar_Table();
+							echo $cal->generate();						
+						?>
+						<div class="calendar-loader"><div class="mdl-spinner mdl-spinner--single-color mdl-js-spinner is-active"></div></div>
+						</div>
 					</div>
 				</div>
 			</div>

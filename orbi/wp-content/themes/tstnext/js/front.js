@@ -57,20 +57,55 @@ jQuery(document).ready(function($){
 		onClose : function(){ $('#modal-card').empty(); }
 	});
 	
-	
-	$('.day-link').click(function(e) {
-		var target = $(this).attr('data-emodal'),
-			targetEl = $(target).clone();
+	$('body').on('click','.day-link', function(e){
+		
+		var trigger = $(e.target),
+			target, targetEl;
+		
+		if (trigger.hasClass('day-link')) {
+			target = trigger.attr('data-emodal');
+		}
+		else {
+			target = trigger.parents('.day-link').attr('data-emodal');
+		}
+				
+		targetEl = $(target).clone();
 		
 		$('#modal-card').empty().append(targetEl).trigger('openModal');
 		
 		e.preventDefault();
 	});
 	
-	$('.calendar-scroll').on('click', function(e){
-		
-		e.preventDefault();
-		
+	$('body').on('click','.calendar-scroll', function(e){
+	
+		e.preventDefault();		
+		var target = $(e.target),
+			container = $('#calendar-place');
+				
+		$.ajax({
+			type : "post",
+			dataType : "json",
+			url : frontend.ajaxurl,
+			data : {
+				'action': 'calendar_scroll',			
+				'nonce' : target.attr('data-nonce'),
+				'month' : target.attr('data-month'),
+				'year'  : target.attr('data-year')
+			},
+			beforeSend : function () {
+				
+				var h = container.height();
+				container.addClass('loading').css({height : h+'px'});
+			},				
+			success: function(response) {
+				
+				if (response.type == 'ok') {
+					container.empty().html(response.data).removeClass('loading');
+				}
+			}
+		});
 	});
+	
+	
 	
 }); //jQuery

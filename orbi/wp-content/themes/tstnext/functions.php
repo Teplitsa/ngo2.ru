@@ -179,7 +179,9 @@ function tst_scripts() {
 		true
 	);
 	
-	
+	wp_localize_script('tst-front', 'frontend', array(
+        'ajaxurl' => admin_url('admin-ajax.php')
+	));
 }
 add_action( 'wp_enqueue_scripts', 'tst_scripts' );
 

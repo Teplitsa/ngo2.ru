@@ -157,7 +157,6 @@ table.calendar {
 }
 
 
-
 //footer
 .cf-widget {
 	
@@ -215,7 +214,7 @@ table.calendar {
 }
 
 
-//modal
+//modal ans scroll
 .event-modal {
 	display: none;
 	box-sizing: border-box;	
@@ -236,4 +235,21 @@ table.calendar {
 
 .event-modal-content {
 	display: none;
+}
+
+#calendar-place {
+	position: relative;
+	
+	.calendar-loader {
+		display: none;
+		position: absolute;
+		top: 0;
+		left: 0;
+		bottom: 0;
+		right: 0;
+		background: rgba(255,255,255,0.75);
+		z-index: 10;		
+	}
+	
+	&.loading .calendar-loader { display: block; }
 }

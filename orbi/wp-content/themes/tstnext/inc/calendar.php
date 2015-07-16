@@ -51,8 +51,9 @@ class TST_Calendar_Table {
 		if($prev_month_stamp > $limit_stamp){
 			$m = date('m', $prev_month_stamp);
 			$y = date('Y', $prev_month_stamp);
+			$nonce = wp_create_nonce( 'calendar_scroll' );
 			
-			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll'>{$text}</a>";
+			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll' data-nonce='{$nonce}'>{$text}</a>";
 		}
 		else {
 			$link = "<span>{$text}</span>";
@@ -72,8 +73,9 @@ class TST_Calendar_Table {
 		if($next_month_stamp < $limit_stamp){
 			$m = date('m', $next_month_stamp);
 			$y = date('Y', $next_month_stamp);
+			$nonce = wp_create_nonce( 'calendar_scroll' );
 			
-			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll'>{$text}</a>";
+			$link = "<a href='#' data-month='{$m}' data-year='{$y}' class='calendar-scroll' data-nonce='{$nonce}'>{$text}</a>";
 		}
 		else {
 			$link = "<span>{$text}</span>";
@@ -208,3 +210,38 @@ class TST_Calendar_Table {
 	}
 	
 } //class end
+
+
+
+
+/** Ajax for scrolling */
+add_action("wp_ajax_calendar_scroll", "tst_calendar_scroll_screen");
+add_action("wp_ajax_nopriv_calendar_scroll", "tst_calendar_scroll_screen");
+
+function tst_calendar_scroll_screen() {
+	
+	$result = array('type' => 'ok', 'data' => array());
+	
+	if(!wp_verify_nonce($_REQUEST['nonce'], "calendar_scroll")) {		
+		die('nonce error');
+	}   
+	
+	$month = (isset($_REQUEST['month'])) ? trim($_REQUEST['month']) :  false;
+	$year  = (isset($_REQUEST['year'])) ?trim($_REQUEST['year']) : false;
+	
+	if(!$month || !$year){
+		$result['type'] = 'error';
+		echo json_encode($result);
+		die();
+	}
+	
+	$cal = new TST_Calendar_Table($month, $year);	
+	$result['data'] = $cal->generate();
+	
+	if(empty($result['data'])){
+		$result['type'] = 'error';
+	}
+		
+	echo json_encode($result);
+	die();
+}
