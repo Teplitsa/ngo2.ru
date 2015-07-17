@@ -110,7 +110,7 @@ function tst_product_banner($cpost){
 	
 	
 	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
-	$img = tst_get_post_thumbnail_src($cpost, 'embed');
+	$img = tst_get_post_thumbnail_src($cpost, 'post-thumbnail');
 ?>
 
 <div class="tpl-product-banner mdl-card mdl-shadow--2dp">

@@ -177,7 +177,7 @@ get_header();
 				if($blog->have_posts()){
 					while($blog->have_posts()){
 						$blog->the_post();	
-						tst_compact_post_item($post, false, 'embed-small');
+						tst_compact_post_item($post, false, 'thumbnail-landscape');
 					}
 					wp_reset_postdata();
 				}

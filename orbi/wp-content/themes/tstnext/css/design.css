@@ -10257,7 +10257,7 @@ section.error-404 {
   background-position: center top; }
   @media screen and (min-width: 480px) {
     .tpl-event .mdl-card__media {
-      height: 250px; } }
+      height: 235px; } }
 .tpl-event .event-meta {
   padding: 16px 16px; }
 .tpl-event .em-icon {
@@ -10458,6 +10458,20 @@ section.error-404 {
   width: calc(100% - 40px); }
 
 /** Calendar page **/
+.add-to-calendar-button {
+  display: inline-block;
+  background: rgba(255,64,129, 1);
+  color: rgba(255,255,255, 1);
+  width: 30px;
+  height: 30px;
+  border-radius: 4px;
+  text-align: center;
+  vertical-align: middle; }
+  .add-to-calendar-button:hover {
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }
+  .add-to-calendar-button i {
+    line-height: 30px; }
+
 .calendar-content .widget {
   display: none; }
 @media screen and (min-width: 940px) {
@@ -10600,19 +10614,6 @@ table.calendar {
   position: absolute;
   top: 0;
   right: 0; }
-  .ev-future .add-to-calendar a {
-    display: inline-block;
-    background: rgba(255,64,129, 1);
-    color: rgba(255,255,255, 1);
-    width: 30px;
-    height: 30px;
-    border-radius: 4px;
-    text-align: center;
-    vertical-align: middle; }
-    .ev-future .add-to-calendar a:hover {
-      box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }
-    .ev-future .add-to-calendar a i {
-      line-height: 30px; }
 
 .ev-past .add-to-calendar {
   display: none; }
@@ -10621,7 +10622,8 @@ table.calendar {
   display: none;
   box-sizing: border-box;
   width: 90%;
-  max-width: 600px;
+  max-width: 564px;
+  max-height: 90%;
   background-color: white;
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
@@ -10630,7 +10632,18 @@ table.calendar {
     .event-modal {
       width: 80%; } }
   .event-modal .event-modal-content {
-    display: block; }
+    box-sizing: border-box;
+    display: block;
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding-bottom: 53px;
+    overflow-y: auto; }
+    .event-modal .event-modal-content .mdl-card__actions {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%; }
 
 .event-modal-content {
   display: none; }

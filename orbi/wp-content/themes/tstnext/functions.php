@@ -23,11 +23,15 @@ function tst_setup() {
 
 	// Thumbnails
 	add_theme_support( 'post-thumbnails' );
-	set_post_thumbnail_size(395, 222, true ); // regular thumbnails 16:9
-	add_image_size('thumbnail-extra', 600, 337, true ); // large thumbnail 16:9
-	add_image_size('embed', 600, 420, true ); // fixed size for embedding 4:3
-	add_image_size('embed-small', 350, 245, true ); // fixed size cards 4:3
-	add_image_size('thumbnail-long', 810, 320, true ); // large thumbnail 16:9
+	set_post_thumbnail_size(370, 208, true ); // regular thumbnails 16:9
+	add_image_size('embed', 564, 395, true ); // fixed size for embedding 
+	add_image_size('thumbnail-long', 806, 335, true ); // large thumbnail for products
+	add_image_size('avatar', 40, 40, true ); // fixed size for embedding
+	add_image_size('thumbnail-landscape', 190, 142, true ); // fixed size for embedding
+	
+	//add_image_size('thumbnail-extra', 600, 337, true ); // large thumbnail 16:9	
+	//add_image_size('embed-small', 350, 245, true ); // fixed size cards 4:3
+	
 
 	// Menus
 	register_nav_menus(array(

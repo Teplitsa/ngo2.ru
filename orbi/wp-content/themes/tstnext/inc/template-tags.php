@@ -571,7 +571,7 @@ function tst_event_meta($cpost = null) {
 
 function tst_events_card_content($event){
 	
-	$img = tst_get_post_thumbnail_src($event, 'thumbnail-extra');
+	$img = tst_get_post_thumbnail_src($event, 'post-thumbnail');
 	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
 	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
 	$lacation = (function_exists('get_field')) ? get_field('event_location', $event->ID) : '';
@@ -582,7 +582,7 @@ function tst_events_card_content($event){
 	ob_start();
 ?>	
 	<div class="mdl-card__media" style="background-image: url(<?php echo $img;?>);?>">
-		<?php //echo tst_get_post_thumbnail($event, 'thumbnail-extra'); ?>
+		<?php //echo tst_get_post_thumbnail($event, 'post-thumbnail'); ?>
 	</div>
 	
 	<div class="mdl-card__title">
@@ -607,6 +607,7 @@ function tst_events_card_content($event){
 	<div class="mdl-card__supporting-text"><?php echo apply_filters('tst_the_title', $e);?></div>
 	
 	<div class="mdl-card__actions mdl-card--border">
+		<?php tst_add_to_calendar_link($event);?>
 		<a href="<?php echo get_permalink($event);?>" class="mdl-button mdl-button--colored mdl-js-button mdl-js-ripple-effect">Принять участие</a>
 	</div>
 	
@@ -723,7 +724,7 @@ function tst_get_author_avatar($author_term_id){
 		$avatar = tst_get_default_author_avatar();
 	}
 	else {
-		$avatar = wp_get_attachment_image($avatar);
+		$avatar = wp_get_attachment_image($avatar, 'avatar');
 	}
 	
 	return $avatar;
@@ -731,7 +732,7 @@ function tst_get_author_avatar($author_term_id){
 
 
 /** Compact post item **/
-function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 'post-thumbnail'){
+function tst_compact_post_item($cpost = null, $show_thumb = true, $thumb_size = 'thumbnail-landscape'){
 	global $post;
 		
 	if(!$cpost)
@@ -839,9 +840,9 @@ function tst_compact_product_item($cpost = null){
 		$cpost = $post;
 	
 	$price = (function_exists('get_field')) ? get_field('product_price', $cpost->ID) : '';
-	$thumb = get_the_post_thumbnail($cpost->ID, 'thumbnail');
+	$thumb = get_the_post_thumbnail($cpost->ID, 'avatar');
 	if(empty($thumb))
-		$thumb = tst_get_default_post_thumbnail('thumbnail');
+		$thumb = tst_get_default_post_thumbnail('avatar');
 ?>
 <div class="tpl-compact-product">	
 	<div class="pictured-card-item">
@@ -873,9 +874,9 @@ function tst_compact_event_item($cpost = null){
 		$cpost = $post;
 	
 	$e_date = get_post_meta($cpost->ID, 'event_date', true);
-	$thumb = get_the_post_thumbnail($cpost->ID, 'thumbnail');
+	$thumb = get_the_post_thumbnail($cpost->ID, 'avatar');
 	if(empty($thumb))
-		$thumb = tst_get_default_post_thumbnail('thumbnail');
+		$thumb = tst_get_default_post_thumbnail('avatar');
 ?>
 <div class="tpl-compact-event">	
 	<div class="pictured-card-item">
@@ -889,7 +890,7 @@ function tst_compact_event_item($cpost = null){
 			</a></h5>
 			<p class="event-date mdl-typography--caption"><time><?php echo date_i18n('d.m.Y', strtotime($e_date));?></time></p>
 			<div class="add-to-calendar">
-				<a href="<?php echo tst_add_to_calendar_url($cpost);?>" class="" target="_blank"><?php echo tst_material_icon('schedule');?></a>
+				<?php tst_add_to_calendar_link($cpost);?>
 			</div>
 		</div>		
 	</div>	
@@ -918,6 +919,13 @@ $tst .= "&dates=20150722T133000/20150722T135000";
 
 return '#';
 
+}
+
+function tst_add_to_calendar_link($event) {
+	
+?>
+<a href="<?php echo tst_add_to_calendar_url($event);?>" class="add-to-calendar-button" target="_blank"><?php echo tst_material_icon('schedule');?></a>
+<?php
 }
 
 function tst_material_icon($icon){
@@ -961,7 +969,7 @@ function tst_post_card_content($cpost = null){
 ?>
 	<?php if(has_post_thumbnail($cpost->ID)){ ?>
 	<div class="mdl-card__media">
-		<?php echo tst_get_post_thumbnail($cpost, 'thumbnail-extra'); ?>		
+		<?php echo tst_get_post_thumbnail($cpost, 'embed'); ?>		
 	</div>			
 	<?php } ?>
 	
