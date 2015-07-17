@@ -952,30 +952,30 @@ function tst_add_to_calendar_scripts(){
 }
 
 function tst_add_to_calendar_link($event, $echo = true) {
+	
+	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
+	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
+	$location = (function_exists('get_field')) ? get_field('event_location', $event->ID) : '';
+	$addr = (function_exists('get_field')) ? get_field('event_address', $event->ID) : '';
+	
+	if(empty($time))
+		$time = '12.00';
+		
+	$start_mark = date_i18n('Y-m-d H:i:00', strtotime($date.' '.$time));
+	$end_mark = date_i18n('Y-m-d H:i:00', strtotime('+2 hours '.$date.' '.$time));
+	$e = (!empty($event->post_excerpt)) ? wp_trim_words($event->post_excerpt, 20) : wp_trim_words(strip_shortcodes($event->post_content), 20);
 ?>
 	<span class="addtocalendar">
         <var class="atc_event">
-            <var class="atc_date_start">2015-05-04 12:00:00</var>
-            <var class="atc_date_end">2015-05-04 18:00:00</var>
-            <var class="atc_timezone">Europe/London</var>
-            <var class="atc_title">Star Wars Day Party</var>
-            <var class="atc_description">May the force be with you</var>
-            <var class="atc_location">Tatooine</var>
-            <var class="atc_organizer">Luke Skywalker</var>
-            <var class="atc_organizer_email">luke@starwars.com</var>
-        </var>
-		<i class="material-icons">schedule</i>
+            <var class="atc_date_start"><?php echo $start_mark;?></var>
+            <var class="atc_date_end"><?php echo $end_mark;?></var>
+            <var class="atc_timezone">Europe/Moscow</var>
+            <var class="atc_title"><?php echo esc_attr($event->post_title);?></var>
+            <var class="atc_description"><?php echo apply_filters('tst_the_title', $e);?></var>
+            <var class="atc_location"><?php echo esc_attr($location).' '.esc_attr($addr);?></var>          
+        </var>		
     </span>
 <?php	
-	//$out = '<a href="'.tst_add_to_calendar_url($event).'" class="add-to-calendar-button" target="_blank">';
-	//$out .= tst_material_icon('schedule');
-	//$out .= '</a>';
-	//
-	//if($echo )
-	//	echo $out;
-	//else	
-	//	return $out;
-
 }
 
 function tst_material_icon($icon){

@@ -10312,7 +10312,7 @@ section.error-404 {
   .em-field.date-field {
     position: relative;
     padding-right: 40px; }
-    .em-field.date-field .add-to-calendar-button {
+    .em-field.date-field .addtocalendar {
       position: absolute;
       right: 0;
       top: 16px; }
@@ -10465,37 +10465,17 @@ section.error-404 {
   width: calc(100% - 40px); }
 
 /** Calendar page **/
-.add-to-calendar-button {
-  display: inline-block;
-  background: rgba(255,64,129, 1);
-  color: rgba(255,255,255, 1);
-  width: 36px;
-  height: 36px;
-  border-radius: 4px;
-  text-align: center;
-  vertical-align: middle;
-  -webkit-transition: all 0.35s;
-  -moz-transition: all 0.35s;
-  transition: all 0.35s; }
-  .add-to-calendar-button:hover {
-    box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }
-  .add-to-calendar-button i {
-    font-size: 28px;
-    line-height: 36px; }
-
-.addtocalendar var {
-  display: none; }
-
 .addtocalendar {
   position: relative;
   display: inline-block;
   background: transparent !important; }
+  .addtocalendar var {
+    display: none; }
 
 .atcb-link {
   display: block;
   outline: none !important;
   cursor: pointer;
-  display: inline-block;
   background: rgba(255,64,129, 1);
   color: rgba(255,255,255, 1);
   width: 36px;
@@ -10505,12 +10485,35 @@ section.error-404 {
   vertical-align: middle;
   -webkit-transition: all 0.35s;
   -moz-transition: all 0.35s;
-  transition: all 0.35s; }
+  transition: all 0.35s;
+  font: 0/0 a;
+  text-shadow: none;
+  color: transparent;
+  text-decoration: none; }
   .atcb-link:hover {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }
-  .atcb-link i {
+  .atcb-link:after {
+    color: rgba(255,255,255, 1);
+    content: 'schedule';
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-style: normal;
     font-size: 28px;
-    line-height: 36px; }
+    line-height: 36px;
+    display: inline-block;
+    width: 1em;
+    height: 1em;
+    text-transform: none;
+    letter-spacing: normal;
+    word-wrap: normal;
+    /* Support for all WebKit browsers. */
+    -webkit-font-smoothing: antialiased;
+    /* Support for Safari and Chrome. */
+    text-rendering: optimizeLegibility;
+    /* Support for Firefox. */
+    -moz-osx-font-smoothing: grayscale;
+    /* Support for IE. */
+    font-feature-settings: 'liga'; }
 
 .atcb-link:focus ~ ul,
 .atcb-link:active ~ ul,
@@ -10521,9 +10524,10 @@ section.error-404 {
   visibility: hidden;
   position: absolute;
   top: 100%;
-  left: 0;
-  width: 170px;
-  z-index: 900; }
+  right: 0;
+  width: 150px;
+  z-index: 900;
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 .atcb-list,
 .atcb-item {
@@ -10539,7 +10543,11 @@ section.error-404 {
 .atcb-item-link {
   text-decoration: none;
   outline: none;
-  display: block; }
+  display: block;
+  font-weight: 400;
+  padding: 4px 16px;
+  color: rgba(0,0,0, 0.87);
+  border-radius: 2px; }
 
 .atcb-item.hover,
 .atcb-item:hover {
@@ -10548,6 +10556,9 @@ section.error-404 {
   cursor: pointer;
   text-decoration: none;
   outline: none; }
+  .atcb-item.hover a,
+  .atcb-item:hover a {
+    background: rgba(245,245,245, 1); }
 
 .calendar-content .widget {
   display: none; }
@@ -10687,12 +10698,12 @@ table.calendar {
 .ev-future .event-content {
   position: relative;
   padding-right: 48px; }
-.ev-future .add-to-calendar {
+.ev-future .addtocalendar {
   position: absolute;
   top: 1px;
   right: 0; }
 
-.ev-past .add-to-calendar {
+.ev-past .addtocalendar {
   display: none; }
 
 .event-modal {
