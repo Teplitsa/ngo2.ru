@@ -333,7 +333,7 @@ function tst_facebook_author_tag(){
 		return;
 	
 	$author = tst_get_post_author();
-	$fb = (function_exists('get_field')) ? get_field('auctor_facebook', 'auctor_'.$author->term_id) : '';
+	$fb = (function_exists('get_field') && $author) ? get_field('auctor_facebook', 'auctor_'.$author->term_id) : '';
 	
 	if(!empty($fb)) {
 ?>

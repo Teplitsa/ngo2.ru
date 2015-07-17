@@ -29,10 +29,10 @@ get_header();
 
 <div class="page-footer"><div class="mdl-grid">
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
-	<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+	<div class="mdl-cell mdl-cell--6-col mdl-cell--5-col-tablet">
 		<?php get_template_part('partials/related', get_post_type());?>
 	</div>
-	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
+	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone "></div>
 </div></div>
 
 <?php get_footer(); ?>
