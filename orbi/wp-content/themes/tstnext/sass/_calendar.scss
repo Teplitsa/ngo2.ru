@@ -4,14 +4,18 @@
 	display: inline-block;
 	background: unquote("rgba(#{$color-accent}, 1)");
 	color: $tst-color-white;
-	width: 30px;
-	height: 30px;
+	width: 36px;
+	height: 36px;	
 	border-radius: 4px;
 	text-align: center;
 	vertical-align: middle;
+	@include transition(all 0.35s);
 	
 	&:hover { @include focus-shadow(); }
-	i { line-height: 30px; }
+	i {
+		font-size: 28px;
+		line-height: 36px;
+	}
 }
 
 .add-to-calendar-button {
@@ -203,12 +207,8 @@ table.calendar {
 			
 	.add-to-calendar {
 		position: absolute;
-		top: 0;
-		right: 0;
-		
-		a {
-			
-		}
+		top: 1px;
+		right: 0;		
 	}
 	
 }
@@ -226,8 +226,7 @@ table.calendar {
 	@include for(tablet) {
 		width: 80%;
 	}
-	max-width: 564px;
-	max-height: 90%;
+	max-width: 564px;	
 	background-color: white;
 	
 	.event-modal-content {

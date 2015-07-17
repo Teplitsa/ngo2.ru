@@ -47,11 +47,11 @@ jQuery(document).ready(function($){
 		}
 	}
 	
-	/** Calendar **/
+	/** Calendar **/	
 	$('.event-modal').easyModal({
 		overlayParent :'.page-content',
 		hasVariableWidth : true,
-		top : 120,
+		top : 100,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
 		onClose : function(){ $('#modal-card').empty(); }

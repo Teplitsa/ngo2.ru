@@ -542,9 +542,10 @@ function tst_event_meta($cpost = null) {
 	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
 
 	if(!empty($date)){
-		echo "<div class='em-field'>";
+		echo "<div class='em-field date-field'>";
 		echo "<div class='em-label mdl-typography--caption'>".__('Event date', 'tst').":</div>";
 		echo "<div class='em-date mdl-typography--body-1'>".date('d.m.Y', strtotime($date))."</div>";
+		tst_add_to_calendar_link($cpost);
 		echo "</div>";
 	}
 	if(!empty($time)){
@@ -921,11 +922,17 @@ return '#';
 
 }
 
-function tst_add_to_calendar_link($event) {
+function tst_add_to_calendar_link($event, $echo = true) {
 	
-?>
-<a href="<?php echo tst_add_to_calendar_url($event);?>" class="add-to-calendar-button" target="_blank"><?php echo tst_material_icon('schedule');?></a>
-<?php
+	$out = '<a href="'.tst_add_to_calendar_url($event).'" class="add-to-calendar-button" target="_blank">';
+	$out .= tst_material_icon('schedule');
+	$out .= '</a>';
+	
+	if($echo )
+		echo $out;
+	else	
+		return $out;
+
 }
 
 function tst_material_icon($icon){

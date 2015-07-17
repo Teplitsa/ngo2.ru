@@ -10309,6 +10309,13 @@ section.error-404 {
   .em-field .mdl-typography--caption {
     color: rgba(0, 0, 0, 0.54);
     padding-bottom: 2px; }
+  .em-field.date-field {
+    position: relative;
+    padding-right: 40px; }
+    .em-field.date-field .add-to-calendar-button {
+      position: absolute;
+      right: 0;
+      top: 16px; }
 
 .related-posts.ev-future h5 {
   margin-bottom: 16px; }
@@ -10462,15 +10469,19 @@ section.error-404 {
   display: inline-block;
   background: rgba(255,64,129, 1);
   color: rgba(255,255,255, 1);
-  width: 30px;
-  height: 30px;
+  width: 36px;
+  height: 36px;
   border-radius: 4px;
   text-align: center;
-  vertical-align: middle; }
+  vertical-align: middle;
+  -webkit-transition: all 0.35s;
+  -moz-transition: all 0.35s;
+  transition: all 0.35s; }
   .add-to-calendar-button:hover {
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.18), 0 8px 16px rgba(0, 0, 0, 0.36); }
   .add-to-calendar-button i {
-    line-height: 30px; }
+    font-size: 28px;
+    line-height: 36px; }
 
 .calendar-content .widget {
   display: none; }
@@ -10612,7 +10623,7 @@ table.calendar {
   padding-right: 48px; }
 .ev-future .add-to-calendar {
   position: absolute;
-  top: 0;
+  top: 1px;
   right: 0; }
 
 .ev-past .add-to-calendar {
@@ -10623,7 +10634,6 @@ table.calendar {
   box-sizing: border-box;
   width: 90%;
   max-width: 564px;
-  max-height: 90%;
   background-color: white;
   -webkit-animation-duration: 0.5s;
   -moz-animation-duration: 0.5s;
