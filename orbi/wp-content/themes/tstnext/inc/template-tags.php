@@ -536,7 +536,7 @@ function tst_event_meta($cpost = null) {
 	if(!$cpost)
 		$cpost = $post; 
 		
-	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : //$cpost->post_date;var_dump($date);
+	$date = (function_exists('get_field')) ? get_field('event_date', $cpost->ID) : '' ;
 	$time = (function_exists('get_field')) ? get_field('event_time', $cpost->ID) : '';
 	$lacation = (function_exists('get_field')) ? get_field('event_location', $cpost->ID) : '';
 	$addr = (function_exists('get_field')) ? get_field('event_address', $cpost->ID) : '';
@@ -913,25 +913,68 @@ function tst_add_to_calendar_url($event){
 //&sprop=name:"
 //target="_blank" rel="nofollow">Add to my calendar</a>
 
-$tst = "http://www.google.com/calendar/event?";
-$tst .= "action=TEMPLATE";
-$tst .= "&text=Проверка события";
-$tst .= "&dates=20150722T133000/20150722T135000";
-
-return '#';
+	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
+	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
+	$lacation = (function_exists('get_field')) ? get_field('event_location', $event->ID) : '';
+	$addr = (function_exists('get_field')) ? get_field('event_address', $event->ID) : '';
+	
+	if(empty($time))
+		$time = '12.00';
+		
+	$start_mark = date_i18n('YmdHi00', strtotime($date.' '.$time));
+	$end_mark = date_i18n('YmdHi00', strtotime('+2 hours '.$date.' '.$time));
+	$e = (!empty($event->post_excerpt)) ? wp_trim_words($event->post_excerpt, 20) : wp_trim_words(strip_shortcodes($event->post_content), 20);
+	
+	$tst = "https://www.google.com/calendar/event?";
+	$tst .= "action=TEMPLATE";
+	$tst .= "&text=".urlencode($event->post_title);
+	$tst .= "&dates={$start_mark}/{$end_mark}&czt=Europe/Moscow";
+	$tst .= "&location=".urlencode($lacation.' '.$addr);
+	$tst .= "&details=".urlencode($e);
+	
+	return $tst;
 
 }
 
+add_action('wp_footer', 'tst_add_to_calendar_scripts');
+function tst_add_to_calendar_scripts(){
+	
+?>
+<script type="text/javascript">(function () {
+	if (window.addtocalendar)if(typeof window.addtocalendar.start == "function")return;
+	if (window.ifaddtocalendar == undefined) { window.ifaddtocalendar = 1;
+		var d = document, s = d.createElement('script'), g = 'getElementsByTagName';
+		s.type = 'text/javascript';s.charset = 'UTF-8';s.async = true;
+		s.src = ('https:' == window.location.protocol ? 'https' : 'http')+'://addtocalendar.com/atc/1.5/atc.min.js';
+		var h = d[g]('body')[0];h.appendChild(s); }})();
+</script>
+<?php	
+}
+
 function tst_add_to_calendar_link($event, $echo = true) {
-	
-	$out = '<a href="'.tst_add_to_calendar_url($event).'" class="add-to-calendar-button" target="_blank">';
-	$out .= tst_material_icon('schedule');
-	$out .= '</a>';
-	
-	if($echo )
-		echo $out;
-	else	
-		return $out;
+?>
+	<span class="addtocalendar">
+        <var class="atc_event">
+            <var class="atc_date_start">2015-05-04 12:00:00</var>
+            <var class="atc_date_end">2015-05-04 18:00:00</var>
+            <var class="atc_timezone">Europe/London</var>
+            <var class="atc_title">Star Wars Day Party</var>
+            <var class="atc_description">May the force be with you</var>
+            <var class="atc_location">Tatooine</var>
+            <var class="atc_organizer">Luke Skywalker</var>
+            <var class="atc_organizer_email">luke@starwars.com</var>
+        </var>
+		<i class="material-icons">schedule</i>
+    </span>
+<?php	
+	//$out = '<a href="'.tst_add_to_calendar_url($event).'" class="add-to-calendar-button" target="_blank">';
+	//$out .= tst_material_icon('schedule');
+	//$out .= '</a>';
+	//
+	//if($echo )
+	//	echo $out;
+	//else	
+	//	return $out;
 
 }
 

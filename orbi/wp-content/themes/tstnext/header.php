@@ -18,6 +18,7 @@
 </head>
 
 <body id="top" <?php body_class(); ?>>
+
 <a class="skip-link screen-reader-text" href="#content"><?php _e( 'Skip to content', 'tst' ); ?></a>
 <div class="mdl-layout mdl-js-layout mdl-layout--fixed-header mdl-layout--overlay-drawer-button">
 

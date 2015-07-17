@@ -140,7 +140,7 @@ function tst_scripts() {
 		TST_VERSION
 	);	
 	$style_dependencies[] = 'tst-animate';
-	
+		
 	// design
 	wp_enqueue_style(
 		'tst-design',
