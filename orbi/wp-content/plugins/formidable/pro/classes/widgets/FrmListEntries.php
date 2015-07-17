@@ -4,7 +4,7 @@ class FrmListEntries extends WP_Widget {
 
 	function __construct() {
 		$widget_ops = array( 'description' => __( 'Display a list of Formidable entries', 'formidable' ) );
-		$this->WP_Widget('frm_list_items', __( 'Formidable Entries List', 'formidable' ), $widget_ops);
+		parent::__construct( 'frm_list_items', __( 'Formidable Entries List', 'formidable' ), $widget_ops );
 	}
 
 	function widget( $args, $instance ) {

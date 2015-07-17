@@ -202,7 +202,7 @@ class FrmProForm{
 		if ( $ajax ) {
 			$no_ajax_fields = array( 'file' );
 			$where = array(
-				array( 'or' => 1, 'form_id' => $form->id, 'form.parent_form_id' => $form->id ),
+				array( 'or' => 1, 'form.id' => $form->id, 'form.parent_form_id' => $form->id ),
 				'type' => $no_ajax_fields,
 			);
 			if ( isset( $_POST[ 'frm_page_order_' . $form->id ] ) ) {

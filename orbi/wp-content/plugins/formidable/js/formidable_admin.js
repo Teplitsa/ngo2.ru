@@ -111,6 +111,7 @@ function frmAdminBuildJS(){
 					data:{action:'frm_form_action_fill', action_id:action_id, action_type:action_type, nonce:frmGlobal.nonce},
 					success:function(html){
 						cont.children('.widget-inside').html(html);
+						initiateMultiselect();
 					}
 				});
                 }
@@ -217,7 +218,9 @@ function frmAdminBuildJS(){
 			cancel:'.widget,.frm_field_opts_list,input,textarea,select,.edit_field_type_end_divider,.frm_ipe_field_option,.frm_sortable_field_opts',
 			accepts:'field_type_list',
 			revert:true,
-			forcePlaceholderSize:true,
+			forcePlaceholderSize:false,
+			tolerance:'pointer',
+			container: 'ul.frm_sorting',
 			receive:function(event,ui){
 				if ( cancelSort ) {
 					ui.item.addClass('frm_cancel_sort');
@@ -318,6 +321,11 @@ function frmAdminBuildJS(){
 					return;
 				}
 				updateFieldOrder();
+			},
+			start: function( event, ui ) {
+				if ( ui.item[0].offsetHeight > 120 ) {
+					jQuery(sort).sortable( 'refreshPositions' );
+				}
 			},
 			stop:function(event, ui){
 				if ( cancelSort ) {
@@ -1101,6 +1109,7 @@ function frmAdminBuildJS(){
 
 				//check if icon should be active
 				checkActiveAction(type);
+				initiateMultiselect();
 			}
 		});
 	}
@@ -1506,6 +1515,15 @@ function frmAdminBuildJS(){
 		}
 	}
 
+	function setDefaultPostStatus() {
+		var urlQuery = window.location.search.substring(1);
+		if ( urlQuery.indexOf('action=edit') === -1 ) {
+			document.getElementById('post-visibility-display').innerHTML = frm_admin_js.private;
+			document.getElementById('hidden-post-visibility').value = 'private';
+			document.getElementById('visibility-radio-private').checked = true;
+		}
+	}
+
 	/* Customization Panel */
 	function insertCode(){
 		insertFieldCode(jQuery(this), jQuery(this).data('code'));
@@ -1754,7 +1772,7 @@ function frmAdminBuildJS(){
     function initiateMultiselect(){
         jQuery('.frm_multiselect').multiselect({
             templates: {ul:'<ul class="multiselect-container frm-dropdown-menu"></ul>'},
-            nonSelectedText:frm_admin_js.default
+			nonSelectedText:frm_admin_js['default']
         });
     }
 
@@ -1896,7 +1914,7 @@ function frmAdminBuildJS(){
 			setupSortable('ul.frm_sorting');
 
 			// Show message if section has no fields inside
-			var frm_sorting = document.getElementsByClassName('start_divider frm_sorting');
+			var frm_sorting = jQuery('.start_divider .frm_sorting');
 			for ( i = 0; i < frm_sorting.length ; i++) {
 				if ( frm_sorting[i].children.length < 2 ) {
 					jQuery(frm_sorting[i]).parent().children('.frm_no_section_fields').addClass('frm_block');
@@ -2005,7 +2023,8 @@ function frmAdminBuildJS(){
 			$formActions.on('click', '.frm_add_posttax_row', addPosttaxRow);
 			$formActions.on('click', '.frm_toggle_cf_opts', toggleCfOpts);
 			jQuery('.frm_actions_list').on('click', '.frm_active_action', addFormAction);
-			
+			initiateMultiselect();
+
 			//set actions icons to inactive
 			jQuery('ul.frm_actions_list li').each(function(){
 				checkActiveAction(jQuery(this).children('a').data('actiontype'));
@@ -2179,6 +2198,8 @@ function frmAdminBuildJS(){
 			$addRemove.on('click', '.frm_add_where_row', addWhereRow);
 			$addRemove.on('change', '.frm_insert_where_options', insertWhereOptions);
 			$addRemove.on('change', '.frm_where_is_options', hideWhereOptions);
+
+			setDefaultPostStatus();
 		},
 		
 		styleInit: function(){

@@ -872,6 +872,10 @@ class FrmProDisplaysController{
     }
 
     public static function get_display_data( $display, $content = '', $entry_id = false, $extra_atts = array() ) {
+		if ( post_password_required( $display ) ) {
+			return get_the_password_form( $display );
+		}
+
         add_action('frm_load_view_hooks', 'FrmProDisplaysController::trigger_load_view_hooks');
         FrmAppHelper::trigger_hook_load( 'view', $display );
 
@@ -1130,7 +1134,7 @@ class FrmProDisplaysController{
                             $empty_msg = apply_filters('the_content', $empty_msg);
 						}
 
-                        if ( $post->post_type == self::$post_type && in_the_loop() ) {
+                        if ( $post && $post->post_type == self::$post_type && in_the_loop() ) {
                             $content = '';
                         }
 
@@ -1273,7 +1277,8 @@ class FrmProDisplaysController{
                 $odd = 'odd';
                 $count = 0;
 				if ( ! empty( $entry_ids ) ) {
-					while ( $next_set = array_splice( $entry_ids, 0, 30 ) ) {
+					$loop_entry_ids = $entry_ids;
+					while ( $next_set = array_splice( $loop_entry_ids, 0, 30 ) ) {
 						$entries = FrmEntry::getAll( array( 'id' => $next_set ), ' ORDER BY FIELD(it.id,' . implode( ',', $next_set ) . ')', '', true, false );
 						foreach ( $entries as $entry ) {
 							$count++; //TODO: use the count with conditionals
@@ -1283,9 +1288,9 @@ class FrmProDisplaysController{
 						}
 						unset( $entries );
 					}
-                    unset($count);
+					unset( $loop_entry_ids, $count );
                 }else{
-                    if ( $post->post_type == self::$post_type && in_the_loop() ) {
+                    if ( $post && $post->post_type == self::$post_type && in_the_loop() ) {
                         $display_content = '';
                     }
 

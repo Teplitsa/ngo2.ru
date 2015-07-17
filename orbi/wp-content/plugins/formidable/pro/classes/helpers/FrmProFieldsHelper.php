@@ -3262,7 +3262,8 @@ DEFAULT_HTML;
             $more_link_text = isset($atts['more_link_text']) ? $atts['more_link_text'] : '. . .';
         }
 
-        if ( $display && $display->frm_show_count == 'dynamic' ) {
+		// If we're on the listing page of a Dynamic View, use detail link for truncate link
+		if ( $display && $display->frm_show_count == 'dynamic' && $args['show'] == 'all' ) {
 			$more_link_text = ' <a href="' . esc_url( $args['detail_link'] ) . '">' . $more_link_text . '</a>';
             return FrmAppHelper::truncate($replace_with, (int) $atts['truncate'], 3, $more_link_text);
         }
@@ -3631,6 +3632,8 @@ DEFAULT_HTML;
 			// indicate that this field is hidden
 			$field->field_options['hide_opt'][ $key ] = '';
 		}
+
+		$field->field_options['hide_opt'][ $key ] = apply_filters( 'frm_is_dynamic_field_empty', $field->field_options['hide_opt'][ $key ], compact( 'field', 'key', 'hide_field', 'observed_value' )  );
 	}
 
     public static function &is_field_visible_to_user($field) {

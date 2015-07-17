@@ -44,6 +44,6 @@ for ( $i = 1; $i <= $max; $i++ ) {
     $class = ( $d && ($i-1) == $n ) ? ' frm_half_star' : '';
 
     $checked = (round($stat) == $i) ? 'checked="checked"' : '';
-    ?><input type="radio" name="item_meta[<?php echo $name ?>]" value="<?php echo $i; ?>" <?php echo $checked ?> class="star<?php echo $class ?>" disabled="disabled" style="display:none;"/><?php
+	?><input type="radio" name="item_meta[<?php echo esc_attr( $name ) ?>]" value="<?php echo esc_attr( $i ); ?>" <?php echo $checked ?> class="star<?php echo esc_attr( $class ) ?>" disabled="disabled" style="display:none;"/><?php
 } ?>
 </div>

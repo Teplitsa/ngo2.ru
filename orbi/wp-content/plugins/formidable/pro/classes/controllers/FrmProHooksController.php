@@ -70,8 +70,6 @@ class FrmProHooksController{
         add_filter('frm_pre_update_entry', 'FrmProEntry::save_sub_entries', 20, 2);
         add_action('frm_after_duplicate_entry', 'FrmProEntry::duplicate_sub_entries', 10, 3);
         add_action('frm_after_create_entry', 'FrmProEntry::update_parent_id', 10, 2);
-        add_action('frm_trigger_wppost_action', 'FrmProEntry::save_post', 10, 3);
-        add_action('frm_before_destroy_entry', 'FrmProEntry::destroy_post', 10, 2);
 
         // Trigger entry meta model
         add_filter('frm_add_entry_meta', 'FrmProEntryMeta::before_save');
@@ -108,6 +106,10 @@ class FrmProHooksController{
 
         // trigger form model
         add_filter('frm_validate_form', 'FrmProFormsController::validate', 10, 2);
+
+		// Posts model
+		add_action( 'frm_trigger_wppost_action', 'FrmProPost::save_post', 10, 3 );
+		add_action( 'frm_before_destroy_entry', 'FrmProPost::destroy_post', 10, 2 );
 
         // Stats Controller
         add_shortcode('frm-graph', 'FrmProStatisticsController::graph_shortcode');
@@ -264,10 +266,7 @@ class FrmProHooksController{
         add_action('wp_ajax_nopriv_frm_entries_ajax_set_cookie', 'FrmProEntriesController::ajax_set_cookie');
         add_action('wp_ajax_frm_entries_ajax_set_cookie', 'FrmProEntriesController::ajax_set_cookie');
 
-        add_action('wp_ajax_frm_entries_create', 'FrmProEntriesController::ajax_create');
-        add_action('wp_ajax_nopriv_frm_entries_create', 'FrmProEntriesController::ajax_create');
-        add_action('wp_ajax_frm_entries_update', 'FrmProEntriesController::ajax_update');
-        add_action('wp_ajax_nopriv_frm_entries_update', 'FrmProEntriesController::ajax_update');
+		add_action( 'wp_loaded', 'FrmProEntriesController::ajax_create', 5 ); //trigger before process_entry
         add_action('wp_ajax_frm_entries_destroy', 'FrmProEntriesController::wp_ajax_destroy');
         add_action('wp_ajax_nopriv_frm_entries_destroy', 'FrmProEntriesController::wp_ajax_destroy');
         add_action('wp_ajax_frm_entries_edit_entry_ajax', 'FrmProEntriesController::edit_entry_ajax');
@@ -316,7 +315,7 @@ class FrmProHooksController{
         // Fields Controller
         add_action('frm_form_fields', 'FrmProFieldsController::form_fields', 10, 3);
         add_action('frm_show_other_field_type', 'FrmProFieldsController::show_other', 10, 3);
-        add_action('frm_get_field_scripts', 'FrmProFieldsController::show_field', 10, 2);
+        add_action('frm_get_field_scripts', 'FrmProFieldsController::show_field', 10, 3);
         add_filter('frm_html_label_position', 'FrmProFieldsController::label_position', 10, 3);
         add_action('frm_date_field_js', 'FrmProFieldsController::date_field_js', 10, 2);
 

@@ -10,7 +10,7 @@ class FrmAppHelper {
 	/**
 	 * @since 2.0
 	 */
-	public static $plug_version = '2.0.10';
+	public static $plug_version = '2.0.11';
 
     /**
      * @since 1.07.02
@@ -760,17 +760,30 @@ class FrmAppHelper {
 
 	public static function recursive_function_map( $value, $function ) {
 		if ( is_array( $value ) ) {
+			$original_function = $function;
 			if ( count( $value ) ) {
 				$function = explode( ', ', self::prepare_array_values( $value, $function ) );
 			} else {
 				$function = array( $function );
 			}
-			$value = array_map( array( 'FrmAppHelper', 'recursive_function_map' ), $value, $function );
+			if ( ! self::is_assoc( $value ) ) {
+				$value = array_map( array( 'FrmAppHelper', 'recursive_function_map' ), $value, $function );
+			} else {
+				foreach ( $value as $k => $v ) {
+					if ( ! is_array( $v ) ) {
+						$value[ $k ] = call_user_func( $original_function, $v );
+					}
+				}
+			}
 		} else {
 			$value = call_user_func( $function, $value );
 		}
 
 		return $value;
+	}
+
+	public static function is_assoc( $array ) {
+		return (bool) count( array_filter( array_keys( $array ), 'is_string' ) );
 	}
 
     /**
@@ -1741,6 +1754,7 @@ class FrmAppHelper {
 				'import_complete'   => __( 'Import Complete', 'formidable' ),
 				'updating'          => __( 'Please wait while your site updates.', 'formidable' ),
 				'no_save_warning'   => __( 'Warning: There is no way to retrieve unsaved entries.', 'formidable' ),
+				'private'           => __( 'Private' ),
 				'jquery_ui_url'     => self::jquery_ui_base_url(),
 			) );
 		}

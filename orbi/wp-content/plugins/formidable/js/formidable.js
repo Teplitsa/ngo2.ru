@@ -130,19 +130,25 @@ function frmFrontFormJS(){
 
 		checkDependentField('und', field_id, null, jQuery(this), reset);
 		doCalculation(field_id, jQuery(this));
+		//validateField( field_id, this );
 	}
 
 	/* Get the ID of the field that changed*/
-	function getFieldId( field ) {
+	function getFieldId( field, fullID ) {
 		var fieldName = '';
 		if ( field instanceof jQuery ) {
 			fieldName = field.attr('name');
 		} else {
 			fieldName = field.name;
 		}
-		var nameParts = fieldName.replace('item_meta[', '').split(']');
+		var nameParts = fieldName.replace('item_meta[', '').replace('[]', '').split(']');
+		nameParts = nameParts.filter(function(n){ return n !== ''; });
 		var field_id = nameParts[0];
 		var isRepeating = false;
+
+		if ( nameParts.length === 1 ) {
+			return field_id;
+		}
 
 		// Check if 'this' is in a repeating section
 		if ( jQuery('input[name="item_meta['+ field_id +'][form]"]').length ) {
@@ -160,6 +166,11 @@ function frmFrontFormJS(){
 				// Other field name: item_meta[other][370]
 				field_id = nameParts[1].replace('[', '');
 			}
+		}
+
+		if ( fullID === true ) {
+			// For use in the container div id
+			field_id = field_id +'-'+ nameParts[0] +'-'+ nameParts[1].replace('[', '');
 		}
 
 		return field_id;
@@ -364,7 +375,7 @@ function frmFrontFormJS(){
             }
         }
 
-		if ( selected === '' || selected.length < 1 ) {
+		if ( selected === null || selected === '' || selected.length < 1 ) {
 			show_fields[f.hideContainerID][i] = false;
 		} else {
 			show_fields[f.hideContainerID][i] = {'funcName':'getDataOpts', 'f':f, 'sel':selected};
@@ -467,7 +478,7 @@ function frmFrontFormJS(){
 						}
 					}
 
-					if ( i === false ) {
+					if ( i === false || ["checkbox","radio"].indexOf( this.type ) < 0 ) {
 						triggerChange( jQuery(this) );
 					}
 					i = true;
@@ -483,12 +494,30 @@ function frmFrontFormJS(){
 	function showFieldAndSetValue( container, f ) {
 		var inputs = getInputsInContainer( container );
 		setDefaultValue( inputs );
-		doCalcForSingleField( f.HideField, inputs );
+
+		if ( inputs.length > 1 ) {
+			for ( var i = 0; i < inputs.length; i++ ) {
+				doCalcForSingleField( f.HideField, jQuery( inputs[i] ) );
+			}
+		} else {
+			doCalcForSingleField( f.HideField, inputs );
+		}
+
 		container.show();
 	}
 
 	function setDefaultValue( input ) {
 		var inputLenth = input.length;
+
+		// If the field already has a value (i.e. when form is loaded for editing an entry), don't get the default value
+		if ( input.is(':checkbox, :radio') ) {
+			if ( input.is(':checked') ) {
+				return;
+			}
+		} else if ( input.val() ) {
+			return;
+		}
+
 		if ( inputLenth ) {
 			for ( var i = 0, l = inputLenth; i < l; i++ ) {
 				var field = jQuery(input[i]);
@@ -510,6 +539,11 @@ function frmFrontFormJS(){
 		if ( typeof fieldKey === 'undefined' ) {
 			fieldKey = 'dependent';
 		}
+
+		if ( input.length > 1 ) {
+			input = input.eq(0);
+		}
+
 		input.trigger({ type:'change', selfTriggered:true, frmTriggered:fieldKey });
 	}
 
@@ -804,14 +838,46 @@ function frmFrontFormJS(){
 		// loop through each calculation this field is used in
 		for ( var i = 0, l = len; i < l; i++ ) {
 
-			// If field is hidden with conditional logic or if it's on a different page, don't do the calc
-			var calcFieldId = all_calcs.calc[ keys[i] ].field_id;
-			var t = document.getElementById( 'frm_field_' + calcFieldId + '_container' );
-			if ( t !== null && t.offsetHeight === 0 ) {
+			// Stop calculation if total field is conditionally hidden
+			if ( fieldIsConditionallyHidden( all_calcs, triggerField, keys[i] ) ) {
 				continue;
 			}
 
 			doSingleCalculation( all_calcs, keys[i], vals, triggerField );
+		}
+	}
+
+	/**
+	* If field is hidden with conditional logic, don't do the calc
+	*/
+	function fieldIsConditionallyHidden( all_calcs, triggerField, field_key ) {
+		var totalFieldId = all_calcs.calc[ field_key ].field_id;
+		var t = document.getElementById( 'frm_field_' + totalFieldId + '_container' );
+		if ( t !== null ) {
+			if ( t.offsetHeight === 0 ) {
+				// Conditionally hidden field
+				return true;
+			} else {
+				// Regular, visible field
+				return false;
+			}
+		}
+
+		// Check if we're dealing with a conditionally hidden repeating field
+		var container = triggerField.closest('.frm_repeat_sec, .frm_repeat_inline, .frm_repeat_grid');
+		if ( container.length ) {
+			var idPart = container[0].id.replace( 'frm_section_', '' );
+			var totalField = document.getElementById( 'frm_field_' + totalFieldId + '-' + idPart + '_container' );
+			if ( totalField !== null && totalField.offsetHeight === 0 ) {
+				// Conditionally hidden field (repeating)
+				return true;
+			} else {
+				// Regular, visible field or hidden field (repeating)
+				return false;
+			}
+		} else {
+			// Hidden field
+			return false;
 		}
 	}
 
@@ -941,19 +1007,20 @@ function frmFrontFormJS(){
                 if ( d !== null ) {
 					vals[field.valKey] = Math.ceil(d/(1000*60*60*24));
                 }
-            }
+			} else {
+				var n = thisVal;
 
-            var n = thisVal;
+				if ( n !== '' && n !== 0 ) {
+					n = n.trim();
+					n = parseFloat(n.replace(/,/g,'').match(/-?[\d\.]+$/));
+				}
 
-            if ( n !== '' && n !== 0 ) {
-				n = n.trim();
-                n = parseFloat(n.replace(/,/g,'').match(/-?[\d\.]+$/));
-            }
-
-			if ( typeof n === 'undefined' || isNaN(n) || n === '' ) {
-				n = 0;
+				if ( typeof n === 'undefined' || isNaN(n) || n === '' ) {
+					n = 0;
+				}
+				vals[field.valKey] += n;
 			}
-			vals[field.valKey] += n;
+
 		});
 
 		return vals;
@@ -963,17 +1030,11 @@ function frmFrontFormJS(){
 		if ( typeof field.triggerField === 'undefined' ) {
 			return null;
 		}
+
 		var container = field.triggerField.closest('.frm_repeat_sec, .frm_repeat_inline, .frm_repeat_grid');
 		if ( container.length ) {
-			var inputClass = '.frm_field_'+ field.thisFieldId +'_container ';
-			var fieldCallParts = field.thisFieldCall.split(',');
-			var siblingFieldCall = '';
-			for ( var i = 0, l = fieldCallParts.length; i < l; i++ ) {
-				if ( siblingFieldCall !== '' ) {
-					siblingFieldCall = siblingFieldCall +',';
-				}
-				siblingFieldCall = siblingFieldCall + inputClass + fieldCallParts[i].replace('[id=', '[id^=');
-			}
+			var siblingFieldCall = field.thisFieldCall.replace('[id=', '[id^=');
+
 			return container.find(siblingFieldCall);
 		}
 		return null;
@@ -1092,12 +1153,43 @@ function frmFrontFormJS(){
 				errors = checkEmailField( emailFields[e], errors, emailFields );
 			}
 		}
+
+		var numberFields = jQuery(object).find('input[type=number]');
+		if ( numberFields.length ) {
+			for ( var n = 0, nl = numberFields.length; n < nl; n++ ) {
+				errors = checkNumberField( numberFields[n], errors );
+			}
+		}
+
 		return errors;
 	}
 
-	function checkRequiredField( field, errors ) {
+	function validateField( fieldId, field ) {
+		var errors = [];
+		var $fieldCont = jQuery(field).closest('.frm_form_field');
+		if ( $fieldCont.hasClass('.frm_required_field') ) {
+			errors = checkRequiredField( field, errors );
+		}
+
+		if ( errors.length < 1 ) {
+			if ( field.type == 'email' ) {
+				var emailFields = jQuery(field).closest('form').find('input[type=email]');
+				errors = checkEmailField( field, errors, emailFields );
+			}
+		}
+
+		if (  Object.keys(errors).length > 0 ) {
+			for ( var key in errors ) {
+				addFieldError( $fieldCont, key, errors );
+			}
+		} else {
+			removeFieldError( $fieldCont );
+		}
+	}
+
+	function checkRequiredField( field, errors, rFieldID ) {
 		if ( jQuery(field).val() === '' ) {
-			var rFieldID = getFieldId( field );
+			rFieldID = getFieldId( field, true );
 			errors[ rFieldID ] = '';
 		}
 		return errors;
@@ -1105,7 +1197,7 @@ function frmFrontFormJS(){
 
 	function checkEmailField( field, errors, emailFields ) {
 		var emailAddress = field.value;
-		var fieldID = getFieldId( field );
+		var fieldID = getFieldId( field, true );
 		var isConf = (fieldID.indexOf('conf_') === 0);
 		if ( emailAddress !== '' || isConf ) {
 			var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
@@ -1123,6 +1215,19 @@ function frmFrontFormJS(){
 				}
 			}
 		}
+		return errors;
+	}
+
+	function checkNumberField( field, errors ) {
+		var number = field.value;
+		if ( isNaN(number / 1) !== false ) {
+			var fieldID = getFieldId( field, true );
+			errors[ fieldID ] = '';
+		}
+		return errors;
+	}
+
+	function checkDateField( field, errors ) {
 		return errors;
 	}
 
@@ -1206,13 +1311,8 @@ function frmFrontFormJS(){
 									show_captcha = true;
 									grecaptcha.reset();
 								}
-							
-								$fieldCont.addClass('frm_blank_field');
-								if ( typeof frmThemeOverride_frmPlaceError == 'function' ) {
-									frmThemeOverride_frmPlaceError(key,errObj);
-								} else {
-									$fieldCont.append('<div class="frm_error">'+errObj[key]+'</div>');
-								}
+
+								addFieldError( $fieldCont, key, errObj );
 							}
 						}else if(key == 'redirect'){
 							window.location = errObj[key];
@@ -1231,6 +1331,22 @@ function frmFrontFormJS(){
 				jQuery(object).find('input[type="submit"], input[type="button"]').removeAttr('disabled');object.submit();
 			}
 		});
+	}
+
+	function addFieldError( $fieldCont, key, jsErrors ) {
+		if ( $fieldCont.length && $fieldCont.is(':visible') ) {
+			$fieldCont.addClass('frm_blank_field');
+			if ( typeof frmThemeOverride_frmPlaceError == 'function' ) {
+				frmThemeOverride_frmPlaceError( key, jsErrors );
+			} else {
+				$fieldCont.append( '<div class="frm_error">'+ jsErrors[key] +'</div>' );
+			}
+		}
+	}
+
+	function removeFieldError( $fieldCont ) {
+		$fieldCont.removeClass('frm_blank_field');
+		$fieldCont.find('.frm_error').remove();
 	}
 
 	function clearDefault(){
@@ -1578,7 +1694,7 @@ function frmFrontFormJS(){
 						if ( jQuery.inArray(fieldID, checked ) == -1 ) {
 							checked.push(fieldID);
 							checkDependentField('und', fieldID, null, jQuery(this), reset);
-							doCalculation(fieldID);
+							doCalculation(fieldID, jQuery(this));
 							reset = 'persist';
 						}
 					}
@@ -1752,24 +1868,16 @@ function frmFrontFormJS(){
 			jsErrors = [];
 			frmFrontForm.getAjaxFormErrors( object );
 
-			if ( jsErrors.length === 0 ) {
+			if ( Object.keys(jsErrors).length === 0 ) {
 				getFormErrors( object, action );
 			} else {
 				// Remove all previous errors
 				jQuery('.form-field').removeClass('frm_blank_field');
 				jQuery('.form-field .frm_error').replaceWith('');
 
-				var $fieldCont = null;
 				for ( var key in jsErrors ) {
-					$fieldCont = jQuery(object).find(jQuery(document.getElementById('frm_field_'+key+'_container')));
-					if ( $fieldCont.length && $fieldCont.is(':visible') ) {
-						$fieldCont.addClass('frm_blank_field');
-						if ( typeof frmThemeOverride_frmPlaceError == 'function' ) {
-							frmThemeOverride_frmPlaceError( key, jsErrors );
-						} else {
-							$fieldCont.append( '<div class="frm_error">'+ jsErrors[key] +'</div>' );
-						}
-					}
+					var $fieldCont = jQuery(object).find(jQuery('#frm_field_'+key+'_container'));
+					addFieldError( $fieldCont, key, jsErrors );
 				}
 			}
 		},

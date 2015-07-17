@@ -48,7 +48,7 @@
 	<label class="frm_left_label"><?php _e( 'Date Format', 'formidable' ); ?>
 		<span class="frm_help frm_icon_font frm_tooltip_icon" title="<?php esc_attr_e( 'Change the format of the date used in the date field.', 'formidable' ) ?>"></span>
 	</label>
-        <?php $formats = array( 'm/d/Y', 'd/m/Y', 'd.m.Y', 'j-m-Y', 'j/m/y', 'Y/m/d', 'Y-m-d'); ?>
+		<?php $formats = array_keys( FrmProAppHelper::display_to_datepicker_format() ); ?>
         <select name="frm_date_format">
             <?php foreach ( $formats as $f ) { ?>
             <option value="<?php echo esc_attr($f) ?>" <?php selected($frmpro_settings->date_format, $f); ?>>

@@ -78,7 +78,7 @@ class FrmProFieldsController{
         return $opt;
     }
 
-    public static function show_field($field, $form){
+    public static function show_field($field, $form, $parent_form_id){
         global $frm_vars;
 
         if ( ! empty( $field['hide_field'] ) ) {
@@ -106,6 +106,7 @@ class FrmProFieldsController{
 				'calc_dec'		=> $field['calc_dec'],
 				'form_id'		=> $form->id,
 				'field_id'		=> $field['id'],
+				'parent_form_id'	=> $parent_form_id,
             );
         }
     }
@@ -656,7 +657,7 @@ class FrmProFieldsController{
                 }
                 unset($new_meta, $eid);
             }
-
+			$meta_value = array_unique( $meta_value );
         }else{
             $meta_value = FrmProEntryMetaHelper::get_post_or_meta_value($entry_id, $data_field);
         }

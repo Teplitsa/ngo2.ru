@@ -16,6 +16,64 @@ class FrmProEntryMeta{
         return $values;
     }
 
+	/**
+	 * @since 2.0.11
+	 */
+	public static function update_single_field( $atts ) {
+		if ( empty( $atts['entry_id'] ) ) {
+			return;
+		}
+
+		$field = $atts['field_id'];
+		FrmField::maybe_get_field( $field );
+		if ( ! $field ) {
+			return;
+		}
+
+		if ( isset( $field->field_options['post_field'] ) && ! empty( $field->field_options['post_field'] ) ) {
+			$post_id = FrmDb::get_var( 'frm_items', array( 'id' => $atts['entry_id'] ), 'post_id' );
+		} else {
+			$post_id = false;
+		}
+
+		global $wpdb;
+		if ( ! $post_id ) {
+			$updated = FrmEntryMeta::update_entry_meta( $atts['entry_id'], $field->id, null, $atts['value'] );
+
+			if ( ! $updated ) {
+				$wpdb->query( $wpdb->prepare("DELETE FROM {$wpdb->prefix}frm_item_metas WHERE item_id = %d and field_id = %d", $atts['entry_id'], $field->id ) );
+				$updated = FrmEntryMeta::add_entry_meta( $atts['entry_id'], $field->id, '', $atts['value'] );
+			}
+			wp_cache_delete( $atts['entry_id'], 'frm_entry' );
+		} else {
+			switch ( $field->field_options['post_field'] ) {
+				case 'post_custom':
+					$updated = update_post_meta( $post_id, $field->field_options['custom_field'], maybe_serialize( $atts['value'] ) );
+				break;
+				case 'post_category':
+					$taxonomy = ( ! FrmField::is_option_empty( $field, 'taxonomy' ) ) ? $field->field_options['taxonomy'] : 'category';
+					$updated = wp_set_post_terms( $post_id, $atts['value'], $taxonomy );
+				break;
+				default:
+					$post = get_post( $post_id, ARRAY_A );
+					$post[ $field->field_options['post_field'] ] = maybe_serialize( $atts['value'] );
+					$updated = wp_insert_post( $post );
+				break;
+			}
+		}
+
+		if ( $updated ) {
+			// set updated_at time
+			$wpdb->update( $wpdb->prefix .'frm_items',
+				array( 'updated_at' => current_time('mysql', 1), 'updated_by' => get_current_user_id() ),
+				array( 'id' => $atts['entry_id'] )
+			);
+		}
+
+		do_action( 'frm_after_update_field', $atts );
+		return $updated;
+	}
+
     /**
      * Upload files and add new tags
      *

@@ -34,12 +34,12 @@ class FrmProDb{
             }
         }
 
+		update_option('frmpro_db_version', $db_version);
+
         /**** ADD DEFAULT TEMPLATES ****/
         if ( class_exists('FrmXMLController') ) {
             FrmXMLController::add_default_templates();
         }
-
-        update_option('frmpro_db_version', $db_version);
     }
 
 	public static function uninstall() {

@@ -210,7 +210,11 @@ class FrmProFormsHelper{
                     $subfield['classes'] .= ' frm_'. $field_class;
                 }
             }
-            $field_num++;
+
+			// Don't include hidden field in layout class count
+			if ( $subfield['type'] != 'hidden' ) {
+				$field_num++;
+			}
 
             if ( 'top' == $label_pos && in_array($subfield['label'], array( 'top', 'hidden', '')) ) {
                 // add placeholder label if repeating
@@ -231,8 +235,7 @@ class FrmProFormsHelper{
             }
 
             unset($subfield_name, $subfield_id);
-
-            do_action('frm_get_field_scripts', $subfield, $args['form']);
+            do_action('frm_get_field_scripts', $subfield, $args['form'], $args['parent_field']['form_id']);
         }
 
         if ( ! $args['repeat'] ) {
@@ -487,10 +490,13 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
                 }
 
                 $html_field_id = '="field_'. $calc_fields[$val]->field_key;
-                if ( $field['form_id'] != $calc_fields[$val]->form_id || in_array($calc_fields[$val]->type, array( 'radio', 'scale', 'checkbox')) ) {
-                    $html_field_id = '^'. $html_field_id .'-';
-                }
+
+				// If field is inside of repeating section/embedded form or it is a radio, scale, or checkbox field
+				if ( $field['parent_form_id'] != $calc_fields[ $val ]->form_id || in_array($calc_fields[$val]->type, array( 'radio', 'scale', 'checkbox')) ) {
+					$html_field_id = '^'. $html_field_id .'-';
+				}
                 $field_keys[$calc_fields[$val]->id] = '[id'. $html_field_id .'"]';
+				$calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
                 $calc = str_replace($matches[0][$match_key], '['. $calc_fields[$val]->id .']', $calc);
             }
@@ -503,7 +509,6 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 				'fields'    	=> array(),
 				'field_id'		=> $field['field_id'],
             );
-            $calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
             foreach ( $calc_fields as $calc_field ) {
                 $calc_rules['calc'][$result]['fields'][] = $calc_field->id;

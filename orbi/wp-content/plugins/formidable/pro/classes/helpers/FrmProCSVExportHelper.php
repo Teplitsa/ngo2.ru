@@ -44,7 +44,7 @@ class FrmProCSVExportHelper{
 
 	private static function set_class_paramters() {
 		self::$separator = apply_filters( 'frm_csv_sep', self::$separator );
-		self::$line_break = apply_filters( 'frm_csv_sep', self::$line_break );
+		self::$line_break = apply_filters( 'frm_csv_line_break', self::$line_break );
 		self::$wp_date_format = apply_filters( 'frm_csv_date_format', self::$wp_date_format );
 		self::get_csv_format();
 		self::$charset = get_option( 'blog_charset' );
@@ -128,6 +128,7 @@ class FrmProCSVExportHelper{
 		self::add_field_values_to_csv( $row );
 		self::add_comments_to_csv( $row );
 		self::add_entry_data_to_csv( $row );
+		$row = apply_filters( 'frm_csv_row', $row, array( 'entry' => self::$entry ) );
 		self::print_csv_row( $row );
 	}
 

@@ -48,7 +48,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <p><?php echo $value ?></p>
 <input type="hidden" value="<?php echo esc_attr($value) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
 <?php } else if ( $field['data_type'] == 'data' && ! is_array($field['value']) ) { ?>
-<p><?php echo $field['value']; ?></p>
+<p><?php echo wp_kses_post( $field['value'] ); ?></p>
 <input type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" name="<?php echo esc_attr( $field_name ) ?>" />
 <?php } else if ( $field['data_type'] == 'text' && is_numeric( $field['form_select'] ) ) {
 	$get_id = FrmAppHelper::simple_get( 'id' );
@@ -91,7 +91,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 } else if ( $field['data_type'] == 'radio' ) {
     if ( ! empty($field['options']) ) {
         foreach ( $field['options'] as $opt_key => $opt ) {
-            $checked = ($field['value'] == $opt_key) ? ' checked="checked"' : '';?>
+            $checked = ( in_array( $opt_key, (array) $field['value'] ) ) ? ' checked="checked"' : '';?>
 <div class="<?php echo esc_attr( apply_filters( 'frm_radio_class', 'frm_radio', $field, $opt_key ) ) ?>">
 	<label for="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>">
 		<input type="radio" name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id .'-'. $opt_key ) ?>" value="<?php echo esc_attr( $opt_key ) ?>" <?php

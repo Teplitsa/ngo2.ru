@@ -117,13 +117,16 @@ class FrmProAppHelper{
 	 */
 	public static function display_to_datepicker_format() {
 		$formats = array(
+			'm/d/Y' => 'mm/dd/yy',
 			'Y/m/d' => 'yy/mm/dd',
 			'd/m/Y' => 'dd/mm/yy',
 			'd.m.Y' => 'dd.mm.yy',
 			'j/m/y' => 'd/mm/y',
+			'j/n/y' => 'd/m/y',
 			'Y-m-d' => 'yy-mm-dd',
 			'j-m-Y' => 'd-mm-yy',
 		);
+		$formats = apply_filters( 'frm_datepicker_formats', $formats );
 		return $formats;
 	}
 

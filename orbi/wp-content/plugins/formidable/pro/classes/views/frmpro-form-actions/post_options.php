@@ -86,7 +86,7 @@
             <td colspan="2">
 				<label><?php _e( 'Customize Content', 'formidable' ) ?></label>
 				<span class="frm_help frm_icon_font frm_tooltip_icon" title="<?php esc_attr_e( 'The content shown on your single post page. If nothing is entered here, the regular post content will be used.', 'formidable' ) ?>" ></span><br/>
-                <textarea id="frm_dyncontent" placeholder="<?php esc_attr_e( 'Add text, HTML, and fields from your form to build your post content.', 'formidable' ) ?>" name="dyncontent" rows="10" class="large-text"><?php
+				<textarea id="frm_dyncontent" placeholder="<?php esc_attr_e( 'Add text, HTML, and fields from your form to build your post content.', 'formidable' ) ?>" name="dyncontent" rows="10" class="frm_not_email_message large-text"><?php
                 if ( $display ) {
                     echo FrmAppHelper::esc_textarea($display->frm_show_count == 'one' ? $display->post_content : $display->frm_dyncontent);
                 }
@@ -142,7 +142,7 @@
             <td><label><?php _e( 'Post Status', 'formidable' ) ?></label></td>
             <td><select name="<?php echo $this->get_field_name('post_status') ?>" class="frm_single_post_field">
                 <option value=""><?php echo _e( 'Create Draft', 'formidable' ) ?></option>
-                <option value="pending"><?php echo _e( 'Pending', 'formidable' ) ?></option>
+				<option value="pending" <?php selected( $form_action->post_content['post_status'], 'pending' ) ?>><?php echo _e( 'Pending', 'formidable' ) ?></option>
                 <option value="publish" <?php selected($form_action->post_content['post_status'], 'publish') ?>><?php echo _e( 'Automatically Publish', 'formidable' ) ?></option>
                 <option value="dropdown"><?php echo _e( 'Create New Dropdown Field', 'formidable' ) ?></option>
                 <?php $post_key = 'post_status';

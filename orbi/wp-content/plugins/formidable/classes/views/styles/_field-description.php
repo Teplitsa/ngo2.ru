@@ -5,8 +5,9 @@
 <div class="field-group clearfix frm-first-row">
 	<label><?php _e( 'Weight', 'formidable' ) ?></label>
 	<select name="<?php echo esc_attr( $frm_style->get_field_name('description_weight') ) ?>" id="frm_description_weight">
-		<option value="normal" <?php selected($style->post_content['description_weight'], 'normal') ?>><?php _e( 'normal', 'formidable' ) ?></option>
-		<option value="bold" <?php selected($style->post_content['description_weight'], 'bold') ?>><?php _e( 'bold', 'formidable' ) ?></option>
+		<?php foreach ( FrmStyle::get_bold_options() as $value => $name ) { ?>
+		<option value="<?php echo esc_attr( $value ) ?>" <?php selected( $style->post_content['description_weight'], $value ) ?>><?php echo $name ?></option>
+		<?php } ?>
 	</select>
 </div>
 <div class="field-group clearfix frm-first-row">

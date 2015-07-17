@@ -337,7 +337,7 @@ class FrmProEntriesHelper{
 
 	public static function get_search_str( $where_clause = '', $search_str, $form_id = 0, $fid = 0 ) {
         if ( ! is_array($search_str) ) {
-            $search_str = explode(' ', $search_str);
+			$search_str = explode( ' ', trim( $search_str) );
         }
 
         $add_where = array();

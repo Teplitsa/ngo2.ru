@@ -1,4 +1,4 @@
-<div id="<?php echo $id ?>" class="frm_logic_row frm_logic_row_<?php echo $key ?>">
+<div id="<?php echo esc_attr( $id ) ?>" class="frm_logic_row frm_logic_row_<?php echo esc_attr( $key ) ?>">
 <select name="<?php echo $names['hide_field'] ?>" <?php if ( ! empty( $onchange ) ) { ?>onchange="<?php echo $onchange ?>"<?php } ?>>
     <option value=""><?php _e( '&mdash; Select &mdash;' ) ?></option>
     <?php
@@ -12,7 +12,7 @@
         }
 
         $selected = ( isset($condition['hide_field']) && $ff->id == $condition['hide_field'] ) ? ' selected="selected"' : ''; ?>
-    <option value="<?php echo $ff->id ?>"<?php echo $selected ?>><?php echo FrmAppHelper::truncate($ff->name, 25); ?></option>
+	<option value="<?php echo esc_attr( $ff->id ) ?>"<?php echo $selected ?>><?php echo FrmAppHelper::truncate($ff->name, 25); ?></option>
     <?php
         unset($ff);
         } ?>
@@ -28,7 +28,7 @@
     <option value="not LIKE" <?php selected($condition['hide_field_cond'], 'not LIKE') ?>><?php _e( 'not like', 'formidable' ) ?> &nbsp;</option>
 </select>
 
-<span id="frm_show_selected_values_<?php echo $key ?>_<?php echo $meta_name ?>">
+<span id="frm_show_selected_values_<?php echo esc_attr( $key . '_' . $meta_name ) ?>">
 <?php
     if ( $condition['hide_field'] && is_numeric($condition['hide_field']) ) {
         $new_field = FrmField::getOne($condition['hide_field']);
@@ -44,5 +44,5 @@
 ?>
 </span>
 <a href="javascript:void(0)" class="frm_remove_tag frm_icon_font" data-removeid="<?php echo esc_attr( $id ) ?>" <?php echo ! empty( $showlast ) ? 'data-showlast="' . esc_attr( $showlast ) . '"' : ''; ?>></a>
-<a href="javascript:void(0)" class="frm_add_tag frm_icon_font frm_add_<?php echo $type ?>_logic" data-emailkey="<?php echo $key ?>"></a>
+<a href="javascript:void(0)" class="frm_add_tag frm_icon_font frm_add_<?php echo esc_attr( $type ) ?>_logic" data-emailkey="<?php echo esc_attr( $key ) ?>"></a>
 </div>

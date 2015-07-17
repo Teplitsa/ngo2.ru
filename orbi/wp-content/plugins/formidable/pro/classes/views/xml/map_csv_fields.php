@@ -13,9 +13,9 @@
 
     <form method="post">
         <input type="hidden" name="frm_action" value="import_csv" />
-        <input type="hidden" name="frm_import_file" value="<?php echo $media_id ?>" />
-        <input type="hidden" name="row" value="<?php echo $row ?>" />
-        <input type="hidden" name="form_id" value="<?php echo $form_id ?>" />
+		<input type="hidden" name="frm_import_file" value="<?php echo esc_attr( $media_id ) ?>" />
+		<input type="hidden" name="row" value="<?php echo esc_attr( $row ) ?>" />
+		<input type="hidden" name="form_id" value="<?php echo esc_attr( $form_id ) ?>" />
         <input type="hidden" name="csv_del" value="<?php echo esc_attr($csv_del) ?>" />
         <table class="form-table">
             <thead>
@@ -32,7 +32,7 @@
                     <span class="howto"><?php echo htmlspecialchars( $example[ $i ] ) ?></span>
                 <?php } ?></td>
                 <td>
-                    <select name="data_array[<?php echo $i ?>]" id="mapping_<?php echo $i ?>">
+                    <select name="data_array[<?php echo esc_attr( $i ) ?>]" id="mapping_<?php echo esc_attr( $i ) ?>">
                         <option value=""> </option>
                         <?php foreach ( $fields as $field ) {
 							if ( FrmField::is_no_save_field( $field->type ) ) {
@@ -41,7 +41,7 @@
                             $selected = (strtolower(strip_tags($field->name)) == strtolower(htmlspecialchars($header)) );
                             $selected = apply_filters('frm_map_csv_field', $selected, $field, $header);
                         ?>
-                            <option value="<?php echo $field->id ?>" <?php selected($selected, true) ?>><?php echo FrmAppHelper::truncate($field->name, 50) ?></option>
+                            <option value="<?php echo esc_attr( $field->id ) ?>" <?php selected($selected, true) ?>><?php echo FrmAppHelper::truncate($field->name, 50) ?></option>
                         <?php
                             unset($field);
                         }

@@ -63,9 +63,7 @@ legend.frm_hidden{
     width:auto;
 }
 
-.with_frm_style .frm_inline_container label.frm_primary_label,
-.with_frm_style .frm_inline_container:not(.frm_dynamic_select_container) .frm_opt_container{
-    display:inline;
+.with_frm_style .frm_inline_container label.frm_primary_label{
     margin-right:10px;
 }
 
@@ -1133,7 +1131,8 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 .frm_form_field .frm_repeat_sec .frm_add_form_row{
     opacity:0;
 	display:none;
-	*visibility:visible;
+	*display:inline;
+	display:inline\0/; /* For IE 8-9 */
 	-moz-transition: opacity .15s ease-in-out;
 	-webkit-transition: opacity .15s ease-in-out;
 	transition: opacity .15s ease-in-out;
@@ -1270,6 +1269,12 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
     margin-right:4px;
 }
 
+.frm_form_field.frm_capitalize input,
+.frm_form_field.frm_capitalize select,
+.frm_form_field.frm_capitalize .frm_opt_container label{
+    text-transform:capitalize;
+}
+
 .frm_clearfix:after{
     content:".";
     display:block;
@@ -1292,8 +1297,17 @@ html[xmlns] .frm_clearfix{
 }
 
 /* Login form */
+.with_frm_style.frm_login_form,
+.with_frm_style.frm_login_form form{
+	clear:both;
+}
+
 .with_frm_style.frm_login_form.frm_inline_login .login-remember input{
 	vertical-align:baseline;
+}
+
+.with_frm_style.frm_login_form.frm_inline_login .login-submit{
+	float:left;
 }
 
 .with_frm_style.frm_login_form.frm_inline_login label{
@@ -1309,6 +1323,7 @@ html[xmlns] .frm_clearfix{
 
 .with_frm_style.frm_login_form.frm_inline_login form{
 	position:relative;
+	clear:none;
 }
 
 .with_frm_style.frm_login_form.frm_inline_login .login-remember{
@@ -1332,6 +1347,8 @@ html[xmlns] .frm_clearfix{
 
 .with_frm_style .frm-open-login a{
 	text-decoration:none;
+	border:none;
+	outline:none;
 }
 
 .with_frm_style.frm_slide.frm_login_form form{
@@ -1869,6 +1886,21 @@ html[xmlns] .frm_clearfix{
 
 	.with_frm_style.frm_login_form.frm_inline_login .login-remember{
 		position:static;
+	}
+
+	.with_frm_style .g-recaptcha > div > div{
+		width:inherit !important;
+		display:block;
+		overflow:hidden;
+		max-width:302px;
+		border-right:1px solid #d3d3d3;
+		border-radius:4px;
+		box-shadow:2px 0px 4px -1px rgba(0,0,0,.08);
+		-moz-box-shadow:2px 0px 4px -1px rgba(0,0,0,.08);
+	}
+
+	.with_frm_style .g-recaptcha iframe{
+		width:100%;
 	}
 }
 <?php

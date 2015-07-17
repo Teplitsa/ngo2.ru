@@ -218,13 +218,21 @@ class FrmNotification {
 
         // If reply-to isn't set, make it match the from settings
         if ( empty( $atts['reply_to'] ) ) {
-            $atts['reply_to'] = $atts['from'];
+            $atts['reply_to'] = self::get_email_from_formatted_string( $atts['from'] );
         }
 
         if ( ! is_array($atts['to_email']) && '[admin_email]' == $atts['to_email'] ) {
             $atts['to_email'] = $admin_email;
         }
     }
+
+	private static function get_email_from_formatted_string( $value ) {
+		if ( strpos( $value, '<' ) !== false ) {
+			preg_match_all( '/\<([^)]+)\>/', $value, $emails );
+			$value = $emails[1][0];
+		}
+		return $value;
+	}
 
     /**
     * Format individual email fields
@@ -349,6 +357,7 @@ class FrmNotification {
 			// remove line breaks in HTML emails to prevent conflicts with Mandrill
         	add_filter( 'mandrill_nl2br', 'FrmNotification::remove_mandrill_br' );
         }
+		$message = apply_filters( 'frm_email_message', $message, $atts );
 
         $header         = apply_filters('frm_email_header', $header, array(
 			'to_email' => $atts['to_email'], 'subject' => $atts['subject'],

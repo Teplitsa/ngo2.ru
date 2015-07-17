@@ -49,25 +49,26 @@ class FrmProFormsController{
     }
 
     public static function instructions(){
-        $tags = array(
-            'date' => __( 'Current Date', 'formidable' ),
-            'time' => __( 'Current Time', 'formidable' ),
-            'email' => __( 'Email', 'formidable' ),
-            'login' => __( 'Login', 'formidable' ),
-            'display_name' => __( 'Display Name', 'formidable' ),
-            'first_name' => __( 'First Name', 'formidable' ),
-            'last_name' => __( 'Last Name', 'formidable' ),
-            'user_id' => __( 'User ID', 'formidable' ),
-            'user_meta key=whatever' => __( 'User Meta', 'formidable' ),
-            'post_id' => __( 'Post ID', 'formidable' ),
-            'post_title' => __( 'Post Title', 'formidable' ),
-            'post_author_email' => __( 'Author Email', 'formidable' ),
-            'post_meta key=whatever' => __( 'Post Meta', 'formidable' ),
-            'ip' => __( 'IP Address', 'formidable' ),
-            'auto_id start=1' => __( 'Increment', 'formidable' ),
-            'get param=whatever' => array( 'label' => __( 'GET/POST', 'formidable' ), 'title' => __( 'A variable from the URL or value posted from previous page.', 'formidable' ) .' '. __( 'Replace \'whatever\' with the parameter name. In url.com?product=form, the variable is \'product\'. You would use [get param=product] in your field.', 'formidable' )),
-            'server param=whatever' => array( 'label' => __( 'SERVER', 'formidable' ), 'title' => __( 'A variable from the PHP SERVER array.', 'formidable' ) .' '. __( 'Replace \'whatever\' with the parameter name. To get the url of the current page, use [server param="REQUEST_URI"] in your field.', 'formidable' )),
-        );
+		$tags = array(
+			'date'         => __( 'Current Date', 'formidable' ),
+			'time'         => __( 'Current Time', 'formidable' ),
+			'email'        => __( 'Email', 'formidable' ),
+			'login'        => __( 'Login', 'formidable' ),
+			'display_name' => __( 'Display Name', 'formidable' ),
+			'first_name'   => __( 'First Name', 'formidable' ),
+			'last_name'    => __( 'Last Name', 'formidable' ),
+			'user_id'      => __( 'User ID', 'formidable' ),
+			'user_meta key=whatever' => __( 'User Meta', 'formidable' ),
+			'user_role'    => __( 'User Role', 'formidable' ),
+			'post_id'      => __( 'Post ID', 'formidable' ),
+			'post_title'   => __( 'Post Title', 'formidable' ),
+			'post_author_email' => __( 'Author Email', 'formidable' ),
+			'post_meta key=whatever' => __( 'Post Meta', 'formidable' ),
+			'ip'           => __( 'IP Address', 'formidable' ),
+			'auto_id start=1' => __( 'Increment', 'formidable' ),
+			'get param=whatever' => array( 'label' => __( 'GET/POST', 'formidable' ), 'title' => __( 'A variable from the URL or value posted from previous page.', 'formidable' ) .' '. __( 'Replace \'whatever\' with the parameter name. In url.com?product=form, the variable is \'product\'. You would use [get param=product] in your field.', 'formidable' )),
+			'server param=whatever' => array( 'label' => __( 'SERVER', 'formidable' ), 'title' => __( 'A variable from the PHP SERVER array.', 'formidable' ) .' '. __( 'Replace \'whatever\' with the parameter name. To get the url of the current page, use [server param="REQUEST_URI"] in your field.', 'formidable' )),
+		);
         include(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-forms/instructions.php');
     }
 
@@ -287,30 +288,30 @@ class FrmProFormsController{
         );
 
         $atts = wp_parse_args($atts, $defaults);
-        extract($atts);
 
-        if ( empty($id) ) {
-            $id = 'frm_logic_'. $key .'_'. $meta_name;
-        }
+		if ( empty( $atts['id'] ) ) {
+			$atts['id'] = 'frm_logic_' . $atts['key'] . '_' . $atts['meta_name'];
+		}
 
-        if ( empty($name) ) {
-            $name = 'frm_form_action['. $key .'][post_content][conditions]['. $meta_name .']';
-        }
+		if ( empty( $atts['name'] ) ) {
+			$atts['name'] = 'frm_form_action[' . $atts['key'] . '][post_content][conditions][' . $atts['meta_name'] . ']';
+		}
 
-        if ( empty($names) ) {
-            $names = array(
-                'hide_field' => $name .'[hide_field]',
-                'hide_field_cond' => $name .'[hide_field_cond]',
-                'hide_opt' => $name .'[hide_opt]',
-            );
-        }
+		if ( empty( $atts['names'] ) ) {
+			$atts['names'] = array(
+				'hide_field' => $atts['name'] . '[hide_field]',
+				'hide_field_cond' => $atts['name'] .'[hide_field_cond]',
+				'hide_opt' => $atts['name'] . '[hide_opt]',
+			);
+		}
 
-        if ( $onchange == '' ) {
-            $onchange = "frmGetFieldValues(this.value,'$key','$meta_name','". (isset($field['type']) ? $field['type'] : '') ."','". $names['hide_opt'] ."')";
-        }
+		if ( $atts['onchange'] == '' ) {
+			$atts['onchange'] = "frmGetFieldValues(this.value,'". $atts['key'] . "','" . $atts['meta_name'] . "','" . ( isset( $atts['field']['type'] ) ? $atts['field']['type'] : '' ) . "','" . $atts['names']['hide_opt'] . "')";
+		}
 
-        $form_fields = FrmField::get_all_for_form($form_id);
+		$form_fields = FrmField::get_all_for_form( $atts['form_id'] );
 
+		extract( $atts );
         include(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-forms/_logic_row.php');
     }
 

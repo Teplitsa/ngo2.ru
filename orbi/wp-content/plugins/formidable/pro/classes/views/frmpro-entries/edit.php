@@ -26,10 +26,6 @@
         <p>
         <?php echo FrmProFormsHelper::get_prev_button($form, 'button-secondary'); ?>
         <input class="button-primary" type="submit" value="<?php echo esc_attr($submit) ?>" <?php do_action('frm_submit_button_action', $form, $form_action); ?> />
-        <?php
-        //if($values['is_draft'])
-        //    echo FrmProFormsHelper::get_draft_link($form);
-        ?>
         </p>
         </div>
 

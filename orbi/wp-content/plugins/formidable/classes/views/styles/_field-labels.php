@@ -5,8 +5,9 @@
 <div class="field-group clearfix frm-first-row">
 	<label><?php _e( 'Weight', 'formidable' ) ?></label>
 	<select name="<?php echo esc_attr( $frm_style->get_field_name('weight') ) ?>" id="frm_weight">
-		<option value="normal" <?php selected($style->post_content['weight'], 'normal') ?>>normal</option>
-		<option value="bold" <?php selected($style->post_content['weight'], 'bold') ?>>bold</option>
+		<?php foreach ( FrmStyle::get_bold_options() as $value => $name ) { ?>
+		<option value="<?php echo esc_attr( $value ) ?>" <?php selected( $style->post_content['weight'], $value ) ?>><?php echo $name ?></option>
+		<?php } ?>
 	</select>
 </div>
 <div class="field-group clearfix frm-first-row">
@@ -50,8 +51,9 @@
 <div class="field-group clearfix after-h3">
 	<label><?php _e( 'Weight', 'formidable' ) ?></label>
 	<select name="<?php echo esc_attr( $frm_style->get_field_name('required_weight') ) ?>" id="frm_required_weight">
-		<option value="normal" <?php selected($style->post_content['required_weight'], 'normal') ?>><?php _e( 'normal', 'formidable' ) ?></option>
-		<option value="bold" <?php selected($style->post_content['required_weight'], 'bold') ?>><?php _e( 'bold', 'formidable' ) ?></option>
+		<?php foreach ( FrmStyle::get_bold_options() as $value => $name ) { ?>
+		<option value="<?php echo esc_attr( $value ) ?>" <?php selected( $style->post_content['required_weight'], $value ) ?>><?php echo $name ?></option>
+		<?php } ?>
 	</select>
 </div>
 <div class="clear"></div>

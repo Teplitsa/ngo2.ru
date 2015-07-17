@@ -1173,6 +1173,9 @@ class FrmProEntriesController{
 	}
 
     public static function &filter_display_value( $value, $field, $atts = array() ) {
+		$defaults = array( 'html' => 0, 'type' => $field->type, 'keepjs' => 0 );
+		$atts = array_merge( $defaults, $atts );
+
         switch ( $atts['type'] ) {
             case 'user_id':
                 $value = FrmProFieldsHelper::get_display_name($value);
@@ -2355,10 +2358,17 @@ class FrmProEntriesController{
         setcookie('frm_form'.$form_id.'_' . COOKIEHASH, current_time('mysql', 1), time() + $expiration, COOKIEPATH, COOKIE_DOMAIN);
     }
 
-    public static function ajax_create(){
-        //if ( FrmAppHelper::doing_ajax() ) {
-        //    check_ajax_referer( 'frm_ajax', 'nonce' );
-        //}
+	public static function ajax_create() {
+		if ( ! FrmAppHelper::doing_ajax() || ! isset( $_POST['form_id'] ) ) {
+			// normally, this function would be triggered with the wp_ajax hook, but we need it fired sooner
+			return;
+		}
+
+		$allowed_actions = array( 'frm_entries_create', 'frm_entries_update' );
+		if ( ! in_array( FrmAppHelper::get_post_param( 'action', '', 'sanitize_title' ), $allowed_actions ) ) {
+			// allow ajax creating and updating
+			return;
+		}
 
         $form = FrmForm::getOne( (int) $_POST['form_id'] );
         if ( ! $form ) {
@@ -2407,6 +2417,7 @@ class FrmProEntriesController{
     }
 
     public static function ajax_update(){
+		_deprecated_function( __FUNCTION__, '2.0.11', 'FrmProEntriesController::ajax_create' );
 		if ( ! $_POST || ! isset( $_POST['nonce'] ) ) {
 			// make sure the request is posted since the front-end nonce may be cached
 			wp_die();
@@ -2546,64 +2557,12 @@ $('#frm_form_" . esc_attr( $id ) . "_container .frm-show-form').submit(window.fr
 		$field_id = FrmAppHelper::get_param( 'field_id', 0, 'post', 'sanitize_title' );
         $value = FrmAppHelper::get_param('value');
 
-        global $wpdb;
-
-        if ( ! $entry_id ) {
-            wp_die();
-        }
-
-		if ( is_numeric( $field_id ) ) {
-			$where = array( 'fi.id' => (int) $field_id );
-		} else {
-			$where = array( 'field_key' => $field_id );
+		FrmField::maybe_get_field( $field_id );
+		if ( $field_id && FrmProEntriesHelper::user_can_edit( $entry_id, $field_id->form_id ) ) {
+			$updated = FrmProEntryMeta::update_single_field( compact( 'entry_id', 'field_id', 'value' ) );
+			echo $updated;
 		}
 
-        $field = FrmField::getAll($where, '', ' LIMIT 1');
-
-        if ( ! $field || ! FrmProEntriesHelper::user_can_edit( $entry_id, $field->form_id ) ) {
-            wp_die();
-        }
-
-        $post_id = false;
-        if ( isset($field->field_options['post_field']) && ! empty($field->field_options['post_field']) ) {
-            $post_id = FrmDb::get_var( $wpdb->prefix .'frm_items', array( 'id' => $entry_id), 'post_id' );
-        }
-
-        if ( ! $post_id ) {
-            $updated = FrmEntryMeta::update_entry_meta($entry_id, $field_id, $meta_key = null, $value);
-
-            if ( ! $updated ) {
-                $wpdb->query($wpdb->prepare("DELETE FROM {$wpdb->prefix}frm_item_metas WHERE item_id = %d and field_id = %d", $entry_id, $field_id));
-                $updated = FrmEntryMeta::add_entry_meta($entry_id, $field_id, '', $value);
-            }
-            wp_cache_delete( $entry_id, 'frm_entry');
-        }else{
-            switch ( $field->field_options['post_field'] ) {
-                case 'post_custom':
-                    $updated = update_post_meta($post_id, $field->field_options['custom_field'], maybe_serialize($value));
-                break;
-                case 'post_category':
-					$taxonomy = ( ! FrmField::is_option_empty( $field, 'taxonomy' ) ) ? $field->field_options['taxonomy'] : 'category';
-                    $updated = wp_set_post_terms( $post_id, $value, $taxonomy );
-                break;
-                default:
-                    $post = get_post($post_id, ARRAY_A);
-                    $post[$field->field_options['post_field']] = maybe_serialize($value);
-                    $updated = wp_insert_post( $post );
-                break;
-            }
-        }
-
-        if ( $updated ) {
-            // set updated_at time
-            $wpdb->update( $wpdb->prefix .'frm_items',
-                array( 'updated_at' => current_time('mysql', 1), 'updated_by' => get_current_user_id()),
-                array( 'id' => $entry_id)
-            );
-        }
-
-        do_action('frm_after_update_field', compact('entry_id', 'field_id', 'value'));
-        echo $updated;
         wp_die();
     }
 

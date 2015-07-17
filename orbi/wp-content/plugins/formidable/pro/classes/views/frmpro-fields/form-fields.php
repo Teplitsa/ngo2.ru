@@ -130,7 +130,7 @@ if ( 'date' == $field['type'] ) {
         $e_args = apply_filters('frm_rte_options', $e_args, $field);
 
         if ( $field['size'] ) { ?>
-<style type="text/css">#wp-field_<?php echo esc_attr( $field['field_key'] ) ?>-wrap{width:<?php echo $field['size'] . ( is_numeric($field['size']) ? 'px' : '' ); ?>;}</style><?php
+<style type="text/css">#wp-field_<?php echo esc_attr( $field['field_key'] ) ?>-wrap{width:<?php echo esc_attr( $field['size'] ) . ( is_numeric( $field['size'] ) ? 'px' : '' ); ?>;}</style><?php
         }
 
 		wp_editor( str_replace( '&quot;', '"', $field['value'] ), $html_id, $e_args );
