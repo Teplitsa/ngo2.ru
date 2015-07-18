@@ -376,7 +376,14 @@ section.error-404 {
 
 
 
-// test
+// Formidable forms
+.frm_forms  {
+	margin: $margin-base*1.5 0;
+	
+	h3 {
+		@include typo-title();
+	}
+}
 .mdl-textfield.frm_form_field {
 	width: 100%;
 	
@@ -400,8 +407,12 @@ section.error-404 {
 	visibility: visible;
 }
 
-.frm_submit {
-	input {
-		
+.frm_message {
+	@include shadow-2dp();
+	padding: 8px 16px;
+	background-color: unquote("rgba(#{$palette-grey-100}, 1)");
+	border-left: 4px solid $tst-color-primary;
+	p {
+		margin: 0;
 	}
 }

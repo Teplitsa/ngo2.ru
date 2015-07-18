@@ -350,7 +350,7 @@ add_filter('frm_submit_button_class', 'tst_formidable_submit_classes', 2, 2);
 function tst_formidable_submit_classes($class, $form){
 	
 	
-	//$class[] = 'mdl-textfield__input';
+	$class[] = 'mdl-button mdl-js-button mdl-button--raised mdl-button--colored mdl-js-ripple-effect';
 	
 	return $class;
 }
@@ -358,8 +358,11 @@ function tst_formidable_submit_classes($class, $form){
 add_filter('frm_field_classes', 'tst_formidable_field_classes', 2, 2);
 function tst_formidable_field_classes($class, $field){
 	
-	if(in_array($field['type'], array('text', 'email', 'textarea'))) {
+	if(in_array($field['type'], array('text', 'email', 'textarea', 'url'))) {
 		$class = 'mdl-textfield__input';
+	}
+	elseif($field['type'] == 'checkbox'){
+		$class = "mdl-checkbox__input";
 	}
 	return $class;
 }
@@ -367,7 +370,7 @@ function tst_formidable_field_classes($class, $field){
 add_filter('frm_replace_shortcodes', 'tst_formidable_default_html', 2, 3);
 function tst_formidable_default_html($html, $field, $params) {
 	
-	if(in_array($field['type'], array('text', 'email', 'textarea')))  {
+	if(in_array($field['type'], array('text', 'email', 'textarea', 'url')))  {
 			
 		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label frm_form_field', $html);
 		$html = str_replace('frm_primary_label', 'mdl-textfield__label frm_primary_label', $html);
@@ -377,7 +380,21 @@ function tst_formidable_default_html($html, $field, $params) {
 			$html = str_replace('<input', '<input disabled="disabled" ', $html);
 		}		
 	}
-	
+	elseif(in_array($field['type'], array('radio', 'checkbox'))){
+		
+		$html = str_replace('<label for=', '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect frm_checkbox" for=', $html);
+	}
 	
 	return $html;
+}
+
+
+add_filter('frm_field_label_seen', 'tst_formidable_input_options_html', 2, 3);
+function tst_formidable_input_options_html($opt, $opt_key, $field) {
+	
+	if(in_array($field['type'], array('radio', 'checkbox'))) {
+		$opt = "<span class='mdl-checkbox__label'>{$opt}</span>";
+	}
+	
+	return $opt;
 }

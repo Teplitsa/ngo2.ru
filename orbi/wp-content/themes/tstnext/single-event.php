@@ -32,9 +32,7 @@ get_header();
 			
 			<div class="entry-content"><?php the_content(); ?></div>	
 			
-			<div class="entry-footer">
-				<div class="sharing-on-bottom"><?php tst_social_share();?></div>
-			</div>
+			
 			
 			<!-- panel -->
 			<?php get_template_part('partials/panel', 'float');?>

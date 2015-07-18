@@ -10071,6 +10071,15 @@ section.error-404 {
 .pw_map_canvas {
   margin: 16px 0; }
 
+.frm_forms {
+  margin: 24px 0; }
+  .frm_forms h3 {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em; }
+
 .mdl-textfield.frm_form_field {
   width: 100%; }
   .mdl-textfield.frm_form_field.is-disabled .mdl-textfield__label {
@@ -10083,6 +10092,14 @@ section.error-404 {
 
 .frm_error {
   visibility: visible; }
+
+.frm_message {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+  padding: 8px 16px;
+  background-color: rgba(245,245,245, 1);
+  border-left: 4px solid rgba(233,30,99, 1); }
+  .frm_message p {
+    margin: 0; }
 
 /** Post cards **/
 .pictured-card-item {
