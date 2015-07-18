@@ -346,10 +346,19 @@ function tst_facebook_author_tag(){
 
 /** Formidable filters **/
 // @to_do (no correction for repeatable section)
+add_filter('frm_submit_button_class', 'tst_formidable_submit_classes', 2, 2);
+function tst_formidable_submit_classes($class, $form){
+	
+	
+	//$class[] = 'mdl-textfield__input';
+	
+	return $class;
+}
+
 add_filter('frm_field_classes', 'tst_formidable_field_classes', 2, 2);
 function tst_formidable_field_classes($class, $field){
 	
-	if(in_array($field['type'], array('text', 'email'))) {
+	if(in_array($field['type'], array('text', 'email', 'textarea'))) {
 		$class = 'mdl-textfield__input';
 	}
 	return $class;
@@ -358,23 +367,17 @@ function tst_formidable_field_classes($class, $field){
 add_filter('frm_replace_shortcodes', 'tst_formidable_default_html', 2, 3);
 function tst_formidable_default_html($html, $field, $params) {
 	
-	if(in_array($field['type'], array('text', 'email')))  {
+	if(in_array($field['type'], array('text', 'email', 'textarea')))  {
 			
-		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield frm_form_field', $html);
+		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label frm_form_field', $html);
 		$html = str_replace('frm_primary_label', 'mdl-textfield__label frm_primary_label', $html);
 		$html = str_replace('frm_error', 'mdl-textfield__error frm_error', $html);
 		
 		if((int)$field['read_only'] == 1){			
 			$html = str_replace('<input', '<input disabled="disabled" ', $html);
-		}
-		
-		if(!empty($field['description'])) {
-			// what to do ?
-		}
-		
-		
-		
+		}		
 	}
+	
 	
 	return $html;
 }

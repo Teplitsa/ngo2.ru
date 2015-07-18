@@ -379,13 +379,29 @@ section.error-404 {
 // test
 .mdl-textfield.frm_form_field {
 	width: 100%;
+	
+	&.is-disabled {
+		.mdl-textfield__label {
+			color: $tst-color-text-semi;
+		}
+		
+		.mdl-textfield__input {
+			border-bottom-style: solid;
+		}
+	}
 }
 
 .frm_description {
-	position: absolute;
+	display: none;
 }
 
 .frm_error {
 	@extend .mdl-textfield__error;
 	visibility: visible;
+}
+
+.frm_submit {
+	input {
+		
+	}
 }

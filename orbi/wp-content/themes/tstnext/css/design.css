@@ -10073,9 +10073,13 @@ section.error-404 {
 
 .mdl-textfield.frm_form_field {
   width: 100%; }
+  .mdl-textfield.frm_form_field.is-disabled .mdl-textfield__label {
+    color: rgba(0, 0, 0, 0.54); }
+  .mdl-textfield.frm_form_field.is-disabled .mdl-textfield__input {
+    border-bottom-style: solid; }
 
 .frm_description {
-  position: absolute; }
+  display: none; }
 
 .frm_error {
   visibility: visible; }
