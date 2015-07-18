@@ -343,6 +343,7 @@ function tst_facebook_author_tag(){
 }
 
 
+
 /** Formidable filters **/
 // @to_do (no correction for repeatable section)
 add_filter('frm_field_classes', 'tst_formidable_field_classes', 2, 2);

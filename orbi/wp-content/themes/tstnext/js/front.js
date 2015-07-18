@@ -106,6 +106,35 @@ jQuery(document).ready(function($){
 		});
 	});
 	
+	/** Responsive media **/
+    var resize_embed_media = function(){
+
+        $('iframe').each(function(){
+
+            var $iframe = $(this),
+                $parent = $iframe.parent(),
+                do_resize = false;
+            if($parent.hasClass('embed-content'))
+                do_resize = true;            
+            else {                
+                
+                $parent = $iframe.parents('.entry-content');
+                if($parent.length)
+                    do_resize = true;
+            }
+
+            if(do_resize) {
+
+                var change_ratio = $parent.width()/$iframe.attr('width');
+                $iframe.width(change_ratio*$iframe.attr('width'));
+                $iframe.height(change_ratio*$iframe.attr('height'));
+            }
+        });
+    };
 	
+    resize_embed_media(); // Initial page rendering
+    $(window).resize(function(){		
+		resize_embed_media();	
+	});
 	
 }); //jQuery

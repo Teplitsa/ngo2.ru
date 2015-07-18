@@ -7,7 +7,7 @@ define('TST_VERSION', '1.0');
  
  
 if ( ! isset( $content_width ) ) {
-	$content_width = 640; /* pixels */
+	$content_width = 564; /* pixels */
 }
 
 if ( ! function_exists( 'tst_setup' ) ) :
@@ -44,6 +44,20 @@ function tst_setup() {
 }
 endif; // tst_setup
 add_action( 'after_setup_theme', 'tst_setup' );
+
+
+/** Custom image size for medialib **/
+add_filter('image_size_names_choose', 'tst_medialib_custom_image_sizes');
+function tst_medialib_custom_image_sizes($sizes) {
+	
+	$addsizes = apply_filters('tst_medialib_custom_image_sizes', array(
+		"thumbnail-landscape" => "Гориз. миниатюра - 190х142рх",
+		"embed" => 'Фиксированный - 564х395рх'
+	));
+		
+	return array_merge($sizes, $addsizes);
+}
+
 
 /**
  * Register widget area.
