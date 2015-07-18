@@ -377,4 +377,15 @@ section.error-404 {
 
 
 // test
+.mdl-textfield.frm_form_field {
+	width: 100%;
+}
 
+.frm_description {
+	position: absolute;
+}
+
+.frm_error {
+	@extend .mdl-textfield__error;
+	visibility: visible;
+}
