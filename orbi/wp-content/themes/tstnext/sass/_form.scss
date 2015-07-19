@@ -42,6 +42,10 @@
 	}
 }
 
+.frm_ajax_loading {
+	display: none;
+}
+
 //fixes for non-text inputs
 .tst-inputfix {
 	box-sizing: border-box;
@@ -74,6 +78,13 @@ select[size] {
 	position: relative;
 	padding: $input-text-vertical-spacing 0;
 	
+	.mdl-menu__container {
+		width: 100% !important;
+		top: 0 !important;
+	}
+	.mdl-menu__outline {
+		width: 100% !important;	
+	}
 	
 	.tst-menu-trigger {
 		display: block;
@@ -94,7 +105,7 @@ select[size] {
 	
 	ul, li {
 		box-sizing: border-box;
-		margin: 0;
+		margin: 0 !important;
 		width: 100%;
 	}
 	
@@ -103,109 +114,11 @@ select[size] {
 		line-height: 48px;
 	}
 	
+	.mdl-menu__item.selected,
+	.mdl-menu__item.selected:hover {
+		color: $tst-color-primary;
+		background: transparent;
+	}
 }
 
  
-
-
-.tst-select-old {
-	position: relative;
-
-	&:focus {
-		outline: 0;
-		
-		> select {
-		  height: $input-text-font-size*1.25 + 8px + 1px; 
-		  margin-bottom: -1px;
-		  border-color: $tst-color-primary; 
-		  border-width: 2px;
-		}
-	}
-  
-	> select {
-		animation-duration: 0.0001s;
-		animation-name: mui-node-inserted;
-		
-		// Layout
-		display: block;
-		height: $input-text-font-size*1.25 + 8px; 
-		width: 100%;
-		
-		// Look and feel
-		appearance: none;
-		-webkit-appearance: none;
-		-moz-appearance: none;
-		outline: none;
-		border: none;
-		border-bottom: 1px solid $input-text-bottom-border-color; 
-		border-radius: 0px;
-		box-shadow: none;
-		background-color: $tst-color-white;//correct
-		background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNiIgd2lkdGg9IjEwIj48cG9seWdvbiBwb2ludHM9IjAsMCAxMCwwIDUsNiIgc3R5bGU9ImZpbGw6cmdiYSgwLDAsMCwuMjQpOyIvPjwvc3ZnPg==");
-		background-repeat: no-repeat;
-		background-position: right center;
-		cursor: pointer;
-		
-		// Typography
-		color: $tst-color-text; //correct
-		font-size: $input-text-font-size;
-		padding: 0 25px 0 0;
-		
-		&::ms-expand {
-			display: none;  // For IE
-		}
-		
-		&:focus {
-			outline: 0;
-			height: $input-text-font-size*1.25 + 8px + 1px; 
-			margin-bottom: -1px;
-			border-color: $tst-color-primary;
-			border-width: 2px;
-		}
-		
-		&:disabled {
-			color: $tst-color-text-semi; //correct
-			cursor: default;      
-			opacity: 1;  // iOS fix for unreadable disabled content
-		}
-		
-		option { padding-left: 0; }
-	}
-  
-	
-	.tst-select-menu {
-		@include shadow-2dp();
-		
-		// Positioning
-		position: absolute;
-		z-index: 10;
-		top: 0;
-		
-		// Display
-		min-width: 100%;
-		overflow-y: auto;
-		margin: 0;
-		padding: 8px 0;
-		
-		// Other
-		background-color: $tst-color-white;
-		font-size: $input-text-font-size;
-		
-		> li {
-			padding: 8px 16px;
-			margin: 0;
-			line-height: 1.25;
-			cursor: pointer;
-			white-space: nowrap;
-			
-			&:hover {
-				background-color: unquote("rgba(#{$palette-grey-50}, 1)");
-			}
-			
-			&.selected {
-			  color: $tst-color-primary;
-			}
-		}
-	}
-}
-

@@ -358,7 +358,7 @@ function tst_formidable_submit_classes($class, $form){
 add_filter('frm_field_classes', 'tst_formidable_field_classes', 2, 2);
 function tst_formidable_field_classes($class, $field){
 	
-	if(in_array($field['type'], array('text', 'email', 'textarea', 'url'))) {
+	if(in_array($field['type'], array('text', 'email', 'textarea', 'url', 'number'))) {
 		$class = 'mdl-textfield__input';
 	}
 	elseif($field['type'] == 'checkbox'){
@@ -379,7 +379,7 @@ function tst_formidable_field_classes($class, $field){
 add_filter('frm_replace_shortcodes', 'tst_formidable_default_html', 2, 3);
 function tst_formidable_default_html($html, $field, $params) {
 	
-	if(in_array($field['type'], array('text', 'email', 'textarea', 'url')))  {
+	if(in_array($field['type'], array('text', 'email', 'textarea', 'url', 'number')))  {
 			
 		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label frm_form_field', $html);
 		$html = str_replace('frm_primary_label', 'mdl-textfield__label frm_primary_label', $html);

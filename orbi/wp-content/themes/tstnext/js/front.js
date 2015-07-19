@@ -21,7 +21,7 @@ jQuery(document).ready(function($){
 			if($(this).scrollTop() >= 165){
 				crumb.css({opacity : 1});			
 			} else {
-				console.log($(this).scrollTop());
+				//console.log($(this).scrollTop());
 				crumb.css({opacity : 0});		
 			}		
 		});
@@ -139,14 +139,15 @@ jQuery(document).ready(function($){
 	
 	
 	/** Select dropdown **/
-	var selectMat = $('.tst-select ');
+	var selectMat = $('.tst-select');
 	selectMat.each(function(i){
 				
 		var selectContainer = $(this),
 			optionsData = selectContainer.find('option'),
-			selection = selectContainer.find('option:selected').text(),
+			selectedVal = selectContainer.find('select').val(),
+			selectedText = selectContainer.find('option').filter('[value = "'+selectedVal+'"]').text(),
 			insnanceId = 'tst-select-'+i,
-			trigger = $('<div class="tst-menu-trigger mdl-button mdl-js-button" id="'+insnanceId+'">'+selection+'</div>')
+			trigger = $('<div class="tst-menu-trigger mdl-button mdl-js-button" id="'+insnanceId+'">'+selectedText+'</div>')
 			menuUl = $('<ul class="tst-select-menu mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="'+insnanceId+'"></ul>');
 		
 		if (optionsData.length) {
@@ -156,11 +157,10 @@ jQuery(document).ready(function($){
 					label = $(this).text(),
 					li = $('<li class="mdl-menu__item">'+label+'</li>');
 					
-				if (opt.is(":selected")) {
+				if (value == selectedVal) {
 					li.addClass('selected');
 				}
-				
-				
+								
 				li.attr({'data-value': value}).appendTo(menuUl);				
 			});
 		}
@@ -170,8 +170,16 @@ jQuery(document).ready(function($){
 		
 		menuUl.on('click', 'li', function(e){
 			
-			var selVal = $(this).attr('data-value');
-			//console.log(selVal);
+			var selVal = $(this).attr('data-value'),
+				field = $(this).parents('.tst-select');
+			
+			field.find('.tst-menu-trigger').text(selVal);
+			field.find('select').val(selVal);
+			field.find('.mdl-menu__item').removeClass('selected');
+			$(this).addClass('selected');
+			
+			//field.find('options').prop('selected', false).filter('[value="'+selVal+'"]').prop('selected', true);
+			
 		});
 	});
 	
