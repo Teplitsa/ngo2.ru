@@ -46,10 +46,14 @@
 	display: none;
 }
 
+.frm_hidden {
+	display: none;
+}
+
 //fixes for non-text inputs
 .tst-inputfix {
 	box-sizing: border-box;
-	position: relative;
+	//position: relative;
 	padding: $input-text-vertical-spacing 0;
 }
 
@@ -87,6 +91,7 @@ select[size] {
 	}
 	
 	.tst-menu-trigger {
+		box-sizing: border-box;
 		display: block;
 		width: 100%;
 		border-bottom: 1px solid $input-text-bottom-border-color;

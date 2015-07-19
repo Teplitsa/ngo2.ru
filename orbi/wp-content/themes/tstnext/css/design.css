@@ -10105,9 +10105,11 @@ section.error-404 {
 .frm_ajax_loading {
   display: none; }
 
+.frm_hidden {
+  display: none; }
+
 .tst-inputfix {
   box-sizing: border-box;
-  position: relative;
   padding: 20px 0; }
 
 .tst-inputfix__label {
@@ -10134,6 +10136,7 @@ select[size] {
   .tst-select .mdl-menu__outline {
     width: 100% !important; }
   .tst-select .tst-menu-trigger {
+    box-sizing: border-box;
     display: block;
     width: 100%;
     border-bottom: 1px solid rgba(0,0,0, 0.12);
