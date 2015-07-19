@@ -362,7 +362,16 @@ function tst_formidable_field_classes($class, $field){
 		$class = 'mdl-textfield__input';
 	}
 	elseif($field['type'] == 'checkbox'){
-		$class = "mdl-checkbox__input";
+		
+		if(isset($field['classes']) && false !== strpos($field['classes'], 'switch')){			
+			$class .= " mdl-switch__input";
+		}
+		else {
+			$class = "mdl-checkbox__input";
+		}
+	}
+	elseif($field['type'] == 'radio'){
+		$class = "mdl-radio__button";
 	}
 	return $class;
 }
@@ -380,9 +389,22 @@ function tst_formidable_default_html($html, $field, $params) {
 			$html = str_replace('<input', '<input disabled="disabled" ', $html);
 		}		
 	}
-	elseif(in_array($field['type'], array('radio', 'checkbox'))){
+	elseif($field['type'] == 'checkbox'){
+		if(isset($field['classes']) && false !== strpos($field['classes'], 'switch')){			
+			$html = str_replace('<label for=', '<label class="mdl-switch mdl-js-switch mdl-js-ripple-effect" for=', $html);
+		}
+		else {
+			$html = str_replace('<label for=', '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for=', $html);
+		}
 		
-		$html = str_replace('<label for=', '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect frm_checkbox" for=', $html);
+	}
+	elseif($field['type'] == 'radio'){
+		
+		$html = str_replace('<label for=', '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for=', $html);
+	}
+	elseif($field['type'] == 'select'){
+		
+		$html = str_replace('frm_form_field', 'tst-select frm_form_field', $html);
 	}
 	
 	return $html;
@@ -392,8 +414,20 @@ function tst_formidable_default_html($html, $field, $params) {
 add_filter('frm_field_label_seen', 'tst_formidable_input_options_html', 2, 3);
 function tst_formidable_input_options_html($opt, $opt_key, $field) {
 	
-	if(in_array($field['type'], array('radio', 'checkbox'))) {
-		$opt = "<span class='mdl-checkbox__label'>{$opt}</span>";
+	if(is_admin())
+		return $opt;
+	
+	if($field['type'] == 'checkbox') {
+		if(isset($field['classes']) && false !== strpos($field['classes'], 'switch')){
+			$opt = "<span class='mdl-switch__label'>{$opt}</span>";
+		}
+		else {
+			$opt = "<span class='mdl-checkbox__label'>{$opt}</span>";
+		}
+		
+	}
+	elseif($field['type'] == 'radio') {
+		$opt = "<span class='mdl-radio__label'>{$opt}</span>";
 	}
 	
 	return $opt;

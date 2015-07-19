@@ -376,7 +376,7 @@ section.error-404 {
 
 
 
-// Formidable forms
+/**  Formidable forms **/
 .frm_forms  {
 	margin: $margin-base*1.5 0;
 	
@@ -393,7 +393,7 @@ section.error-404 {
 		}
 		
 		.mdl-textfield__input {
-			border-bottom-style: solid;
+			color: $tst-color-text-semi;
 		}
 	}
 }
@@ -414,5 +414,108 @@ section.error-404 {
 	border-left: 4px solid $tst-color-primary;
 	p {
 		margin: 0;
+	}
+}
+
+//select
+select[multiple],
+select[size] {
+  // Make multiple select elements height not fixed
+  height: auto;
+}
+
+.tst-select {
+	position: relative;
+
+	&:focus {
+		outline: 0;
+		
+		> select {
+		  height: 32px + 1px; //correct
+		  margin-bottom: -1px;
+		  border-color: $tst-color-primary;
+		  border-width: 2px;
+		}
+	}
+  
+  > select {
+    animation-duration: 0.0001s;
+	animation-name: mui-node-inserted;
+    
+    // Layout
+    display: block;
+    height: 32px; //correct
+    width: 100%;
+    
+    // Look and feel
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    outline: none;
+    border: none;
+    border-bottom: 1px solid $tst-color-border; //correct
+    border-radius: 0px;
+    box-shadow: none;
+    background-color: $tst-color-white;//correct
+    background-image: url("data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIGhlaWdodD0iNiIgd2lkdGg9IjEwIj48cG9seWdvbiBwb2ludHM9IjAsMCAxMCwwIDUsNiIgc3R5bGU9ImZpbGw6cmdiYSgwLDAsMCwuMjQpOyIvPjwvc3ZnPg==");
+    background-repeat: no-repeat;
+    background-position: right center;
+    cursor: pointer;
+    
+    // Typography
+    color: $tst-color-text; //correct
+    font-size: 16px;
+    padding: 0 25px 0 0;
+
+    &::ms-expand {
+      display: none;  // For IE
+    }
+    
+    &:focus {
+      outline: 0;
+      height: 32px + 1px; //correct
+      margin-bottom: -1px;
+      border-color: $tst-color-primary;
+      border-width: 2px;
+    }
+
+    &:disabled {
+      color: $tst-color-text-semi; //correct
+      cursor: default;      
+      opacity: 1;  // iOS fix for unreadable disabled content
+    }
+  }
+}
+
+.tst-select-menu {
+	@include shadow-2dp();
+	
+	// Positioning
+	position: absolute;
+	z-index: 1;
+	
+	// Display
+	min-width: 100%;
+	overflow-y: auto;
+	padding: 8px 0;
+	
+	// Other
+	background-color: $tst-color-white;
+	font-size: 16px; //correct
+	
+	> div {
+		padding: 0 22px;
+		height: 16px + 26px; //correct - font size
+		line-height: 16px + 26px;
+		cursor: pointer;
+		white-space: nowrap;
+		
+		&:hover {
+		  //background-color: mui-color('grey', '300');
+		}
+		
+		&[selected] {
+		  //background-color: mui-color('grey', '200'); 
+		}
 	}
 }

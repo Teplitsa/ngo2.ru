@@ -137,4 +137,32 @@ jQuery(document).ready(function($){
 		resize_embed_media();	
 	});
 	
+	
+	/** Select dropdown **/
+	var selectMat = $('.tst-select ');
+	selectMat.each(function(){
+		
+		var selectContainer = $(this),
+			optionsData = $(this).find('option'),
+			menuUl = $('<ul class="tst-select-menu"></ul>');
+		
+		if (optionsData.length) {
+			optionsData.each(function(){
+				var opt = $(this),
+					value = $(this).val(),
+					label = $(this).text(),
+					li = $('<li>'+label+'</li>');
+					
+				if (opt.is(":selected")) {
+					li.addClass('selected');
+				}
+				
+				console.log(li);
+				li.attr({'data-value': value}).appendTo(menuUl);				
+			});
+		}
+		
+		selectContainer.append(menuUl);	
+	});
+	
 }); //jQuery
