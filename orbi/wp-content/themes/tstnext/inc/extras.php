@@ -397,14 +397,20 @@ function tst_formidable_default_html($html, $field, $params) {
 			$html = str_replace('<label for=', '<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect" for=', $html);
 		}
 		
+		$html = str_replace('frm_form_field', 'tst-inputfix frm_form_field', $html);
+		$html = str_replace('frm_primary_label', 'tst-inputfix__label frm_primary_label', $html);
+		
 	}
 	elseif($field['type'] == 'radio'){
 		
 		$html = str_replace('<label for=', '<label class="mdl-radio mdl-js-radio mdl-js-ripple-effect" for=', $html);
+		$html = str_replace('frm_primary_label', 'tst-inputfix__label frm_primary_label', $html);
+		$html = str_replace('frm_form_field', 'tst-inputfix frm_form_field', $html);
 	}
 	elseif($field['type'] == 'select'){
 		
 		$html = str_replace('frm_form_field', 'tst-select frm_form_field', $html);
+		$html = str_replace('frm_primary_label', 'tst-inputfix__label frm_primary_label', $html);		
 	}
 	
 	return $html;

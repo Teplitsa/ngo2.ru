@@ -140,29 +140,41 @@ jQuery(document).ready(function($){
 	
 	/** Select dropdown **/
 	var selectMat = $('.tst-select ');
-	selectMat.each(function(){
-		
+	selectMat.each(function(i){
+				
 		var selectContainer = $(this),
-			optionsData = $(this).find('option'),
-			menuUl = $('<ul class="tst-select-menu"></ul>');
+			optionsData = selectContainer.find('option'),
+			selection = selectContainer.find('option:selected').text(),
+			insnanceId = 'tst-select-'+i,
+			trigger = $('<div class="tst-menu-trigger mdl-button mdl-js-button" id="'+insnanceId+'">'+selection+'</div>')
+			menuUl = $('<ul class="tst-select-menu mdl-menu mdl-menu--bottom-left mdl-js-menu mdl-js-ripple-effect" for="'+insnanceId+'"></ul>');
 		
 		if (optionsData.length) {
 			optionsData.each(function(){
 				var opt = $(this),
 					value = $(this).val(),
 					label = $(this).text(),
-					li = $('<li>'+label+'</li>');
+					li = $('<li class="mdl-menu__item">'+label+'</li>');
 					
 				if (opt.is(":selected")) {
 					li.addClass('selected');
 				}
 				
-				console.log(li);
+				
 				li.attr({'data-value': value}).appendTo(menuUl);				
 			});
 		}
 		
-		selectContainer.append(menuUl);	
+		selectContainer.find('select').hide();		
+		selectContainer.append(trigger).append(menuUl);
+		
+		menuUl.on('click', 'li', function(e){
+			
+			var selVal = $(this).attr('data-value');
+			//console.log(selVal);
+		});
 	});
+	
+	
 	
 }); //jQuery
