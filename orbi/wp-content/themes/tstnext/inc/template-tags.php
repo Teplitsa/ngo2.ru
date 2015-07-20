@@ -398,9 +398,9 @@ function tst_breadcrumbs(){
 		$p = get_page_by_path('calendar');
 		$links[] = "<a href='".get_permalink($p)."' class='crumb-link'>".get_the_title($p)."</a>";		
 	}
-	elseif(is_page()){
+	elseif(is_page() || is_singular('leyka_campaign')){
 		//@to-do - if treee ?
-		$links[] = get_the_title($post);
+		$links[] = "<span class='crumb-name'>".get_the_title($post)."</span>";
 	}
 	elseif(is_home()){
 		$p = get_post(get_option('page_for_posts'));
