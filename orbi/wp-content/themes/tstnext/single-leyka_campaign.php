@@ -21,7 +21,7 @@ get_header(); ?>
 				<div class="entry-content">
 					<?php the_content(); ?>		
 				</div>
-				<div class="payment-form"><?php echo do_shortcode('[leyka_payment_form id="'+$campaign_id+'" template="toggles"]');?></div>
+				<div class="payment-form"><?php echo leyka_get_payment_form($post, array('template' => 'toggles'));?></div>
 			</article>
 		<?php } ?>
 		
@@ -38,7 +38,7 @@ get_header(); ?>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
 		<aside class="donation-history section">
 			<h5>Мы благодарим</h5>
-			<?php echo do_shortcode('[leyka_donors_list id="'+$campaign_id+'" num="20"]');?>
+			<?php echo leyka_get_donors_list($campaign_id, array('num' => 20));?>
 		</aside>
 		
 	</div>
