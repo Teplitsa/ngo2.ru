@@ -200,8 +200,14 @@ function tst_scripts() {
 	wp_localize_script('tst-front', 'frontend', array(
         'ajaxurl' => admin_url('admin-ajax.php')
 	));
+	
+	//remove leyka default styles
+	if(!is_admin()){
+		wp_dequeue_style('leyka-plugin-styles');		
+		
+	}
 }
-add_action( 'wp_enqueue_scripts', 'tst_scripts' );
+add_action( 'wp_enqueue_scripts', 'tst_scripts', 50 );
 
 add_action( 'admin_enqueue_scripts', 'tst_admin_scripts' );
 function tst_admin_scripts() {
@@ -229,4 +235,5 @@ require get_template_directory().'/inc/calendar.php';
 
 if(is_admin()){
 	require get_template_directory() . '/inc/admin.php';
+	
 }

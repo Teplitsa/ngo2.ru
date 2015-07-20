@@ -21,7 +21,9 @@ get_header(); ?>
 				<div class="entry-content">
 					<?php the_content(); ?>		
 				</div>
-				<div class="payment-form"><?php echo leyka_get_payment_form($post, array('template' => 'toggles'));?></div>
+				<div class="payment-form">
+					<?php get_template_part('partials/payment', 'form');?>
+				</div>
 			</article>
 		<?php } ?>
 		

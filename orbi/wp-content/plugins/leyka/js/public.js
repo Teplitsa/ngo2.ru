@@ -164,7 +164,7 @@ jQuery(document).ready(function($){
 
             }
         });
-		
+		console.log($is_valid); e.preventDefault();
 			
         if( !$is_valid ){
             e.preventDefault();
