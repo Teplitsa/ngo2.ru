@@ -183,6 +183,33 @@ jQuery(document).ready(function($){
 		});
 	});
 	
+	/** Leyka custom modal **/
+	$('.leyka-custom-modal').easyModal({
+		overlayParent :'.leyka-custom-template',
+		hasVariableWidth : true,
+		top : 100,
+		transitionIn: 'animated zoomIn',
+		transitionOut: 'animated zoomOut',
+		onClose : function(){  }
+	});
+	
+	$('body').on('click','.leyka-custom-confirmation-trigger', function(e){
+		
+		var trigger = $(e.target),
+			target;
+		
+		if (trigger.hasClass('leyka-custom-confirmation-trigger')) {
+			target = trigger.attr('data-lmodal');
+		}
+		else {
+			target = trigger.parents('.leyka-custom-confirmation-trigger').attr('data-lmodal');
+		}
+			
+		
+		$('#leyka-agree-text').trigger('openModal');
+		
+		e.preventDefault();
+	});
 	
 	
 }); //jQuery

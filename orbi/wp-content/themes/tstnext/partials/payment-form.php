@@ -72,7 +72,7 @@ leyka_pf_submission_errors();?>
 	<div class="leyka-field agree">
 		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect checkbox" for="leyka_agree">
 			<input type="checkbox" name="leyka_agree" id="leyka_agree" class="leyka_agree required mdl-checkbox__input" value="1" />
-			<a class="leyka-legal-confirmation-trigger" href="#<?php echo $agree_id;?>">
+			<a class="leyka-custom-confirmation-trigger " href="#<?php echo $agree_id;?>" data-lmodal="#leyka-agree-text">
                 <?php echo leyka_options()->opt('agree_to_terms_text');?>
             </a>
 		</label>		
@@ -106,7 +106,7 @@ leyka_pf_submission_errors();?>
 </div>
 <?php }?>
 
-<div id="leyka-agree-text" class="leyka-oferta-text">
+<div id="leyka-agree-text" class="leyka-oferta-text leyka-custom-modal">
 	<div class="leyka-modal-close">X</div>
 	<div class="leyka-oferta-text-frame">
 		<div class="leyka-oferta-text-flow">

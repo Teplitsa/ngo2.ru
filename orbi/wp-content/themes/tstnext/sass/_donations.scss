@@ -1,1 +1,87 @@
 /** Donations **/
+
+
+.leyka-payment-option {
+	margin-bottom: 8px;
+		
+	.toggle-trigger {
+		border-bottom: 1px solid $tst-color-border;
+		padding: $card-vertical-padding 0;
+		margin-bottom: -1px;
+		cursor: pointer;
+		
+	}
+	
+	.toggle-area {
+		display: none;
+	
+	}
+	
+	.leyka-pm-form {
+		@include shadow-2dp();		
+	}
+	
+	.leyka-pm-fields {
+		padding: $margin-base $margin-base*1.5;
+	}
+	
+	.leyka-pm-desc {
+		border-bottom: 1px solid $tst-color-border;
+		padding: $margin-base $margin-base*1.5;
+		
+		p {
+			font-size: 12px;
+			line-height: 1.4;
+			margin: 0;
+		}
+	}
+		
+	&.toggled {
+		.toggle-trigger {
+			border-bottom: 2px solid $tst-color-primary;
+			color: $tst-color-primary;
+			margin-bottom: 0;
+		}
+	}
+}
+
+//form
+.leyka-pm-form {
+	
+	.leyka-field {
+		width: 100%;
+		margin-bottom: $margin-base;
+	}
+	
+	.amount {
+		position: relative;
+		.mdl-textfield {
+			@include calc(width, "100% - 50px");
+			input {
+				text-align: right;
+			}
+		}
+		
+		.currency {
+			position: absolute;
+			right: 0;
+			top: 0;
+			width: 40px;			
+		}
+	}
+}
+
+
+
+.leyka-custom-modal {	
+	display: none;
+	box-sizing: border-box;	
+	width: 90%;
+	@include for(tablet) {
+		width: 80%;
+	}
+	max-width: 564px;	
+	background-color: $tst-color-white;;
+}
+
+

@@ -83,12 +83,12 @@ jQuery(document).ready(function($){
 
         var $currency = '',
             $currency_label = '';
-        if($('.leyka_donation_currency option').length) {
+        if($('.leyka_donation_currency option').length) { 
             $currency = $form.find('.leyka_donation_currency option:selected').val();
-            $currency_label = $form.find('.leyka_donation_currency option:selected').data('currency-label');
-        } else {
+            $currency_label = $form.find('.leyka_donation_currency option:selected').attr('data-currency-label');
+        } else { 
             $currency = $form.find('.leyka_donation_currency').val();
-            $currency_label = $form.find('.leyka_donation_currency').data('currency-label');
+            $currency_label = $form.find('.leyka_donation_currency').attr('data-currency-label');
         }
 
         var $top_amount = parseInt($form.find('input[name="top_'+$currency+'"]').val()),
@@ -164,7 +164,7 @@ jQuery(document).ready(function($){
 
             }
         });
-		console.log($is_valid); e.preventDefault();
+		
 			
         if( !$is_valid ){
             e.preventDefault();
