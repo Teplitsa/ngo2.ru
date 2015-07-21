@@ -32,7 +32,7 @@
 		p {
 			font-size: 12px;
 			line-height: 1.4;
-			margin: 0;
+			margin: 0 0 4px 0;
 		}
 	}
 		
@@ -45,18 +45,32 @@
 	}
 }
 
+.leyka-form-footer {
+	padding-top: 8px;
+	text-align: right;
+	p {
+		@include typo-caption();
+		color: $tst-color-text-semi;
+	}
+}
+
 //form
 .leyka-pm-form {
 	
 	.leyka-field {
-		width: 100%;
-		margin-bottom: $margin-base;
+		width: 100%;		
+	}
+	
+	.field-error {
+		visibility: visible;
+		display: none;
+		
 	}
 	
 	.amount {
 		position: relative;
 		.mdl-textfield {
-			@include calc(width, "100% - 50px");
+			@include calc(width, "100% - 60px");
 			input {
 				text-align: right;
 			}
@@ -65,23 +79,106 @@
 		.currency {
 			position: absolute;
 			right: 0;
+			top: 23px;
+			width: 44px;
+			font-size: $input-text-font-size;
+		}
+	}
+	
+	.agree {
+		padding: $input-text-vertical-spacing 0;
+	}
+	
+	.submit {
+		position: relative;
+		.leyka-pm-icons {
+			position: absolute;
 			top: 0;
-			width: 40px;			
+			right: 0;
+		}
+	}
+}
+
+.leyka-pm-icons {
+	@include clearfix;
+	li {
+		float: left;
+		width: 52px;
+		height: 36px;
+		margin-left: 4px;
+		img {
+			max-width: 100%;
+			height: auto;
 		}
 	}
 }
 
 
-
 .leyka-custom-modal {	
 	display: none;
-	box-sizing: border-box;	
+	box-sizing: border-box;
+	border-radius: 2px;
 	width: 90%;
 	@include for(tablet) {
 		width: 80%;
 	}
-	max-width: 564px;	
-	background-color: $tst-color-white;;
+	max-width: 564px;
+	@include calc(height, "100% - 220px");
+	max-height: 564px;	
+	background-color: $tst-color-white;
+	
+	.leyka-modal-close {
+		background: $tst-color-primary;
+		color: $tst-color-white;
+		width: 32px;
+		height: 32px;
+		border-radius: 50%;
+		@include shadow-2dp();
+		position: absolute;
+		top: -16px;
+		right: -16px;
+		text-align: center;
+		line-height: 32px;
+		vertical-align: middle;
+	}
+	
+	.leyka-oferta-text-frame {
+		box-sizing: border-box;
+		width: 100%;
+		height: 100%;
+		padding: $margin-base;
+		overflow-y: scroll;
+	}
+	
+	.leyka-oferta-text-flow {
+		padding-right: 20px;
+	}
 }
 
 
+.donation-history.section {
+	padding: $margin-base 0;
+	
+	h5 {
+		@include typo-subhead();
+		font-weight: 500;
+		margin: 0;
+		color: $tst-color-link;		
+	}
+	
+	.ldl-item {
+		padding: $margin-base*1.5 0;
+		
+		.amount {
+			
+		}
+		
+		.purpose {
+			
+		}
+		
+		.meta  {
+			
+		}
+	}
+}

@@ -11087,36 +11087,109 @@ table.calendar {
     .leyka-payment-option .leyka-pm-desc p {
       font-size: 12px;
       line-height: 1.4;
-      margin: 0; }
+      margin: 0 0 4px 0; }
   .leyka-payment-option.toggled .toggle-trigger {
     border-bottom: 2px solid rgba(233,30,99, 1);
     color: rgba(233,30,99, 1);
     margin-bottom: 0; }
 
+.leyka-form-footer {
+  padding-top: 8px;
+  text-align: right; }
+  .leyka-form-footer p {
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 1;
+    letter-spacing: 0;
+    color: rgba(0, 0, 0, 0.54); }
+
 .leyka-pm-form .leyka-field {
-  width: 100%;
-  margin-bottom: 16px; }
+  width: 100%; }
+.leyka-pm-form .field-error {
+  visibility: visible;
+  display: none; }
 .leyka-pm-form .amount {
   position: relative; }
   .leyka-pm-form .amount .mdl-textfield {
-    width: -webkit-calc(100% - 50px);
-    width: calc(100% - 50px); }
+    width: -webkit-calc(100% - 60px);
+    width: calc(100% - 60px); }
     .leyka-pm-form .amount .mdl-textfield input {
       text-align: right; }
   .leyka-pm-form .amount .currency {
     position: absolute;
     right: 0;
+    top: 23px;
+    width: 44px;
+    font-size: 16px; }
+.leyka-pm-form .agree {
+  padding: 20px 0; }
+.leyka-pm-form .submit {
+  position: relative; }
+  .leyka-pm-form .submit .leyka-pm-icons {
+    position: absolute;
     top: 0;
-    width: 40px; }
+    right: 0; }
+
+.leyka-pm-icons::after {
+  clear: both;
+  content: "";
+  display: table; }
+.leyka-pm-icons li {
+  float: left;
+  width: 52px;
+  height: 36px;
+  margin-left: 4px; }
+  .leyka-pm-icons li img {
+    max-width: 100%;
+    height: auto; }
 
 .leyka-custom-modal {
   display: none;
   box-sizing: border-box;
+  border-radius: 2px;
   width: 90%;
   max-width: 564px;
+  height: -webkit-calc(100% - 220px);
+  height: calc(100% - 220px);
+  max-height: 564px;
   background-color: rgba(255,255,255, 1); }
   @media screen and (min-width: 480px) {
     .leyka-custom-modal {
       width: 80%; } }
+  .leyka-custom-modal .leyka-modal-close {
+    background: rgba(233,30,99, 1);
+    color: rgba(255,255,255, 1);
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
+    position: absolute;
+    top: -16px;
+    right: -16px;
+    text-align: center;
+    line-height: 32px;
+    vertical-align: middle; }
+  .leyka-custom-modal .leyka-oferta-text-frame {
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
+    padding: 16px;
+    overflow-y: scroll; }
+  .leyka-custom-modal .leyka-oferta-text-flow {
+    padding-right: 20px; }
+
+.donation-history.section {
+  padding: 16px 0; }
+  .donation-history.section h5 {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px;
+    letter-spacing: 0.04em;
+    font-weight: 500;
+    margin: 0;
+    color: rgb(233,30,99); }
+  .donation-history.section .ldl-item {
+    padding: 24px 0; }
 
 /*# sourceMappingURL=design.css.map */

@@ -81,9 +81,7 @@ leyka_pf_submission_errors();?>
 	      
 	<!-- submit -->	
 	<div class="leyka-field submit">
-		<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="leyka_donation_submit" name="leyka_donation_submit" value="Пожертвовать" />
-	</div>
-	
+		<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="leyka_donation_submit" name="leyka_donation_submit" value="Пожертвовать" />	
 <?php
 	$icons = leyka_pf_get_pm_icons();	
 	if($icons) {
@@ -95,6 +93,8 @@ leyka_pf_submission_errors();?>
 
 		echo '<ul class="leyka-pm-icons cf">'.implode('', $list).'</ul>';
 	}?>
+	</div>
+	
 	</div> <!-- .leyka-pm-fields -->	
 	
 	<div class="leyka-pm-desc">
@@ -107,7 +107,9 @@ leyka_pf_submission_errors();?>
 <?php }?>
 
 <div id="leyka-agree-text" class="leyka-oferta-text leyka-custom-modal">
-	<div class="leyka-modal-close">X</div>
+	<div class="leyka-modal-close">		
+			<?php echo tst_material_icon('close');?>		
+	</div>
 	<div class="leyka-oferta-text-frame">
 		<div class="leyka-oferta-text-flow">
 			<?php echo apply_filters('leyka_terms_of_service_text', leyka_options()->opt('terms_of_service_text'));?>
