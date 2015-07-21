@@ -11074,7 +11074,8 @@ table.calendar {
     border-bottom: 1px solid rgba(0, 0, 0, 0.12);
     padding: 16px 0;
     margin-bottom: -1px;
-    cursor: pointer; }
+    cursor: pointer;
+    font-size: 16px; }
   .leyka-payment-option .toggle-area {
     display: none; }
   .leyka-payment-option .leyka-pm-form {
@@ -11121,7 +11122,8 @@ table.calendar {
 .leyka-pm-form .agree {
   padding: 20px 0; }
   .leyka-pm-form .agree a {
-    font-weight: 300; }
+    font-size: 13px;
+    font-weight: 400; }
 .leyka-pm-form .submit {
   position: relative; }
   .leyka-pm-form .submit .leyka-pm-icons {
