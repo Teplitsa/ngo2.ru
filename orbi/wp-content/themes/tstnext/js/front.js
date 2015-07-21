@@ -208,7 +208,12 @@ jQuery(document).ready(function($){
 		
 		$('#leyka-agree-text').trigger('openModal');
 		
+		
 		e.preventDefault();
+	});
+	
+	$('body').on('click', '.leyka-modal-close', function(e){
+		$('#leyka-agree-text').trigger('closeModal');
 	});
 	
 	

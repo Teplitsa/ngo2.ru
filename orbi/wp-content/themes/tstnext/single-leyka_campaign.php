@@ -39,7 +39,7 @@ get_header(); ?>
 	<div class="mdl-cell mdl-cell--3-col mdl-cell--hide-phone mdl-cell--hide-tablet"></div>
 	<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
 		<aside class="donation-history section">
-			<h5>Мы благодарим</h5>
+			<h5>Спасибо за вашу помощь!</h5>
 			<?php echo leyka_get_donors_list($campaign_id, array('num' => 20));?>
 		</aside>
 		

@@ -11111,18 +11111,17 @@ table.calendar {
 .leyka-pm-form .amount {
   position: relative; }
   .leyka-pm-form .amount .mdl-textfield {
-    width: -webkit-calc(100% - 60px);
-    width: calc(100% - 60px); }
-    .leyka-pm-form .amount .mdl-textfield input {
-      text-align: right; }
+    width: 110px; }
   .leyka-pm-form .amount .currency {
     position: absolute;
-    right: 0;
+    left: 120px;
     top: 23px;
     width: 44px;
     font-size: 16px; }
 .leyka-pm-form .agree {
   padding: 20px 0; }
+  .leyka-pm-form .agree a {
+    font-weight: 300; }
 .leyka-pm-form .submit {
   position: relative; }
   .leyka-pm-form .submit .leyka-pm-icons {
@@ -11151,7 +11150,7 @@ table.calendar {
   max-width: 564px;
   height: -webkit-calc(100% - 220px);
   height: calc(100% - 220px);
-  max-height: 564px;
+  max-height: 600px;
   background-color: rgba(255,255,255, 1); }
   @media screen and (min-width: 480px) {
     .leyka-custom-modal {
@@ -11167,16 +11166,22 @@ table.calendar {
     top: -16px;
     right: -16px;
     text-align: center;
-    line-height: 32px;
-    vertical-align: middle; }
+    cursor: pointer; }
+    .leyka-custom-modal .leyka-modal-close i {
+      line-height: 32px;
+      vertical-align: middle; }
   .leyka-custom-modal .leyka-oferta-text-frame {
     box-sizing: border-box;
     width: 100%;
     height: 100%;
-    padding: 16px;
+    padding: 24px;
     overflow-y: scroll; }
-  .leyka-custom-modal .leyka-oferta-text-flow {
-    padding-right: 20px; }
+  .leyka-custom-modal .leyka-oferta-text-flow p:first-child {
+    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 1;
+    letter-spacing: 0.02em; }
 
 .donation-history.section {
   padding: 16px 0; }
@@ -11190,6 +11195,39 @@ table.calendar {
     margin: 0;
     color: rgb(233,30,99); }
   .donation-history.section .ldl-item {
-    padding: 24px 0; }
+    padding: 24px 0;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12); }
+    .donation-history.section .ldl-item:last-child {
+      border-bottom: none; }
+    .donation-history.section .ldl-item .amount {
+      font-size: 16px; }
+      @media screen and (min-width: 480px) {
+        .donation-history.section .ldl-item .amount {
+          position: absolute;
+          width: 17%; } }
+    .donation-history.section .ldl-item .purpose {
+      font-size: 14px;
+      font-weight: 400;
+      line-height: 20px;
+      letter-spacing: 0;
+      color: rgba(0,0,0, 0.87); }
+      .donation-history.section .ldl-item .purpose a {
+        color: rgba(0,0,0, 0.87); }
+        .donation-history.section .ldl-item .purpose a:hover, .donation-history.section .ldl-item .purpose a:focus, .donation-history.section .ldl-item .purpose a:active {
+          color: rgb(233,30,99); }
+      @media screen and (min-width: 480px) {
+        .donation-history.section .ldl-item .purpose {
+          margin-left: 18%; } }
+    .donation-history.section .ldl-item .meta {
+      font-size: 12px;
+      font-weight: 400;
+      line-height: 1;
+      letter-spacing: 0;
+      color: rgba(0, 0, 0, 0.54);
+      line-height: 1.333; }
+      @media screen and (min-width: 480px) {
+        .donation-history.section .ldl-item .meta {
+          margin-left: 18%; } }
 
 /*# sourceMappingURL=design.css.map */
