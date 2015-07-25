@@ -49,10 +49,15 @@ jQuery(document).ready(function($){
 	
 	/** Calendar **/
 	console.log(windowWidth);
+	var topPad = 50;
+	if (windowWidth > 940) {
+		topPad = 100
+	}
+	
 	$('.event-modal').easyModal({
-		overlayParent :'.page-content',
+		//overlayParent :'.page-content',
 		hasVariableWidth : true,
-		top : 100,
+		top : topPad,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
 		onClose : function(){ $('#modal-card').empty(); }

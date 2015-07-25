@@ -271,6 +271,16 @@ $margin-base: 16px !default;
 		margin-bottom: $margin-base;
 	}
 	
+	.em-content {
+		position: relative;
+		padding-right: 40px;
+		.addtocalendar {
+			position: absolute;
+			top: 0;
+			right: 0;
+		}
+	}
+	
 	.mdl-card__actions {
 		text-align: right;
 		.add-to-calendar-button {
