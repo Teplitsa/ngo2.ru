@@ -586,26 +586,28 @@ function tst_events_card_content($event){
 		<?php //echo tst_get_post_thumbnail($event, 'post-thumbnail'); ?>
 	</div>
 	
-	<div class="mdl-card__title">
-		<h4 class="mdl-card__title-text"><a href="<?php echo get_permalink($event);?>"><?php echo get_the_title($event);?></a></h4>
-	</div>
-	<div class="event-meta">
-		<div class="pictured-card-item event-date">
-			<div class="em-icon pci-img"><?php echo tst_material_icon('schedule'); ?></div>				
-			<div class="em-content pci-content">
-				<h5 class="mdl-typography--body-1"><?php echo date('d.m.Y', strtotime($date));?></h5>
-				<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $time); ?></p>
-			</div>
-		</div>
-		<div class="pictured-card-item event-location">
-			<div class="em-icon pci-img"><?php echo tst_material_icon('room'); ?></div>				
-			<div class="em-content pci-content">
-				<h5 class="mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $lacation); ?></h5>
-				<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $addr); ?></p>
-			</div>
+	<div class="mdl-card--expand event-content">
+		<div class="mdl-card__title">
+			<h4 class="mdl-card__title-text"><a href="<?php echo get_permalink($event);?>"><?php echo get_the_title($event);?></a></h4>
 		</div>	
+		<div class="event-meta">
+			<div class="pictured-card-item event-date">
+				<div class="em-icon pci-img"><?php echo tst_material_icon('schedule'); ?></div>				
+				<div class="em-content pci-content">
+					<h5 class="mdl-typography--body-1"><?php echo date('d.m.Y', strtotime($date));?></h5>
+					<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $time); ?></p>
+				</div>
+			</div>
+			<div class="pictured-card-item event-location">
+				<div class="em-icon pci-img"><?php echo tst_material_icon('room'); ?></div>				
+				<div class="em-content pci-content">
+					<h5 class="mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $lacation); ?></h5>
+					<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $addr); ?></p>
+				</div>
+			</div>	
+		</div>	
+		<div class="mdl-card__supporting-text"><?php echo apply_filters('tst_the_title', $e);?></div>
 	</div>	
-	<div class="mdl-card__supporting-text"><?php echo apply_filters('tst_the_title', $e);?></div>
 	
 	<div class="mdl-card__actions mdl-card--border">
 		<?php tst_add_to_calendar_link($event);?>

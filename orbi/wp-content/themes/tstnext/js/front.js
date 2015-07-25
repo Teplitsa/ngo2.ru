@@ -47,7 +47,8 @@ jQuery(document).ready(function($){
 		}
 	}
 	
-	/** Calendar **/	
+	/** Calendar **/
+	console.log(windowWidth);
 	$('.event-modal').easyModal({
 		overlayParent :'.page-content',
 		hasVariableWidth : true,

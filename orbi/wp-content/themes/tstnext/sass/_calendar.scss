@@ -307,12 +307,11 @@ table.calendar {
 .event-modal {
 	display: none;
 	box-sizing: border-box;	
-	width: 90%;
-	@include for(tablet) {
-		width: 80%;
-	}
-	max-width: 564px;	
 	background-color: white;
+	
+	width: 90%;
+	max-width: 564px;
+		
 	
 	.event-modal-content {
 		box-sizing: border-box;
@@ -321,8 +320,7 @@ table.calendar {
 		width: 100%;
 		height: 100%;
 		padding-bottom: 53px;
-		overflow-y: auto;
-		
+				
 		.mdl-card__actions {
 			position: absolute;
 			bottom: 0;
