@@ -381,6 +381,16 @@ function tst_formidable_default_html($html, $field, $params) {
 	
 	if(in_array($field['type'], array('text', 'email', 'textarea', 'url', 'number')))  {
 			
+		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label mdl-textfield--full-width frm_form_field', $html);
+		$html = str_replace('frm_primary_label', 'mdl-textfield__label frm_primary_label', $html);
+		$html = str_replace('frm_error', 'mdl-textfield__error frm_error', $html);
+		
+		if((int)$field['read_only'] == 1){			
+			$html = str_replace('<input', '<input disabled="disabled" ', $html);
+		}		
+	}
+	elseif(in_array($field['type'], array('number')))  {
+			
 		$html = str_replace('frm_form_field', 'mdl-textfield mdl-js-textfield mdl-textfield--floating-label frm_form_field', $html);
 		$html = str_replace('frm_primary_label', 'mdl-textfield__label frm_primary_label', $html);
 		$html = str_replace('frm_error', 'mdl-textfield__error frm_error', $html);

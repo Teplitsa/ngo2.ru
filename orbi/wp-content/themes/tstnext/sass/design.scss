@@ -6,10 +6,11 @@
 //@import "components/roboto";
 
 //mdl
-@import "mdl/mdl";
+@import "mdl_variables";
+@import "mdl/material-design-lite";
 
 //project utilities
-@import "vars";
+@import "project_variables";
 @import "components/utility";
 @import "components/semantics";
 

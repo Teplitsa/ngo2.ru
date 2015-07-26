@@ -695,7 +695,7 @@ function tst_card_summary($cpost = null, $l = 30){
 function tst_get_default_author_avatar(){
 	
 	$theme_dir_url = get_template_directory_uri();
-	$src = get_template_directory_uri().'/img/author-default.jpg';
+	$src = get_template_directory_uri().'/images/author-default.jpg';
 	$alt = __('Author', 'tst');
 	
 	return "<img src='{$src}' alt='{$alt}'>";
@@ -717,7 +717,7 @@ function tst_site_logo($size = 'regular'){
 			break;	
 	}
 	
-	$file = get_template_directory_uri().'/img/'.$file;
+	$file = get_template_directory_uri().'/images/'.$file;
 	$alt = esc_attr(__('Logo', 'tst'));
 ?>
 	<img src="<?php echo $file;?>.svg" onerror="this.onerror=null;this.src=<?php echo $file;?>.png" alt="<?php echo $alt;?>">
@@ -1057,7 +1057,7 @@ function tst_header_image_url(){
 	}
 	
 	if(empty($img)){ // fallback
-		$img = get_template_directory_uri().'/img/header-default.jpg';
+		$img = get_template_directory_uri().'/images/header-default.jpg';
 	}
 	
 	return $img;

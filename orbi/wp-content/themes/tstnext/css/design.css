@@ -112,6 +112,130 @@ svg:not(:root) {
   overflow: hidden; }
 
 /**
+ * Copy MDL Variables and adjust them to project needs
+ */
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
+ * -----Typography
+ * -----Colors
+ * -----Textfield
+ * -----Switch
+ * -----Spinner
+ * -----Radio
+ * -----Menu
+ * -----List
+ * -----Layout
+ * -----Icon toggles
+ * -----Footer
+ * -----Column
+ * -----Checkbox
+ * -----Card
+ * -----Button
+ * -----Animation
+ * -----Progress
+ * -----Badge
+ * -----Shadows
+ * -----Grid
+ * -----Data table
+ */
+/* ==========  TYPOGRAPHY  ========== */
+/* We're splitting fonts into "preferred" and "performance" in order to optimize
+   page loading. For important text, such as the body, we want it to load
+   immediately and not wait for the web font load, whereas for other sections,
+   such as headers and titles, we're OK with things taking a bit longer to load.
+   We do have some optional classes and parameters in the mixins, in case you
+   definitely want to make sure you're using the preferred font and don't mind
+   the performance hit.
+   We should be able to improve on this once CSS Font Loading L3 becomes more
+   widely available.
+*/
+/* ==========  COLORS  ========== */
+/**
+*
+* Material design color palettes.
+* @see http://www.google.com/design/spec/style/color.html
+*
+**/
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  Color Palettes  ========== */
+/* colors.scss */
+/* ==========  Color & Themes  ========== */
+/* ==========  Typography  ========== */
+/* ==========  Components  ========== */
+/* ==========  Standard Buttons  ========== */
+/* ==========  Icon Toggles  ========== */
+/* ==========  Radio Buttons  ========== */
+/* ==========  Ripple effect  ========== */
+/* ==========  Layout  ========== */
+/* ==========  Content Tabs  ========== */
+/* ==========  Checkboxes  ========== */
+/* ==========  Switches  ========== */
+/* ==========  Spinner  ========== */
+/* ==========  Text fields  ========== */
+/* ==========  Card  ========== */
+/* ==========  Sliders ========== */
+/* ========== Progress ========== */
+/* ==========  List ========== */
+/* ==========  Item ========== */
+/* ==========  Dropdown menu ========== */
+/* ==========  Tooltips  ========== */
+/* ==========  Footer  ========== */
+/* TEXTFIELD */
+/* SWITCH */
+/* SPINNER */
+/* RADIO */
+/* MENU */
+/* LIST */
+/* ICONS */
+/* ICON TOGGLE */
+/* FOOTER */
+/*mega-footer*/
+/**************
+ *
+ * Sizes
+ *
+ *************/
+/*mini-footer*/
+/**************
+ *
+ * Sizes
+ *
+ *************/
+/* COLUMN LAYOUT */
+/* CHECKBOX */
+/* CARD */
+/* Card dimensions */
+/* Cover image */
+/* BUTTON */
+/**
+ *
+ * Dimensions
+ *
+ */
+/* ANIMATION */
+/* PROGRESS */
+/* BADGE */
+/* SHADOWS */
+/* GRID */
+/* DATA TABLE */
+/**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -673,20 +797,22 @@ a, .mdl-accordion, .mdl-button, .mdl-card, .mdl-checkbox, .mdl-dropdown-menu,
   -webkit-tap-highlight-color: rgba(255, 255, 255, 0); }
 
 /*
- * Make body take up the entire screen
+ * Make html take up the entire screen
+ * Then set touch-action to avoid touch delay on mobile IE
  */
 html {
   width: 100%;
-  height: 100%; }
-
-body {
-  width: 100%;
-  min-height: 100%; }
+  height: 100%;
+  -ms-touch-action: manipulation;
+  touch-action: manipulation; }
 
 /*
+* Make body take up the entire screen
 * Remove body margin so layout containers don't cause extra overflow.
 */
 body {
+  width: 100%;
+  min-height: 100%;
   margin: 0; }
 
 /*
@@ -949,13 +1075,29 @@ h6 {
 p {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   margin-bottom: 16px; }
 
 a {
   color: rgb(233,30,99);
   font-weight: 500; }
+
+blockquote {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  position: relative;
+  font-size: 24px;
+  font-weight: 300;
+  font-style: italic;
+  line-height: 1.35;
+  letter-spacing: 0.08em; }
+  blockquote:before {
+    position: absolute;
+    left: -0.5em;
+    content: '“'; }
+  blockquote:after {
+    content: '”';
+    margin-left: -0.05em; }
 
 mark {
   background-color: #f4ff81; }
@@ -973,7 +1115,7 @@ address {
 ul, ol {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0; }
 
 /**
@@ -1096,13 +1238,13 @@ ul, ol {
 .mdl-typography--body-1 {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0; }
 
 .mdl-typography--body-1-color-contrast {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   opacity: 0.87; }
 
@@ -1125,14 +1267,14 @@ ul, ol {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0; }
 
 .mdl-typography--body-1-force-preferred-font-color-contrast {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   opacity: 0.87; }
 
@@ -3220,193 +3362,6 @@ ul, ol {
 /* SHADOWS */
 /* GRID */
 /* DATA TABLE */
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/* Typography */
-/* Shadows */
-/* Animations */
-.mdl-shadow--2dp {
-  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
-
-.mdl-shadow--3dp {
-  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12); }
-
-.mdl-shadow--4dp {
-  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }
-
-.mdl-shadow--6dp {
-  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); }
-
-.mdl-shadow--8dp {
-  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2); }
-
-.mdl-shadow--16dp {
-  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2); }
-
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/*------------------------------------*\
-    $CONTENTS
-\*------------------------------------*/
-/**
- * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
- * -----Typography
- * -----Colors
- * -----Textfield
- * -----Switch
- * -----Spinner
- * -----Radio
- * -----Menu
- * -----List
- * -----Layout
- * -----Icon toggles
- * -----Footer
- * -----Column
- * -----Checkbox
- * -----Card
- * -----Button
- * -----Animation
- * -----Progress
- * -----Badge
- * -----Shadows
- * -----Grid
- * -----Data table
- */
-/* ==========  TYPOGRAPHY  ========== */
-/* We're splitting fonts into "preferred" and "performance" in order to optimize
-   page loading. For important text, such as the body, we want it to load
-   immediately and not wait for the web font load, whereas for other sections,
-   such as headers and titles, we're OK with things taking a bit longer to load.
-   We do have some optional classes and parameters in the mixins, in case you
-   definitely want to make sure you're using the preferred font and don't mind
-   the performance hit.
-   We should be able to improve on this once CSS Font Loading L3 becomes more
-   widely available.
-*/
-/* ==========  COLORS  ========== */
-/**
-*
-* Material design color palettes.
-* @see http://www.google.com/design/spec/style/color.html
-*
-**/
-/**
- * Copyright 2015 Google Inc. All Rights Reserved.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/* ==========  Color Palettes  ========== */
-/* colors.scss */
-/* ==========  Color & Themes  ========== */
-/* ==========  Typography  ========== */
-/* ==========  Components  ========== */
-/* ==========  Standard Buttons  ========== */
-/* ==========  Icon Toggles  ========== */
-/* ==========  Radio Buttons  ========== */
-/* ==========  Ripple effect  ========== */
-/* ==========  Layout  ========== */
-/* ==========  Content Tabs  ========== */
-/* ==========  Checkboxes  ========== */
-/* ==========  Switches  ========== */
-/* ==========  Spinner  ========== */
-/* ==========  Text fields  ========== */
-/* ==========  Card  ========== */
-/* ==========  Sliders ========== */
-/* ========== Progress ========== */
-/* ==========  List ========== */
-/* ==========  Item ========== */
-/* ==========  Dropdown menu ========== */
-/* ==========  Tooltips  ========== */
-/* ==========  Footer  ========== */
-/* TEXTFIELD */
-/* SWITCH */
-/* SPINNER */
-/* RADIO */
-/* MENU */
-/* LIST */
-/* ICONS */
-/* ICON TOGGLE */
-/* FOOTER */
-/*mega-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/*mini-footer*/
-/**************
- *
- * Sizes
- *
- *************/
-/* COLUMN LAYOUT */
-/* CHECKBOX */
-/* CARD */
-/* Card dimensions */
-/* Cover image */
-/* BUTTON */
-/**
- *
- * Dimensions
- *
- */
-/* ANIMATION */
-/* PROGRESS */
-/* BADGE */
-/* SHADOWS */
-/* GRID */
-/* DATA TABLE */
 .mdl-ripple {
   background: rgb(0,0,0);
   border-radius: 50%;
@@ -3974,10 +3929,6 @@ ul, ol {
     background-color: rgba(0,0,0, 0.12); }
   .mdl-button:active {
     background-color: rgba(158,158,158, 0.40); }
-  .mdl-button[disabled][disabled] {
-    color: rgba(0,0,0, 0.26);
-    cursor: auto;
-    background-color: transparent; }
   .mdl-button.mdl-button--colored {
     color: rgb(233,30,99); }
     .mdl-button.mdl-button--colored:focus:not(:active) {
@@ -4006,10 +3957,6 @@ input.mdl-button[type="submit"] {
       background-color: rgb(233,30,99); }
     .mdl-button--raised.mdl-button--colored .mdl-ripple {
       background: rgb(255,255,255); }
-  .mdl-button--raised[disabled][disabled] {
-    background-color: rgba(0,0,0, 0.12);
-    color: rgba(0,0,0, 0.26);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 .mdl-button--fab {
   border-radius: 50%;
@@ -4055,10 +4002,6 @@ input.mdl-button[type="submit"] {
       background-color: rgb(255,64,129); }
     .mdl-button--fab.mdl-button--colored .mdl-ripple {
       background: rgb(255,255,255); }
-  .mdl-button--fab[disabled][disabled] {
-    background-color: rgba(0,0,0, 0.12);
-    color: rgba(0,0,0, 0.26);
-    box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 .mdl-button--icon {
   border-radius: 50%;
@@ -4117,6 +4060,23 @@ input.mdl-button[type="submit"] {
   .mdl-button--accent.mdl-button--accent.mdl-button--raised, .mdl-button--accent.mdl-button--accent.mdl-button--fab {
     color: rgb(255,255,255);
     background-color: rgb(255,64,129); }
+
+.mdl-button[disabled][disabled] {
+  color: rgba(0,0,0, 0.26);
+  cursor: auto;
+  background-color: transparent; }
+.mdl-button--fab[disabled][disabled] {
+  background-color: rgba(0,0,0, 0.12);
+  color: rgba(0,0,0, 0.26);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+.mdl-button--raised[disabled][disabled] {
+  background-color: rgba(0,0,0, 0.12);
+  color: rgba(0,0,0, 0.26);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+.mdl-button--colored[disabled][disabled] {
+  background-color: rgba(0,0,0, 0.12);
+  color: rgba(0,0,0, 0.26);
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
 
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
@@ -5035,36 +4995,46 @@ input.mdl-button[type="submit"] {
 
 .mdl-mega-footer--top-section:after,
 .mdl-mega-footer--middle-section:after,
-.mdl-mega-footer--bottom-section:after {
+.mdl-mega-footer--bottom-section:after,
+.mdl-mega-footer__top-section:after,
+.mdl-mega-footer__middle-section:after,
+.mdl-mega-footer__bottom-section:after {
   content: '';
   display: block;
   clear: both; }
 
-.mdl-mega-footer--left-section {
+.mdl-mega-footer--left-section,
+.mdl-mega-footer__left-section {
   margin-bottom: 16px; }
 
-.mdl-mega-footer--right-section {
+.mdl-mega-footer--right-section,
+.mdl-mega-footer__right-section {
   margin-bottom: 16px; }
 
-.mdl-mega-footer--right-section a {
+.mdl-mega-footer--right-section a,
+.mdl-mega-footer__right-section a {
   display: block;
   margin-bottom: 16px;
   color: inherit;
   text-decoration: none; }
 
 @media screen and (min-width: 760px) {
-  .mdl-mega-footer--left-section {
+  .mdl-mega-footer--left-section,
+  .mdl-mega-footer__left-section {
     float: left; }
 
-  .mdl-mega-footer--right-section {
+  .mdl-mega-footer--right-section,
+  .mdl-mega-footer__right-section {
     float: right; }
 
-  .mdl-mega-footer--right-section a {
+  .mdl-mega-footer--right-section a,
+  .mdl-mega-footer__right-section a {
     display: inline-block;
     margin-left: 16px;
     line-height: 36px;
     vertical-align: middle; } }
-.mdl-mega-footer--social-btn {
+.mdl-mega-footer--social-btn,
+.mdl-mega-footer__social-btn {
   width: 36px;
   height: 36px;
   padding: 0;
@@ -5072,41 +5042,54 @@ input.mdl-button[type="submit"] {
   background-color: rgb(158,158,158);
   border: none; }
 
-.mdl-mega-footer--drop-down-section {
+.mdl-mega-footer--drop-down-section,
+.mdl-mega-footer__drop-down-section {
   display: block;
   position: relative; }
 
 @media screen and (min-width: 760px) {
-  .mdl-mega-footer--drop-down-section {
+  .mdl-mega-footer--drop-down-section,
+  .mdl-mega-footer__drop-down-section {
     width: 33%; }
 
   .mdl-mega-footer--drop-down-section:nth-child(1),
-  .mdl-mega-footer--drop-down-section:nth-child(2) {
+  .mdl-mega-footer--drop-down-section:nth-child(2),
+  .mdl-mega-footer__drop-down-section:nth-child(1),
+  .mdl-mega-footer__drop-down-section:nth-child(2) {
     float: left; }
 
-  .mdl-mega-footer--drop-down-section:nth-child(3) {
+  .mdl-mega-footer--drop-down-section:nth-child(3),
+  .mdl-mega-footer__drop-down-section:nth-child(3) {
     float: right; }
-    .mdl-mega-footer--drop-down-section:nth-child(3):after {
+    .mdl-mega-footer--drop-down-section:nth-child(3):after,
+    .mdl-mega-footer__drop-down-section:nth-child(3):after {
       clear: right; }
 
-  .mdl-mega-footer--drop-down-section:nth-child(4) {
+  .mdl-mega-footer--drop-down-section:nth-child(4),
+  .mdl-mega-footer__drop-down-section:nth-child(4) {
     clear: right;
     float: right; }
 
-  .mdl-mega-footer--middle-section:after {
+  .mdl-mega-footer--middle-section:after,
+  .mdl-mega-footer__middle-section:after {
     content: '';
     display: block;
     clear: both; }
 
-  .mdl-mega-footer--bottom-section {
+  .mdl-mega-footer--bottom-section,
+  .mdl-mega-footer__bottom-section {
     padding-top: 0; } }
 @media screen and (min-width: 1024px) {
   .mdl-mega-footer--drop-down-section,
   .mdl-mega-footer--drop-down-section:nth-child(3),
-  .mdl-mega-footer--drop-down-section:nth-child(4) {
+  .mdl-mega-footer--drop-down-section:nth-child(4),
+  .mdl-mega-footer__drop-down-section,
+  .mdl-mega-footer__drop-down-section:nth-child(3),
+  .mdl-mega-footer__drop-down-section:nth-child(4) {
     width: 24%;
     float: left; } }
-.mdl-mega-footer--heading-checkbox {
+.mdl-mega-footer--heading-checkbox,
+.mdl-mega-footer__heading-checkbox {
   position: absolute;
   width: 100%;
   height: 55.8px;
@@ -5116,17 +5099,23 @@ input.mdl-button[type="submit"] {
   cursor: pointer;
   z-index: 1;
   opacity: 0; }
-  .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer--heading:after {
+  .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer--heading:after, .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer__heading:after,
+  .mdl-mega-footer__heading-checkbox ~ .mdl-mega-footer--heading:after,
+  .mdl-mega-footer__heading-checkbox ~ .mdl-mega-footer__heading:after {
     font-family: 'Material Icons';
     content: ""; }
 
-.mdl-mega-footer--heading-checkbox:checked ~ ul {
+.mdl-mega-footer--heading-checkbox:checked ~ ul,
+.mdl-mega-footer__heading-checkbox:checked ~ ul {
   display: none; }
-.mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--heading:after {
+.mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--heading:after, .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer__heading:after,
+.mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer--heading:after,
+.mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer__heading:after {
   font-family: 'Material Icons';
   content: ""; }
 
-.mdl-mega-footer--heading {
+.mdl-mega-footer--heading,
+.mdl-mega-footer__heading {
   position: relative;
   width: 100%;
   padding-right: 39.8px;
@@ -5140,7 +5129,8 @@ input.mdl-button[type="submit"] {
   overflow: hidden;
   color: rgb(224,224,224); }
 
-.mdl-mega-footer--heading:after {
+.mdl-mega-footer--heading:after,
+.mdl-mega-footer__heading:after {
   content: '';
   position: absolute;
   top: 0;
@@ -5150,39 +5140,50 @@ input.mdl-button[type="submit"] {
   height: 23.8px;
   background-size: cover; }
 
-.mdl-mega-footer--link-list {
+.mdl-mega-footer--link-list,
+.mdl-mega-footer__link-list {
   list-style: none;
   margin: 0;
   padding: 0;
   margin-bottom: 32px; }
-  .mdl-mega-footer--link-list:after {
+  .mdl-mega-footer--link-list:after,
+  .mdl-mega-footer__link-list:after {
     clear: both;
     display: block;
     content: ''; }
 
-.mdl-mega-footer--link-list li {
+.mdl-mega-footer--link-list li,
+.mdl-mega-footer__link-list li {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   line-height: 20px; }
 
-.mdl-mega-footer--link-list a {
+.mdl-mega-footer--link-list a,
+.mdl-mega-footer__link-list a {
   color: inherit;
   text-decoration: none;
   white-space: nowrap; }
 
 @media screen and (min-width: 760px) {
-  .mdl-mega-footer--heading-checkbox {
+  .mdl-mega-footer--heading-checkbox,
+  .mdl-mega-footer__heading-checkbox {
     display: none; }
-    .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer--heading:after {
+    .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer--heading:after, .mdl-mega-footer--heading-checkbox ~ .mdl-mega-footer__heading:after,
+    .mdl-mega-footer__heading-checkbox ~ .mdl-mega-footer--heading:after,
+    .mdl-mega-footer__heading-checkbox ~ .mdl-mega-footer__heading:after {
       background-image: none; }
 
-  .mdl-mega-footer--heading-checkbox:checked ~ ul {
+  .mdl-mega-footer--heading-checkbox:checked ~ ul,
+  .mdl-mega-footer__heading-checkbox:checked ~ ul {
     display: block; }
-  .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--heading:after {
+  .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer--heading:after, .mdl-mega-footer--heading-checkbox:checked ~ .mdl-mega-footer__heading:after,
+  .mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer--heading:after,
+  .mdl-mega-footer__heading-checkbox:checked ~ .mdl-mega-footer__heading:after {
     content: ''; } }
-.mdl-mega-footer--bottom-section {
+.mdl-mega-footer--bottom-section,
+.mdl-mega-footer__bottom-section {
   padding-top: 16px;
   margin-bottom: 16px; }
 
@@ -5190,7 +5191,8 @@ input.mdl-button[type="submit"] {
   margin-bottom: 16px;
   color: white; }
 
-.mdl-mega-footer--bottom-section .mdl-mega-footer--link-list li {
+.mdl-mega-footer--bottom-section .mdl-mega-footer--link-list li,
+.mdl-mega-footer__bottom-section .mdl-mega-footer__link-list li {
   float: left;
   margin-bottom: 0;
   margin-right: 16px; }
@@ -5364,32 +5366,39 @@ input.mdl-button[type="submit"] {
   .mdl-mini-footer .mdl-logo {
     line-height: 36px; }
 
-.mdl-mini-footer--link-list {
+.mdl-mini-footer--link-list,
+.mdl-mini-footer__link-list {
   display: flex;
   flex-flow: row nowrap;
   list-style: none;
   margin: 0;
   padding: 0; }
-  .mdl-mini-footer--link-list li {
+  .mdl-mini-footer--link-list li,
+  .mdl-mini-footer__link-list li {
     margin-bottom: 0;
     margin-right: 16px; }
     @media screen and (min-width: 760px) {
-      .mdl-mini-footer--link-list li {
+      .mdl-mini-footer--link-list li,
+      .mdl-mini-footer__link-list li {
         line-height: 36px; } }
-  .mdl-mini-footer--link-list a {
+  .mdl-mini-footer--link-list a,
+  .mdl-mini-footer__link-list a {
     color: inherit;
     text-decoration: none;
     white-space: nowrap; }
 
-.mdl-mini-footer--left-section {
+.mdl-mini-footer--left-section,
+.mdl-mini-footer__left-section {
   display: inline-block;
   order: 0; }
 
-.mdl-mini-footer--right-section {
+.mdl-mini-footer--right-section,
+.mdl-mini-footer__right-section {
   display: inline-block;
   order: 1; }
 
-.mdl-mini-footer--social-btn {
+.mdl-mini-footer--social-btn,
+.mdl-mini-footer__social-btn {
   width: 36px;
   height: 36px;
   padding: 0;
@@ -5878,12 +5887,11 @@ input.mdl-button[type="submit"] {
   overflow: hidden;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   text-decoration: none;
   cursor: pointer;
   height: 48px;
-  width: 100%;
   line-height: 48px;
   white-space: nowrap;
   opacity: 0;
@@ -6391,7 +6399,7 @@ input.mdl-button[type="submit"] {
   .mdl-layout__drawer > .mdl-layout-title {
     line-height: 64px;
     padding-left: 40px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__drawer > .mdl-layout-title {
         line-height: 56px;
         padding-left: 16px; } }
@@ -6405,7 +6413,7 @@ input.mdl-button[type="submit"] {
       padding: 16px 40px;
       margin: 0;
       color: #757575; }
-      @media screen and (max-width: 850px) {
+      @media screen and (max-width: 1024px) {
         .mdl-layout__drawer .mdl-navigation .mdl-navigation__link {
           padding: 16px 16px; } }
       .mdl-layout__drawer .mdl-navigation .mdl-navigation__link:hover {
@@ -6413,7 +6421,7 @@ input.mdl-button[type="submit"] {
       .mdl-layout__drawer .mdl-navigation .mdl-navigation__link--current {
         background-color: rgb(0,0,0);
         color: rgb(233,30,99); }
-  @media screen and (min-width: 851px) {
+  @media screen and (min-width: 1025px) {
     .mdl-layout--fixed-drawer > .mdl-layout__drawer {
       transform: translateX(0); } }
 
@@ -6439,14 +6447,14 @@ input.mdl-button[type="submit"] {
     position: absolute;
     color: rgb(255,255,255);
     background-color: inherit; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header .mdl-layout__drawer-button {
         margin: 4px; } }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__drawer-button {
       margin: 4px;
       color: rgba(0, 0, 0, 0.5); } }
-  @media screen and (min-width: 851px) {
+  @media screen and (min-width: 1025px) {
     .mdl-layout--fixed-drawer > .mdl-layout__drawer-button {
       display: none; } }
 
@@ -6470,7 +6478,7 @@ input.mdl-button[type="submit"] {
   transition-duration: 0.2s;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-property: max-height, box-shadow; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__header {
       min-height: 56px; } }
   .mdl-layout--fixed-drawer:not(.is-small-screen) > .mdl-layout__header {
@@ -6485,7 +6493,7 @@ input.mdl-button[type="submit"] {
     overflow: hidden;
     z-index: 3;
     display: block; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header > .mdl-layout-icon {
         left: 16px;
         top: 12px; } }
@@ -6493,15 +6501,15 @@ input.mdl-button[type="submit"] {
     display: none; }
   .mdl-layout__header.is-compact {
     max-height: 64px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header.is-compact {
         max-height: 56px; } }
   .mdl-layout__header.is-compact.has-tabs {
     height: 112px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header.is-compact.has-tabs {
         min-height: 104px; } }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__header {
       display: none; }
     .mdl-layout--fixed-header > .mdl-layout__header {
@@ -6534,7 +6542,7 @@ input.mdl-button[type="submit"] {
   height: 64px;
   margin: 0;
   padding: 0 40px 0 80px; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__header-row {
       height: 56px;
       padding: 0 16px 0 72px; } }
@@ -6548,7 +6556,7 @@ input.mdl-button[type="submit"] {
     height: 64px;
     flex-direction: row;
     align-items: center; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header-row .mdl-navigation {
         height: 56px; } }
   .mdl-layout__header-row .mdl-navigation__link {
@@ -6556,7 +6564,7 @@ input.mdl-button[type="submit"] {
     color: rgb(255,255,255);
     line-height: 64px;
     padding: 0 24px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .mdl-layout__header-row .mdl-navigation__link {
         line-height: 56px;
         padding: 0 16px; } }
@@ -6589,7 +6597,7 @@ input.mdl-button[type="submit"] {
     margin-left: 240px; }
   .mdl-layout__container.has-scrolling-header .mdl-layout__content {
     overflow: visible; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout--fixed-drawer > .mdl-layout__content {
       margin-left: 0; }
     .mdl-layout__container.has-scrolling-header .mdl-layout__content {
@@ -6607,7 +6615,7 @@ input.mdl-button[type="submit"] {
   overflow-x: scroll; }
   .mdl-layout__tab-bar::-webkit-scrollbar {
     display: none; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__tab-bar {
       width: calc(100% - 60px);
       padding: 0 0 0 60px; } }
@@ -6643,7 +6651,7 @@ input.mdl-button[type="submit"] {
   color: transparent;
   cursor: pointer;
   user-select: none; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__tab-bar-button {
       display: none;
       width: 60px; } }
@@ -6678,7 +6686,7 @@ input.mdl-button[type="submit"] {
   text-transform: uppercase;
   color: rgba(255,255,255, 0.6);
   overflow: hidden; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .mdl-layout__tab {
       padding: 0 12px 0 12px; } }
   .mdl-layout--fixed-tabs .mdl-layout__tab {
@@ -8404,7 +8412,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   .mdl-textfield.is-focused .mdl-textfield__input {
     outline: none; }
   .mdl-textfield.is-invalid .mdl-textfield__input {
-    border-color: rgb(222, 50, 38);
+    border-color: rgba(245,0,87, 1);
     box-shadow: none; }
   .mdl-textfield.is-disabled .mdl-textfield__input {
     background-color: transparent;
@@ -8436,7 +8444,7 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
   .mdl-textfield--floating-label.is-focused .mdl-textfield__expandable-holder .mdl-textfield__label, .mdl-textfield--floating-label.is-dirty .mdl-textfield__expandable-holder .mdl-textfield__label {
     top: -16px; }
   .mdl-textfield--floating-label.is-invalid .mdl-textfield__label {
-    color: rgb(222, 50, 38);
+    color: rgba(245,0,87, 1);
     font-size: 12px; }
   .mdl-textfield__label:after {
     background-color: rgb(233,30,99);
@@ -8454,10 +8462,10 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
     visibility: visible;
     width: 100%; }
   .mdl-textfield.is-invalid .mdl-textfield__label:after {
-    background-color: rgb(222, 50, 38); }
+    background-color: rgba(245,0,87, 1); }
 
 .mdl-textfield__error, .frm_error {
-  color: rgb(222, 50, 38);
+  color: rgba(245,0,87, 1);
   position: absolute;
   font-size: 12px;
   margin-top: 3px;
@@ -8666,6 +8674,193 @@ _:-ms-input-placeholder, :root .mdl-slider.mdl-slider.is-upgraded {
     transform: scale(1);
     opacity: 1;
     visibility: visible; } }
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/*------------------------------------*\
+    $CONTENTS
+\*------------------------------------*/
+/**
+ * STYLE GUIDE VARIABLES------------------Declarations of Sass variables
+ * -----Typography
+ * -----Colors
+ * -----Textfield
+ * -----Switch
+ * -----Spinner
+ * -----Radio
+ * -----Menu
+ * -----List
+ * -----Layout
+ * -----Icon toggles
+ * -----Footer
+ * -----Column
+ * -----Checkbox
+ * -----Card
+ * -----Button
+ * -----Animation
+ * -----Progress
+ * -----Badge
+ * -----Shadows
+ * -----Grid
+ * -----Data table
+ */
+/* ==========  TYPOGRAPHY  ========== */
+/* We're splitting fonts into "preferred" and "performance" in order to optimize
+   page loading. For important text, such as the body, we want it to load
+   immediately and not wait for the web font load, whereas for other sections,
+   such as headers and titles, we're OK with things taking a bit longer to load.
+   We do have some optional classes and parameters in the mixins, in case you
+   definitely want to make sure you're using the preferred font and don't mind
+   the performance hit.
+   We should be able to improve on this once CSS Font Loading L3 becomes more
+   widely available.
+*/
+/* ==========  COLORS  ========== */
+/**
+*
+* Material design color palettes.
+* @see http://www.google.com/design/spec/style/color.html
+*
+**/
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* ==========  Color Palettes  ========== */
+/* colors.scss */
+/* ==========  Color & Themes  ========== */
+/* ==========  Typography  ========== */
+/* ==========  Components  ========== */
+/* ==========  Standard Buttons  ========== */
+/* ==========  Icon Toggles  ========== */
+/* ==========  Radio Buttons  ========== */
+/* ==========  Ripple effect  ========== */
+/* ==========  Layout  ========== */
+/* ==========  Content Tabs  ========== */
+/* ==========  Checkboxes  ========== */
+/* ==========  Switches  ========== */
+/* ==========  Spinner  ========== */
+/* ==========  Text fields  ========== */
+/* ==========  Card  ========== */
+/* ==========  Sliders ========== */
+/* ========== Progress ========== */
+/* ==========  List ========== */
+/* ==========  Item ========== */
+/* ==========  Dropdown menu ========== */
+/* ==========  Tooltips  ========== */
+/* ==========  Footer  ========== */
+/* TEXTFIELD */
+/* SWITCH */
+/* SPINNER */
+/* RADIO */
+/* MENU */
+/* LIST */
+/* ICONS */
+/* ICON TOGGLE */
+/* FOOTER */
+/*mega-footer*/
+/**************
+ *
+ * Sizes
+ *
+ *************/
+/*mini-footer*/
+/**************
+ *
+ * Sizes
+ *
+ *************/
+/* COLUMN LAYOUT */
+/* CHECKBOX */
+/* CARD */
+/* Card dimensions */
+/* Cover image */
+/* BUTTON */
+/**
+ *
+ * Dimensions
+ *
+ */
+/* ANIMATION */
+/* PROGRESS */
+/* BADGE */
+/* SHADOWS */
+/* GRID */
+/* DATA TABLE */
+/**
+ * Copyright 2015 Google Inc. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/* Typography */
+/* Shadows */
+/* Animations */
+.mdl-shadow--2dp {
+  box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12); }
+
+.mdl-shadow--3dp {
+  box-shadow: 0 3px 4px 0 rgba(0, 0, 0, 0.14), 0 3px 3px -2px rgba(0, 0, 0, 0.2), 0 1px 8px 0 rgba(0, 0, 0, 0.12); }
+
+.mdl-shadow--4dp {
+  box-shadow: 0 4px 5px 0 rgba(0, 0, 0, 0.14), 0 1px 10px 0 rgba(0, 0, 0, 0.12), 0 2px 4px -1px rgba(0, 0, 0, 0.2); }
+
+.mdl-shadow--6dp {
+  box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.14), 0 1px 18px 0 rgba(0, 0, 0, 0.12), 0 3px 5px -1px rgba(0, 0, 0, 0.2); }
+
+.mdl-shadow--8dp {
+  box-shadow: 0 8px 10px 1px rgba(0, 0, 0, 0.14), 0 3px 14px 2px rgba(0, 0, 0, 0.12), 0 5px 5px -3px rgba(0, 0, 0, 0.2); }
+
+.mdl-shadow--16dp {
+  box-shadow: 0 16px 24px 2px rgba(0, 0, 0, 0.14), 0 6px 30px 5px rgba(0, 0, 0, 0.12), 0 8px 10px -5px rgba(0, 0, 0, 0.2); }
+
 /**
  * Copyright 2015 Google Inc. All Rights Reserved.
  *
@@ -9714,7 +9909,7 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
 .captioned-text .text {
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0;
   color: rgba(0,0,0, 0.87); }
   .captioned-text .text a {
@@ -9793,7 +9988,7 @@ body {
   font-family: "Roboto", "Helvetica", "Arial", sans-serif;
   font-size: 14px;
   font-weight: 400;
-  line-height: 20px;
+  line-height: 24px;
   letter-spacing: 0; }
 
 /**  Header **/
@@ -9809,7 +10004,7 @@ body {
   -o-transform: translateX(-50%);
   transform: translateX(-50%);
   max-height: 48px; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     .site-logo {
       max-height: 42px; } }
   @media screen and (max-width: 479px) {
@@ -9819,14 +10014,14 @@ body {
     display: block;
     height: 100%;
     max-height: 48px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .site-logo a {
         max-height: 42px; } }
   .site-logo img {
     width: auto;
     vertical-align: middle;
     max-height: 48px; }
-    @media screen and (max-width: 850px) {
+    @media screen and (max-width: 1024px) {
       .site-logo img {
         max-height: 42px; } }
 
@@ -9865,14 +10060,15 @@ body {
     max-height: 48px;
     width: auto;
     vertical-align: middle; }
-  @media screen and (max-width: 850px) {
+  @media screen and (max-width: 1024px) {
     #site_nav .navigation-logo {
       line-height: 56px; }
       #site_nav .navigation-logo img {
         max-height: 48px; } }
 #site_nav .mdl-navigation__link {
   color: rgba(66,66,66, 1);
-  font-weight: 400; }
+  font-weight: 400;
+  padding-right: 30px; }
 
 .page-header {
   background-color: #333;
@@ -9962,7 +10158,7 @@ body.tax-auctor .author-description {
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 14px;
     font-weight: 400;
-    line-height: 20px;
+    line-height: 24px;
     letter-spacing: 0; }
 
 #bottombar {
@@ -10116,12 +10312,28 @@ section.error-404 {
     line-height: 1;
     letter-spacing: 0.02em; }
 
-.mdl-textfield.frm_form_field {
-  width: 100%; }
-  .mdl-textfield.frm_form_field.is-disabled .mdl-textfield__label {
-    color: rgba(0, 0, 0, 0.54); }
-  .mdl-textfield.frm_form_field.is-disabled .mdl-textfield__input {
-    color: rgba(0, 0, 0, 0.54); }
+.mdl-textfield.frm_form_field .mdl-textfield__input {
+  font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+  line-height: 1.65; }
+.mdl-textfield.frm_form_field.is-disabled .mdl-textfield__label {
+  color: rgba(0, 0, 0, 0.54); }
+.mdl-textfield.frm_form_field.is-disabled .mdl-textfield__input {
+  color: rgba(0,0,0, 0.26); }
+.mdl-textfield.frm_form_field.is-disabled.info .mdl-textfield__label {
+  color: rgba(0, 0, 0, 0.54); }
+.mdl-textfield.frm_form_field.is-disabled.info .mdl-textfield__input {
+  border-bottom-style: solid;
+  color: rgba(233,30,99, 1); }
+.mdl-textfield.frm_form_field.is-dirty .mdl-textfield__label {
+  color: rgba(0, 0, 0, 0.54); }
+.mdl-textfield.frm_form_field.is-dirty .mdl-textfield__input {
+  border-bottom-color: rgba(0,0,0, 0.12); }
+.mdl-textfield.frm_form_field.is-focused .mdl-textfield__label {
+  color: rgba(233,30,99, 1); }
+.mdl-textfield.frm_form_field.is-focused .mdl-textfield__input {
+  border-bottom-color: rgba(233,30,99, 1); }
+.mdl-textfield.frm_form_field.is-invalid .mdl-textfield__input, .mdl-textfield.frm_form_field.frm_blank_field .mdl-textfield__input {
+  border-bottom-color: rgba(245,0,87, 1); }
 
 .frm_description {
   display: none; }
@@ -10129,12 +10341,12 @@ section.error-404 {
 .frm_error {
   visibility: visible; }
 
-.frm_message {
+.frm_message, #leyka-submit-errors {
   box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.2), 0 1px 5px 0 rgba(0, 0, 0, 0.12);
   padding: 8px 16px;
   background-color: rgba(245,245,245, 1);
   border-left: 4px solid rgba(233,30,99, 1); }
-  .frm_message p {
+  .frm_message p, #leyka-submit-errors p {
     margin: 0; }
 
 .frm_ajax_loading {
@@ -10148,7 +10360,7 @@ section.error-404 {
   padding: 20px 0; }
 
 .tst-inputfix__label {
-  color: rgba(0,0,0, 0.26);
+  color: rgba(0, 0, 0, 0.54);
   font-size: 12px;
   pointer-events: none;
   width: 100%;
@@ -10156,6 +10368,13 @@ section.error-404 {
   white-space: nowrap;
   text-align: left;
   padding-bottom: 4px; }
+
+.mdl-checkbox__tick-outline {
+  mask: url("../images/tick-mask.svg?embed"); }
+  .mdl-checkbox.is-checked .mdl-checkbox__tick-outline {
+    background: rgb(233,30,99) url("../images/tick.svg?embed"); }
+  .mdl-checkbox.is-checked.is-disabled .mdl-checkbox__tick-outline {
+    background: rgba(0,0,0, 0.26) url("../images/tick.svg?embed"); }
 
 select[multiple],
 select[size] {
@@ -11284,7 +11503,7 @@ table.calendar {
     .donation-history.section .ldl-item .purpose {
       font-size: 14px;
       font-weight: 400;
-      line-height: 20px;
+      line-height: 24px;
       letter-spacing: 0;
       color: rgba(0,0,0, 0.87); }
       .donation-history.section .ldl-item .purpose a {

@@ -219,3 +219,8 @@
 		}
 	}
 }
+
+//submit errors
+#leyka-submit-errors {
+	@extend .frm_message;
+}

@@ -10,6 +10,7 @@ if(!defined('LEYKA_VERSION'))
 global $leyka_current_pm;	
 	
 $active_pm = apply_filters('leyka_form_pm_order', leyka_get_pm_list(true));
+$agree_link = home_url();
 
 leyka_pf_submission_errors();?>
 
@@ -69,10 +70,11 @@ leyka_pf_submission_errors();?>
 	<?php //echo leyka_pf_get_pm_fields();	?>
 	
 	<!-- agree -->
+	<?php $agree_check_id = 'leyka_agree-'.$i; ?>
 	<div class="leyka-field agree">
-		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect checkbox" for="leyka_agree">
-			<input type="checkbox" name="leyka_agree" id="leyka_agree" class="leyka_agree required mdl-checkbox__input" value="1" />
-			<a class="leyka-custom-confirmation-trigger " href="#<?php echo $agree_id;?>" data-lmodal="#leyka-agree-text">
+		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect checkbox" for="<?php echo $agree_check_id;?>">
+			<input type="checkbox" name="leyka_agree" id="<?php echo $agree_check_id;?>" class="leyka_agree required mdl-checkbox__input" value="1" />
+			<a class="leyka-custom-confirmation-trigger " href="<?php echo $agree_link;?>" data-lmodal="#leyka-agree-text">
                 <?php echo leyka_options()->opt('agree_to_terms_text');?>
             </a>
 		</label>		
@@ -104,8 +106,12 @@ leyka_pf_submission_errors();?>
 </form>
 </div>
 </div>
-<?php }?>
+<?php }
 
+//add agree modal to footer
+add_action('wp_footer', function(){
+
+?>
 <div id="leyka-agree-text" class="leyka-oferta-text leyka-custom-modal">
 	<div class="leyka-modal-close">		
 			<?php echo tst_material_icon('close');?>		
@@ -116,7 +122,9 @@ leyka_pf_submission_errors();?>
 		</div>
 	</div>
 </div>
+<?php	
+});
 
-<?php leyka_pf_footer();?>
+leyka_pf_footer();?>
 
 </div><!-- #leyka-payment-form -->

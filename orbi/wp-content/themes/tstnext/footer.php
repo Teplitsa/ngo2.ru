@@ -9,7 +9,7 @@
 
 $cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons СС-BY-SA 3.0</a>';
 $tst = __("Teplitsa of social technologies", 'tst');
-$banner = get_template_directory_uri().'/img/te-st-logo-10x50';
+$banner = get_template_directory_uri().'/images/te-st-logo-10x50';
 $footer_text = get_theme_mod('footer_text');
 
 ?>
@@ -20,7 +20,7 @@ $footer_text = get_theme_mod('footer_text');
 
 	
 	<div class="mdl-grid full-width">
-		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+		<div class="mdl-cell mdl-cell--8-col mdl-cell--8-col-tablet">
 			<div class="credits">
 			<div class="bottom-logo"><?php tst_site_logo('context');?></div>
 			<div class="copy">
@@ -31,7 +31,7 @@ $footer_text = get_theme_mod('footer_text');
 			</div>
 		</div><!-- .col -->
 		
-		<div class="mdl-cell mdl-cell--6-col mdl-cell--8-col-tablet">
+		<div class="mdl-cell mdl-cell--4-col mdl-cell--8-col-tablet">
 			<div class="te-st-bn">
 				<span class="support">Сайт сделан <br>при поддержке</span>
 				<a title="<?php echo $tst;?>" href="http://te-st.ru/">

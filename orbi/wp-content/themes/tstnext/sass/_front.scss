@@ -82,6 +82,7 @@ $sh-base : $cell-elementary-2x;
 
 // drawer
 #site_nav {
+	
 	.mdl-layout-title {
 		border-bottom: 1px solid $tst-color-border;		
 	}
@@ -105,6 +106,7 @@ $sh-base : $cell-elementary-2x;
 	.mdl-navigation__link {
 		color: unquote("rgba(#{$palette-grey-800}, 1)");		
 		font-weight: 400;
+		padding-right: 30px;
 	}
 }
 

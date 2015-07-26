@@ -145,9 +145,7 @@ jQuery(document).ready(function($){
 		}
 	});
 	
-	
-	
-	
+	// modal in calendar	
 	$('body').on('click','.day-link', function(e){
 		
 		var trigger = $(e.target),
@@ -278,10 +276,11 @@ jQuery(document).ready(function($){
 	});
 	
 	/** Leyka custom modal **/
+	var leykaTopPad = (windowWidth > 940) ? 120 : 65;
 	$('.leyka-custom-modal').easyModal({
 		overlayParent :'.leyka-custom-template',
 		hasVariableWidth : true,
-		top : 100,
+		top : leykaTopPad,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
 		onClose : function(){  }
