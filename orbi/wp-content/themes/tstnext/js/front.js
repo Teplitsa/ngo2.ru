@@ -315,6 +315,7 @@ jQuery(document).ready(function($){
 	if ($.fn.numeric) {
 		//console.log($(".leyka-field.amount").find('input[name="leyka_donation_amount"]'));
 		$('input[name="leyka_donation_amount"]').numeric();
+		$('input[type="number"]').numeric();
 	}
 
 
