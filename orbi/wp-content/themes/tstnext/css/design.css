@@ -10704,7 +10704,7 @@ select[size] {
   transform: scale(0);
   transform-origin: top center;
   will-change: transform;
-  z-index: 999;
+  z-index: 199999;
   background: rgba(97,97,97, 0.9);
   border-radius: 2px;
   color: rgb(255,255,255);
@@ -10722,6 +10722,13 @@ select[size] {
 
 .tst-tooltip.active {
   animation: pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards; }
+
+.event-content-frame .tst-tooltip {
+  transform: scale(1);
+  opacity: 1;
+  visibility: visible;
+  left: 785px;
+  top: 406px; }
 
 .calendar-content .widget {
   display: none; }

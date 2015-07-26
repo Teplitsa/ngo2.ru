@@ -71,7 +71,7 @@ jQuery(document).ready(function($){
 			target = trigger.parents('.day-link').attr('data-emodal');
 		}
 				
-		targetEl = $(target).clone();
+		targetEl = $(target).clone(true);
 		
 		$('#modal-card').empty().append(targetEl).trigger('openModal');
 		
@@ -109,37 +109,53 @@ jQuery(document).ready(function($){
 	});
 	
 	//tooltip in calendar
-	$('.tst-add-calendar').mouseenter(function(e){
 	
+	$('body').on('mouseenter', '.tst-add-calendar', function(e){
 		e.stopPropagation();
 		var trigger = $(this),
-			tPosition = trigger.offset(),
+			tipTarget = trigger.attr('id'),
+			tip = $('span[for="'+tipTarget+'"]');
+			
+		var	tPosition = trigger.offset(),
 			tW = trigger.width(),
 			tH = trigger.height(),
-			tipTarget = trigger.attr('id'),
-			tip = $('span[for="'+tipTarget+'"]'),
-			marginLeft = -1*tip.width()/2,
+			tipMarginLeft = -1*tip.width()/2,
 			tipLeft = tW/2 + tPosition.left,
-			tipTop = parseInt(tPosition.top) + tH + 10;
+			tipTop = parseInt(tPosition.top) + tH + 10 - parseInt($(window).scrollTop());
 		
-			if (tipLeft+marginLeft < 0) {
-				tipLeft = 0;
-				marginLeft = 0;
-			}
-			
-			console.log(tH);
-			console.log(parseInt(tPosition.top));
-			console.log(tipTop);
-			
+		if (tipLeft + tipMarginLeft < 0) {
+			tipLeft = 0;
+			tipMarginLeft = 0;
+		}
+		
+		console.log(tPosition);
+		
+		//don't open if d-down is visible
+		if('visible' != trigger.find('.atcb-list').css('visibility')){
 			//position
 			tip.css({
 				'left' : tipLeft+'px',
 				'top' : tipTop + 'px',
-				'margin-left' : marginLeft + 'px'
+				'margin-left' : tipMarginLeft + 'px'
 			}).addClass('active');
+			
+			//listen for click
+			trigger.on('click', function(ev){
+				//hide
+				tip.removeClass('active').removeAttr('style');
+			});	
+		}
+	})
+	.on('mouseleave', '.tst-add-calendar', function(e){
+		e.stopPropagation();
+		var trigger = $(this),
+			tipTarget = trigger.attr('id'),
+			tip = $('span[for="'+tipTarget+'"]');
+			
+			tip.removeClass('active').removeAttr('style');
 	});
 	
-	
+		
 	/** Responsive media **/
     var resize_embed_media = function(){
 

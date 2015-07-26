@@ -114,7 +114,7 @@
 	transform: scale(0);
 	transform-origin: top center;
 	will-change: transform;
-	z-index: 999;
+	z-index: 199999;
 	background: $tooltip-background-color;
 	border-radius: 2px;
 	color: $tooltip-text-color;
@@ -132,6 +132,13 @@
 }
 .tst-tooltip.active {
 	animation: pulse 200ms $animation-curve-linear-out-slow-in forwards;
+}
+.event-content-frame .tst-tooltip  {
+	transform: scale(1);
+    opacity: 1;
+    visibility: visible;
+	left: 785px;
+	top: 406px;
 }
 
 
