@@ -613,7 +613,7 @@ function tst_events_card_content($event){
 					<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $time); ?></p>
 					<?php
 						if(tst_is_future_event($date)){
-							tst_add_to_calendar_link($event, true, 'in-modal-add-tip');
+							tst_add_to_calendar_link_in_modal($event, true, 'in-modal-add-tip');
 						}
 					?>
 				</div>
@@ -1000,6 +1000,37 @@ function tst_add_to_calendar_link($event, $echo = true, $container_class = 'tst-
 		</span>			
 	</span>
 	<span class="tst-tooltip" for="<?php echo esc_attr($id);?>">Добавить в календарь</span>
+<?php	
+}
+
+function tst_add_to_calendar_link_in_modal($event, $echo = true, $container_class = 'in-modal-add-tip') {
+	
+	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
+	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
+	$location = (function_exists('get_field')) ? get_field('event_location', $event->ID) : '';
+	$addr = (function_exists('get_field')) ? get_field('event_address', $event->ID) : '';
+	
+	if(empty($time))
+		$time = '12.00';
+		
+	$start_mark = date_i18n('Y-m-d H:i:00', strtotime($date.' '.$time));
+	$end_mark = date_i18n('Y-m-d H:i:00', strtotime('+2 hours '.$date.' '.$time));
+	$e = (!empty($event->post_excerpt)) ? wp_trim_words($event->post_excerpt, 20) : wp_trim_words(strip_shortcodes($event->post_content), 20);
+	$id = 'tst-'.uniqid();
+?>
+	<span id="<?php echo esc_attr($id);?>"  class="<?php echo esc_attr($container_class);?>">
+		<span class="addtocalendar">
+			<var class="atc_event">
+				<var class="atc_date_start"><?php echo $start_mark;?></var>
+				<var class="atc_date_end"><?php echo $end_mark;?></var>
+				<var class="atc_timezone">Europe/Moscow</var>
+				<var class="atc_title"><?php echo esc_attr($event->post_title);?></var>
+				<var class="atc_description"><?php echo apply_filters('tst_the_title', $e);?></var>
+				<var class="atc_location"><?php echo esc_attr($location).' '.esc_attr($addr);?></var>          
+			</var>		
+		</span>
+		<span class="tst-inmodal-tooltip" for="<?php echo esc_attr($id);?>">Добавить в календарь</span>
+	</span>	
 <?php	
 }
 

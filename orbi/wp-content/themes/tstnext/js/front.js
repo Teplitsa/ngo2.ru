@@ -115,35 +115,33 @@ jQuery(document).ready(function($){
 		onOpen : function() {
 			
 			//bind tip interaction
-			//$('#modal-card').find('.in-modal-add-tip').mouseenter(function(e){
-			//	
-			//	e.stopPropagation();
-			//	var trigger = $(this),
-			//		tipTarget = trigger.attr('id'),
-			//		tip = $('span[for="'+tipTarget+'"]');
-			//		
-			//	//don't open if d-down is visible
-			//	if('visible' != trigger.find('.atcb-list').css('visibility')){
-			//		//position			
-			//		position_tooltip(trigger, tip);
-			//		
-			//		tip.addClass('active');
-			//		
-			//		//listen for click
-			//		trigger.on('click', function(ev){
-			//			//hide
-			//			tip.removeClass('active').removeAttr('style');
-			//		});	
-			//	}
-			//})
-			//.mouseleave(function(e){
-			//	e.stopPropagation();
-			//	var trigger = $(this),
-			//		tipTarget = trigger.attr('id'),
-			//		tip = $('span[for="'+tipTarget+'"]');
-			//		
-			//		tip.removeClass('active').removeAttr('style');
-			//}); //mouseactions			
+			$('#modal-card').find('.in-modal-add-tip').mouseenter(function(e){
+				
+				e.stopPropagation();
+				var trigger = $(this),
+					tipTarget = trigger.attr('id'),
+					tip = $('span[for="'+tipTarget+'"]');
+					
+				//don't open if d-down is visible
+				if('visible' != trigger.find('.atcb-list').css('visibility')){
+					//position							
+					tip.addClass('active');
+					
+					//listen for click
+					trigger.on('click', function(ev){
+						//hide
+						tip.removeClass('active');
+					});	
+				}
+			})
+			.mouseleave(function(e){
+				e.stopPropagation();
+				var trigger = $(this),
+					tipTarget = trigger.attr('id'),
+					tip = $('span[for="'+tipTarget+'"]');
+					
+					tip.removeClass('active');
+			}); //mouseactions			
 		}
 	});
 	
