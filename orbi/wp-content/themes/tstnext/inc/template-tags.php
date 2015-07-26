@@ -966,8 +966,9 @@ function tst_add_to_calendar_link($event, $echo = true) {
 	$start_mark = date_i18n('Y-m-d H:i:00', strtotime($date.' '.$time));
 	$end_mark = date_i18n('Y-m-d H:i:00', strtotime('+2 hours '.$date.' '.$time));
 	$e = (!empty($event->post_excerpt)) ? wp_trim_words($event->post_excerpt, 20) : wp_trim_words(strip_shortcodes($event->post_content), 20);
+	$id = 'add-'.uniqid();
 ?>
-	<span class="addtocalendar">
+	<span id="<?php echo esc_attr($id);?>" class="addtocalendar">
         <var class="atc_event">
             <var class="atc_date_start"><?php echo $start_mark;?></var>
             <var class="atc_date_end"><?php echo $end_mark;?></var>
@@ -976,7 +977,8 @@ function tst_add_to_calendar_link($event, $echo = true) {
             <var class="atc_description"><?php echo apply_filters('tst_the_title', $e);?></var>
             <var class="atc_location"><?php echo esc_attr($location).' '.esc_attr($addr);?></var>          
         </var>		
-    </span>
+    </span>	
+	<span class="mdl-tooltip" for="<?php echo esc_attr($id);?>">Добавить в календарь</span>
 <?php	
 }
 
