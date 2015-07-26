@@ -1,6 +1,10 @@
 /** Calendar page **/
 
 // add to calendar button
+.tst-add-calendar {
+	display: inline-block;
+    background: transparent!important;
+}
 .addtocalendar {
     position: relative;
     display: inline-block;
@@ -105,6 +109,30 @@
 	}
 }
 
+//tooltip
+.tst-tooltip {
+	transform: scale(0);
+	transform-origin: top center;
+	will-change: transform;
+	z-index: 999;
+	background: $tooltip-background-color;
+	border-radius: 2px;
+	color: $tooltip-text-color;
+	display: inline-block;
+	font-size: 10px;
+	font-weight: 500;
+	line-height: 14px;
+	max-width: 170px;
+	position: fixed;
+	top: -500px;
+	left: -500px;
+	padding: 8px;
+	text-align: center;
+	margin: 0;
+}
+.tst-tooltip.active {
+	animation: pulse 200ms $animation-curve-linear-out-slow-in forwards;
+}
 
 
 .calendar-content {
@@ -290,7 +318,7 @@ table.calendar {
 		padding-right: 48px;
 	}
 			
-	.addtocalendar {
+	.tst-add-calendar {
 		position: absolute;
 		top: 1px;
 		right: 0;		
@@ -299,7 +327,7 @@ table.calendar {
 }
 
 .ev-past {
-	.addtocalendar { display: none; }
+	.tst-add-calendar { display: none; }
 }
 
 

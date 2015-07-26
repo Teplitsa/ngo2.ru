@@ -4,7 +4,13 @@
  */
 
 $today = strtotime(sprintf('now %s hours', get_option('gmt_offset'))); 
- 
+
+add_action('wp_footer', function(){
+?>
+	<div id="modal-card" class="event-modal mdl-card mdl-shadow--6dp"></div>
+<?php
+});
+
 get_header(); ?>
 <div class="calendar-content">
 	<div class="mdl-grid">

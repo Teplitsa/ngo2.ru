@@ -47,12 +47,8 @@ jQuery(document).ready(function($){
 		}
 	}
 	
-	/** Calendar **/
-	console.log(windowWidth);
-	var topPad = 50;
-	if (windowWidth > 940) {
-		topPad = 100
-	}
+	/** Calendar **/	
+	var topPad = (windowWidth > 940) ? 100 : 50;
 	
 	$('.event-modal').easyModal({
 		//overlayParent :'.page-content',
@@ -111,6 +107,38 @@ jQuery(document).ready(function($){
 			}
 		});
 	});
+	
+	//tooltip in calendar
+	$('.tst-add-calendar').mouseenter(function(e){
+	
+		e.stopPropagation();
+		var trigger = $(this),
+			tPosition = trigger.offset(),
+			tW = trigger.width(),
+			tH = trigger.height(),
+			tipTarget = trigger.attr('id'),
+			tip = $('span[for="'+tipTarget+'"]'),
+			marginLeft = -1*tip.width()/2,
+			tipLeft = tW/2 + tPosition.left,
+			tipTop = parseInt(tPosition.top) + tH + 10;
+		
+			if (tipLeft+marginLeft < 0) {
+				tipLeft = 0;
+				marginLeft = 0;
+			}
+			
+			console.log(tH);
+			console.log(parseInt(tPosition.top));
+			console.log(tipTop);
+			
+			//position
+			tip.css({
+				'left' : tipLeft+'px',
+				'top' : tipTop + 'px',
+				'margin-left' : marginLeft + 'px'
+			}).addClass('active');
+	});
+	
 	
 	/** Responsive media **/
     var resize_embed_media = function(){

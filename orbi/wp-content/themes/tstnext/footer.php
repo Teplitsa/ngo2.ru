@@ -48,10 +48,6 @@ $footer_text = get_theme_mod('footer_text');
 </main><!-- mdl-layout__content -->
 </div><!-- .mdl-layout -->
 
-<?php if(is_page('calendar')) { ?>
-	<div id="modal-card" class="event-modal mdl-card mdl-shadow--6dp"></div>
-<?php } ?>
-
 <?php wp_footer(); ?>
 
 </body>
