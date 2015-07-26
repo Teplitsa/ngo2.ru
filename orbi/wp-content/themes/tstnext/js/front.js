@@ -310,8 +310,15 @@ jQuery(document).ready(function($){
 	});
 	
 	//numeric field for amount
-	console.log(typeof($().numeric()));
-	$(".amount").find('input').numeric();
+	
+
+	if ($.fn.numeric) {
+		//console.log($(".leyka-field.amount").find('input[name="leyka_donation_amount"]'));
+		$('input[name="leyka_donation_amount"]').numeric();
+	}
+
+
+	
 	
 	
 }); //jQuery

@@ -38,7 +38,7 @@ leyka_pf_submission_errors();?>
 	
 	<div class="leyka-field amount">
 		<div><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label figure">	
-			<input type="text" name="leyka_donation_amount" class="required mdl-textfield__input" id="donate_amount_flex" value="<?php echo esc_attr($supported_curr[$current_curr]['amount_settings']['flexible']);?>">                
+			<input type="text" name="leyka_donation_amount" class="required mdl-textfield__input" id="donate_amount_flex-<?php echo $i;?>" value="<?php echo esc_attr($supported_curr[$current_curr]['amount_settings']['flexible']);?>">                
 			<label for="leyka_donation_amount" class="leyka-screen-reader-text mdl-textfield__label">Сумма</label>			
 		</div>
 		<div class="currency">
