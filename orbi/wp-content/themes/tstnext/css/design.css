@@ -11927,7 +11927,7 @@ table.calendar {
     width: 100%;
     position: absolute;
     left: 0;
-    bottom: 0; }
+    bottom: -4px; }
 .leyka-pm-form .agree {
   padding: 20px 0; }
   .leyka-pm-form .agree a {
