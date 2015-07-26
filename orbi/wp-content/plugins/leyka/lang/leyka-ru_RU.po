@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Leyka Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 08:25:09+00:00\n"
-"PO-Revision-Date: 2015-07-26 22:59+0300\n"
+"PO-Revision-Date: 2015-07-26 23:00+0300\n"
 "Last-Translator: Anna Ladoshkina <webdev@foralien.com>\n"
 "Language: ru\n"
 "Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10 >= 2 && n%10<=4 "
@@ -1737,7 +1737,7 @@ msgstr ""
 # @ leyka
 #: ../inc/leyka-gateways-api.php:287 ../inc/leyka-core.php:472
 msgid "Donation amount must be specified to submit the form"
-msgstr "Пожалуйста, укажите размер вашего пожертвования"
+msgstr "Укажите сумму"
 
 #: ../inc/leyka-gateways-api.php:297
 msgid "Wrong donation currency in submitted form data"
@@ -1831,7 +1831,7 @@ msgstr "Необходимо ваше согласие"
 # @ leyka
 #: ../inc/leyka-core.php:477
 msgid "This field must be filled to submit the form"
-msgstr "Это поле обязательно должно быть заполнено"
+msgstr "Заполните это поле"
 
 # @ leyka
 #: ../inc/leyka-core.php:478

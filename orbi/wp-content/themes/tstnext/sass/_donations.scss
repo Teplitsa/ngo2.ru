@@ -92,10 +92,14 @@
 	}
 	
 	.agree {
-		padding: $input-text-vertical-spacing 0;
+		padding: $input-text-vertical-spacing 0;		
+		
 		a {
+			display: inline-block;
 			font-size: 13px;
 			font-weight: 400;
+			@extend .truncate;
+			max-width: 100%;
 		}
 		
 		.field-error {
@@ -104,11 +108,13 @@
 	}
 	
 	.submit {
-		padding-top: 4px;
+		padding-top: $input-text-vertical-spacing;
 		position: relative;
+		
 		.leyka-pm-icons {
+			@media screen and (max-width: 360px) { display: none; }			
 			position: absolute;
-			top: 0;
+			top: $input-text-vertical-spacing;
 			right: 0;
 		}
 	}

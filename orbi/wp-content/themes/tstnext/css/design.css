@@ -9981,7 +9981,7 @@ img.wp-smiley {
   word-break: break-word;
   word-wrap: break-word; }
 
-.truncate, #float-panel .author-role {
+.truncate, #float-panel .author-role, .leyka-pm-form .agree a {
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis; }
@@ -11931,17 +11931,22 @@ table.calendar {
 .leyka-pm-form .agree {
   padding: 20px 0; }
   .leyka-pm-form .agree a {
+    display: inline-block;
     font-size: 13px;
-    font-weight: 400; }
+    font-weight: 400;
+    max-width: 100%; }
   .leyka-pm-form .agree .field-error {
     margin: 0; }
 .leyka-pm-form .submit {
-  padding-top: 4px;
+  padding-top: 20px;
   position: relative; }
   .leyka-pm-form .submit .leyka-pm-icons {
     position: absolute;
-    top: 0;
+    top: 20px;
     right: 0; }
+    @media screen and (max-width: 360px) {
+      .leyka-pm-form .submit .leyka-pm-icons {
+        display: none; } }
 
 .leyka-pm-icons::after {
   clear: both;

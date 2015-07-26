@@ -188,6 +188,16 @@ function tst_scripts() {
 	);
 	$script_dependencies[] = 'tst-easymodal';
 	
+	//numeric 
+	wp_enqueue_script(
+		'tst-numeric',
+		$theme_dir_url . '/js/jquery.numeric.min.js',
+		$script_dependencies,
+		TST_VERSION,
+		true
+	);
+	$script_dependencies[] = 'tst-numeric';
+	
 	// front
 	wp_enqueue_script(
 		'tst-front',

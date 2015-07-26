@@ -309,5 +309,9 @@ jQuery(document).ready(function($){
 		$('#leyka-agree-text').trigger('closeModal');
 	});
 	
+	//numeric field for amount
+	console.log(typeof($().numeric()));
+	$(".amount").find('input').numeric();
+	
 	
 }); //jQuery
