@@ -37,14 +37,15 @@ leyka_pf_submission_errors();?>
 	?>
 	
 	<div class="leyka-field amount">
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label figure">	
+		<div><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label figure">	
 			<input type="text" name="leyka_donation_amount" class="required mdl-textfield__input" id="donate_amount_flex" value="<?php echo esc_attr($supported_curr[$current_curr]['amount_settings']['flexible']);?>">                
-			<label for="leyka_donation_amount" class="leyka-screen-reader-text mdl-textfield__label">Сумма</label>
-			<span id="leyka_donation_amount-error" class="field-error mdl-textfield__error"></span>
+			<label for="leyka_donation_amount" class="leyka-screen-reader-text mdl-textfield__label">Сумма</label>			
 		</div>
 		<div class="currency">
 			<?php echo $leyka_current_pm->get_currency_field();?>
 		</div>
+		</div>
+		<span id="leyka_donation_amount-error" class="field-error mdl-textfield__error"></span>
 	</div>
 		
 	<?php
@@ -78,7 +79,7 @@ leyka_pf_submission_errors();?>
                 <?php echo leyka_options()->opt('agree_to_terms_text');?>
             </a>
 		</label>		
-		<p class="field-error mdl-textfield__error" id="leyka_agree-error"></p>
+		<p class="field-error mdl-textfield__error" id="<?php echo $agree_check_id;?>-error"></p>
 	</div>	
 	      
 	<!-- submit -->	

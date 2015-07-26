@@ -190,6 +190,7 @@ jQuery(document).ready(function($){
         });
 
         return is_valid;
+		
     }
 
     $(document).on('submit', 'form.leyka-pm-form', function(e){

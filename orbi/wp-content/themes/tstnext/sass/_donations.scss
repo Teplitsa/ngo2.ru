@@ -82,6 +82,13 @@
 			width: 44px;
 			font-size: $input-text-font-size;
 		}
+		
+		.field-error {
+			width: 100%;
+			position: absolute;
+			left: 0;
+			bottom: -4px;
+		}
 	}
 	
 	.agree {
@@ -90,9 +97,14 @@
 			font-size: 13px;
 			font-weight: 400;
 		}
+		
+		.field-error {
+			margin: 0;
+		}
 	}
 	
 	.submit {
+		padding-top: 4px;
 		position: relative;
 		.leyka-pm-icons {
 			position: absolute;
@@ -223,4 +235,5 @@
 //submit errors
 #leyka-submit-errors {
 	@extend .frm_message;
+	& > span { font-weight: 500; }
 }
