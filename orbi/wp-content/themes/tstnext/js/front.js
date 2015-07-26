@@ -47,6 +47,61 @@ jQuery(document).ready(function($){
 		}
 	}
 	
+	/** Tooltips in calendar **/
+	function position_tooltip(trigger, tip){
+		
+		var	tPosition = trigger.offset(),
+			tW = trigger.width(),
+			tH = trigger.height(),
+			tipMarginLeft = -1*tip.width()/2,
+			tipLeft = tW/2 + tPosition.left,
+			tipTop = parseInt(tPosition.top) + tH + 10 - parseInt($(window).scrollTop());
+		
+		
+		
+		if (tipLeft + tipMarginLeft < 0) {
+			tipLeft = 0;
+			tipMarginLeft = 0;
+		}
+		
+		tip.css({
+			'left' : tipLeft+'px',
+			'top' : tipTop + 'px',
+			'margin-left' : tipMarginLeft + 'px'
+		});
+	}
+		
+	//visibility
+	$('body').on('mouseenter', '.tst-add-calendar', function(e){
+		e.stopPropagation();
+		var trigger = $(this),
+			tipTarget = trigger.attr('id'),
+			tip = $('span[for="'+tipTarget+'"]');
+				
+		//don't open if d-down is visible
+		if('visible' != trigger.find('.atcb-list').css('visibility')){
+			//position			
+			position_tooltip(trigger, tip);
+			
+			tip.addClass('active');
+			
+			//listen for click
+			trigger.on('click', function(ev){
+				//hide
+				tip.removeClass('active').removeAttr('style');
+			});	
+		}
+	})
+	.on('mouseleave', '.tst-add-calendar', function(e){
+		e.stopPropagation();
+		var trigger = $(this),
+			tipTarget = trigger.attr('id'),
+			tip = $('span[for="'+tipTarget+'"]');
+			
+			tip.removeClass('active').removeAttr('style');
+	});
+	
+	
 	/** Calendar **/	
 	var topPad = (windowWidth > 940) ? 100 : 50;
 	
@@ -56,8 +111,44 @@ jQuery(document).ready(function($){
 		top : topPad,
 		transitionIn: 'animated zoomIn',
 		transitionOut: 'animated zoomOut',
-		onClose : function(){ $('#modal-card').empty(); }
+		onClose : function(){ $('#modal-card').empty(); },
+		onOpen : function() {
+			
+			//bind tip interaction
+			//$('#modal-card').find('.in-modal-add-tip').mouseenter(function(e){
+			//	
+			//	e.stopPropagation();
+			//	var trigger = $(this),
+			//		tipTarget = trigger.attr('id'),
+			//		tip = $('span[for="'+tipTarget+'"]');
+			//		
+			//	//don't open if d-down is visible
+			//	if('visible' != trigger.find('.atcb-list').css('visibility')){
+			//		//position			
+			//		position_tooltip(trigger, tip);
+			//		
+			//		tip.addClass('active');
+			//		
+			//		//listen for click
+			//		trigger.on('click', function(ev){
+			//			//hide
+			//			tip.removeClass('active').removeAttr('style');
+			//		});	
+			//	}
+			//})
+			//.mouseleave(function(e){
+			//	e.stopPropagation();
+			//	var trigger = $(this),
+			//		tipTarget = trigger.attr('id'),
+			//		tip = $('span[for="'+tipTarget+'"]');
+			//		
+			//		tip.removeClass('active').removeAttr('style');
+			//}); //mouseactions			
+		}
 	});
+	
+	
+	
 	
 	$('body').on('click','.day-link', function(e){
 		
@@ -108,52 +199,7 @@ jQuery(document).ready(function($){
 		});
 	});
 	
-	//tooltip in calendar
 	
-	$('body').on('mouseenter', '.tst-add-calendar', function(e){
-		e.stopPropagation();
-		var trigger = $(this),
-			tipTarget = trigger.attr('id'),
-			tip = $('span[for="'+tipTarget+'"]');
-			
-		var	tPosition = trigger.offset(),
-			tW = trigger.width(),
-			tH = trigger.height(),
-			tipMarginLeft = -1*tip.width()/2,
-			tipLeft = tW/2 + tPosition.left,
-			tipTop = parseInt(tPosition.top) + tH + 10 - parseInt($(window).scrollTop());
-		
-		if (tipLeft + tipMarginLeft < 0) {
-			tipLeft = 0;
-			tipMarginLeft = 0;
-		}
-		
-		console.log(tPosition);
-		
-		//don't open if d-down is visible
-		if('visible' != trigger.find('.atcb-list').css('visibility')){
-			//position
-			tip.css({
-				'left' : tipLeft+'px',
-				'top' : tipTop + 'px',
-				'margin-left' : tipMarginLeft + 'px'
-			}).addClass('active');
-			
-			//listen for click
-			trigger.on('click', function(ev){
-				//hide
-				tip.removeClass('active').removeAttr('style');
-			});	
-		}
-	})
-	.on('mouseleave', '.tst-add-calendar', function(e){
-		e.stopPropagation();
-		var trigger = $(this),
-			tipTarget = trigger.attr('id'),
-			tip = $('span[for="'+tipTarget+'"]');
-			
-			tip.removeClass('active').removeAttr('style');
-	});
 	
 		
 	/** Responsive media **/

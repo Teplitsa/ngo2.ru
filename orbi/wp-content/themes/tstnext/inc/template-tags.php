@@ -570,6 +570,21 @@ function tst_event_meta($cpost = null) {
 
 }
 
+function tst_is_future_event($date) {
+	
+	$today_exact = strtotime(sprintf('now %s hours', get_option('gmt_offset')));
+	$today_mark = date('Y', $today_exact).'-'.date('m', $today_exact).'-'.date('d', $today_exact);
+	$stamp = date('Y-m-d', strtotime($date));
+		
+	
+	if((string)$stamp >= (string)$today_exact) {
+		return true;
+	}
+	else {
+		return false;
+	}
+}
+
 function tst_events_card_content($event){
 	
 	$img = tst_get_post_thumbnail_src($event, 'post-thumbnail');
@@ -596,7 +611,11 @@ function tst_events_card_content($event){
 				<div class="em-content pci-content">
 					<h5 class="mdl-typography--body-1"><?php echo date('d.m.Y', strtotime($date));?></h5>
 					<p class="mdl-typography--caption"><?php echo apply_filters('tst_the_title', $time); ?></p>
-					<?php tst_add_to_calendar_link($event);?>
+					<?php
+						if(tst_is_future_event($date)){
+							tst_add_to_calendar_link($event, true, 'in-modal-add-tip');
+						}
+					?>
 				</div>
 			</div>
 			<div class="pictured-card-item event-location">
@@ -953,7 +972,7 @@ function tst_add_to_calendar_scripts(){
 <?php	
 }
 
-function tst_add_to_calendar_link($event, $echo = true) {
+function tst_add_to_calendar_link($event, $echo = true, $container_class = 'tst-add-calendar') {
 	
 	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
 	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
@@ -968,7 +987,7 @@ function tst_add_to_calendar_link($event, $echo = true) {
 	$e = (!empty($event->post_excerpt)) ? wp_trim_words($event->post_excerpt, 20) : wp_trim_words(strip_shortcodes($event->post_content), 20);
 	$id = 'tst-'.uniqid();
 ?>
-	<span id="<?php echo esc_attr($id);?>"  class="tst-add-calendar">
+	<span id="<?php echo esc_attr($id);?>"  class="<?php echo esc_attr($container_class);?>">
 		<span class="addtocalendar">
 			<var class="atc_event">
 				<var class="atc_date_start"><?php echo $start_mark;?></var>

@@ -1,6 +1,7 @@
 /** Calendar page **/
 
 // add to calendar button
+.in-modal-add-tip,
 .tst-add-calendar {
 	display: inline-block;
     background: transparent!important;
@@ -133,14 +134,14 @@
 .tst-tooltip.active {
 	animation: pulse 200ms $animation-curve-linear-out-slow-in forwards;
 }
-.event-content-frame .tst-tooltip  {
+
+.in-modal-add-tip + .tst-tooltip {
+	left: 1000px;
+	top: 408px;
 	transform: scale(1);
     opacity: 1;
     visibility: visible;
-	left: 785px;
-	top: 406px;
 }
-
 
 .calendar-content {
 	.widget { display: none; }

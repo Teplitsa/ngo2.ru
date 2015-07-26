@@ -10398,6 +10398,7 @@ select[size] {
 .tpl-event .em-content {
   position: relative;
   padding-right: 40px; }
+  .tpl-event .em-content .in-modal-add-tip,
   .tpl-event .em-content .tst-add-calendar {
     position: absolute;
     top: 0;
@@ -10601,6 +10602,7 @@ select[size] {
   width: calc(100% - 40px); }
 
 /** Calendar page **/
+.in-modal-add-tip,
 .tst-add-calendar {
   display: inline-block;
   background: transparent !important; }
@@ -10723,12 +10725,12 @@ select[size] {
 .tst-tooltip.active {
   animation: pulse 200ms cubic-bezier(0, 0, 0.2, 1) forwards; }
 
-.event-content-frame .tst-tooltip {
+.in-modal-add-tip + .tst-tooltip {
+  left: 1000px;
+  top: 408px;
   transform: scale(1);
   opacity: 1;
-  visibility: visible;
-  left: 785px;
-  top: 406px; }
+  visibility: visible; }
 
 .calendar-content .widget {
   display: none; }

@@ -59,7 +59,7 @@ MaterialTooltip.prototype.handleMouseEnter_ = function(event) {
   'use strict';
 
   event.stopPropagation();
-  var props = event.target.getBoundingClientRect();
+  var props = event.target.getBoundingClientRect(); 
   var left = props.left + (props.width / 2);
   var marginLeft = -1 * (this.element_.offsetWidth / 2);
 
