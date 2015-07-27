@@ -34,11 +34,13 @@ leyka_pf_submission_errors();?>
 	<?php
 		$supported_curr = leyka_get_active_currencies();
 		$current_curr = $leyka_current_pm->get_current_currency();
+		
+		if($leyka_current_pm->is_field_supported('amount') ) {
 	?>
 	
 	<div class="leyka-field amount">
 		<div><div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label figure">	
-			<input type="text" name="leyka_donation_amount" class="required mdl-textfield__input" id="donate_amount_flex-<?php echo $i;?>" value="<?php echo esc_attr($supported_curr[$current_curr]['amount_settings']['flexible']);?>">                
+			<input type="text" name="leyka_donation_amount" class="required mdl-textfield__input" id="donate_amount_flex" value="<?php echo esc_attr($supported_curr[$current_curr]['amount_settings']['flexible']);?>">                
 			<label for="leyka_donation_amount" class="leyka-screen-reader-text mdl-textfield__label">Сумма</label>			
 		</div>
 		<div class="currency">
@@ -48,30 +50,38 @@ leyka_pf_submission_errors();?>
 		<span id="leyka_donation_amount-error" class="field-error mdl-textfield__error"></span>
 	</div>
 		
-	<?php
-		//echo leyka_pf_get_amount_field();
+	<?php } //if amount
+		
 		echo leyka_pf_get_hidden_fields();	
 	?>
 	<input name="leyka_payment_method" value="<?php echo esc_attr($pm->full_id);?>" type="hidden" />
 	<input name="leyka_ga_payment_method" value="<?php echo esc_attr($pm->label);?>" type="hidden" />
 			
 	<!-- name -->
+	<?php if($leyka_current_pm->is_field_supported('name') ) { ?>
 	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label leyka-field name">
 		<input type="text" class="required mdl-textfield__input" name="leyka_donor_name" id="leyka_donor_name" value="">
 		<label for="leyka_donor_name" class="leyka-screen-reader-text mdl-textfield__label"><?php _e('Your name', 'leyka');?></label>		
 		<span id="leyka_donor_name-error" class="field-error mdl-textfield__error"></span>
 	</div>
+	<?php  }?>
 	
 	<!-- email -->
+	<?php if($leyka_current_pm->is_field_supported('email') ) { ?>
 	<div class="mdl-textfield mdl-js-textfield mdl-textfield--floating-label leyka-field email">
 		<input type="text" value="" id="leyka_donor_email" name="leyka_donor_email" class="required email mdl-textfield__input">
 		<label class="leyka-screen-reader-text mdl-textfield__label" for="leyka_donor_email">Ваш email</label>
 		<span class="field-error mdl-textfield__error" id="leyka_donor_email-error"></span>
 	</div>
-	<?php //echo leyka_pf_get_pm_fields();	?>
+	<?php  }?>
+	
+	<!-- pm fields -->
+	<?php echo leyka_pf_get_pm_fields(); ?>
 	
 	<!-- agree -->
-	<?php $agree_check_id = 'leyka_agree-'.$i; ?>
+	<?php
+		if($leyka_current_pm->is_field_supported('agree') ) { 
+		$agree_check_id = 'leyka_agree-'.$i; ?>
 	<div class="leyka-field agree">
 		<label class="mdl-checkbox mdl-js-checkbox mdl-js-ripple-effect checkbox" for="<?php echo $agree_check_id;?>">
 			<input type="checkbox" name="leyka_agree" id="<?php echo $agree_check_id;?>" class="leyka_agree required mdl-checkbox__input" value="1" />
@@ -81,8 +91,10 @@ leyka_pf_submission_errors();?>
 		</label>		
 		<p class="field-error mdl-textfield__error" id="<?php echo $agree_check_id;?>-error"></p>
 	</div>	
-	      
-	<!-- submit -->	
+	<?php }?>
+	
+	<!-- submit -->
+	<?php if($leyka_current_pm->is_field_supported('submit') ) { ?>
 	<div class="leyka-field submit">
 		<input type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-button--colored" id="leyka_donation_submit" name="leyka_donation_submit" value="Пожертвовать" />	
 <?php
@@ -97,6 +109,7 @@ leyka_pf_submission_errors();?>
 		echo '<ul class="leyka-pm-icons cf">'.implode('', $list).'</ul>';
 	}?>
 	</div>
+	<?php  }?>
 	
 	</div> <!-- .leyka-pm-fields -->	
 	

@@ -256,8 +256,12 @@ $margin-base: 16px !default;
 		background-position: center top;
 	}
 	
+	.mdl-card__title {
+		padding-bottom: $card-vertical-padding/2;	
+	}
+		
 	.event-meta {
-		padding: $card-vertical-padding $card-horizontal-padding;
+		padding: $card-vertical-padding/2 $card-horizontal-padding;
 	}
 	
 	.em-icon {
@@ -268,7 +272,7 @@ $margin-base: 16px !default;
 	}
 	
 	.event-date {
-		margin-bottom: $margin-base;
+		margin-bottom: $card-vertical-padding/2;
 	}
 	
 	.em-content {
