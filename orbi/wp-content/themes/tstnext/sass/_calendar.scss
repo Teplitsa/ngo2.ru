@@ -157,6 +157,13 @@
 .calendar-content {
 	.widget { display: none; }
 	
+	.mdl-cell--9-col {
+		position: relative;
+	}
+	.mdl-card {
+		height: 100%;
+		position: absolute;
+	}
 	@include for(desktop) {
 		.widget {
 			display: block;
