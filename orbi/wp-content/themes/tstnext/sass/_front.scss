@@ -2,7 +2,11 @@
 
 body {		
 	background: unquote("rgba(#{$palette-grey-100}, 1)");
-	@include typo-body-1(false, true);
+	@include typo-body-base(false, true);
+}
+
+p {
+	line-height: 20px;
 }
 
 /**  Header **/ 

@@ -15,7 +15,7 @@ get_header(); ?>
 <div class="calendar-content">
 	<div class="mdl-grid">
 		<div class="mdl-cell mdl-cell--9-col">			
-			<div class="mdl-card mdl-shadow--2dp">
+			<div class="mdl-shadow--2dp calendar-card">
 				
 				<div class="calendar-block">
 					<div class="cb-caption">
