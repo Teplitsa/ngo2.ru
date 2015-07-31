@@ -11474,6 +11474,8 @@ select[size] {
 
 .calendar-content .widget {
   display: none; }
+.calendar-content .mdl-cell--9-col {
+  -webkit-flex: 1; }
 .calendar-content .calendar-card {
   width: 100%;
   height: 100%; }

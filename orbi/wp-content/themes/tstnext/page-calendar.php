@@ -12,7 +12,7 @@ add_action('wp_footer', function(){
 });
 
 get_header(); ?>
-<div class="calendar-content">
+<div class="calendar-content" id="calendar_content">
 	<div class="mdl-grid">
 		<div class="mdl-cell mdl-cell--9-col">			
 			<div class="mdl-shadow--2dp calendar-card">
