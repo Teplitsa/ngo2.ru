@@ -3,6 +3,14 @@
  * Shortcodes
  **/
 
+add_shortcode('tst_sitemap', 'tst_sitemap_screen');
+function tst_sitemap_screen($atts){
+		
+	$out =  wp_nav_menu(array('theme_location' => 'sitemap', 'container' => false, 'menu_class' => 'sitemap', 'echo'=> false));
+	
+	return $out;
+}
+
 
 /** == Defaults == **/
 

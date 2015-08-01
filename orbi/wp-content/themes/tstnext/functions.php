@@ -35,8 +35,9 @@ function tst_setup() {
 
 	// Menus
 	register_nav_menus(array(
-		'primary'      => __('Primary Menu', 'tst'),				
-		'social'       => __('Social Buttons', 'tst')
+		'primary' => __('Primary Menu', 'tst'),				
+		'social'  => __('Social Buttons', 'tst'),
+		'sitemap' => 'Карта сайта'
 	));
 
 	// Editor style
@@ -238,7 +239,7 @@ require get_template_directory().'/inc/post-types.php';
 //require get_template_directory().'/inc/media.php';
 require get_template_directory().'/inc/extras.php';
 require get_template_directory().'/inc/template-tags.php';
-//require get_template_directory().'/inc/shortcodes.php';
+require get_template_directory().'/inc/shortcodes.php';
 require get_template_directory().'/inc/widgets.php';
 require get_template_directory().'/inc/related.php';
 require get_template_directory().'/inc/calendar.php';

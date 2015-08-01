@@ -321,15 +321,21 @@ jQuery(document).ready(function($){
 	//calendat height bugfix
 	function fix_calendar_height() {
 		var gridCell = $('#calendar_content').find('.mdl-cell--9-col'),
-		gridCellContent = gridCell.find('.calendar-card');
+			gridCellContent = gridCell.find('.calendar-card');
 		
 		
 		if (gridCellContent.height() < gridCell.height()) {
 			console.log(gridCell.height());
 			console.log(gridCellContent.height());
+			
+			var targetH = gridCell.height();			
+			gridCellContent.height(targetH+'px');
 		}
 	}
 	
 	fix_calendar_height();
+	$(window).resize(function(){
+		fix_calendar_height();	
+	});
 	
 }); //jQuery

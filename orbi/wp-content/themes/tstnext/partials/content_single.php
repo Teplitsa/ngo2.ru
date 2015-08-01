@@ -85,7 +85,7 @@ $side_quote = (function_exists('get_field')) ? get_field('side_quote') : true;
 
 <!-- panel -->
 <?php
-	add_action('wp_footer', function(){
+	add_action('tst_footer_position', function(){
 		get_template_part('partials/panel', 'float');	
 	});
 ?>

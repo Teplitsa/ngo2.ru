@@ -48,11 +48,11 @@ $footer_text = get_theme_mod('footer_text');
 </main><!-- mdl-layout__content -->
 </div><!-- .mdl-layout -->
 
+<?php wp_footer(); ?>
 <?php if(!is_products() && !is_singular('leyka_campaign')) { ?>
 <a id="fab-mobile" class="mdl-button mdl-js-button mdl-button--fab mdl-button--colored mdl-js-ripple-effect" href="<?php echo home_url('campaign/help-us');?>"><i class="material-icons">favorite_border</i></a>
 <?php }?>
 
-<?php wp_footer(); ?>
-
+<?php do_action('tst_footer_position');?>
 </body>
 </html>
