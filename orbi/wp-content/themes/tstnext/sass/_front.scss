@@ -78,6 +78,11 @@ $sh-base : $cell-elementary-2x;
 	}
 }
 
+.nojs-menu {
+	margin-left: -56px;
+	color: $tst-color-white;	
+}
+
 //search in header
 .mdl-layout__header-row {
 	.mdl-textfield__input {

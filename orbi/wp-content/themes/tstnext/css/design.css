@@ -10549,6 +10549,10 @@ p {
   .crumb-link:hover, .crumb-link:focus, .crumb-link:active {
     color: rgba(255,255,255, 1); }
 
+.nojs-menu {
+  margin-left: -60px;
+  color: rgba(255,255,255, 1); }
+
 .mdl-layout__header-row .mdl-textfield__input {
   border-color: rgba(255, 255, 255, 0.65); }
 

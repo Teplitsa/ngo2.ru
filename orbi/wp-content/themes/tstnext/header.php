@@ -24,6 +24,7 @@
 
 <header class="mdl-layout__header">
 	<div class="mdl-layout__header-row">
+		<noscript><a href="<?php echo home_url('sitemap');?>" class="nojs-menu"><?php echo tst_material_icon('menu'); ?></a></noscript>
 		<!-- Crumb -->
 		<span class="mdl-layout-title"><?php echo tst_breadcrumbs();?></span>
 		
