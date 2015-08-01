@@ -38,7 +38,11 @@ get_header();
 		<div class="entry-content"><?php the_content(); ?></div>
 		
 		<!-- panel -->
-		<?php get_template_part('partials/panel', 'float');?>
+		<?php
+			add_action('wp_footer', function(){
+				get_template_part('partials/panel', 'float');	
+			});
+		?>
 		
 		</article>
 	<?php }	// endwhile ?>		

@@ -10365,9 +10365,10 @@ h6 { font-size: $h6-fontsize; line-height: 1.1*$h6-fontsize; margin: ($h6-fontsi
   background: rgba(255,255,255, 1);
   z-index: 1100;
   width: 100%;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0;
+  right: 0;
   box-shadow: 0 -2px 2px 0 rgba(0, 0, 0, 0.14), 0 -3px 1px -2px rgba(0, 0, 0, 0.2), 0 -1px 5px 0 rgba(0, 0, 0, 0.12); }
   #float-panel .mdl-grid.full-width {
     padding-top: 0;
@@ -10487,7 +10488,8 @@ body {
   font-size: 14px;
   font-weight: 400;
   line-height: 20px;
-  letter-spacing: 0; }
+  letter-spacing: 0;
+  position: relative; }
 
 p {
   line-height: 20px; }
@@ -10715,10 +10717,7 @@ body.tax-auctor .author-description {
 /** Sidebar */
 @media screen and (max-width: 939px) {
   .donate-widget .fab {
-    z-index: 1200;
-    position: fixed;
-    bottom: 56px;
-    right: 48px; } }
+    display: none; } }
 .donate-widget h4 {
   display: none;
   color: rgba(233,30,99, 1); }
@@ -10729,6 +10728,15 @@ body.tax-auctor .author-description {
       margin-left: 72px;
       margin-top: 12px;
       margin-bottom: 40px; } }
+
+#fab-mobile {
+  position: absolute;
+  z-index: 100000;
+  bottom: 56px;
+  right: 48px; }
+  @media screen and (min-width: 480px) {
+    #fab-mobile {
+      display: none; } }
 
 .movable-widget .sidebar {
   height: 100%; }
@@ -11474,8 +11482,6 @@ select[size] {
 
 .calendar-content .widget {
   display: none; }
-.calendar-content .mdl-cell--9-col {
-  -webkit-flex: 1; }
 .calendar-content .calendar-card {
   width: 100%;
   height: 100%; }
@@ -11857,10 +11863,11 @@ table.calendar {
 .home-footer-block .widget-content {
   margin-bottom: 16px; }
 
-.news-list .mdl-cell--4-col:nth-of-type(even) .tpl-hn-item {
-  padding-left: 12px; }
-.news-list .mdl-cell--4-col:nth-of-type(odd) .tpl-hn-item {
-  padding-right: 12px; }
+@media screen and (min-width: 480px) {
+  .news-list .mdl-cell--4-col:nth-of-type(even) .tpl-hn-item {
+    padding-left: 12px; }
+  .news-list .mdl-cell--4-col:nth-of-type(odd) .tpl-hn-item {
+    padding-right: 12px; } }
 
 .tpl-hn-item {
   margin-bottom: 16px;

@@ -3,6 +3,7 @@
 body {		
 	background: unquote("rgba(#{$palette-grey-100}, 1)");
 	@include typo-body-base(false, true);
+	position: relative;
 }
 
 p {
@@ -312,10 +313,7 @@ body.tax-auctor {
 .donate-widget {	
 	.fab {
 		@include upto(tablet){
-			z-index: 1200;
-			position: fixed;
-			bottom: 56px;
-			right: 48px;
+			display: none;
 		}
 	}
 	
@@ -330,6 +328,18 @@ body.tax-auctor {
 			margin-top: 12px;
 			margin-bottom: 12px+ 56px/2;
 		}
+	}
+}
+
+//fab on mobile
+#fab-mobile {
+	position: absolute;
+	z-index: 100000;
+	bottom: 56px;
+	right: 48px;
+	
+	@include for(tablet) {
+		display: none;
 	}
 }
 

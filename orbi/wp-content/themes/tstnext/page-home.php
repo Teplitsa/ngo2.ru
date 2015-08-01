@@ -123,7 +123,7 @@ get_header();
 					<?php tst_featured_event_media($f_event);?>
 				</div>
 					
-				<div class="mdl-cell mdl-cell--8-col mdl-cell--2-col-tablet mdl-cell--4-col-desktop">
+				<div class="mdl-cell mdl-cell--8-col mdl-cell--3-col-tablet mdl-cell--4-col-desktop">
 					
 					<div class="hfe-content">
 						
@@ -148,7 +148,8 @@ get_header();
 					</div>
 					
 				</div>
-				<div class="mdl-cell mdl-cell--hide-phone mdl-cell--6-col-tablet mdl-cell--8-col-desktop hfe-media">
+				
+				<div class="mdl-cell mdl-cell--hide-phone mdl-cell--5-col-tablet mdl-cell--8-col-desktop hfe-media">
 					<?php tst_featured_event_media($f_event);?>
 				</div>
 				
