@@ -3,7 +3,7 @@
 body {		
 	background: unquote("rgba(#{$palette-grey-100}, 1)");
 	@include typo-body-base(false, true);
-	position: relative;
+	position: relative;	
 }
 
 p {
@@ -335,7 +335,7 @@ body.tax-auctor {
 #fab-mobile {
 	position: absolute;
 	z-index: 100000;
-	bottom: 56px;
+	bottom: 50px;
 	right: 48px;
 	
 	@include for(tablet) {

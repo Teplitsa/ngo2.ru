@@ -10732,7 +10732,7 @@ body.tax-auctor .author-description {
 #fab-mobile {
   position: absolute;
   z-index: 100000;
-  bottom: 56px;
+  bottom: 50px;
   right: 48px; }
   @media screen and (min-width: 480px) {
     #fab-mobile {
