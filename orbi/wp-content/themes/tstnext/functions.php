@@ -238,6 +238,7 @@ require get_template_directory().'/inc/aq_resizer.php';
 require get_template_directory().'/inc/post-types.php';
 //require get_template_directory().'/inc/media.php';
 require get_template_directory().'/inc/extras.php';
+require get_template_directory().'/inc/forms.php';
 require get_template_directory().'/inc/template-tags.php';
 require get_template_directory().'/inc/shortcodes.php';
 require get_template_directory().'/inc/widgets.php';
