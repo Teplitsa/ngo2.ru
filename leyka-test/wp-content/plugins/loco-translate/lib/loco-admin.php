@@ -28,7 +28,7 @@ abstract class LocoAdmin {
             throw new Exception( $message );
         }
         // Translators: Bold text label in admin error messages
-        $label or $label = _x('Error','Message label');
+        $label or $label = Loco::_x('Error','Message label');
         echo '<div class="loco-message error loco-error"><p><strong>',$label,':</strong> ',Loco::html($message),'</p></div>';
     }
     
@@ -38,7 +38,7 @@ abstract class LocoAdmin {
      */
     public static function warning( $message, $label = '' ){
         if( did_action('admin_notices') ){
-            $label or $label = _x('Warning','Message label');
+            $label or $label = Loco::_x('Warning','Message label');
             echo '<div class="loco-message error loco-warning"><p><strong>',$label,':</strong> ',Loco::html($message),'</p></div>';
         }
         else {
@@ -51,7 +51,7 @@ abstract class LocoAdmin {
      * Print success
      */
     public static function success( $message, $label = '' ){
-        $label or $label = _x('OK','Message label');
+        $label or $label = Loco::_x('OK','Message label');
         echo '<div class="loco-message updated loco-success"><p><strong>',$label,':</strong> ',Loco::html($message),'</p></div>';
     }
     
@@ -79,9 +79,9 @@ abstract class LocoAdmin {
      */
     public static function render_page_options(){
         self::check_capability();
-        // update applicaion settings if posted
+        // update application settings if posted
         if( isset($_POST['loco']) && is_array( $update = $_POST['loco'] ) ){
-            $update += array( 'gen_hash' => '0', 'enable_core' => '0' );
+            $update += array( 'gen_hash' => '0', 'use_fuzzy' => '0', 'enable_core' => '0' );
             $args = Loco::config( $update );
             $args['success'] = Loco::__('Settings saved');
         }
@@ -123,7 +123,7 @@ abstract class LocoAdmin {
         }
         // check if locale is a valid Wordpress language code
         if( ! LocoLocale::is_valid_wordpress($theme_locale) ){
-            self::warning( sprintf( Loco::__('"%s" is not a standard WordPress locale code'), $theme_locale ) );
+            self::warning( sprintf( Loco::__('%s is not an official WordPress language'), $theme_locale ) );
         }
         $args = compact('wp_version','theme','theme_locale','package','config','caching','user','plugins');
         Loco::enqueue_scripts('build/admin-common', 'debug');
@@ -190,11 +190,16 @@ abstract class LocoAdmin {
                     // get alternative location options
                     $pdir = $package->lang_dir( $domain, true );
                     $gdir = $package->global_lang_dir();
+                    $pdir_ok = is_writeable($pdir);
+                    $gdir_ok = is_writeable($gdir);
+                    $is_global = $package->is_global_path( $path );
+                    // warn about unwriteable locations?
+                    
                     // render msginit start screen
                     $title = Loco::__('New PO file');
                     $locales = LocoLocale::get_names();
                     Loco::enqueue_scripts( 'build/admin-common', 'build/admin-poinit');
-                    Loco::render('admin-poinit', compact('package','domain','title','locales','path','pdir','gdir') );
+                    Loco::render('admin-poinit', compact('package','domain','title','locales','path','pdir','gdir','pdir_ok','gdir_ok','is_global') );
                     break;
                 }
 
@@ -340,7 +345,7 @@ abstract class LocoAdmin {
         }
 
         // return path, export and head set as references
-        $head or $head = new LocoArray;
+        $head or $head = new LocoHeaders;
         return $po_path;
     }     
     
@@ -354,7 +359,7 @@ abstract class LocoAdmin {
      * @param string PO or PO file path
      * @param array data to load into editor
      */
-    private static function render_poeditor( LocoPackage $package, $path, array $data, LocoArray $head = null ){
+    private static function render_poeditor( LocoPackage $package, $path, array $data, LocoHeaders $head = null ){
         $pot = $po = $locale = null;
         $warnings = array();
         // remove header and check if empty
@@ -439,14 +444,14 @@ abstract class LocoAdmin {
         }
 
         // extract some PO headers
-        if( $head instanceof LocoArray ){
+        if( $head instanceof LocoHeaders ){
             $proj = $head->trimmed('Project-Id-Version');
             if( $proj && 'PACKAGE VERSION' !== $proj ){
                 $name = $proj;
             }
         }
         else {
-            $head = new LocoArray;
+            $head = new LocoHeaders;
         }
         
         // set Last-Translator if PO file
@@ -477,7 +482,7 @@ abstract class LocoAdmin {
             $name = $meta['name'];
         }
         $head->add( 'Project-Id-Version', $name );
-        $headers = $head->to_array();
+        $headers = $head->export();
 
         // no longer need the full local paths
         $path = self::trim_path( $path );
@@ -809,6 +814,10 @@ abstract class LocoAdmin {
             $filename = str_replace( '.'.$extension, '', $basename ); // PHP < 5.2.0
         }
         if( 'pot' === $extension ){
+            // POT shouldn't have a locale code, but people do things like 'en_EN.pot'
+            if( preg_match('/[a-z]{2,3}_[A-Z]{2}$/', $filename ) ){
+                return '';
+            }
             return $filename;
         }
         if( $domain = preg_replace('/[a-z]{2,3}(_[A-Z]{2})?$/', '', $filename ) ){
@@ -979,7 +988,7 @@ abstract class LocoAdmin {
     
     
     /**
-     * get configured path to external msgfmt command, including --no-hash argument 
+     * get configured path to external msgfmt command, including --no-hash and --use-fuzzy arguments 
      * @return string 
      */
     public static function msgfmt_command(){
@@ -990,6 +999,9 @@ abstract class LocoAdmin {
         $cmd = escapeshellarg( trim( $conf['which_msgfmt'] ) );
         if( ! $conf['gen_hash'] ){
             $cmd .= ' --no-hash';
+        }
+        if( $conf['use_fuzzy'] ){
+            $cmd .= ' --use-fuzzy';
         }
         return $cmd;
     }
@@ -1005,7 +1017,8 @@ abstract class LocoAdmin {
             $conf = Loco::config();
             loco_require('build/gettext-compiled');
             $gen_hash = (bool) $conf['gen_hash'];
-            $mo = loco_msgfmt( $po, $gen_hash );
+            $use_fuzzy = (bool) $conf['use_fuzzy'];
+            $mo = loco_msgfmt( $po, $gen_hash, $use_fuzzy );
         }
         catch( Exception $Ex ){
             error_log( $Ex->getMessage(), 0 );
@@ -1057,7 +1070,6 @@ function _loco_hook__admin_menu() {
         $page_title = Loco::__('Loco, Translation Management');
         $tool_title = Loco::__('Manage translations');
         $opts_title = Loco::__('Translation options');
-        $diag_title = Loco::__('Diagnostics');
         // Loco main menu item
         $slug = Loco::NS;
         $title = $page_title.' - '.$tool_title;
@@ -1078,6 +1090,7 @@ function _loco_hook__admin_menu() {
         add_options_page( $title, $opts_title, $cap, $slug.'-legacy', $page );
         /*/ Diagnostics page - enabled in debug mode only
         if( WP_DEBUG ){
+           $diag_title = Loco::__('Diagnostics');
             $page = array( 'LocoAdmin', 'render_page_diagnostics' );
             add_submenu_page( Loco::NS, $page_title.' - '.$diag_title, $diag_title, $cap, Loco::NS.'-diagnostics', $page );
         }*/
@@ -1117,7 +1130,7 @@ function _loco_hook__wp_ajax_download(){
     extract( Loco::postdata() );
     if( isset($action) ){
         require Loco::basedir().'/php/loco-download.php';
-        die( __('File download failed') );
+        die( Loco::__('File download failed') );
     }
 }
 
@@ -1151,5 +1164,9 @@ if( ! defined('WP_LANG_DIR') ){
  
 // Load polyfills and raise warnings in debug mode
 extension_loaded('mbstring') or loco_require('compat/loco-mbstring');
+extension_loaded('tokenizer') or loco_require('compat/loco-tokenizer');
 extension_loaded('iconv') or loco_require('compat/loco-iconv');
+extension_loaded('json') or loco_require('compat/loco-json');
 
+// emergency polyfills for php<5.4
+version_compare( phpversion(), '5.4', '>=' ) or loco_require('compat/loco-php');

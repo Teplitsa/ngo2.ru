@@ -3,8 +3,8 @@
  * Admin options screen - changes loco plugin settings
  */
 $nav = array (
-    Loco::__('Packages') => LocoAdmin::uri(),
-    Loco::__('Settings') => '',
+    Loco::__('Packages') => array( 'href' => LocoAdmin::uri() ),
+    Loco::__('Settings') => array( 'icon' => 'admin-settings' ),
 ); 
 ?>
 
@@ -52,6 +52,12 @@ $nav = array (
                                 <label for="loco--gen-hash">
                                     <input type="checkbox" name="loco[gen_hash]" value="1" id="loco--gen-hash"<?php echo $gen_hash ? ' checked' : '';?> />
                                     <?php Loco::h( Loco::__('Generate hash tables') )?> 
+                                </label>
+                            </p>
+                            <p>
+                                <label for="loco--use-fuzzy">
+                                    <input type="checkbox" name="loco[use_fuzzy]" value="1" id="loco--use-fuzzy"<?php echo $use_fuzzy ? ' checked' : '';?> />
+                                    <?php Loco::h( Loco::__('Include Fuzzy strings') )?> 
                                 </label>
                             </p>
                         </fieldset>
