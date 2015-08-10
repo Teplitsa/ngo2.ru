@@ -132,7 +132,7 @@ jQuery(document).ready(function($){
 
             if($field.attr('type') == 'checkbox') {
 
-                if( !$field.attr('checked') ) {
+                if( !$field.prop('checked') ) {
 
                     is_valid = false;
                     $form.find('#'+$field.attr('id')+'-error').html(leyka.checkbox_check_required).show();
@@ -190,7 +190,6 @@ jQuery(document).ready(function($){
         });
 
         return is_valid;
-		
     }
 
     $(document).on('submit', 'form.leyka-pm-form', function(e){
