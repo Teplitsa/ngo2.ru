@@ -674,7 +674,7 @@ function tst_get_post_excerpt($cpost = null, $l = 30){
 	if(!$cpost)
 		$cpost = $post;
 	
-	$e = (!empty($cpost->post_excerpt)) ? $cpost->post_excerpt : wp_trim_words(strip_shortcodes($cpost->post_content), $l);
+	$e = (!empty($cpost->post_excerpt)) ? wp_trim_words($cpost->post_excerpt, $l) : wp_trim_words(strip_shortcodes($cpost->post_content), $l);
 	$date = get_the_date('d.m.Y', $cpost);
 	
 	return "<time class='entry-date'>{$date}</time> ".$e;
@@ -1081,14 +1081,17 @@ function tst_post_card_content($cpost = null){
 	
 	<?php if(!empty($author)) { ?>
 		<div class="entry-author mdl-card__supporting-text">
-		<?php $avatar = tst_get_author_avatar($author->term_id) ; ?>				
+		<?php
+			$avatar = tst_get_author_avatar($author->term_id) ;
+			$desc = wp_trim_words($author->description, 13);
+		?>				
 			
 			<div class="pictured-card-item">
 				<div class="author-avatar round-image pci-img"><?php echo $avatar;?></div>
 					
 				<div class="author-content card-footer-content pci-content">
 					<h5 class="author-name mdl-typography--body-1"><?php echo apply_filters('tst_the_title', $author->name);?></h5>
-					<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $author->description);?></p>
+					<p class="author-role mdl-typography--caption"><?php echo apply_filters('tst_the_title', $desc);?></p>
 				</div>
 			</div>
 		</div>

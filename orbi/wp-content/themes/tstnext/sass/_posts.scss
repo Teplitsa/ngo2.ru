@@ -44,7 +44,7 @@
 	.mdl-card__title-text {
 		color: $tst-color-white;
 		font-weight: 400;
-		a, a:hover {
+		a, a:visited, a:hover {
 			color: inherit;
 		}
 	}
@@ -422,6 +422,9 @@ $margin-base: 16px !default;
 				color: $tst-color-primary;
 			}
 		}
+	}
+	.mdl-card__media {
+		background: transparent;	
 	}
 	
 	.mdl-card__title {

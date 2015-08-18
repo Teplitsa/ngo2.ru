@@ -31,7 +31,7 @@ global $post;
 		$e = (!empty($post->post_excerpt)) ? $post->post_excerpt : wp_trim_words(strip_shortcodes($post->post_content), 30);
 		echo apply_filters('tst_the_title', $e);
 	?>
-		<div class="mdl-typography--caption">Средства пойдут на борьбу с инсультом</div>
+		<!--<div class="mdl-typography--caption">Средства пойдут на борьбу с инсультом</div>-->
 	</div>
 	
 	<div class="mdl-card--expand"></div>
