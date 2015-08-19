@@ -33,10 +33,11 @@ class TST_Featured_Product_Widget extends WP_Widget {
 	/** Widget setup */
 	function __construct() {
         		
-		WP_Widget::__construct('widget_featured_product',  'Рекомендуемый товар', array(
+		parent::__construct('widget_featured_product',  'Рекомендуемый товар', array(
 			'classname'   => 'widget_featured_product',
 			'description' => 'Рекомендуемые товар из каталога для приобретения'
-		));	
+		));
+
 	}
 	
 	
@@ -240,7 +241,7 @@ class BB_Featured_Post_Widget extends WP_Widget {
 class TST_Social_Links extends WP_Widget {
 		
     function __construct() {
-        WP_Widget::__construct('widget_socila_links', __('Social Buttons', 'tst'), array(
+        parent::__construct('widget_socila_links', __('Social Buttons', 'tst'), array(
             'classname' => 'widget_socila_links',
             'description' => __('Social links menu with optional text', 'tst'),
         ));

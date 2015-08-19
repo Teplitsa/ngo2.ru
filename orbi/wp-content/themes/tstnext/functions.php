@@ -159,15 +159,6 @@ function tst_scripts() {
 	
 	/* Scripts  */
 	
-	// mdl
-	wp_enqueue_script(
-		'tst-mdl',
-		$theme_dir_url . '/js/material.min.js',
-		array(),
-		TST_VERSION,
-		false
-	);
-	
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
