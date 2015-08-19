@@ -1,0 +1,23 @@
+{
+  "name": "orbi_minifier",
+  "version": "1.0.0",
+  "authors": [
+    "Anna Ladoshkina <webdev@foralien.com>"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "material-design-lite": "~1.0.2",
+    "animate.css": "~3.4.0",
+    "javascript-equal-height-responsive-rows": "https://github.com/Sam152/Javascript-Equal-Height-Responsive-Rows.git#~1.0.0",
+    "imagesloaded": "https://github.com/desandro/imagesloaded.git#~3.1.8",
+    "social-likes": "https://github.com/sapegin/social-likes.git#~3.0.14",
+    "easyModal.js": "https://github.com/flaviusmatis/easyModal.js.git"
+  }
+}

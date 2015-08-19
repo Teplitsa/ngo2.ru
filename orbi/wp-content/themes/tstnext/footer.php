@@ -9,7 +9,7 @@
 
 $cc_link = '<a href="http://creativecommons.org/licenses/by-sa/3.0/" target="_blank">Creative Commons СС-BY-SA 3.0</a>';
 $tst = __("Teplitsa of social technologies", 'tst');
-$banner = get_template_directory_uri().'/images/te-st-logo-10x50';
+$banner = get_template_directory_uri().'/assets/images/te-st-logo-10x50';
 $footer_text = get_theme_mod('footer_text');
 
 ?>

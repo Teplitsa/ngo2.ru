@@ -147,19 +147,11 @@ function tst_scripts() {
 	);	
 	$style_dependencies[] = 'tst-material-icons';
 	
-	// animations
-	wp_enqueue_style(
-		'tst-animate',
-		$theme_dir_url . '/css/animate.css',
-		$style_dependencies,
-		TST_VERSION
-	);	
-	$style_dependencies[] = 'tst-animate';
 		
 	// design
 	wp_enqueue_style(
 		'tst-design',
-		$theme_dir_url . '/css/design.css',
+		$theme_dir_url . '/assets/css/bundle.css',
 		$style_dependencies,
 		TST_VERSION
 	);
@@ -179,30 +171,11 @@ function tst_scripts() {
 	// jQuery
 	$script_dependencies[] = 'jquery';
 	
-	// easy modal	
-	wp_enqueue_script(
-		'tst-easymodal',
-		$theme_dir_url . '/js/jquery.easyModal.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	$script_dependencies[] = 'tst-easymodal';
-	
-	//numeric 
-	wp_enqueue_script(
-		'tst-numeric',
-		$theme_dir_url . '/js/jquery.numeric.min.js',
-		$script_dependencies,
-		TST_VERSION,
-		true
-	);
-	$script_dependencies[] = 'tst-numeric';
 	
 	// front
 	wp_enqueue_script(
 		'tst-front',
-		$theme_dir_url . '/js/front.js',
+		$theme_dir_url . '/assets/js/bundle.js',
 		$script_dependencies,
 		TST_VERSION,
 		true
@@ -223,7 +196,7 @@ add_action( 'wp_enqueue_scripts', 'tst_scripts', 50 );
 add_action( 'admin_enqueue_scripts', 'tst_admin_scripts' );
 function tst_admin_scripts() {
 			
-	wp_enqueue_style('tst-admin', get_template_directory_uri().'/css/admin.css', array());
+	wp_enqueue_style('tst-admin', get_template_directory_uri().'/assets/css/admin.css', array());
 	
 }
 

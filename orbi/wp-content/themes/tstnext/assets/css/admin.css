@@ -1,0 +1,22 @@
+/** Admin styles **/
+
+/* columns */
+.admin-tmb {
+	width: 90%;
+	max-width: 54px; }
+
+.admin-tmb img {
+	max-width: 100%;
+	height: auto; }
+
+.wp-list-table .column-author,
+.wp-list-table .column-id, 
+.wp-list-table .column-thumbnail,
+.wp-list-table .column-menu_order{
+	width: 6%;
+}
+
+.wp-list-table .column-attack_date,
+.wp-list-table .column-event_date {
+	width: 12%;
+}
