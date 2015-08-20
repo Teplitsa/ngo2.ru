@@ -86,7 +86,12 @@ $sh-base : $cell-elementary-2x;
 //search in header
 .mdl-layout__header-row {
 	.mdl-textfield__input {
+		background: transparent;
 		border-color: rgba(255,255,255, 0.65);
+	}
+	
+	.mdl-textfield__label:after {
+		background-color: unquote("rgba(#{$color-primary-dark}, 1)");
 	}
 }
 
@@ -194,6 +199,17 @@ body.search {
 	
 	.paging-navigation {
 		padding-top: $margin-base;
+	}
+	
+	.search-holder {
+		margin-bottom: $margin-base;
+		input#s {
+			background: transparent;
+		}
+				
+		
+		.mdl-textfield__label { color: $tst-color-text-semi; }
+		.is-focused .mdl-textfield__label { color: $tst-color-primary; }
 	}
 }
 

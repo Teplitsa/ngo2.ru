@@ -35,19 +35,17 @@
 		<div class="mdl-layout-spacer"> </div>
 		
 		<!-- Search -->
-		<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable
-                    mdl-textfield--floating-label mdl-textfield--align-right">
-			<form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
-			<label class="mdl-button mdl-js-button mdl-button--icon"
-				   for="search-field">
-			  <i class="material-icons">search</i>
-			</label>
-			<div class="mdl-textfield__expandable-holder">				
-				<input class="mdl-textfield__input" type="text" name="s" id="search-field" />				
+		<form method="get" action="<?php echo esc_url( home_url( '/' ) ); ?>">
+			<div class="mdl-textfield mdl-js-textfield mdl-textfield--expandable">
+				<label class="mdl-button mdl-js-button mdl-button--icon" for="searchf">
+				  <i class="material-icons">search</i>
+				</label>
+				<div class="mdl-textfield__expandable-holder">
+				  <input class="mdl-textfield__input" type="text" id="searchf" name="s" />
+				  <label class="mdl-textfield__label" for="searchf">Expandable Input</label>
+				</div>
 			</div>
-			</form>
-        </div>
-		
+		</form>
 		
     </div><!-- .mdl-layout__header-row -->	
 </header>
