@@ -321,6 +321,32 @@ function tst_customize_register(WP_Customize_Manager $wp_customize) {
         'settings' => 'footer_text',
         'priority' => 30,
     ));
+	
+	$wp_customize->add_setting('event_form_id', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    
+    $wp_customize->add_control('event_form_id', array(
+        'type'     => 'text',		
+        'label'    =>  'ID формы по умолч. - анонсы',
+        'section'  => 'tst_spec_settings',
+        'settings' => 'event_form_id',
+        'priority' => 30,
+    ));
+	
+	$wp_customize->add_setting('prod_form_id', array(
+        'default'   => '',
+        'transport' => 'refresh',
+    ));
+    
+    $wp_customize->add_control('prod_form_id', array(
+        'type'     => 'text',		
+        'label'    =>  'ID формы по умолч. - товары',
+        'section'  => 'tst_spec_settings',
+        'settings' => 'prod_form_id',
+        'priority' => 30,
+    ));
 }
 
 

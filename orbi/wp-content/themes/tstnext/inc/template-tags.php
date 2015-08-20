@@ -725,6 +725,14 @@ function tst_site_logo($size = 'regular'){
 }
 
 
+/* Material icon wrapper */
+function tst_material_icon($icon){
+	
+	$icon = esc_attr($icon);
+	return "<i class='material-icons'>{$icon}</i>";
+}
+
+
 /** Author **/
 function tst_get_post_author($cpost = null) {
 	global $post;
@@ -921,18 +929,7 @@ function tst_compact_event_item($cpost = null){
 }
 
 function tst_add_to_calendar_url($event){
-//
-//
-//<a href="http://www.google.com/calendar/event?
-//action=TEMPLATE
-//&text=[event-title]
-//&dates=[start-custom format='Ymd\\THi00\\Z']/[end-custom format='Ymd\\THi00\\Z']
-//&details=[description]
-//&location=[location]
-//&trp=false
-//&sprop=
-//&sprop=name:"
-//target="_blank" rel="nofollow">Add to my calendar</a>
+
 
 	$date = (function_exists('get_field')) ? get_field('event_date', $event->ID) : $event->post_date;
 	$time = (function_exists('get_field')) ? get_field('event_time', $event->ID) : '';
@@ -1034,11 +1031,50 @@ function tst_add_to_calendar_link_in_modal($event, $echo = true, $container_clas
 <?php	
 }
 
-function tst_material_icon($icon){
+/* event form */
+function tst_default_event_form($cpost = null) {
+	global $post;
 	
-	$icon = esc_attr($icon);
-	return "<i class='material-icons'>{$icon}</i>";
+	if(!$cpost)
+		$cpost = $post;
+		
+	$hide_default = (function_exists('get_field')) ? (bool)get_field('event_default_form_hide', $cpost->ID) : false;
+	if($hide_default)
+		return;
+	
+	//is event in future
+	$date = (function_exists('get_field')) ? strtotime(get_field('event_date', $cpost->ID)) : strtotime($cpost->post_date);
+	$today_exact = strtotime(sprintf('now %s hours', get_option('gmt_offset')));
+	
+	if(date('Y-m-d', $date) < date('Y-m-d', $today_exact))
+		return; //it's not in future any more
+	
+	$default_id = (int)get_theme_mod('event_form_id');
+	if($default_id > 0){
+		echo "<h4>Регистрация</h4>";
+		echo do_shortcode('[formidable id='.$default_id.']');
+	}
 }
+
+/* product form */
+function tst_default_product_form($cpost = null) {
+	global $post;
+	
+	if(!$cpost)
+		$cpost = $post;
+		
+	$hide_default = (function_exists('get_field')) ? (bool)get_field('product_default_form_hide', $cpost->ID) : false;
+	if($hide_default)
+		return;
+	
+	
+	$default_id = (int)get_theme_mod('prod_form_id');
+	if($default_id > 0){
+		echo "<h4>Заказать</h4>";
+		echo do_shortcode('[formidable id='.$default_id.']');
+	}
+}
+
 
 
 /** Header image **/

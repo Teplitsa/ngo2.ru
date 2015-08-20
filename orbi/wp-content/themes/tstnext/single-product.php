@@ -35,7 +35,10 @@ get_header();
 			}
 		?>
 		
-		<div class="entry-content"><?php the_content(); ?></div>
+		<div class="entry-content">
+			<?php the_content(); ?>
+			<?php tst_default_product_form();?>
+		</div>
 		
 		<!-- panel -->
 		<?php
