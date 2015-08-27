@@ -8,10 +8,10 @@
  **/
 class Leyka_Payment_Form {
 
-	private $_pm_name;
-	private $_pm = array();
-	private $_form_action;
-	private $_current_currency; //current currency in the view
+	protected $_pm_name;
+	protected $_pm = array();
+	protected $_form_action;
+	protected $_current_currency; // Current currency in the view
 	
 	function __construct(Leyka_Payment_Method $payment_method, $current_currency = null) {
 
@@ -21,7 +21,7 @@ class Leyka_Payment_Form {
 		$this->_current_currency = $current_currency;
 		$this->_form_action = get_option('permalink_structure') ?
 			site_url('leyka-process-donation') : site_url('?page=leyka-process-donation');
-	}	
+	}
 
 	/**
 	 * Global Form params
@@ -100,14 +100,15 @@ class Leyka_Payment_Form {
 
 		return leyka_field_wrap($out, 'amount-selector amount '.$mode);			
 	}
-	
+
 	function get_hidden_fields($campaign_id = null) {
 
 		global $post;
 
-		if($campaign_id == null)
-			$campaign_id = $post->ID;
-		
+		if( !$campaign_id ) {
+			$campaign_id = is_singular(Leyka_Campaign_Management::$post_type) ? $post->ID : -1;
+		}
+
 		$campaign = new Leyka_Campaign($campaign_id);
         $template = leyka_get_current_template_data(); 
 		$hiddens = apply_filters('leyka_hidden_donation_form_fields', array(
@@ -369,6 +370,7 @@ function leyka_get_req_mark(){
 global $leyka_current_pm;
 
 function leyka_setup_current_pm(Leyka_Payment_Method $payment_method, $currency = null) {
+	/** @var Leyka_Payment_Form $leyka_current_pm */
 	global $leyka_current_pm;
 	
 	$leyka_current_pm = new Leyka_Payment_Form($payment_method, $currency);
@@ -668,7 +670,7 @@ function get_leyka_payment_form_template_html($campaign = null, $template = null
 
         <?php } else {
 
-            $template = leyka_get_current_template_data($campaign, $template /*? $template : $campaign->template*/);
+            $template = leyka_get_current_template_data($campaign, $template);
 
             if($template && isset($template['file'])) {
                 include($template['file']);

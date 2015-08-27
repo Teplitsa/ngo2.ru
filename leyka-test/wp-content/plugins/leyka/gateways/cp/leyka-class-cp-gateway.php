@@ -488,7 +488,7 @@ add_action('leyka_init_actions', 'leyka_add_gateway_cp');
 add_action('wp_enqueue_scripts', 'leyka_enqueue_scripts_cp');
 function leyka_enqueue_scripts_cp() {
 
-    if(Leyka_CP_Card::get_instance()->active && leyka_form_is_screening()) {
+    if(Leyka_CP_Card::get_instance()->active) {
         wp_enqueue_script('leyka-cp-widget', 'https://widget.cloudpayments.ru/bundles/cloudpayments');
         wp_enqueue_script(
             'leyka-cp',
