@@ -101,19 +101,26 @@ class Leyka_Payment_Form {
 		return leyka_field_wrap($out, 'amount-selector amount '.$mode);			
 	}
 
-	function get_hidden_fields($campaign_id = null) {
+	function get_hidden_fields($campaign = null) {
 
-		global $post;
 
-		if( !$campaign_id ) {
-			$campaign_id = is_singular(Leyka_Campaign_Management::$post_type) ? $post->ID : -1;
+		if($campaign) {
+			$campaign = leyka_get_validated_campaign($campaign);
+		} else {
+
+			global $post;
+
+			if( !is_singular(Leyka_Campaign_Management::$post_type) ) {
+				return false;
+			}
+
+			$campaign = new Leyka_Campaign($post->ID);
 		}
 
-		$campaign = new Leyka_Campaign($campaign_id);
         $template = leyka_get_current_template_data(); 
 		$hiddens = apply_filters('leyka_hidden_donation_form_fields', array(
 			'leyka_template_id' => $template['id'],
-			'leyka_campaign_id' => (int)$campaign_id,
+			'leyka_campaign_id' => $campaign->id,
 			'leyka_ga_campaign_title' => esc_attr($campaign->payment_title), 		
 		), $this);
 
@@ -390,11 +397,11 @@ function leyka_pf_get_form_action() {
 	return $leyka_current_pm->get_form_action();
 }
 
-function leyka_pf_get_hidden_fields($campaign_id = null) {
+function leyka_pf_get_hidden_fields($campaign = null) {
     /** @var Leyka_Payment_Form $leyka_current_pm */
 	global $leyka_current_pm;
-	
-	return $leyka_current_pm->get_hidden_fields($campaign_id);
+
+	return $leyka_current_pm->get_hidden_fields(leyka_get_validated_campaign($campaign));
 }
 
 function leyka_pf_get_amount_field() {

@@ -359,7 +359,7 @@ class Leyka_CP_Gateway extends Leyka_Gateway {
 
         if($donation) { // Edit donation page displayed
 
-            $donation = get_validated_donation($donation);?>
+            $donation = leyka_get_validated_donation($donation);?>
 
             <label><?php _e('CloudPayments subscription ID', 'leyka');?>:</label>
             <div class="leyka-ddata-field">
