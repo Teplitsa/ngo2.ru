@@ -13,7 +13,7 @@ function grtch_front_scripts() {
     $theme_dir_url = get_stylesheet_directory_uri();
 	
 	// Scripts
-	$script_dependencies = array('grt-front');	
+	$script_dependencies = array('grt-front');
 	wp_enqueue_script(
         'grtch-front',
         $theme_dir_url.'/js/front.js',
