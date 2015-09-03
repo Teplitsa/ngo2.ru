@@ -6,6 +6,7 @@ class FrmProXMLHelper{
         global $frm_duplicate_ids, $wpdb;
 
         $saved_entries = array();
+		$track_child_ids = array();
 
 	    foreach ( $entries as $item ) {
 	        $entry = array(
@@ -65,13 +66,68 @@ class FrmProXMLHelper{
                 $imported['imported']['items']++;
             }
 
+			self::track_imported_child_entries( $saved_entries[ $entry['id'] ], $entry['parent_item_id'], $track_child_ids );
+
 		    unset($entry);
 	    }
+
+		self::update_parent_item_ids( $track_child_ids, $saved_entries );
 
 	    unset($entries);
 
 	    return $imported;
     }
+
+	/**
+	*
+	* Track imported entries if they have a parent_item_id
+	* Use the old parent_item_id as the array key and set the array value to an array of child IDs
+	*
+	* @param int|boolean $child_id
+	* @param int $parent_id
+	* @param array $track_child_ids - pass by reference
+	*/
+	private static function track_imported_child_entries( $child_id, $parent_id, &$track_child_ids ) {
+		if ( ! $parent_id ) {
+			return;
+		}
+
+		if ( ! isset( $track_child_ids[ $parent_id ] ) ) {
+			$track_child_ids[ $parent_id ] = array();
+		}
+
+		$track_child_ids[ $parent_id ][] = $child_id;
+	}
+
+	// TODO: Add unit test
+	/**
+	*
+	* Update imported child entries so their parent_item_ids match any imported parent entries
+	*
+	* @since 2.0.12
+	*
+	* @param array $track_child_ids
+	* @param array $saved_entries
+	*/
+	private static function update_parent_item_ids( $track_child_ids, $saved_entries ) {
+		global $wpdb;
+
+		foreach ( $track_child_ids as $old_parent_id => $new_child_ids ) {
+			if ( isset( $saved_entries[ $old_parent_id ] ) ) {
+				$new_parent_id = $saved_entries[ $old_parent_id ];
+
+				$new_child_ids = '(' . implode( ',', $new_child_ids ) . ')';
+
+				// This parent entry was imported and the parent_item_id column needs to be updated on all children
+				$wpdb->query( $wpdb->prepare( 'UPDATE ' . $wpdb->prefix . 'frm_items SET parent_item_id = %d WHERE id IN 
+				' . $new_child_ids, $new_parent_id ) );
+			}
+		}
+
+		$query = "SELECT id,parent_item_id FROM " . $wpdb->prefix . "frm_items WHERE parent_item_id!=0";
+		$data = $wpdb->get_results( $query );
+
+	}
 
 	public static function import_csv( $path, $form_id, $field_ids, $entry_key = 0, $start_row = 2, $del = ',', $max = 250 ) {
         if ( ! defined('WP_IMPORTING') ) {

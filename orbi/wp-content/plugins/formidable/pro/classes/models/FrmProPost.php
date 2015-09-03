@@ -37,8 +37,10 @@ class FrmProPost {
 
 		if ( isset( $action->post_content['display_id'] ) && $action->post_content['display_id'] ) {
 			$post['post_custom']['frm_display_id'] = $action->post_content['display_id'];
-		} else {
-			//check for auto view and set frm_display_id
+		} else if ( ! is_numeric( $action->post_content['post_content'] ) ) {
+			// Do not set frm_display_id if the content is mapped to a single field
+
+			//check for auto view and set frm_display_id - for reverse compatibility
 			$display = FrmProDisplay::get_auto_custom_display( compact('form_id', 'entry_id') );
 			if ( $display ) {
 				$post['post_custom']['frm_display_id'] = $display->ID;
@@ -511,6 +513,11 @@ class FrmProPost {
 
 		$field_ids = array();
 		foreach ( $action->post_content as $name => $value ) {
+			// Don't try to delete meta for the display ID since this is never a field ID
+			if ( $name == 'display_id' ) {
+				continue;
+			}
+
 			if ( is_numeric($value) ) {
 				$field_ids[] = $value;
 			} else if ( is_array( $value ) && isset( $value['field_id'] ) && is_numeric( $value['field_id'] ) ) {

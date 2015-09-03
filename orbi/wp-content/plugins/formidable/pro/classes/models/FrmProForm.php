@@ -134,7 +134,8 @@ class FrmProForm{
         $field_options['taxonomy'] = 'category';
         $field_options['exclude_cat'] = 0;
 
-		$post_action = FrmFormAction::get_action_for_form( $field->form_id, 'wppost', 1 );
+		$action_name = apply_filters( 'frm_save_post_name', 'wppost', $field );
+		$post_action = FrmFormAction::get_action_for_form( $field->form_id, $action_name, 1 );
         if ( ! $post_action ) {
             return $field_options;
         }

@@ -340,11 +340,6 @@ class FrmProAppHelper{
             $args['temp_where_is'] = '!=';
         }
 
-        /*if($where_field->form_id != $args['form_id']){
-            //TODO: get linked entry IDs and get entries where data field value(s) in linked entry IDs
-        }*/
-
-		$args['orig_where_val'] = $args['where_val'];
 		if ( in_array( $args['where_is'], array( 'LIKE', 'not LIKE') ) ) {
              //add extra slashes to match values that are escaped in the database
 			$args['where_val_esc'] = addslashes( $args['where_val'] );
@@ -358,30 +353,27 @@ class FrmProAppHelper{
         self::prepare_dfe_text($args, $where_field);
     }
 
-    /**
-     * Filter by DFE text
-     */
-    private static function prepare_dfe_text( &$args, $where_field ) {
-        if ( $where_field->type != 'data' || is_numeric($args['where_val']) || is_array( $args['where_val'] ) || $args['orig_where_val'] == '' || ( isset($where_field->field_options['post_field']) && $where_field->field_options['post_field'] == 'post_category' ) ) {
-            return;
-        }
-
-        global $wpdb;
-
-		//Get entry IDs by DFE text
-		if ( $args['where_is'] == 'LIKE' || $args['where_is'] == 'not LIKE' ) {
-			$linked_id = FrmEntryMeta::search_entry_metas($args['orig_where_val'], $where_field->field_options['form_select'], $args['temp_where_is']);
-		} else {
-			$query = array(
-				'field_id' => $where_field->field_options['form_select'],
-				'meta_value' . FrmDb::append_where_is( $args['temp_where_is'] ) => $args['orig_where_val'],
-			);
-
-			$linked_id = FrmDb::get_col( 'frm_item_metas', $query, 'item_id' );
-			unset( $query );
+	/**
+	* Replace a text value where_val with the matching entry IDs for Dynamic Field filters
+	*
+	* @param array $args
+	* @param object $where_field
+	*/
+	private static function prepare_dfe_text( &$args, $where_field ) {
+		// Only proceed if we have a non-category dynamic field with a string where_val
+		if ( $where_field->type != 'data' || ! $args['where_val'] || ! is_string( $args['where_val'] ) || ( isset($where_field->field_options['post_field']) && $where_field->field_options['post_field'] == 'post_category' ) ) {
+			return;
 		}
 
-		//If text doesn't return any entry IDs, get entry IDs from entry key
+		// Search where_field item_metas for matches and return the entry IDs
+		$query = array(
+			'field_id' => $where_field->field_options['form_select'],
+			'meta_value' . FrmDb::append_where_is( $args['temp_where_is'] ) => $args['where_val'],
+		);
+		$linked_id = FrmDb::get_col( 'frm_item_metas', $query, 'item_id' );
+
+		// If text doesn't return any entry IDs, get entry IDs from entry key
+		// Note: Keep for reverse compatibility
 		if ( ! $linked_id ) {
 			$linked_field = FrmField::getOne($where_field->field_options['form_select']);
 			if ( ! $linked_field ) {
@@ -394,25 +386,17 @@ class FrmProAppHelper{
 			$linked_id = FrmDb::get_col( 'frm_items', array(
 				'form_id' => $linked_field->form_id,
 				'item_key ' . FrmDb::append_where_is( $args['temp_where_is'] ) => $args['where_val'],
-			) );
+				) );
 		}
 
-        if ( ! $linked_id ) {
-            return;
-        }
+		if ( ! $linked_id ) {
+			return;
+		}
 
-        //Change $args['where_val'] to linked entry IDs
-		$linked_id = (array) $linked_id;
-		$args['where_val'] = $linked_id;
-		if ( FrmField::is_field_with_multiple_values( $where_field ) ) {
-			if ( in_array($args['where_is'], array( '!=', 'not LIKE') ) ) {
-				$args['temp_where_is'] = 'LIKE';
-			} else if ( in_array($args['where_is'], array( '=', 'LIKE') ) ) {
-				$args['where_is'] = $args['temp_where_is'] = 'LIKE';
-            }
-		}else{
-            $args['where_is'] = $args['temp_where_is'] = ( strpos($args['where_is'], '!') === false && strpos($args['where_is'], 'not') === false ) ? ' in ' : ' not in ';
-        }
+		//Change $args['where_val'] to linked entry IDs
+		$args['where_val'] = (array) $linked_id;
+
+		// Don't use old where_val_esc value for filtering
 		unset($args['where_val_esc']);
 
 		$args['where_val'] = apply_filters('frm_filter_dfe_where_val', $args['where_val'], $args);
@@ -444,6 +428,9 @@ class FrmProAppHelper{
 				$where_statement .= FrmAppHelper::prepend_and_or_where( ' AND ', array( 'item_id' => $entry_ids ) );
 			}
 		}
+
+		// If the field is from a repeating section (or embedded form?) get the parent ID
+		$filter_args['return_parent_id'] = ( $where_field->form_id != $args['form_id'] );
 
 		$new_ids = FrmEntryMeta::getEntryIds( $where_statement, '', '', true, $filter_args );
 

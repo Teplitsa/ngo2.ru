@@ -220,7 +220,6 @@ function frmAdminBuildJS(){
 			revert:true,
 			forcePlaceholderSize:false,
 			tolerance:'pointer',
-			container: 'ul.frm_sorting',
 			receive:function(event,ui){
 				if ( cancelSort ) {
 					ui.item.addClass('frm_cancel_sort');
@@ -803,8 +802,9 @@ function frmAdminBuildJS(){
 	function toggleFormid(field_id, form_id, main_form_id, checked){
 		// change form ids of all fields in section
 		var children = fieldsInSection(field_id);
+		var field_name = document.getElementById('field_label_' + field_id).innerHTML;
 		jQuery.ajax({type:'POST',url:ajaxurl,
-			data:{action:'frm_toggle_repeat', form_id:form_id, parent_form_id:main_form_id, checked:checked, field_id:field_id, children:children, nonce:frmGlobal.nonce},
+			data:{action:'frm_toggle_repeat', form_id:form_id, parent_form_id:main_form_id, checked:checked, field_id:field_id, field_name:field_name, children:children, nonce:frmGlobal.nonce},
 			success:function(id){
 				//return form id to hidden field
 				jQuery('input[name="field_options[form_select_'+field_id+']"]').val(id);
@@ -868,16 +868,6 @@ function frmAdminBuildJS(){
 			jQuery('.inplace_field').blur();
 			return false;
 		}
-	}
-
-	function setIPEKey(){
-		jQuery(this).editInPlace({
-			show_buttons:"true",value_required:"true",
-			save_button: '<a class="inplace_save save button button-small">'+frm_admin_js.ok+'</a>',
-			cancel_button:'<a class="inplace_cancel cancel">'+frm_admin_js.cancel+'</a>',
-			bg_out:"#fffbcc",
-			callback:function(x,text){jQuery(this).next('input').val(text);return text;}
-		});
 	}
 
 	function setIPELabel(){
@@ -1692,7 +1682,38 @@ function frmAdminBuildJS(){
 		}
 		return false;
 	}
-	
+
+	function saveAddonLicense() {
+		var button = jQuery(this);
+		var buttonName = this.name;
+		var pluginSlug = button.data('plugin');
+		var action = buttonName.replace('edd_'+pluginSlug+'_license_', '');
+		var license = document.getElementById('edd_'+pluginSlug+'_license_key').value;
+		jQuery.ajax({
+			type:'POST',url:ajaxurl,dataType:'json',
+			data:{action:'frm_addon_'+action,license:license,plugin:pluginSlug,nonce:frmGlobal.nonce},
+			success:function(msg){
+				var thisRow = button.closest('.edd_frm_license_row');
+				if ( action == 'deactivate' ) {
+					license = '';
+					document.getElementById('edd_'+pluginSlug+'_license_key').value = '';
+				}
+				thisRow.find('.edd_frm_license').html( license );
+				if ( msg.success === true ) {
+					thisRow.find('.frm_icon_font').removeClass('frm_hidden');
+				}
+				thisRow.find('div.alignleft').toggleClass( 'frm_hidden', 1000 );
+				var messageBox = thisRow.find('.frm_license_msg');
+				messageBox.html(msg.message);
+				if ( msg.message !== '' ){
+					setTimeout(function(){
+						messageBox.html('');
+					},5000);
+				}
+			}
+		});
+	}
+
 	/* Import/Export page */
 	function validateExport(e){
 		e.preventDefault();
@@ -1772,6 +1793,7 @@ function frmAdminBuildJS(){
     function initiateMultiselect(){
         jQuery('.frm_multiselect').multiselect({
             templates: {ul:'<ul class="multiselect-container frm-dropdown-menu"></ul>'},
+			buttonContainer: '<div class="btn-group frm-btn-group" />',
 			nonSelectedText:frm_admin_js['default']
         });
     }
@@ -1969,7 +1991,6 @@ function frmAdminBuildJS(){
 			
 			$newFields.on('keypress', '.frm_ipe_field_label, .frm_ipe_field_option, .frm_ipe_field_option_key', blurField);
 			$newFields.on('mouseenter', '.frm_ipe_field_option, .frm_ipe_field_option_key', setIPEOpts);
-			$newFields.on('mouseenter', '.frm_ipe_field_key', setIPEKey);
 			$newFields.on('mouseenter', '.frm_ipe_field_label', setIPELabel);
 			$newFields.on('mouseenter', '.frm_ipe_field_desc, .frm_ipe_field_conf_desc', setIPEDesc);
 			$newFields.on('click', '.frm_add_logic_row', addFieldLogicRow);
@@ -2336,6 +2357,9 @@ function frmAdminBuildJS(){
 			$globalForm.on('click', '.frm_show_auth_form', showAuthForm);
 			jQuery(document.getElementById('frm_uninstall_now')).click(uninstallNow);
             initiateMultiselect();
+
+			// activate addon licenses
+			jQuery('.edd_frm_save_license').click(saveAddonLicense);
 		},
 		
 		exportInit: function(){

@@ -37,9 +37,7 @@ class FrmProField {
                 $field_data['field_options']['label'] = 'top';
                 if ( isset($field_data['field_options']['repeat']) && $field_data['field_options']['repeat'] ) {
                     // create the repeatable form
-                    $form_values = array( 'parent_form_id' => $field_data['form_id'] );
-                    $form_values = FrmFormsHelper::setup_new_vars( $form_values );
-                    $field_data['field_options']['form_select'] = FrmForm::create( $form_values );
+                    $field_data['field_options']['form_select'] = self::create_repeat_form( 0, array( 'parent_form_id' => $field_data['form_id'], 'field_name' => $field_data['name'] ) );
                 }
                 break;
             case 'break':
@@ -175,5 +173,27 @@ class FrmProField {
 
 	public static function is_list_field( $field ) {
 		return $field->type == 'data' && ( ! isset( $field->field_options['data_type'] ) || $field->field_options['data_type'] == 'data' || $field->field_options['data_type'] == '' );
+	}
+
+	/**
+	* Create the form for a repeating section
+	*
+	* @since 2.0.12
+	*
+	* @param int $form_id
+	* @param array $atts
+	* @return int $form_id
+	*/
+	public static function create_repeat_form( $form_id, $atts ) {
+		$form_values = array(
+			'parent_form_id' => $atts['parent_form_id'],
+			'name' => $atts['field_name'],
+			'status' => 'published',
+		);
+        $form_values = FrmFormsHelper::setup_new_vars( $form_values );
+
+        $form_id = (int) FrmForm::create( $form_values );
+
+		return $form_id;
 	}
 }

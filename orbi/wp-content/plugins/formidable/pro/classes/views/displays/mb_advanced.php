@@ -65,7 +65,7 @@
     </tr>
 
     <tr class="form-field">
-        <td><?php _e( 'No Entries Messsage', 'formidable' ); ?></td>
+        <td><?php _e( 'No Entries Message', 'formidable' ); ?></td>
         <td>
             <textarea id="empty_msg" name="options[empty_msg]" style="width:98%"><?php echo FrmAppHelper::esc_textarea($post->frm_empty_msg) ?></textarea>
         </td>

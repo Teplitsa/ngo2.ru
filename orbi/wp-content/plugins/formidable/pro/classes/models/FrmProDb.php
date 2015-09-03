@@ -32,6 +32,10 @@ class FrmProDb{
             if ( $db_version >= 28 && $old_db_version < 28 ) {
                 self::migrate_to_28();
             }
+
+            if ( $db_version >= 29 && $old_db_version < 29 ) {
+                self::migrate_to_29();
+            }
         }
 
 		update_option('frmpro_db_version', $db_version);
@@ -65,6 +69,27 @@ class FrmProDb{
 		delete_site_option( 'frm_autoupdate' );
 		delete_site_option( 'frmpro-wpmu-sitewide' );
     }
+
+	/**
+	* Switch repeating section forms to published and give them names
+	*/
+	private static function migrate_to_29(){
+		// Get all section fields
+		$dividers = FrmField::getAll( array( 'fi.type' => 'divider' ) );
+
+		// Update the form name and status for repeating sections
+		foreach( $dividers as $d ) {
+			if ( ! FrmField::is_repeating_field( $d ) ) {
+				continue;
+			}
+
+			$form_id = $d->field_options['form_select'];
+			$new_name = $d->name;
+			if ( $form_id && is_numeric( $form_id ) ) {
+				FrmForm::update( $form_id, array( 'name' => $new_name, 'status' => 'published' ) );
+			}
+		}
+	}
 
 	/**
 	* Update incorrect end_divider form IDs

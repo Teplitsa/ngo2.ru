@@ -273,7 +273,7 @@ class FrmEntryMeta {
         $args = wp_parse_args($args, $defaults);
 
         $query = array();
-        self::get_ids_query($where, $order_by, $limit, $unique, $args, $query);
+        self::get_ids_query($where, $order_by, $limit, $unique, $args, $query );
         $query = implode(' ', $query);
 
         $cache_key = 'ids_'. maybe_serialize($where) . $order_by . 'l'. $limit . 'u'. $unique . maybe_serialize($args);
@@ -287,10 +287,19 @@ class FrmEntryMeta {
      * @param string $order_by
      * @param string $limit
      */
-    private static function get_ids_query($where, $order_by, $limit, $unique, $args, array &$query) {
+    private static function get_ids_query($where, $order_by, $limit, $unique, $args, array &$query ) {
         global $wpdb;
         $query[] = 'SELECT';
-        $query[] = $unique ? 'DISTINCT(it.item_id)' : 'it.item_id';
+
+		$defaults = array( 'return_parent_id' => false );
+		$args = array_merge( $defaults, $args );
+
+		if ( $args['return_parent_id'] ) {
+			$query[] = $unique ? 'DISTINCT(e.parent_item_id)' : 'e.parent_item_id';
+		} else {
+			$query[] = $unique ? 'DISTINCT(it.item_id)' : 'it.item_id';
+		}
+
         $query[] = 'FROM '. $wpdb->prefix .'frm_item_metas it LEFT OUTER JOIN '. $wpdb->prefix .'frm_fields fi ON it.field_id=fi.id';
 
         $query[] = 'INNER JOIN '. $wpdb->prefix .'frm_items e ON (e.id=it.item_id)';

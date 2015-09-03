@@ -31,19 +31,6 @@
 
 <h3><?php _e( 'Miscellaneous', 'formidable' ) ?></h3>
 
-<p><label class="frm_left_label"><?php _e( 'Keys', 'formidable' ); ?> </label>
-        <label for="frm_lock_keys"><input type="checkbox" value="1" id="frm_lock_keys" name="frm_lock_keys" <?php checked($frm_settings->lock_keys, 1) ?> />
-        <?php _e( 'Hide field and entry keys to prevent them from being edited. Uncheck this box to edit the saved keys for use in your template.', 'formidable' ); ?></label>
-</p>
-
-<!--
-    <?php _e( 'Visual Text Editor', 'formidable' ); ?>
-    <p>
-        <label for="frm_rte_off"><input type="checkbox" value="1" id="frm_rte_off" name="frm_rte_off" <?php checked($frmpro_settings->rte_off, 1) ?> />
-        <?php _e( 'Turn off the visual editor when building views.', 'formidable' ); ?></label>
-    </p>
--->
-
 <p>
 	<label class="frm_left_label"><?php _e( 'Date Format', 'formidable' ); ?>
 		<span class="frm_help frm_icon_font frm_tooltip_icon" title="<?php esc_attr_e( 'Change the format of the date used in the date field.', 'formidable' ) ?>"></span>

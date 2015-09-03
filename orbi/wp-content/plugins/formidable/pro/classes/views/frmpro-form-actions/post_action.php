@@ -7,7 +7,7 @@ class FrmProPostAction extends FrmFormAction {
 		    'classes'   => 'ab-icon frm_dashicon_font dashicons-before',
             'limit'     => 1,
             'priority'  => 40,
-            'event'     => array( 'create', 'update'),
+            'event'     => array( 'create', 'update', 'import' ),
             'force_event' => true,
 		);
 

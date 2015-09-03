@@ -784,29 +784,19 @@ class FrmProStatisticsController{
 	private static function add_to_x_axis_queries( &$query, &$x_query, &$and_query, $args ) {
 		global $wpdb;
 
-        /// If start date is set
-        if ( $args['start_date'] ) {
-            $start_date = $wpdb->prepare('%s', date('Y-m-d', strtotime( $args['start_date'] ) ) );
-            if ( $args['x_field'] ) {
-                $x_query .= " and meta_value >= " . $start_date;
-            } else {
-				$query .= ' AND e.' . $args['x_axis'] . '>=' . $start_date;
-                $x_query .= " and e." . $args['x_axis'] . ">= " . $start_date;
-				$and_query .= ' AND e.' . $args['x_axis'] . '>=' . $start_date;
-            }
-        }
+		/// If start date is set
+		if ( $args['start_date'] ) {
+			$start_date = $wpdb->prepare('%s', date('Y-m-d', strtotime( $args['start_date'] ) ) );
 
-        // If end date is set
-        if ( $args['end_date'] ) {
-            $end_date = $wpdb->prepare('%s', date('Y-m-d 23:59:59', strtotime( $args['end_date'] )));
-            if ( $args['x_field'] ) {
-                $x_query .= " and meta_value <= " . $end_date;
-            } else {
-				$query .= ' AND e.' . $args['x_axis'] . '<=' . $end_date;
-                $x_query .= " and e." . $args['x_axis'] . "<= " . $end_date;
-				$and_query .= ' AND e.' . $args['x_axis'] . '<=' . $end_date;
-            }
-        }
+			self::add_start_end_date_where( '>', $start_date, $args, $x_query );
+		}
+
+		// If end date is set
+		if ( $args['end_date'] ) {
+			$end_date = $wpdb->prepare('%s', date('Y-m-d 23:59:59', strtotime( $args['end_date'] )));
+
+			self::add_start_end_date_where( '<', $end_date, $args, $x_query );
+		}
 
         //If user_id is set
         if ( $args['user_id'] ) {
@@ -826,6 +816,33 @@ class FrmProStatisticsController{
         $query .= ' AND e.is_draft=0';
         $x_query .= ' AND e.is_draft=0';
         $and_query .= ' AND e.is_draft=0';
+	}
+
+	/**
+	* Add start_date/end_date to x_axis WHERE query
+	*
+	* @since 2.0.12
+	*
+	* @param string $operator
+	* @param string $date
+	* @param array $args
+	* @param string $x_query - pass by reference
+	*
+	* TODO: Check if it's more efficient to add to the $query and $and_query at this time as well
+	*/
+	private static function add_start_end_date_where( $operator, $date, $args, &$x_query ){
+        if ( $args['x_field'] ) {
+			if ( $args['x_field']->type == 'date' ) {
+				// If the x axis is a date field, make sure the dates comes after start_date
+				$x_query .= ' AND meta_value ' . $operator . '=' . $date;
+			} else {
+				// If the x axis is NOT a date field, filter by creation date
+				$x_query .= ' and e.created_at' . $operator . '=' . $date;
+			}
+        } else {
+			// x_axis is created_at or updated_at
+            $x_query .= ' and e.' . $args['x_axis'] . $operator . '=' . $date;
+        }
 	}
 
     /**

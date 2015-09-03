@@ -429,7 +429,7 @@ class FrmProFieldsController{
 
     public static function options_form_before($field) {
         if ( 'data' == $field['type'] ) {
-            $form_list = FrmForm::getAll( array( 'status' => 'published', 'is_template' => 0), 'name');
+			$form_list = FrmForm::get_published_forms();
 
             $selected_field = $selected_form_id = '';
             $current_field_id = $field['id'];
@@ -662,7 +662,8 @@ class FrmProFieldsController{
             $meta_value = FrmProEntryMetaHelper::get_post_or_meta_value($entry_id, $data_field);
         }
 
-        $value = FrmFieldsHelper::get_display_value($meta_value, $data_field, array( 'html' => true));
+		$data_display_opts = apply_filters( 'frm_display_data_opts', array( 'html' => true ) );
+		$value = FrmFieldsHelper::get_display_value( $meta_value, $data_field, $data_display_opts );
 		if ( is_array( $value ) ) {
 			$value = implode( ', ', $value );
 		}
@@ -688,7 +689,7 @@ class FrmProFieldsController{
         $field_name = 'item_meta';
         FrmProFieldsHelper::get_html_id_from_container($field_name, $html_id, (array) $current, $hidden_field_id);
 
-		echo '<input type="hidden" id="' . esc_attr( $html_id ) . '" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $meta_value ) . '" ' . do_action( 'frm_field_input_html', $current_field, false ) . '/>';
+		echo '<input type="hidden" id="' . esc_attr( $html_id ) . '" name="' . esc_attr( $field_name ) . '" value="' . esc_attr( $value ) . '" ' . do_action( 'frm_field_input_html', $current_field, false ) . '/>';
         wp_die();
     }
 
@@ -909,12 +910,12 @@ class FrmProFieldsController{
 		$form_id = absint( $_POST['form_id'] ); // $form_id should be empty for non-repeating sections
 		$parent_form_id = absint( $_POST['parent_form_id'] );
 		$checked = absint( $_POST['checked'] );
+		$new_form_name = sanitize_text_field( $_POST['field_name'] );
 
 		// Switch to repeating
 		if ( $checked ) {
-			$values = array( 'parent_form_id' => $parent_form_id );
-			$values = FrmFormsHelper::setup_new_vars( $values );
-			$form_id = (int) FrmForm::create( $values );
+
+			$form_id = FrmProField::create_repeat_form( 0, array( 'parent_form_id' => $parent_form_id, 'field_name' => $new_form_name ) );
 
 			// New form_select
 			echo $form_id;
@@ -951,9 +952,9 @@ class FrmProFieldsController{
         $ended = false;
 
         if ( isset($section_field->field_options['repeat']) && $section_field->field_options['repeat'] ) {
-            // create the repeatable form
-            $form_values = FrmFormsHelper::setup_new_vars( array( 'parent_form_id' => $form_id ) );
-            $new_form_id = FrmForm::create( $form_values );
+			// create the repeatable form
+			$new_form_id = FrmProField::create_repeat_form( 0, array( 'parent_form_id' => $form_id, 'field_name' => $section_field->name ) );
+
         } else {
             $new_form_id = $form_id;
         }
@@ -993,5 +994,21 @@ class FrmProFieldsController{
         // Prevent the function in the free version from completing
         wp_die();
     }
+
+	/**
+	*
+	* Update the repeating form name when a repeating section name is updated
+	*
+	* @since 2.0.12
+	*
+	* @param array $atts
+	*/
+	public static function update_repeating_form_name( $atts ) {
+		$field = FrmField::getOne( $atts['id'] );
+		if ( FrmField::is_repeating_field( $field ) ) {
+			// Update the repeating form name
+			FrmForm::update( $field->field_options['form_select'], array( 'name' => $atts['value'] ) );
+		}
+	}
 
 }

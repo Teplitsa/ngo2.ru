@@ -5,12 +5,12 @@ if ( ! defined('ABSPATH') ) {
 
 class FrmAppHelper {
 	public static $db_version = 26; //version of the database we are moving to
-	public static $pro_db_version = 28;
+	public static $pro_db_version = 29;
 
 	/**
 	 * @since 2.0
 	 */
-	public static $plug_version = '2.0.11';
+	public static $plug_version = '2.0.12';
 
     /**
      * @since 1.07.02
@@ -30,30 +30,20 @@ class FrmAppHelper {
         return dirname(dirname(dirname(__FILE__)));
     }
 
-    public static function plugin_url( $url = '' ) {
+    public static function plugin_url() {
         //prevously FRM_URL constant
-        if ( empty($url) ) {
-            $url = plugins_url('', self::plugin_folder() .'/formidable.php');
-        }
-
-		if ( is_ssl() && ! preg_match( '/^https:\/\/.*\..*$/', $url ) ) {
-			$url = str_replace( 'http://', 'https://', $url );
-		}
-
-        return $url;
+        return plugins_url( '', self::plugin_folder() .'/formidable.php' );
     }
 
-    public static function relative_plugin_url( $url = '' ) {
-        $url = self::plugin_url( $url );
-		return str_replace( array( 'https:', 'http:' ), '', $url );
-    }
+	public static function relative_plugin_url() {
+		return str_replace( array( 'https:', 'http:' ), '', self::plugin_url() );
+	}
 
     /**
      * @return string Site URL
      */
     public static function site_url() {
-        $url = self::plugin_url(site_url());
-        return $url;
+        return site_url();
     }
 
     /**

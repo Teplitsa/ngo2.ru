@@ -1,7 +1,7 @@
 <table class="form-table">
     <tr class="form-field">
         <td class="frm_left_label"><?php _e( 'Use Entries from Form', 'formidable' ); ?></td>
-        <td><?php FrmFormsHelper::forms_dropdown( 'form_id', $post->frm_form_id); ?>
+        <td><?php FrmFormsHelper::forms_dropdown( 'form_id', $post->frm_form_id, array( 'inc_children' => 'include' ) ); ?>
         </td>
     </tr>
     <tr>

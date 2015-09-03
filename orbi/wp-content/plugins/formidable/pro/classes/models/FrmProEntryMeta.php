@@ -70,6 +70,9 @@ class FrmProEntryMeta{
 			);
 		}
 
+		$atts['field_id'] = $field->id;
+		$atts['field'] = $field;
+
 		do_action( 'frm_after_update_field', $atts );
 		return $updated;
 	}
@@ -822,7 +825,6 @@ class FrmProEntryMeta{
 			$get_field = 'pm.meta_value';
 			$get_table = $wpdb->postmeta . ' pm INNER JOIN ' . $wpdb->prefix . 'frm_items e ON pm.post_id=e.post_id';
 
-            $query .= " WHERE pm.meta_key='" . $field->field_options['custom_field'] . "'";
 			$query['pm.meta_key'] = $field->field_options['custom_field'];
 
             // Make sure to only get post metas that are linked to this form

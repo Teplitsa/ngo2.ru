@@ -6,7 +6,6 @@ class FrmProSettings extends FrmSettings{
     public $edit_msg;
     public $update_value;
     public $already_submitted;
-    public $rte_off;
     public $csv_format;
     public $cal_date_format;
     public $date_format;
@@ -20,7 +19,6 @@ class FrmProSettings extends FrmSettings{
             'edit_msg'          => __( 'Your submission was successfully saved.', 'formidable' ),
             'update_value'      => __( 'Update', 'formidable' ),
             'already_submitted' => __( 'You have already submitted that form', 'formidable' ),
-            'rte_off'           => false,
             'csv_format'        => 'UTF-8',
 			'date_format'       => 'm/d/Y',
 			'cal_date_format'   => $this->get_cal_date(),

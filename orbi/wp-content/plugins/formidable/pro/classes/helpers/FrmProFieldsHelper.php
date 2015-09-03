@@ -451,7 +451,7 @@ class FrmProFieldsHelper{
             }
 		} else if ( $values['post_field'] == 'post_status' ) {
             $values['use_key'] = true;
-            $values['options'] = self::get_status_options($field);
+			$values['options'] = self::get_status_options( $field, $values['options'] );
         }
 
 		if ( is_array( $values['value'] ) ) {
@@ -532,7 +532,7 @@ class FrmProFieldsHelper{
             }
 		} else if ( $values['post_field'] == 'post_status' ) {
             $values['use_key'] = true;
-            $values['options'] = self::get_status_options($field);
+			$values['options'] = self::get_status_options( $field, $values['options'] );
         }
 
 		// Format the value in hidden repeating sections
@@ -1130,14 +1130,29 @@ class FrmProFieldsHelper{
     	echo '</div>';
     }
 
-	public static function get_status_options( $field ) {
+	public static function get_status_options( $field, $options = array() ) {
         $post_type = FrmProFormsHelper::post_type($field->form_id);
         $post_type_object = get_post_type_object($post_type);
-        $options = array();
 
         if ( ! $post_type_object ) {
             return $options;
         }
+
+		$new_options = array();
+		foreach ( $options as $opt_key => $opt ) {
+			if ( is_array( $opt ) ){
+				$opt_key = isset( $opt['value'] ) ? $opt['value'] : ( isset( $opt['label'] ) ? $opt['label'] : reset( $opt ) );
+			} else {
+				$opt_key = $opt;
+			}
+			if ( in_array( $opt_key, array( 'publish', 'private' ) ) ) {
+				$new_options[ $opt_key ] = $opt;
+			}
+		}
+
+		if ( ! empty( $new_options ) ) {
+			return $new_options;
+		}
 
         $can_publish = current_user_can($post_type_object->cap->publish_posts);
         $options = get_post_statuses(); //'draft', pending, publish, private
@@ -1391,16 +1406,10 @@ class FrmProFieldsHelper{
             return;
         }
 
-        $default_date = '';
-		if ( strlen($field['start_year']) == 4 || strlen($field['end_year']) == 4 ) {
-            if ( $field['start_year'] > date('Y') || $field['end_year'] < date('Y') ) {
-                // add a default date if current year is outside of the range
-			    $default_date = $field['start_year'] .',00,01';
-            }
-        } else if ( $field['start_year'] > 0 || $field['end_year'] < 0 ) {
-            // allow for dynamic year range
-            $default_date = date('Y', strtotime($field['start_year'] .' years')) .',00,01';
-        }
+		$field[ 'start_year' ] = self::convert_to_static_year( $field[ 'start_year' ] );
+		$field[ 'end_year' ] = self::convert_to_static_year( $field[ 'end_year' ] );
+
+		$default_date = self::get_default_cal_date( $field['start_year'], $field['end_year'] );
 
         $field_js = array(
             'start_year' => $field['start_year'], 'end_year' => $field['end_year'],
@@ -1409,6 +1418,38 @@ class FrmProFieldsHelper{
         );
         $frm_vars['datepicker_loaded'][$field_key] = $field_js;
     }
+
+	/**
+	 * If using -100, +10, or maybe just 10 for the start or end year
+	 * @since 2.0.12
+	 */
+	public static function convert_to_static_year( $year ) {
+		if ( strlen( $year ) != 4 || strpos( $year, '-' ) !== false || strpos( $year, '+' ) !== false ) {
+			$year = date( 'Y', strtotime( $year .' years' ) );
+		}
+		return (int) $year;
+	}
+
+	/**
+	* Set the default date for jQuery calendar
+	*
+	* @since 2.0.12
+	* @param int $start_year
+	* @param int $end_year
+	* @return string $default_date
+	*/
+	private static function get_default_cal_date( $start_year, $end_year ) {
+		$current_year = (int) date('Y');
+
+		// If current year falls inside of the date range, make the default date today's date
+		if ( $current_year > $start_year && $current_year < $end_year ) {
+			$default_date = '';
+		} else {
+			$default_date = $start_year .',00,01';
+		}
+
+		return $default_date;
+	}
 
     public static function get_form_fields( $fields, $form_id, $error = false ) {
 		global $frm_vars;
@@ -2795,7 +2836,7 @@ DEFAULT_HTML;
         if ( strpos($tag, '-') ) {
             $switch_tags = array(
                 'post-id', 'created-at', 'updated-at',
-                'created-by', 'updated-by',
+                'created-by', 'updated-by', 'parent-id',
             );
             if ( in_array($tag, $switch_tags) ) {
                 $tag = str_replace('-', '_', $tag);
@@ -2806,7 +2847,7 @@ DEFAULT_HTML;
         $tags = array(
             'event_date', 'entry_count', 'detaillink', 'editlink', 'deletelink',
             'created_at', 'updated_at', 'created_by', 'updated_by',
-            'evenodd', 'post_id',
+            'evenodd', 'post_id', 'parent_id',
         );
 
         if ( in_array($tag, $tags) ) {
@@ -2967,6 +3008,10 @@ DEFAULT_HTML;
 
     public static function do_shortcode_post_id(&$content, $atts, $shortcodes, $short_key, $args) {
         $content = str_replace($shortcodes[0][$short_key], $args['entry']->post_id, $content);
+    }
+
+    public static function do_shortcode_parent_id(&$content, $atts, $shortcodes, $short_key, $args) {
+        $content = str_replace($shortcodes[0][$short_key], $args['entry']->parent_item_id, $content);
     }
 
     public static function do_shortcode_created_at(&$content, $atts, $shortcodes, $short_key, $args) {
@@ -3352,7 +3397,8 @@ DEFAULT_HTML;
     }
 
     public static function get_display_value( $replace_with, $field, $atts = array() ) {
-        $function_name = 'get_'. $field->type .'_display_value';
+		$field_type = is_array( $field ) ? $field['type'] : $field->type;
+        $function_name = 'get_'. $field_type .'_display_value';
         if ( method_exists(__CLASS__, $function_name) ) {
 			$replace_with = self::$function_name( $replace_with, $atts, $field );
         }
@@ -3431,6 +3477,23 @@ DEFAULT_HTML;
 
         return $replace_with;
     }
+
+	public static function get_image_display_value( $replace_with, $atts ) {
+		$defaults = array(
+			'html'  => false,
+		);
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( $atts['html'] ) {
+			$images = '';
+			foreach ( (array) $replace_with as $url ) {
+				$images .= '<img src="' . esc_attr( $url ) . '" class="frm_image_from_url" alt="" /> ';
+			}
+			$replace_with = $images;
+		}
+
+		return $replace_with;
+	}
 
     public static function get_number_display_value($replace_with, $atts) {
         $defaults = array(

@@ -177,6 +177,7 @@ class FrmProHooksController{
         add_action('frm_before_field_options', 'FrmProFieldsController::options_form_before');
         add_action('frm_field_options_form', 'FrmProFieldsController::options_form', 10, 3);
         add_filter('frm_build_field_class', 'FrmProFieldsController::build_field_class', 10, 2);
+		add_action( 'frm_after_update_field_name', 'FrmProFieldsController::update_repeating_form_name' );
 
         // Fields Helper
         add_filter('frm_show_custom_html', 'FrmProFieldsHelper::show_custom_html', 10, 2);
@@ -186,6 +187,7 @@ class FrmProHooksController{
         add_filter('frm_update_field_options', 'FrmProField::update', 10, 3);
         add_filter('frm_duplicated_field', 'FrmProField::duplicate');
         add_action('frm_before_destroy_field', 'FrmProField::delete');
+		add_filter( 'frm_create_repeat_form', 'FrmProField::create_repeat_form', 10, 2 );
 
         // Form Actions Controller
         add_action('frm_additional_action_settings', 'FrmProFormActionsController::form_action_settings', 10, 2);

@@ -130,7 +130,7 @@
         <tr>
             <td><label><?php _e( 'Post Date', 'formidable' ) ?></label></td>
             <td><select name="<?php echo $this->get_field_name('post_date') ?>" class="frm_single_post_field">
-                <option value=""><?php echo _e( 'Use the Date Published', 'formidable' ) ?></option>
+                <option value=""><?php echo _e( 'Date of entry submission', 'formidable' ) ?></option>
                 <?php $post_key = 'post_date';
                     $post_field = array( 'date');
                     include(dirname(__FILE__) .'/_post_field_options.php'); ?>

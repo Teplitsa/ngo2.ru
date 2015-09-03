@@ -122,8 +122,7 @@ class FrmField {
 			// If this is a repeating section, create new form
 			if ( $field->type == 'divider' && self::is_option_true( $field, 'repeat' ) ) {
 				// create the repeatable form
-				$repeat_form_values = FrmFormsHelper::setup_new_vars( array( 'parent_form_id' => $form_id ) );
-				$new_repeat_form_id = FrmForm::create( $repeat_form_values );
+				$new_repeat_form_id = apply_filters( 'frm_create_repeat_form', 0, array( 'parent_form_id' => $form_id, 'field_name' => $field->name ) );
 
 				// Save old form_select
 				$old_repeat_form_id = $field->field_options['form_select'];
@@ -675,4 +674,13 @@ class FrmField {
 		}
 		return ( $is_repeating_field && self::is_option_true( $field, 'repeat' ) );
 	}
+
+    /**
+     * @param string $key
+     * @return int field id
+     */
+	public static function get_id_by_key( $key ) {
+        $id = FrmDb::get_var( 'frm_fields', array( 'field_key' => sanitize_title( $key ) ) );
+        return $id;
+    }
 }

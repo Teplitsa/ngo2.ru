@@ -50,7 +50,10 @@ class FrmProEntry{
             $saved_message = '';
             FrmProFormsHelper::save_draft_msg( $saved_message, $form, $record );
 
-            $message = '<div class="frm_message" id="message">'. $saved_message .'</div>';
+			$message = FrmFormsHelper::get_success_message( array(
+				'message' => $saved_message, 'form' => $form,
+				'entry_id' => $record, 'class' => 'frm_message',
+			) );
 
             FrmProEntriesController::show_responses($record, $fields, $form, $title, $description, $message);
             add_filter('frm_continue_to_create', '__return_false');

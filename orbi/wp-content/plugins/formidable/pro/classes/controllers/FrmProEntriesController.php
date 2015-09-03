@@ -86,7 +86,9 @@ class FrmProEntriesController{
 			$keep_styles = apply_filters( 'frm_ajax_load_styles', $keep_styles );
 			$registered_styles = (array) $wp_styles->registered;
 			$registered_styles = array_diff( array_keys( $registered_styles ), $keep_styles );
-			$wp_styles->done = array_merge( $wp_styles->done, $registered_styles );
+			if ( ! empty( $registered_styles ) ) {
+				$wp_styles->done = array_merge( $wp_styles->done, $registered_styles );
+			}
 		}
 
 		wp_print_footer_scripts();
@@ -359,7 +361,7 @@ class FrmProEntriesController{
         if ( ! empty( $errors ) ) {
 			return FrmEntriesController::display_list( $message, $errors );
         } else {
-            return self::get_edit_vars($record, '', $message);
+			return self::get_edit_vars( $record, array(), $message );
         }
     }
 
@@ -863,14 +865,12 @@ class FrmProEntriesController{
             $msg = ( $opt == 'edit' ) ? $frmpro_settings->edit_msg : $frm_settings->success_msg;
 			$message = isset( $form->options[ $opt .'_msg' ] ) ? $form->options[ $opt .'_msg' ] : $msg;
 
-            // Filter shortcodes in success message
-            $message = apply_filters('frm_content', $message, $form, $entry_id);
-            $message = wpautop( $message );
-
             // Replace $message with save draft message if we are saving a draft
             FrmProFormsHelper::save_draft_msg( $message, $form );
 
-            $message = '<div class="frm_message" id="message">'. $message .'</div>';
+			$class = 'frm_message';
+			$message = FrmFormsHelper::get_success_message( compact( 'message', 'form', 'entry_id', 'class' ) );
+
             return $message;
         }
     }
@@ -1110,7 +1110,7 @@ class FrmProEntriesController{
         require(FrmAppHelper::plugin_path() .'/pro/classes/views/frmpro-entries/new.php');
     }
 
-    private static function get_edit_vars($id, $errors = '', $message= ''){
+	private static function get_edit_vars( $id, $errors = array(), $message= '' ) {
         global $frm_vars;
         $description = true;
         $title = false;
@@ -1165,7 +1165,7 @@ class FrmProEntriesController{
 	 * @since 2.0
 	 */
 	public static function display_value_atts( $atts, $field ) {
-		if ( $field->type == 'file' ) {
+		if ( in_array( $field->type, array( 'file', 'image' ) ) ) {
 			$atts['truncate'] = false;
 			$atts['html'] = true;
 		}
@@ -1253,7 +1253,7 @@ class FrmProEntriesController{
                             $old_value = explode(', ', $new_value);
                             $new_value = '';
                             foreach ( $old_value as $v ) {
-								$new_value .= '<img src="' . esc_url( $v ) . '" height="50px" alt="" />';
+								$new_value .= '<img src="' . esc_url( $v ) . '" class="frm_image_from_url" alt="" />';
                                 if ( $atts['show_filename'] ) {
                                     $new_value .= '<br/>'. $v;
                                 }
@@ -1269,7 +1269,7 @@ class FrmProEntriesController{
             break;
 
             case 'image':
-				$value = '<img src="' . esc_url( $value ) . '" height="50px" alt="" />';
+				$value = FrmProFieldsHelper::get_image_display_value( $value, array( 'html' => true ) );
             break;
         }
 
@@ -1735,7 +1735,7 @@ class FrmProEntriesController{
             'edit' => true, 'class' => '', 'link_type' => 'page', 'blank_label' => '',
             'param_name' => 'entry', 'param_value' => 'key', 'page_id' => false, 'show_delete' => false,
             'confirm' => __( 'Are you sure you want to delete that entry?', 'formidable' ),
-            'drafts' => false,
+            'drafts' => false, 'order' => '',
         ), $atts);
 
         $user_ID = get_current_user_id();
@@ -1852,7 +1852,7 @@ class FrmProEntriesController{
             return;
         }
 
-        $order = ( $atts['type'] == 'collapse' ) ? ' ORDER BY it.created_at DESC' : '';
+        $order = ( $atts['type'] == 'collapse' || $atts['order'] == 'DESC' ) ? ' ORDER BY it.created_at DESC' : '';
 
         $entries = FrmEntry::getAll( array( 'it.id' => $entry_ids ), $order, '', true);
 
@@ -2252,12 +2252,11 @@ class FrmProEntriesController{
 				$atts['entry_id'] = FrmAppHelper::simple_get( $atts['entry_id'], 'sanitize_title', $atts['entry_id'] );
             }
 
-            if ( (int) $atts['entry_id'] < 1 ) {
-                // don't run the sql query if we know there will be no results
-                return;
-            }
+			if ( empty( $atts['entry_id'] ) ) {
+				return;
+			}
 
-            $query[] = array( 'or' => 1, 'id' => $atts['entry_id'], 'parent_item_id' => $atts['entry_id'] );
+			$query[] = array( 'or' => 1, 'id' => $atts['entry_id'], 'parent_item_id' => $atts['entry_id'], 'item_key' => $atts['entry_id'] );
         }
 
         if ( $atts['ip'] ) {
@@ -2404,7 +2403,6 @@ class FrmProEntriesController{
                 echo false;
             }
         }else{
-            $errors = str_replace('"', '&quot;', $errors);
             $obj = array();
 			foreach ( $errors as $field => $error ) {
                 $field_id = str_replace('field', '', $field);
@@ -2551,7 +2549,7 @@ $('#frm_form_" . esc_attr( $id ) . "_container .frm-show-form').submit(window.fr
     }
 
     public static function update_field_ajax(){
-        check_ajax_referer( 'frm_ajax', 'nonce' );
+        //check_ajax_referer( 'frm_ajax', 'nonce' );
 
 		$entry_id = FrmAppHelper::get_param( 'entry_id', 0, 'post', 'absint' );
 		$field_id = FrmAppHelper::get_param( 'field_id', 0, 'post', 'sanitize_title' );

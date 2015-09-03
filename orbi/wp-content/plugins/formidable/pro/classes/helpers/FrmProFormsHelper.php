@@ -55,6 +55,7 @@ class FrmProFormsHelper{
             'errors' => $args['errors'],
             'parent_field' => $field,
             'repeat'    => $args['repeat'],
+			'field_name' => $field_name,
         );
 
         if ( empty($field['value']) ) {
@@ -72,6 +73,7 @@ class FrmProFormsHelper{
 		$row_count = 0;
         foreach ( (array) $field['value'] as $k => $checked ) {
             $repeat_atts['i'] = $k;
+			$repeat_atts['value'] = '';
 
             if ( ! isset($field['value']['form']) ) {
                 // this is not a posted value from moving between pages
@@ -79,11 +81,10 @@ class FrmProFormsHelper{
                 if ( empty($checked) || ! is_numeric($checked) ) {
                     continue;
                 }
-?>
-<input type="hidden" name="<?php echo esc_attr( $field_name ) ?>[id][]" value="<?php echo esc_attr( $checked ) ?>" />
-<?php
+
                 $repeat_atts['i'] = 'i'. $checked;
                 $repeat_atts['entry_id'] = $checked;
+				$repeat_atts['value'] = $checked;
             } else if ( $k === 'id' ) {
                 foreach ( $checked as $entry_id ) {
 ?>
@@ -121,6 +122,8 @@ class FrmProFormsHelper{
             'parent_field' => 0,
             'repeat'    => 0,
 			'row_count'	=> false,
+			'value'     => '',
+			'field_name' => '',
         );
         $args = wp_parse_args($args, $defaults);
 
@@ -187,6 +190,7 @@ class FrmProFormsHelper{
 
         echo '<div id="frm_section_'. $args['parent_field']['id'] .'-'. $args['i'] .'" class="frm_repeat_'. ( empty($format) ? 'sec' : $format ) .' frm_repeat_'. $args['parent_field']['id'] . ( $args['row_count'] === 0 ? ' frm_first_repeat' : '' ) . '">' . "\n";
 
+		self::add_hidden_repeat_entry_id( $args );
 		self::add_default_item_meta_field( $args );
 
         $label_pos = 'top';
@@ -252,6 +256,16 @@ class FrmProFormsHelper{
 		// Close frm_repeat div
         echo '</div>'. "\n";
     }
+
+	/**
+	 * Include the id of the entry being edited inside the repeating section
+	 * @since 2.0.12
+	 */
+	private static function add_hidden_repeat_entry_id( $args ) {
+		if ( ! empty( $args['value'] ) ) {
+			echo '<input type="hidden" name="' . esc_attr( $args['field_name'] ) . '[id][]" value="' . esc_attr( $args['value'] ) . '" />';
+		}
+	}
 
 	/**
 	* Add item meta to each row in repeating section or embedded form so the entry is always validated
@@ -499,8 +513,10 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 				$calc_rules['fieldKeys'] = $calc_rules['fieldKeys'] + $field_keys;
 
                 $calc = str_replace($matches[0][$match_key], '['. $calc_fields[$val]->id .']', $calc);
-            }
 
+				// Prevent invalid decrement error for -- in calcs
+				$calc = str_replace( '-[', '- [', $calc );
+			}
 
             $triggers[] = reset($field_keys);
             $calc_rules['calc'][$result] = array(
@@ -757,8 +773,6 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
         }
 
         $message = isset($form->options['draft_msg']) ? $form->options['draft_msg'] : __( 'Your draft has been saved.', 'formidable' );
-        $message = apply_filters('frm_content', $message, $form, $record);
-        $message = wpautop( do_shortcode($message) );
     }
 
     public static function get_draft_button( $form, $class = '', $html = '', $button_type = 'save_draft' ) {
