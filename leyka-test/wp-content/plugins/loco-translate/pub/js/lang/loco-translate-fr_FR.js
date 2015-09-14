@@ -4,7 +4,7 @@
  * Release: Working copy
  * Locale: fr_FR, French (France)
  * Exported by: Unregistered user
- * Exported at: Thu, 02 Jul 2015 14:56:21 +0100 
+ * Exported at: Tue, 08 Sep 2015 10:15:19 +0100
  */
 loco = window.loco||{}, loco.t = function( pairs ){
     
@@ -148,10 +148,11 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Use external command:": "Utiliser une commande personnalisée :",
     "Enter path to msgfmt on server": "Entrez le chemin d'accès à msgfmt sur le serveur",
     "Generate hash tables": "Générer les tables de hachage",
+    "Include Fuzzy strings": "",
     "Backing up PO files": "Sauvegarde des fichiers de traduction (fichiers PO)",
     "Number of backups to keep of each file:": "Nombre de sauvegardes à conserver pour chaque fichier :",
     "Experimental features": "Fonctionnalités expérimentales",
-    "Enable Wordpress core translations": "Activer la traduction des fichiers principaux de Wordpress",
+    "Enable WordPress core translations": "Activer la traduction des fichiers principaux de WordPress",
     "Save settings": "Enregistrer les paramètres",
     "Template file": "Modèle",
     "Switch to...": "Permuter avec…",
@@ -176,6 +177,7 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Select a plugin or theme to translate": "Choisissez une extension ou un thème à traduire",
     "Themes": "Thèmes",
     "Plugins": "Extensions",
-    "Core": "Fichiers principaux"
+    "Core": "Fichiers principaux",
+    "Translate WordPress plugins and themes directly in your browser": ""
 } 
 );

@@ -4,7 +4,7 @@
  * Release: Working copy
  * Locale: nl_NL, Dutch
  * Exported by: Unregistered user
- * Exported at: Thu, 02 Jul 2015 14:56:22 +0100 
+ * Exported at: Tue, 08 Sep 2015 10:15:21 +0100
  */
 loco = window.loco||{}, loco.t = function( pairs ){
     
@@ -148,10 +148,11 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Use external command:": "",
     "Enter path to msgfmt on server": "",
     "Generate hash tables": "",
+    "Include Fuzzy strings": "",
     "Backing up PO files": "",
     "Number of backups to keep of each file:": "",
     "Experimental features": "",
-    "Enable Wordpress core translations": "",
+    "Enable WordPress core translations": "",
     "Save settings": "",
     "Template file": "Sjabloonbestand",
     "Switch to...": "",
@@ -176,6 +177,7 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Select a plugin or theme to translate": "Selecteer een plug-in of thema om te vertalen",
     "Themes": "Thema's",
     "Plugins": "Plug-ins",
-    "Core": ""
+    "Core": "",
+    "Translate WordPress plugins and themes directly in your browser": ""
 } 
 );

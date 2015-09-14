@@ -2,27 +2,27 @@
 Contributors: timwhitlock
 Tags: translation, translators, localization, localisation, l10n, i18n, Gettext, PO, MO, productivity
 Requires at least: 3.5
-Tested up to: 4.2.3
-Stable tag: 1.5.3
+Tested up to: 4.3
+Stable tag: 1.5.4
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
-Translate Wordpress plugins and themes directly in your browser
+Translate WordPress plugins and themes directly in your browser
 
 
 == Description ==
 
-The Loco Translate plugin provides in-browser editing of PO files used for localizing Wordpress plugins and themes.
+The Loco Translate plugin provides in-browser editing of PO files used for localizing WordPress plugins and themes.
 
 Features include:
 
-* Built-in translation editor within Wordpress admin
+* Built-in translation editor within WordPress admin
 * Create and update language files directly in your theme or plugin
 * Extraction of translatable strings from your source code
 * Native MO file compilation without the need for Gettext on your system
 * Support for PO features including comments, references and plural forms
 * Configurable PO file backups
-* Built-in Wordpress locale codes
+* Built-in WordPress locale codes
 
 Official [Loco](https://localise.biz/) WordPress plugin by <a href="//twitter.com/timwhitlock">@timwhitlock</a> / <a rel="author" href="https://plus.google.com/106703751121449519322">Tim Whitlock</a>
 
@@ -30,98 +30,42 @@ Official [Loco](https://localise.biz/) WordPress plugin by <a href="//twitter.co
 
 == Installation ==
 
+= Installing manually: =
+
 1. Unzip all files to the `/wp-content/plugins/loco-translate` directory
-2. Log into Wordpress admin and activate the 'Loco Translate' plugin through the 'Plugins' menu
+2. Log into WordPress admin and activate the 'Loco Translate' plugin through the 'Plugins' menu
 3. Go to *Loco Translate > Manage Translations* in the left-hand menu to start translating
 
+= Basic usage: =
 
-To translate your own theme or plugin, follow these steps:
+To translate a theme into your language, follow these steps:
+
+1. Create the global languages directory at `wp-content/languages/themes`
+2. Ensure this directory writeable by the web server
+3. Find the theme in the list at *Loco Translate > Manage Translations*
+4. Click `+ New language` and follow the on-screen prompts.
+
+**Important**: Step 2 above is critical if you don’t want to lose your translations when your theme is updated. Translation files saved inside theme directories will be deleted by WordPress auto-update. The global languages directory is safe, but must be writeable by your web server for Loco Translate to save files in it.
+
+
+To translate your own theme or plugin for distribution, follow these steps:
 
 1. Create a `languages` subdirectory in your plugin or theme's root directory
-2. Ensure this directory writable by the web server
+2. Ensure this directory writeable by the web server
 3. Find the theme or plugin in the list at *Loco Translate > Manage Translations*
 4. Click `+ New language` and follow the on-screen prompts.
 
 
-To translate someone else’s theme into your language, follow these steps:
-
-1. Create the global languages directory exists at `wp-content/languages/themes`
-2. Ensure this directory writable by the web server
-3. Find the theme in the list at *Loco Translate > Manage Translations*
-4. Click `+ New language` and follow the on-screen prompts.
-
-
-
-A quick guide on using the plugin is [available here](https://localise.biz/help/wordpress/translate-plugin), but make sure you're familiar with the conventions of [Translating Wordpress](http://codex.wordpress.org/Translating_WordPress) before you start.
-
-Please note that this plugin doesn’t support Windows servers and the editor doesn't fully support MSIE<=8.
+More information on using the plugin is [available here](https://localise.biz/help/wordpress/translate-plugin).
 
 
 == Frequently Asked Questions ==
 
-= Does this automatically translate my project? =
+See our [most common support questions](https://localise.biz/help/wordpress/translate-plugin/faqs).
 
-No. It's for manually entering your own translations, but we do intend to be integrating some automatic translation services into the plugin soon.
+= How do I use it? = 
 
-
-= Why can't I see the translations appearing in my theme/plugin? =
-
-All Loco Translate does is manage your translation process and organize your files, it does not run when people are visiting your site.
-
-If you think Loco is saving invalid MO files or putting them in the wrong place, then open a [support ticket](http://wordpress.org/support/plugin/loco-translate), 
-but please see [this extended FAQ](https://wordpress.org/support/topic/faq-why-arent-my-translations-showing-up) before posting.
-
-
-= Why can't it extract any translatable strings from my code? =
-
-The extraction process looks for Wordpress translation functions with string literal arguments, such as `__('Foo')`.
-
-Using your own custom functions like `myTranslate('Foo')` won't work. Neither will using variables, such as `__( $foo )`.
-
-See [more tips on localizing your theme](https://localise.biz/help/wordpress/theme-localization).
-
-
-= Do I need to create a POT (template) file? =
-
-If you’re not familiar with the [Gettext](https://www.gnu.org/software/gettext/) workflow and don’t plan to distribute your plugin then you might want to work without a POT file.
-
-There are some good reasons to maintain a POT file, but Loco Translate doesn’t require it and can sync your translations directly with your source code.
-
-
-
-= Why do I get file warnings when I try to save translations? =
-
-To save PO files directly to your site some files and directories must be writable by the web server. If you're unsure how to manage file permissions on your server, ask your system administrator or hosting provider. 
-
-If writable directories pose a security risk then restrict translation to a development server. The file permissions are only required for editing translations and not related to viewing them.
-
-
-= How do I create MO files? =
-
-Every time you save a PO file Loco Translate tries to compile a MO file in the same location. As above, ensure that the web server is able to write to disk, otherwise MO compilation will fail.
-
-
-= Why do I get a syntax error when saving and syncing? =
-
-This error means something has gone unexpectedly wrong on your server.
-See [this extended FAQ](https://wordpress.org/support/topic/faq-what-is-causing-unexpected-tokencharacter-syntax-error) for some tips on what to do.
-
-
-= Does it support Windows? =
-
-You can access the interface on Windows using Internet Explorer, but version 9 or above is recommended.
-
-Loco Translate does not support Windows versions of PHP, so if your server has a Windows operating system the plugin may not work properly.
-
-
-= This is too technical; why doesn’t it just work? = 
-
-In most cases it does, but Loco Translate is not a standalone application - it runs on your server and extraneous factors occasionally cause problems. If the plugin is unable to handle a particular situation automatically then you might have to intervene, and there isn’t always a *non-technical* solution to a technical problem. 
-
-If you think there is a problem with Loco Translate you can open a [support ticket](https://wordpress.org/support/plugin/loco-translate), but please provide as much relevant detail as possible.
-
-If you have a suggestion on how to improve the experience of using Loco Translate then please [get in touch](https://localise.biz/contact).
-
+Try our [beginner's guide](https://localise.biz/help/wordpress/translate-plugin/beginners) and a more advanced [technical overview](https://localise.biz/help/wordpress/translate-plugin/overview).
 
 
 == Screenshots ==
@@ -132,6 +76,15 @@ If you have a suggestion on how to improve the experience of using Loco Translat
 
 
 == Changelog ==
+
+= 1.5.4 =
+* Added theme/plugin metadata extraction to POT generation
+* POT extractor fix for function calls in argument lists
+* Fix for authors using unsuffixed PO files as templates
+* Updated translations, added pt_PT and Kurdish and amended typos
+* Added WordPress skin colours
+* Workarounds for single-file plugins
+* Fixed reordering bug after sync
 
 = 1.5.3 =
 * Critical PHP < 5.4 compatibility bug fix
@@ -155,13 +108,13 @@ If you have a suggestion on how to improve the experience of using Loco Translat
 * Removed SORT_NATURAL for PHP 5.3 compat
 * Fixed dummy msginit bug when default locale exists
 * POT/domain matching fix
-* Using Wordpress language codes
+* Using WordPress language codes
 * Added polyfills for mbstring and iconv
 
 = 1.4.7 =
 * Added Polish translations
 * Tested in WP 4.0
-* Add support for Wordpress's regionless locales
+* Add support for WordPress's regionless locales
 
 = 1.4.6 =
 * Updated Swedish and Turkish translations
@@ -217,7 +170,7 @@ If you have a suggestion on how to improve the experience of using Loco Translat
 
 = 1.3 =
 * Support for files under WP_LANG_DIR
-* Last-Translator header added to PO files from Wordpress user
+* Last-Translator header added to PO files from WordPress user
 * Disabling cache when WP_DEBUG = true
 * Better editor integration, including source headers and file refs
 * Added editor dropdown for switching between files
@@ -260,10 +213,17 @@ If you have a suggestion on how to improve the experience of using Loco Translat
 
 == Upgrade Notice ==
 
-= 1.5.3 =
+= 1.5.4 =
 * Bug fixes and improvements.
 
 
+
+== More info ==
+
+* [About the plugin](https://localise.biz/help/wordpress/translate-plugin/beginners)
+* [Beginner's guide to translating a theme](https://localise.biz/help/wordpress/translate-plugin/beginners)
+* [Technical overview](https://localise.biz/help/wordpress/translate-plugin/overview)
+* [Getting help](https://localise.biz/help/wordpress/translate-plugin/support)
 
 == Coming soon ==
 
@@ -288,7 +248,8 @@ These features are on our todo list. There's no particular timeframe for any of 
 * Persian translations by [Araz Rad](http://fa.araz.id.ir)
 * Japanese translations by [Agarthe LLC](https://agarthe.com)
 * Spanish translations by [temesis1234](https://wordpress.org/support/profile/temesis1234)
-* Brazilian Portuguese translations by [pamcabezas](https://github.com/pamcabezas)
+* Brazilian Portuguese translations by [pamcabezas](https://github.com/pamcabezas) and [Marcelo Saldanha](http://www.associadosweb.com/)
+* European Portuguese translations by [Pedro Mendonça](https://github.com/pedro-mendonca)
 * French translations by [Borjan Tchakaloff](https://github.com/bibz)
 
 == Keyboard shortcuts ==

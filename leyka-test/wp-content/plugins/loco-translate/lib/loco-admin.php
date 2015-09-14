@@ -121,7 +121,7 @@ abstract class LocoAdmin {
             $package = LocoPackage::get( $plugin_file, 'plugin' ) and
             $plugins[ $package->get_name() ] = $package->get_domain();
         }
-        // check if locale is a valid Wordpress language code
+        // check if locale is a valid WordPress language code
         if( ! LocoLocale::is_valid_wordpress($theme_locale) ){
             self::warning( sprintf( Loco::__('%s is not an official WordPress language'), $theme_locale ) );
         }
@@ -699,6 +699,13 @@ abstract class LocoAdmin {
     public static function xgettext( LocoPackage $package, $relative_to = '' ){
         class_exists('LocoPHPExtractor') or loco_require('build/gettext-compiled');
         $extractor = new LocoPHPExtractor;
+        // parse out header tags in template files
+        if( $package instanceof LocoThemePackage ){
+            $extractor->set_wp_theme();
+        }
+        else if( $package instanceof LocoPluginPackage ){
+            $extractor->set_wp_plugin();
+        }
         $export = array();
         // extract from PHP sources, as long as source locations exist
         if( $srcdirs = $package->get_source_dirs() ){
@@ -711,6 +718,14 @@ abstract class LocoAdmin {
                 }
             }
         }
+        // extract from single file plugin
+        else if( $path = $package->get_default_file() ){
+            $dir = dirname($path);
+            $fileref = loco_relative_path( $relative_to, $dir );
+            $source = file_get_contents($path) and
+            $tokens = token_get_all($source) and
+            $export = $extractor->extract( $tokens, str_replace( $dir, $fileref, $path ) );
+        }
         // else use first existing PO file in place of POT
         else if( $po = $package->get_po() ){
             foreach( $po as $code => $path ){
@@ -721,7 +736,17 @@ abstract class LocoAdmin {
                 }
                 break;
             }
-        }        
+        }
+        // add translatable header tags that won't have been in PHP
+        if( $package instanceof LocoThemePackage ){
+            $id = $target = '';
+            foreach( $package->get_headers() as $tag => $source ){
+                if( $source ){
+                    $notes = str_replace('URI',' URI',$tag).' of the theme';
+                    $export[] = compact('id','source','target','notes');
+                }
+            }
+        }
         return $export;
     }
     
@@ -1052,6 +1077,11 @@ function _loco_hook__current_screen(){
         }
         // add common resources for all Loco admin pages
         Loco::enqueue_styles('loco-admin');
+        // load colour scheme is user has non-default
+        $skin = get_user_option('admin_color');
+        if( $skin && 'fresh' !== $skin ){
+            Loco::enqueue_styles( 'skins/'.$skin );
+        }
     }
 }  
 
@@ -1157,7 +1187,7 @@ add_action('wp_ajax_loco-posave', '_loco_hook__wp_ajax' );
 add_action('wp_ajax_loco-posync', '_loco_hook__wp_ajax' );
 add_action('wp_ajax_loco-download', '_loco_hook__wp_ajax_download' );
 
-// WP_LANG_DIR was introduced in Wordpress 2.1.0.
+// WP_LANG_DIR was introduced in WordPress 2.1.0.
 if( ! defined('WP_LANG_DIR') ){
     define('WP_LANG_DIR', WP_CONTENT_DIR.'/languages' );
 } 

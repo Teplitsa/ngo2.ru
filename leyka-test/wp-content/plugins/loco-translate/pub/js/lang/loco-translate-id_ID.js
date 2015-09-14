@@ -4,7 +4,7 @@
  * Release: Working copy
  * Locale: id_ID, Indonesian
  * Exported by: Unregistered user
- * Exported at: Thu, 02 Jul 2015 14:56:21 +0100 
+ * Exported at: Tue, 08 Sep 2015 10:15:19 +0100
  */
 loco = window.loco||{}, loco.t = function( pairs ){
     
@@ -143,10 +143,11 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Use external command:": "Gunakan perintah eksternal:",
     "Enter path to msgfmt on server": "Masukkan folder msgfmt pada server",
     "Generate hash tables": "Buat tabel hash",
+    "Include Fuzzy strings": "",
     "Backing up PO files": "Pencadangan berkas PO",
     "Number of backups to keep of each file:": "Jumlah cadangan untuk tiap berkas:",
     "Experimental features": "Fitur eksperimen",
-    "Enable Wordpress core translations": "Aktifkan penerjemahan inti Wordpress",
+    "Enable WordPress core translations": "Aktifkan penerjemahan inti WordPress",
     "Save settings": "Simpan setelan",
     "Template file": "Berkas template",
     "Switch to...": "Beralih ke...",
@@ -171,6 +172,7 @@ loco = window.loco||{}, loco.t = function( pairs ){
     "Select a plugin or theme to translate": "Pilih plugin atau tema untuk diterjemahkan",
     "Themes": "Tema",
     "Plugins": "Plugin",
-    "Core": "Inti"
+    "Core": "Inti",
+    "Translate WordPress plugins and themes directly in your browser": ""
 } 
 );
