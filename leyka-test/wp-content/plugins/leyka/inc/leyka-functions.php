@@ -74,13 +74,16 @@ function leyka_get_validated_campaign($campaign) {
 /** Get WP pages list as an array. Used mainly to form a dropdowns. */
 function leyka_get_pages_list() {
 
-    $query = new WP_Query(apply_filters('leyka_pages_list_query', array(
-        'post_type' => 'page',
-        'posts_per_page' => -1,
-    )));
+    global $wpdb;
+
+    $params = apply_filters('leyka_pages_list_query', array('post_status' => 'publish', 'post_type' => 'page'));
+    foreach($params as $name => &$value) {
+        $value = "`$name` = '$value'";
+    }
+    $res = $wpdb->get_results("SELECT ID, post_title FROM $wpdb->posts WHERE ".implode(' AND ', $params));
 
     $pages = array(0 => __('Website main page', 'leyka'),);
-    foreach($query->get_posts() as $page) {
+    foreach($res as $page) {
         $pages[$page->ID] = $page->post_title;
     }
 
@@ -114,29 +117,33 @@ function leyka_get_default_dm_list() {
 function leyka_get_default_success_page() {
 
     $default_page = get_option('leyka_success_page');
-    if($default_page)
+    if($default_page) {
         return $default_page;
+    }
 
-    $page = new WP_Query(apply_filters('leyka_default_success_page_query', array(
-        'post_type' => 'page',
-//        'lang' => 'ru',
-        'pagename' => 'thank-you-for-your-donation',
+    global $wpdb;
+
+    $params = apply_filters('leyka_default_success_page_query', array(
         'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'),
-        'posts_per_page' => 1,
-        'orderby' => 'ID',
-        'order' => 'ASC',
-    )));
-    $page = $page->get_queried_object();
+        'post_type' => 'page',
+        'post_name' => 'thank-you-for-your-donation',
+    ));
+    foreach($params as $name => &$value) {
+        $value = is_array($value) ? "`$name` IN ('".implode("', '", $value)."')" : "`$name` = '$value'";
+    }
+    $page = $wpdb->get_row("SELECT ID, post_status FROM $wpdb->posts WHERE ".implode(' AND ', $params)." ORDER BY ID ASC LIMIT 0,1");
 
     if($page) {
 
-        if($page->post_status != 'publish')
+        if($page->post_status != 'publish') {
             wp_update_post(array(
                 'ID' => $page->ID,
                 'post_status' => 'publish',
             ));
+        }
 
         $page = $page->ID;
+
     } else {
 
         $page = wp_insert_post(array(
@@ -145,7 +152,6 @@ function leyka_get_default_success_page() {
             'post_name' => 'thank-you-for-your-donation',
             'post_title' => __('Your donation is completed!', 'leyka'),
             'post_content' => __('We heartly thank you for your help!', 'leyka'),
-//                '' => __('', 'leyka'),
         ));
 
         do_action('leyka_default_success_page_created', $page);
@@ -159,8 +165,9 @@ function leyka_get_success_page_url() {
     $url = leyka_options()->opt('success_page') ?
         get_permalink(leyka_options()->opt('success_page')) : home_url();
 
-    if( !$url ) // It can be in case when "last posts" is selected for homepage
+    if( !$url ) { // It can be in case when "last posts" is selected for homepage
         $url = home_url();
+    }
     
     return $url;
 }
@@ -168,19 +175,21 @@ function leyka_get_success_page_url() {
 function leyka_get_default_failure_page() {
 
     $default_page = get_option('leyka_failure_page');
-    if($default_page)
+    if($default_page) {
         return $default_page;
+    }
 
-    $page = new WP_Query(apply_filters('leyka_default_failure_page_query', array(
-        'post_type' => 'page',
-//        'lang' => 'ru',
-        'pagename' => 'sorry-donation-failure',
+    global $wpdb;
+
+    $params = apply_filters('leyka_default_failure_page_query', array(
         'post_status' => array('publish', 'pending', 'draft', 'auto-draft', 'private', 'future', 'inherit', 'trash'),
-        'posts_per_page' => 1,
-        'orderby' => 'ID',
-        'order' => 'ASC',
-    )));
-    $page = $page->get_queried_object();
+        'post_type' => 'page',
+        'post_name' => 'sorry-donation-failure',
+    ));
+    foreach($params as $name => &$value) {
+        $value = is_array($value) ? "`$name` IN ('".implode("', '", $value)."')" : "`$name` = '$value'";
+    }
+    $page = $wpdb->get_row("SELECT ID, post_status FROM $wpdb->posts WHERE ".implode(' AND ', $params)." ORDER BY ID ASC LIMIT 0,1");
 
     if($page) {
 
@@ -191,6 +200,7 @@ function leyka_get_default_failure_page() {
             ));
 
         $page = $page->ID;
+
     } else {
 
         $page = wp_insert_post(array(
@@ -212,9 +222,10 @@ function leyka_get_failure_page_url() {
     $url = leyka_options()->opt('failure_page') ?
         get_permalink(leyka_options()->opt('failure_page')) : home_url();
 
-    if( !$url ) // It can be in case when "last posts" is selected for homepage
+    if( !$url ) { // It can be in case when "last posts" is selected for homepage
         $url = home_url();
-    
+    }
+
     return $url;
 }
 
@@ -224,7 +235,6 @@ function leyka_get_form_templates_list() {
     $list = array();
     foreach(leyka()->get_templates() as $template) {
 
-//        $template_id = str_replace('.php', '', end(explode('-', $template['basename'])));
         $name = $template['name'] == __($template['name'], 'leyka') ?
             $template['name'] : __($template['name'], 'leyka');
         $description = $template['description'] == __($template['description'], 'leyka') ?
@@ -307,12 +317,14 @@ function leyka_get_campaign_target_states_list() {
 function leyka_get_campaign_target($campaign) {
 
     $campaign = (int)$campaign;
-    if($campaign <= 0)
+    if($campaign <= 0) {
         return false;
+    }
 
     $campaign = new Leyka_Campaign($campaign);
-    if( !$campaign->id )
+    if( !$campaign->id ) {
         return false;
+    }
 
     return array(
         'amount' => $campaign->target,
@@ -329,12 +341,14 @@ function leyka_get_campaign_target($campaign) {
 function leyka_get_campaign_collections($campaign) {
 
     $campaign = (int)$campaign;
-    if($campaign <= 0)
+    if($campaign <= 0) {
         return false;
+    }
 
     $campaign = new Leyka_Campaign($campaign);
-    if( !$campaign->id )
+    if( !$campaign->id ) {
         return false;
+    }
 
     return array(
         'amount' => $campaign->get_collected_amount(),
@@ -346,7 +360,6 @@ function leyka_get_campaign_collections($campaign) {
 /**
  * Scale
  **/
-
 function leyka_scale_compact($campaign) {
     
     if( !is_a($campaign, 'Leyka_Campaign') )
@@ -370,33 +383,32 @@ function leyka_scale_compact($campaign) {
         </div>
     </div>
     <div class="leyka-scale-label">
-    <?php
-        $target_f = number_format($target, 0, '.', ' ');
-        $collected_f = number_format($collected, 0, '.', ' ');
-        
-        if($collected == 0){
-            printf(__('Needed %s %s', 'leyka'), '<b>'.$target_f.'</b>', $curr_label);
-        }
-        else {
-            printf(__('Collected %s of %s %s', 'leyka'), '<b>'.$collected_f.'</b>', '<b>'.$target_f.'</b>', $curr_label);
-        }
-    ?>    
+    <?php $target_f = number_format($target, 0, '.', ' ');
+    $collected_f = number_format($collected, 0, '.', ' ');
+
+    if($collected == 0) {
+        printf(__('Needed %s %s', 'leyka'), '<b>'.$target_f.'</b>', $curr_label);
+    } else {
+        printf(__('Collected %s of %s %s', 'leyka'), '<b>'.$collected_f.'</b>', '<b>'.$target_f.'</b>', $curr_label);
+    }?>
     </div>
 </div>
-<?php  
+<?php
 }
 
 function leyka_scale_ultra($campaign) {
     
-    if( !is_a($campaign, 'Leyka_Campaign') )
+    if( !is_a($campaign, 'Leyka_Campaign') ) {
         $campaign = new Leyka_Campaign($campaign);
-        
-    $target = intval($campaign->target);
+    }
+
+    $target = (int)$campaign->target;
     $curr_label = leyka_get_currency_label('rur');
-    $collected = intval($campaign->get_collected_amount());
+    $collected = (int)$campaign->get_collected_amount();
    
-    if($target == 0)
+    if($target == 0) {
         return;
+    }
     
     $percentage = round(($collected/$target)*100);
 	if($percentage > 100)
@@ -409,13 +421,10 @@ function leyka_scale_ultra($campaign) {
         </div>
     </div>
     <div class="leyka-scale-label"><span>
-    <?php
-        $target_f = number_format($target, 0, '.', ' ');
-        $collected_f = number_format($collected, 0, '.', ' ');
-                
-        printf(_x('%s of %s %s', 'Label on ultra-compact scale', 'leyka'), '<b>'.$collected_f.'</b>', '<b>'.$target_f.'</b>', $curr_label);
-        
-    ?>    
+    <?php $target_f = number_format($target, 0, '.', ' ');
+    $collected_f = number_format($collected, 0, '.', ' ');
+
+    printf(_x('%s of %s %s', 'Label on ultra-compact scale', 'leyka'), '<b>'.$collected_f.'</b>', '<b>'.$target_f.'</b>', $curr_label);?>
     </span></div>
 </div>
 <?php  
@@ -423,8 +432,9 @@ function leyka_scale_ultra($campaign) {
 
 function leyka_fake_scale_ultra($campaign) {
     
-    if( !is_a($campaign, 'Leyka_Campaign') )
+    if( !is_a($campaign, 'Leyka_Campaign') ) {
         $campaign = new Leyka_Campaign($campaign);
+    }
 
     $curr_label = leyka_get_currency_label('rur');
     $collected = number_format(intval($campaign->get_collected_amount()), 0, '.', ' ');?>
@@ -434,7 +444,7 @@ function leyka_fake_scale_ultra($campaign) {
         <div class="target"> </div>
     </div>
     <div class="leyka-scale-label"><span>
-        <?php  printf(_x('Collected: %s', 'Label on ultra-compact fake scale', 'leyka'), "<b>{$collected}</b> {$curr_label}"); ?>
+        <?php printf(_x('Collected: %s', 'Label on ultra-compact fake scale', 'leyka'), "<b>{$collected}</b> {$curr_label}");?>
     </span></div>
 </div>
 <?php
@@ -452,8 +462,9 @@ function leyka_get_payment_types_list() {
 
 function leyka_get_payment_type_label($type) {
 
-    if(empty($type))
+    if(empty($type)) {
         return false;
+    }
 
     $types = leyka_get_payment_types_list();
     return in_array($type, array_keys($types)) ? $types[$type] : false;
@@ -601,7 +612,13 @@ function leyka_min_payment_settings_complete() {
 }
 
 function leyka_campaign_published() {
-    return count(get_posts(array('post_type' => Leyka_Campaign_Management::$post_type, 'posts_per_page' => 1))) > 0;
+
+    global $wpdb;
+
+    return $wpdb->get_var("SELECT COUNT(*)
+      FROM $wpdb->posts
+      WHERE post_type='".Leyka_Campaign_Management::$post_type."' AND post_status = 'publish' LIMIT 0,1"
+    ) > 0;
 }
 
 /** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
