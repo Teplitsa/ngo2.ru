@@ -200,7 +200,7 @@ class Leyka_Admin_Setup {
 		} elseif(current_theme_supports('menus')) {
 			$row['step_4'] = array(
 				'txt'    => __('Display campaign\'s link on your site using menus', 'leyka'),
-				'action' => admin_url('nav-menus.php'),
+				'action' => leyka_is_campaign_link_in_menu() ? false : admin_url('nav-menus.php'),
 				'docs'   => 'https://leyka.te-st.ru/docs/video-urok-ispolzovanie-novyh-vozmozhnostej-lejki/'
 			);
 		}?>

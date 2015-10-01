@@ -624,12 +624,30 @@ function leyka_is_campaign_published() {
 
 function leyka_is_widget_active() {
 
-    global $wp_registered_widgets;
-    echo '<pre>' . print_r(wp_get_sidebars_widgets(), 1) . '</pre>';
-    echo '<pre>' . print_r($wp_registered_widgets, 1) . '</pre>';
-    echo '<pre>1: ' . print_r((int)is_active_widget(false, false, 'leyka_campaign_card', true), 1) . '</pre>';
-    echo '<pre>2: ' . print_r((int)is_active_widget(false, false, 'leyka_campaigns_list', true), 1) . '</pre>';
-    return is_active_widget(false, false, 'leyka_campaign_card', true);
+    // is_active_widget() is not working for some reason, so emulate it:
+    foreach(wp_get_sidebars_widgets() as $sidebar => $widgets) {
+
+        foreach($widgets as $widget) {
+
+            if(stristr($widget, 'leyka_') !== false) {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
+function leyka_is_campaign_link_in_menu() {
+
+    echo '<pre>' . print_r(get_registered_nav_menus(), 1) . '</pre>';
+    foreach(get_registered_nav_menus() as $menu_id => $menu_name) {
+
+        echo '<pre>' . print_r($menu_id.' - '.$menu_name, 1) . '</pre>';
+        echo '<pre>' . print_r(wp_get_nav_menu_items($menu_name), 1) . '</pre>';
+    }
+
+    return false;
 }
 
 /** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
