@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Leyka Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 08:25:09+00:00\n"
-"PO-Revision-Date: Thu Oct 01 2015 17:17:53 GMT+0300\n"
+"PO-Revision-Date: Mon Aug 31 2015 11:40:10 GMT+0300\n"
 "Last-Translator: ahaenor <ahaenor@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Russian\n"
@@ -1416,7 +1416,7 @@ msgstr "Заполните информацию о вашей организац
 
 #: ../inc/leyka-admin.php:182
 msgid "Set up at least one payment gateway - bank order, for example"
-msgstr "Настройте хотя бы один способ пожертвования - например, банковские квитанции"
+msgstr "Настройте первый способ пожертвования"
 
 #: ../inc/leyka-admin.php:188
 msgid "Create and publsih your first campaign"

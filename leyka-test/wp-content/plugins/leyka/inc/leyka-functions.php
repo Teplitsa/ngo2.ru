@@ -551,7 +551,7 @@ function leyka_get_actual_currency_rates() {
     return $currencies;
 }
 
-function leyka_settings_complete($settings_tab) {
+function leyka_are_settings_complete($settings_tab) {
 
     $settings_complete = true;
     $tab_options = leyka_opt_alloc()->get_tab_options($settings_tab); // Special 4 strict standards
@@ -569,7 +569,8 @@ function leyka_settings_complete($settings_tab) {
     return $settings_complete;
 }
 
-function leyka_min_payment_settings_complete() {
+/** @todo We should explixitly output a list of PMs and gateways that are not configured enough */
+function leyka_is_min_payment_settings_complete() {
 
     $pm_list = leyka_get_pm_list(true);
     if( !$pm_list ) {
@@ -611,7 +612,7 @@ function leyka_min_payment_settings_complete() {
     return true;
 }
 
-function leyka_campaign_published() {
+function leyka_is_campaign_published() {
 
     global $wpdb;
 
@@ -619,6 +620,16 @@ function leyka_campaign_published() {
       FROM $wpdb->posts
       WHERE post_type='".Leyka_Campaign_Management::$post_type."' AND post_status = 'publish' LIMIT 0,1"
     ) > 0;
+}
+
+function leyka_is_widget_active() {
+
+    global $wp_registered_widgets;
+    echo '<pre>' . print_r(wp_get_sidebars_widgets(), 1) . '</pre>';
+    echo '<pre>' . print_r($wp_registered_widgets, 1) . '</pre>';
+    echo '<pre>1: ' . print_r((int)is_active_widget(false, false, 'leyka_campaign_card', true), 1) . '</pre>';
+    echo '<pre>2: ' . print_r((int)is_active_widget(false, false, 'leyka_campaigns_list', true), 1) . '</pre>';
+    return is_active_widget(false, false, 'leyka_campaign_card', true);
 }
 
 /** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
@@ -630,23 +641,21 @@ function leyka_campaign_published() {
 //}
 
 /** ITV info-widget **/
-function leyka_itv_info_widget(){
-	//only in Russian as for now
+function leyka_itv_info_widget() {
+
     $locale = get_locale();
-    
-    if($locale != 'ru_RU')
+    if($locale != 'ru_RU') { // Only in Russian for now
         return;
-    
-    
-    $src = LEYKA_PLUGIN_BASE_URL.'img/logo-itv.png';
-    $domain = parse_url(home_url()); 
-    $itv_url = "https://itv.te-st.ru/?leyka=".$domain['host'];
-?>
+    }
+
+    $domain = parse_url(home_url());
+    $itv_url = "https://itv.te-st.ru/?leyka=".$domain['host'];?>
+
 	<div id="itv-card">
-        <div class="itv-logo"><a href="<?php echo esc_url($itv_url);?>" target="_blank"><img src="<?php echo esc_url($src);?>"></a></div>
-        
+        <div class="itv-logo"><a href="<?php echo esc_url($itv_url);?>" target="_blank"><img src="<?php echo esc_url(LEYKA_PLUGIN_BASE_URL.'img/logo-itv.png');?>"></a></div>
+
         <p>Вам нужна помощь в настройке пожертвований или подключении к платежным системам? Опубликуйте задачу на платформе <a href="<?php echo esc_url($itv_url);?>" target="_blank">it-волонтер</a></p>
-                
+
         <p><a href="<?php echo esc_url($itv_url);?>" target="_blank" class="button">Опубликовать задачу</a></p>
     </div>
 <?php
