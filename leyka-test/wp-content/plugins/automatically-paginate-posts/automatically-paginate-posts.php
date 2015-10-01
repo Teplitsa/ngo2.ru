@@ -74,9 +74,9 @@ class Automatically_Paginate_Posts {
 	 * @return null
 	 */
 	public function action_init() {
-        echo '<pre>Here: ' . print_r(get_option( $this->option_name_post_types, $this->post_types_default ), 1) . '</pre>';
+
+        echo '<pre>' . print_r('HERE init', 1) . '</pre>';
 		//Post types
-		$this->post_types = apply_filters( 'autopaging_post_types', get_option( $this->option_name_post_types, $this->post_types_default ) );
 		$this->post_types = apply_filters( 'autopaging_post_types', get_option( $this->option_name_post_types, $this->post_types_default ) );
 
 		//Number of pages to break over
@@ -358,7 +358,7 @@ class Automatically_Paginate_Posts {
 	 * @return array
 	 */
 	public function filter_the_posts( $posts ) {
-//        echo '<pre>here: ' . print_r($this, 1) . '</pre>';
+        echo '<pre>here: ' . print_r('HERE the_posts', 1) . '</pre>';
 		if ( ! is_admin() ) {
 			foreach( $posts as $the_post ) {
 				if ( in_array( $the_post->post_type, $this->post_types ) && ! preg_match( '#<!--nextpage-->#i', $the_post->post_content ) && ! (bool) get_post_meta( $the_post->ID, $this->meta_key_disable_autopaging, true ) ) {
