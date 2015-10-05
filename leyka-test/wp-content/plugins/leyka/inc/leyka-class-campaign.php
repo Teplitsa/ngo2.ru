@@ -613,11 +613,11 @@ class Leyka_Campaign {
     }
 
 	/** Get complicated params */
-    public function get_donations() {
+    public function get_donations(array $status = null) {
 
         $donations = get_posts(array(
             'post_type' => Leyka_Donation_Management::$post_type,
-            'post_status' => array('submitted', 'funded', 'refunded', 'failed', 'trash',),
+            'post_status' => $status ? $status : array('submitted', 'funded', 'refunded', 'failed', 'trash',),
             'posts_per_page' => -1,
             'meta_key' => 'leyka_campaign_id',
             'meta_value' => $this->_id,
@@ -702,8 +702,9 @@ class Leyka_Campaign {
             return false;
         }
 
-        $this->_campaign_meta['total_funded'] +=
-            ($donation->status != 'funded' || $donation->campaign_id != $this->_id ? -$donation->sum : $donation->sum);
+        $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id ? -$donation->sum : $donation->sum);
+//        echo '<pre>Sum: ' . print_r($sum, 1) . '</pre>';
+        $this->_campaign_meta['total_funded'] += $sum;
 
         update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);
 

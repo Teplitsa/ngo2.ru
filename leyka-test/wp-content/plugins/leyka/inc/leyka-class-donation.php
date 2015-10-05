@@ -1051,20 +1051,26 @@ class Leyka_Donation_Management {
             $donation->status = $_POST['donation_status'];
         }
 
+        if(isset($_POST['donation-amount']) && (float)$donation->amount != (float)$_POST['donation-amount']) {
+            $donation->amount = (float)$_POST['donation-amount'];
+        }
+
+        if( !$donation->currency ) {
+            $donation->currency = 'rur';
+        }
+
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
 
             $old_campaign = new Leyka_Campaign($donation->campaign_id);
-            $new_campaign = new Leyka_Campaign((int)$_POST['campaign-id']);
+            $old_campaign->update_total_funded_amount($donation)->refresh_target_state();
 
             $donation->campaign_id = (int)$_POST['campaign-id'];
-
-            $old_campaign->update_total_funded_amount($donation)->refresh_target_state();
-            $new_campaign->update_total_funded_amount($donation)->refresh_target_state();
         }
 
-        // It's a new correction donation, set a title from it's campaign:
         $campaign = new Leyka_Campaign($donation->campaign_id);
+        $campaign->update_total_funded_amount($donation)->refresh_target_state();
 
+        // It's a new correction donation, set a title from it's campaign:
         $donation_title = $campaign->payment_title ?
             $campaign->payment_title :
             ($campaign->title ? $campaign->title : sprintf(__('Donation #%s', 'leyka'), $donation_id));
@@ -1079,14 +1085,6 @@ class Leyka_Donation_Management {
 
         if(isset($_POST['donor-email']) && $donation->donor_email != $_POST['donor-email']) {
             $donation->donor_email = $_POST['donor-email'];
-        }
-
-        if(isset($_POST['donation-amount']) && (float)$donation->amount != (float)$_POST['donation-amount']) {
-            $donation->amount = (float)$_POST['donation-amount'];
-        }
-
-        if( !$donation->currency ) {
-            $donation->currency = 'rur';
         }
 
         if(

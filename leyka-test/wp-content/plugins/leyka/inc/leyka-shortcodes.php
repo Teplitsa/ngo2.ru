@@ -308,7 +308,7 @@ function leyka_get_donors_list($campaign_id = 'all', $args = array()) {
 			array(
 				'key'     => 'leyka_donation_amount',
 				'value'   => 0,
-				'compare' => '>',
+				'compare' => '!=',
 				'type'    => 'NUMERIC'
 			)
 		)
@@ -334,7 +334,6 @@ function leyka_get_donors_list($campaign_id = 'all', $args = array()) {
 	<div id="<?php echo esc_attr('leyka_donors_list-'.uniqid());?>" class="leyka-donors-list">
 	<?php
 		foreach($donations as $donation) {
-			echo '<pre>' . print_r($donation, 1) . '</pre>';
 
 			$donation = new Leyka_Donation($donation);
 
