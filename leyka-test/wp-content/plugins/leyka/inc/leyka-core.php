@@ -70,7 +70,7 @@ class Leyka {
         }
 
         if(is_admin()) {
-//            $this->admin_setup();
+
             require_once(LEYKA_PLUGIN_DIR.'inc/leyka-class-options-allocator.php');
             require_once(LEYKA_PLUGIN_DIR.'inc/leyka-render-settings.php');
             require_once(LEYKA_PLUGIN_DIR.'inc/leyka-admin.php');
@@ -491,19 +491,6 @@ class Leyka {
         wp_localize_script($this->_plugin_slug.'-public', 'leyka', $js_data);
     }
 
-    /**
-     * Setup admin for the plugin.
-     **/
-//    public function admin_setup() {
-//
-//        require_once(LEYKA_PLUGIN_DIR.'inc/leyka-class-options-allocator.php');
-//        require_once(LEYKA_PLUGIN_DIR.'inc/leyka-render-settings.php');
-//        require_once(LEYKA_PLUGIN_DIR.'inc/leyka-admin.php');
-//        require_once(LEYKA_PLUGIN_DIR.'inc/leyka-donations-export.php');
-//
-//        Leyka_Admin_Setup::get_instance();
-//    }
-
     /** Register leyka user roles and caps. */
     function register_user_capabilities() {
 
@@ -536,10 +523,14 @@ class Leyka {
             $role->add_cap('leyka_manage_options', TRUE);
         }
 
-        if( !get_role('donations_manager') )
+        if( !get_role('donations_manager') ) {
             add_role('donations_manager', __('Donations Manager', 'leyka'), $caps);
-        if( !get_role('donations_administrator') )
+        }
+        if( !get_role('donations_administrator') ) {
             add_role('donations_administrator', __('Donations Administrator', 'leyka'), array_merge($caps, array('leyka_manage_options' => true,)));
+        }
+
+//        echo '<pre>' . print_r(wp_get_current_user()->get_role_caps(), 1) . '</pre>';
     }
 
     /**

@@ -473,13 +473,14 @@ class Leyka_Admin_Setup {
 	}
 
     /** Displaying feedback **/
-    public function feedback_screen(){
+    public function feedback_screen() {
 
-        if( !current_user_can('leyka_manage_donations') )
+        if( !current_user_can('leyka_manage_donations') ) {
             wp_die(__('You do not have permissions to access this page.', 'leyka'));
+		}
 
         $user = wp_get_current_user();?>
-		
+
 	<div class="wrap">
 		<h2><?php _e('Send us a feedback', 'leyka');?></h2>
 
