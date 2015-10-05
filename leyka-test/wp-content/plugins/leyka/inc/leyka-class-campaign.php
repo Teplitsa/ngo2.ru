@@ -515,11 +515,9 @@ class Leyka_Campaign {
                     'meta_key' => 'leyka_campaign_id',
                     'meta_value' => $this->_id,
                 ));
-//                echo '<pre>' . print_r($this->_id.' - '.count($donations), 1) . '</pre>';
 
                 $sum = 0.0;
                 foreach($donations as $donation) {
-//                    echo '<pre>' . print_r('Here:'.$donation->ID, 1) . '</pre>';
 
                     $donation = new Leyka_Donation($donation);
                     $sum += $donation->main_curr_amount ? $donation->main_curr_amount : $donation->amount;

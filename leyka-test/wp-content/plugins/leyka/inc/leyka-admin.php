@@ -114,7 +114,7 @@ class Leyka_Admin_Setup {
         add_submenu_page('leyka', __('Donations', 'leyka'), __('Donations', 'leyka'), 'leyka_manage_donations', 'edit.php?post_type='.Leyka_Donation_Management::$post_type);
 
         // New donation:
-        add_submenu_page('leyka', __('New donation', 'leyka'), __('New donation', 'leyka'), 'leyka_manage_donations', 'post-new.php?post_type='.Leyka_Donation_Management::$post_type);
+        add_submenu_page('leyka', __('New donation', 'leyka'), __('New correction donation', 'leyka'), 'leyka_manage_donations', 'post-new.php?post_type='.Leyka_Donation_Management::$post_type);
 
         // Campigns:
         add_submenu_page('leyka', __('All Campaigns', 'leyka'), __('All Campaigns', 'leyka'), 'leyka_manage_donations', 'edit.php?post_type='.Leyka_Campaign_Management::$post_type);
@@ -136,7 +136,7 @@ class Leyka_Admin_Setup {
             $submenu['leyka'] = apply_filters('leyka_admin_menu_order', $submenu['leyka']);
 		}
     }
-	
+
 	/** Settings link in plugin list table **/
 	public function add_settings_link($links) {
 
@@ -161,7 +161,6 @@ class Leyka_Admin_Setup {
 
 		<div class="wrap">
             <h2><?php _e('Leyka Dashboard', 'leyka');?></h2>
-
             <div class="metabox-holder" id="leyka-widgets">
                 <div class="postbox-container" id="postbox-container-1">
                     <?php do_meta_boxes('toplevel_page_leyka', 'normal', null);?>

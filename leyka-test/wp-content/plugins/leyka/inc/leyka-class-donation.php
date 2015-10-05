@@ -705,15 +705,17 @@ class Leyka_Donation_Management {
                 $gateway = leyka_get_gateway_by_id($donation->gateway_id);
 
                 echo ($pm ? $pm->label : __('Unknown payment method', 'leyka'))
-                    .' ('.($gateway ? $gateway->label : __('unknown gateway', 'leyka')).')';
-                ?>
+                    .' ('.($gateway ? $gateway->label : __('unknown gateway', 'leyka')).')';?>
 			    </span>
             <?php }?>
             </div>
         </div>
 
         <div class="leyka-ddata-string">
-            <?php leyka_get_gateway_by_id($donation->gateway_id)->display_donation_specific_data_fields($donation);?>
+            <?php $gateway = leyka_get_gateway_by_id($donation->gateway_id);
+            if($gateway) {
+                $gateway->display_donation_specific_data_fields($donation);
+            }?>
         </div>
 
         <div class="leyka-ddata-string">

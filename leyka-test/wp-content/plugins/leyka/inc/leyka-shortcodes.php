@@ -323,8 +323,9 @@ function leyka_get_donors_list($campaign_id = 'all', $args = array()) {
 		);		
 	}
 
-	$query = new WP_Query($d_args);
-	if( !$query->have_posts() ) {
+	$donations = get_posts($d_args);
+
+	if( !$donations ) {
 		return '';
     }
 
@@ -332,16 +333,18 @@ function leyka_get_donors_list($campaign_id = 'all', $args = array()) {
 
 	<div id="<?php echo esc_attr('leyka_donors_list-'.uniqid());?>" class="leyka-donors-list">
 	<?php
-		foreach($query->posts as $qp) {
-			$donation = new Leyka_Donation($qp);			
-			
+		foreach($donations as $donation) {
+			echo '<pre>' . print_r($donation, 1) . '</pre>';
+
+			$donation = new Leyka_Donation($donation);
+
 			$amount = number_format($donation->sum, 0, '.', ' ');
-			
-			$html = "<div class='ldl-item'>";	
+
+			$html = "<div class='ldl-item'>";
 			$html .= "<div class='amount'>{$amount} {$donation->currency_label}</div>";
-			
+
 			if($args['show_purpose'] == 1) {
-				$html .= "<div class='purpose'><a href='".get_permalink($donation->campaign_id)."'>".$donation->campaign_payment_title."</a></div>"; // correct property?
+				$html .= "<div class='purpose'><a href='".get_permalink($donation->campaign_id)."'>".$donation->campaign_payment_title."</a></div>";
 			}
 
 			$meta = array();
