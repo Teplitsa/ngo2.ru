@@ -529,8 +529,6 @@ class Leyka {
         if( !get_role('donations_administrator') ) {
             add_role('donations_administrator', __('Donations Administrator', 'leyka'), array_merge($caps, array('leyka_manage_options' => true,)));
         }
-
-//        echo '<pre>' . print_r(wp_get_current_user()->get_role_caps(), 1) . '</pre>';
     }
 
     /**
@@ -564,7 +562,7 @@ class Leyka {
             'supports' => false,
             'taxonomies' => array(),
             'has_archive' => false,
-            'capability_type' => 'donation',
+            'capability_type' => array('donation', 'donations'),
             'map_meta_cap' => true,
             'rewrite' => array('slug' => 'donation', 'with_front' => false)
         );
@@ -600,7 +598,7 @@ class Leyka {
             'supports' => array('title', 'editor', 'thumbnail'),
             'taxonomies' => array(),
             'has_archive' => true,
-            'capability_type' => 'campaign',
+            'capability_type' => array('campaign', 'campaigns'),
             'map_meta_cap' => true,
             'rewrite' => array('slug' => 'campaign', 'with_front' => false)
         );

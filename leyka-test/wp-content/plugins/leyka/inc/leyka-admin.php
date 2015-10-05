@@ -113,6 +113,9 @@ class Leyka_Admin_Setup {
         // Donations:
         add_submenu_page('leyka', __('Donations', 'leyka'), __('Donations', 'leyka'), 'leyka_manage_donations', 'edit.php?post_type='.Leyka_Donation_Management::$post_type);
 
+        // New donation:
+        add_submenu_page('leyka', __('New donation', 'leyka'), __('New donation', 'leyka'), 'leyka_manage_donations', 'post-new.php?post_type='.Leyka_Donation_Management::$post_type);
+
         // Campigns:
         add_submenu_page('leyka', __('All Campaigns', 'leyka'), __('All Campaigns', 'leyka'), 'leyka_manage_donations', 'edit.php?post_type='.Leyka_Campaign_Management::$post_type);
 
@@ -206,25 +209,20 @@ class Leyka_Admin_Setup {
 		}?>
 	<table class="leyka-guide-table">		
 		<tbody>
-		<?php
-			$count = 0;
-			foreach($row as $key => $obj){
-				$count++;
-			?>
+		<?php $count = 0;
+			foreach($row as $key => $obj) { $count++;?>
+
 			<tr class="<?php echo esc_attr($key);?>">
 				<td class="count"><?php echo $count;?>.</td>
 				<td class="step"><?php echo $obj['txt'];?></td>
-				<?php if($obj['action']) { ?>
-					<td class="action"><a href="<?php echo esc_url($obj['action']);?>"><?php _e('Set up', 'leyka');?></a></td>
-					<td class="docs"><a href="<?php echo esc_url($obj['docs']);?>" title="<?php esc_attr_e('Additional information on the plugin website', 'leyka');?>" target="_blank"><span class="dashicons dashicons-editor-help"></span></a></td>
-				<?php } else { ?>
-					<td class="action complete"><span><?php _e('Complete', 'leyka');?></span></td>
-				<?php } ?>
-				
+				<?php if($obj['action']) {?>
+				<td class="action"><a href="<?php echo esc_url($obj['action']);?>"><?php _e('Set up', 'leyka');?></a></td>
+				<td class="docs"><a href="<?php echo esc_url($obj['docs']);?>" title="<?php esc_attr_e('Additional information on the plugin website', 'leyka');?>" target="_blank"><span class="dashicons dashicons-editor-help"></span></a></td>
+				<?php } else {?>
+				<td class="action complete"><span><?php _e('Complete', 'leyka');?></span></td>
+				<?php }?>
 			</tr>
-			<?php
-			}
-		?>
+		<?php }?>
 		</tbody>
 	</table>
     <?php
