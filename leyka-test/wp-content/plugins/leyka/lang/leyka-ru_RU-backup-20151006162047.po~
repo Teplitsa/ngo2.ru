@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Leyka Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 08:25:09+00:00\n"
-"PO-Revision-Date: Tue Oct 06 2015 19:20:42 GMT+0300\n"
+"PO-Revision-Date: Tue Oct 06 2015 19:16:01 GMT+0300\n"
 "Last-Translator: ahaenor <ahaenor@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Russian\n"
@@ -201,7 +201,7 @@ msgstr "Код статуса инвойса:"
 #: ../gateways/cp/leyka-class-cp-gateway.php:364 ../gateways/cp/leyka-class-cp-
 #: gateway.php:376
 msgid "CloudPayments subscription ID"
-msgstr "ID подписки на рекуррентные платежи"
+msgstr "ID подписки на рекуррентные платежи:"
 
 #: ../gateways/cp/leyka-class-cp-gateway.php:368 ../gateways/cp/leyka-class-cp-
 #: gateway.php:378

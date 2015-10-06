@@ -106,14 +106,7 @@ class Leyka_Donation_Management {
 
     public function manage_filters() {
 
-        global $pagenow;
-
-        if(
-            $pagenow == 'edit.php' &&
-            isset($_GET['post_type']) &&
-            $_GET['post_type'] == self::$post_type &&
-            current_user_can('leyka_manage_donations')
-        ) {?>
+        if(get_current_screen()->id == 'edit-'.self::$post_type && current_user_can('leyka_manage_donations')) {?>
 
         <label for="payment-type-select"></label>
         <select id="payment-type-select" name="payment_type">
@@ -127,6 +120,7 @@ class Leyka_Donation_Management {
         <label for="gateway-pm-select"></label>
         <select id="gateway-pm-select" name="gateway_pm">
             <option value="" <?php echo empty($_GET['gateway_pm']) ? '' : 'selected="selected"';?>><?php _e('Select a gateway or a payment method', 'leyka');?></option>
+
         <?php $gw_pm_list = array();
         foreach(leyka_get_gateways() as $gateway) {
 
@@ -150,11 +144,12 @@ class Leyka_Donation_Management {
         </select>
 
         <?php $campaign_title = '';
-            if( !empty($_GET['campaign']) && (int)$_GET['campaign'] > 0) {
-                $campaign = get_post((int)$_GET['campaign']);
-                if($campaign)
-                    $campaign_title = $campaign->post_title;
-            }?>
+        if( !empty($_GET['campaign']) && (int)$_GET['campaign'] > 0) {
+            $campaign = get_post((int)$_GET['campaign']);
+            if($campaign) {
+                $campaign_title = $campaign->post_title;
+            }
+        }?>
 
         <label for="campaign-select"></label>
         <input id="campaign-select"
@@ -1053,16 +1048,17 @@ class Leyka_Donation_Management {
 
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
 
-            echo '<pre>Camp: ' . print_r($_POST['campaign-id'].' - '.$donation->campaign_id, 1) . '</pre>';
-            $old_campaign = new Leyka_Campaign($donation->campaign_id);
-            $old_campaign->update_total_funded_amount($donation);
+            if($donation->campaign_id) { // If we're adding a correctional donation, $donation->campaign_id == 0
+
+                $old_campaign = new Leyka_Campaign($donation->campaign_id);
+                $old_campaign->update_total_funded_amount($donation);
+            }
 
             $donation->campaign_id = (int)$_POST['campaign-id'];
         }
 
         $campaign = new Leyka_Campaign($donation->campaign_id);
         $campaign->update_total_funded_amount($donation);
-        die();
 
         // It's a new correction donation, set a title from it's campaign:
         $donation_title = $campaign->payment_title ?

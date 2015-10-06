@@ -85,14 +85,7 @@ class Leyka_Campaign_Management {
 
     public function manage_filters() {
 
-        global $pagenow;
-
-        if(
-            $pagenow == 'edit.php' &&
-            isset($_GET['post_type']) &&
-            $_GET['post_type'] == self::$post_type /*&&
-    in_array('administrator', wp_get_current_user()->roles)*/
-        ) {?>
+        if(get_current_screen()->id == 'edit-'.self::$post_type && current_user_can('leyka_manage_donations')) {?>
 
             <label for="campaign-state-select"></label>
             <select id="campaign-state-select" name="campaign_state">
@@ -116,7 +109,6 @@ class Leyka_Campaign_Management {
                 </option>
                 <?php }?>
             </select>
-
     <?php }
     }
 
