@@ -646,6 +646,10 @@ class Leyka_Campaign {
 
     public function refresh_target_state() {
 
+        if( !$this->target ) {
+            return false;
+        }
+
         $target_state = $this->_get_calculated_target_state();
         $meta = array();
 
@@ -666,6 +670,8 @@ class Leyka_Campaign {
         foreach($meta as $key => $value) {
             update_post_meta($this->_id, $key, $value);
         }
+
+        return $meta['target_state'];
     }
 	
 	static function get_target_state_label($state = false) {
@@ -710,11 +716,15 @@ class Leyka_Campaign {
                 return false;
             }
 
-            $sum = $donation->status != 'funded' || $donation->campaign_id != $this->_id ? -$donation->sum : $donation->sum;
+            $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id) && $donation->sum > 0 ?
+                -$donation->sum : $donation->sum;
+
             $this->_campaign_meta['total_funded'] += $sum;
 
             update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);
         }
+
+        $this->refresh_target_state();
 
         return $this;
     }

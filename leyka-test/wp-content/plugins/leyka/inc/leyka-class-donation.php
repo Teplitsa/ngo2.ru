@@ -101,15 +101,6 @@ class Leyka_Donation_Management {
 
             $campaign = new Leyka_Campaign($donation->campaign_id);
             $campaign->update_total_funded_amount($donation);
-
-            if($campaign->target) {
-
-                if($campaign->total_funded >= $campaign->target) {
-                    $campaign->target_state = 'is_reached';
-                } elseif($campaign->target_state != 'in_process') {
-                    $campaign->target_state = 'in_process';
-                }
-            }
         }
     }
 
@@ -1047,9 +1038,6 @@ class Leyka_Donation_Management {
         remove_action('save_post', array($this, 'save_donation_data'));
 
         $donation = new Leyka_Donation($donation_id);
-        if($donation->status != $_POST['donation_status']) {
-            $donation->status = $_POST['donation_status'];
-        }
 
         if(isset($_POST['donation-amount']) && (float)$donation->amount != (float)$_POST['donation-amount']) {
             $donation->amount = (float)$_POST['donation-amount'];
@@ -1059,16 +1047,22 @@ class Leyka_Donation_Management {
             $donation->currency = 'rur';
         }
 
+        if($donation->status != $_POST['donation_status']) {
+            $donation->status = $_POST['donation_status'];
+        }
+
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
 
+            echo '<pre>Camp: ' . print_r($_POST['campaign-id'].' - '.$donation->campaign_id, 1) . '</pre>';
             $old_campaign = new Leyka_Campaign($donation->campaign_id);
-            $old_campaign->update_total_funded_amount($donation)->refresh_target_state();
+            $old_campaign->update_total_funded_amount($donation);
 
             $donation->campaign_id = (int)$_POST['campaign-id'];
         }
 
         $campaign = new Leyka_Campaign($donation->campaign_id);
-        $campaign->update_total_funded_amount($donation)->refresh_target_state();
+        $campaign->update_total_funded_amount($donation);
+        die();
 
         // It's a new correction donation, set a title from it's campaign:
         $donation_title = $campaign->payment_title ?
@@ -1413,10 +1407,11 @@ class Leyka_Donation {
                 break;
 
             case 'status':
-                if( !array_key_exists($value, leyka_get_donation_status_list()) || $value == $this->status )
+                if( !array_key_exists($value, leyka_get_donation_status_list()) || $value == $this->status ) {
                     return false;
+                }
 
-                $res = wp_update_post(array('ID' => $this->_id, 'post_status' => $value));
+                wp_update_post(array('ID' => $this->_id, 'post_status' => $value));
 
                 $status_log = get_post_meta($this->_id, '_status_log', true);
                 $status_log[] = array('date' => time(), 'status' => $value);
