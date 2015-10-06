@@ -702,8 +702,7 @@ class Leyka_Campaign {
             return false;
         }
 
-        $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id ? -$donation->sum : $donation->sum);
-//        echo '<pre>Sum: ' . print_r($sum, 1) . '</pre>';
+        $sum = $donation->status != 'funded' || $donation->campaign_id != $this->_id ? -$donation->sum : $donation->sum;
         $this->_campaign_meta['total_funded'] += $sum;
 
         update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);

@@ -174,7 +174,6 @@ class Leyka_Admin_Setup {
 
     public function guide_metabox_screen() {
 
-		// Content:
 		$row['step_1'] = array(
 			'txt'    => __('Fill in information about your organisation', 'leyka'),
 			'action' => leyka_are_settings_complete('beneficiary') ? false : admin_url('admin.php?page=leyka_settings'),
@@ -228,7 +227,7 @@ class Leyka_Admin_Setup {
     }
 
 	public function status_metabox_screen(){
-		
+
 		$tabs = Leyka_Options_Allocator::instance()->get_tabs();
 		if($tabs) {?>
 
