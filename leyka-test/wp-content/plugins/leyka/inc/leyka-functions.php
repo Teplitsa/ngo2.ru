@@ -624,8 +624,6 @@ function leyka_is_campaign_published() {
 
 function leyka_is_widget_active() {
 
-    echo '<pre>' . print_r(leyka_is_campaign_link_in_menu(), 1) . '</pre>';
-
     // is_active_widget() is not working for some reason, so emulate it:
     foreach(wp_get_sidebars_widgets() as $sidebar => $widgets) {
 
@@ -642,12 +640,11 @@ function leyka_is_widget_active() {
 
 function leyka_is_campaign_link_in_menu() {
 
-
-    foreach(get_registered_nav_menus() as $menu_id => $menu_name) {
-
-        echo '<pre>' . print_r($menu_id.' - '.$menu_name, 1) . '</pre>';
-        echo '<pre>' . print_r(wp_get_nav_menu_items($menu_id), 1) . '</pre>';
-    }
+//    foreach(get_registered_nav_menus() as $menu_id => $menu_name) {
+//
+//        echo '<pre>' . print_r($menu_id.' - '.$menu_name, 1) . '</pre>';
+//        echo '<pre>' . print_r(wp_get_nav_menu_items($menu_id), 1) . '</pre>';
+//    }
 
     return false;
 }
