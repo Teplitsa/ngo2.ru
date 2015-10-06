@@ -1160,70 +1160,70 @@ class Leyka_Donation {
         ));
 
         $amount = empty($params['amount']) ? leyka_pf_get_amount_value() : round((float)$params['amount'], 2);
-        update_post_meta($id, 'leyka_donation_amount', $amount);
+        add_post_meta($id, 'leyka_donation_amount', $amount);
 
         $currency = empty($params['currency']) ? leyka_pf_get_currency_value() : $params['currency'];
-        update_post_meta($id, 'leyka_donation_currency', $currency);
+        add_post_meta($id, 'leyka_donation_currency', $currency);
 
         $currency_rate = leyka_options()->opt("currency_rur2$currency");
         if($currency == 'RUR' || !$currency_rate)
             $currency_rate = 1.0;
 
-        update_post_meta(
+        add_post_meta(
             $id,
             'leyka_main_curr_amount',
             $currency == 'RUR' ? $amount : $amount*$currency_rate
         );
 
-        update_post_meta(
+        add_post_meta(
             $id, 'leyka_donor_name',
             empty($params['donor_name']) ? leyka_pf_get_donor_name_value() : $params['donor_name']
         );
-        update_post_meta(
+        add_post_meta(
             $id, 'leyka_donor_email',
             empty($params['donor_email']) ? leyka_pf_get_donor_email_value() : $params['donor_email']
         );
 
         $pm_data = leyka_pf_get_payment_method_value();
         $pm_data = $pm_data ? $pm_data : array('payment_method_id' => '', 'gateway_id' => '',);
-        update_post_meta(
+        add_post_meta(
             $id, 'leyka_payment_method',
             empty($params['payment_method_id']) ? $pm_data['payment_method_id'] : $params['payment_method_id']
         );
-        update_post_meta(
+        add_post_meta(
             $id, 'leyka_gateway',
             empty($params['gateway_id']) ? $pm_data['gateway_id'] : $params['gateway_id']
         );
-        update_post_meta(
+        add_post_meta(
             $id, 'leyka_campaign_id',
             empty($params['campaign_id']) ? leyka_pf_get_campaign_id_value() : $params['campaign_id']
         );
 
         if( !get_post_meta($id, '_leyka_donor_email_date', true) )
-            update_post_meta($id, '_leyka_donor_email_date', 0);
+            add_post_meta($id, '_leyka_donor_email_date', 0);
         if( !get_post_meta($id, '_leyka_managers_emails_date', true) )
-            update_post_meta($id, '_leyka_managers_emails_date', 0);
+            add_post_meta($id, '_leyka_managers_emails_date', 0);
 
-        update_post_meta($id, '_status_log', array(array('date' => time(), 'status' => $status)));
+        add_post_meta($id, '_status_log', array(array('date' => time(), 'status' => $status)));
 
         $params['payment_type'] = empty($params['payment_type']) ?
             'single' : ($params['payment_type'] == 'rebill' ? 'rebill' : 'correction');
-        update_post_meta($id, 'leyka_payment_type', $params['payment_type']);
+        add_post_meta($id, 'leyka_payment_type', $params['payment_type']);
 
         if( !empty($params['gateway_id']) ) {
             do_action("leyka_{$params['gateway_id']}_add_donation_specific_data", $id, $params);
         }
 
         if( !empty($params['recurrents_cancelled']) ) {
-            update_post_meta($id, 'leyka_recurrents_cancelled', $params['recurrents_cancelled']);
+            add_post_meta($id, 'leyka_recurrents_cancelled', $params['recurrents_cancelled']);
         }
 
         if( !empty($params['recurrents_cancel_date']) ) {
-            update_post_meta($id, 'leyka_recurrents_cancel_date', $params['recurrents_cancel_date']);
+            add_post_meta($id, 'leyka_recurrents_cancel_date', $params['recurrents_cancel_date']);
         } elseif( !empty($params['recurrents_cancelled']) && $params['recurrents_cancelled']) {
-            update_post_meta($id, 'leyka_recurrents_cancel_date', time());
+            add_post_meta($id, 'leyka_recurrents_cancel_date', time());
         } else {
-            update_post_meta($id, 'leyka_recurrents_cancel_date', 0);
+            add_post_meta($id, 'leyka_recurrents_cancel_date', 0);
         }
 
         return $id;

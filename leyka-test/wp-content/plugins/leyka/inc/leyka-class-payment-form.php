@@ -587,7 +587,7 @@ function leyka_print_donation_elements($content) {
     }
 
 //	$donation = new Leyka_Donation(44);
-//	$campaign->update_total_funded_amount($donation)->refresh_target_state();
+//	$campaign->update_total_funded_amount();
 	echo '<pre>' . print_r($campaign->total_funded, 1) . '</pre>';
 
 	$content .= $post_content;
