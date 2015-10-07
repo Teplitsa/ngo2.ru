@@ -217,6 +217,17 @@ class Leyka {
         }
     }
 
+    public function __set($name, $value) {
+
+        switch($name) {
+            case 'form_is_screening':
+                $value = !!$value;
+                if( !$this->_form_is_screening ) {
+                    $this->_form_is_screening = $value;
+                }
+        }
+    }
+
     public function add_payment_form_error(WP_Error $error) {
         $this->_form_errors[] = $error;
     }
