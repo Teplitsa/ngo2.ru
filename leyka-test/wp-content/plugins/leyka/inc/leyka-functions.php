@@ -653,9 +653,9 @@ function leyka_is_campaign_link_in_menu() {
 function leyka_form_is_screening() {
 
     $form_is_screening = is_singular(Leyka_Campaign_Management::$post_type) ||
-        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false);
+        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false); /*||
+        leyka_is_widget_active();*/
 
-    echo '<pre>Here: ' . print_r((int)$form_is_screening, 1) . '</pre>';
     return $form_is_screening;
 }
 
@@ -668,14 +668,14 @@ function leyka_itv_info_widget() {
     }
 
     $domain = parse_url(home_url());
-    $itv_url = "https://itv.te-st.ru/?leyka=".$domain['host'];?>
+    $itv_url = esc_url("https://itv.te-st.ru/?leyka=".$domain['host']);?>
 
 	<div id="itv-card">
-        <div class="itv-logo"><a href="<?php echo esc_url($itv_url);?>" target="_blank"><img src="<?php echo esc_url(LEYKA_PLUGIN_BASE_URL.'img/logo-itv.png');?>"></a></div>
+        <div class="itv-logo"><a href="<?php echo $itv_url;?>" target="_blank"><img src="<?php echo esc_url(LEYKA_PLUGIN_BASE_URL.'img/logo-itv.png');?>"></a></div>
 
-        <p>Вам нужна помощь в настройке пожертвований или подключении к платежным системам? Опубликуйте задачу на платформе <a href="<?php echo esc_url($itv_url);?>" target="_blank">it-волонтер</a></p>
+        <p>Вам нужна помощь в настройке пожертвований или подключении к платежным системам? Опубликуйте задачу на платформе <a href="<?php echo $itv_url;?>" target="_blank">it-волонтер</a></p>
 
-        <p><a href="<?php echo esc_url($itv_url);?>" target="_blank" class="button">Опубликовать задачу</a></p>
+        <p><a href="<?php echo $itv_url;?>" target="_blank" class="button">Опубликовать задачу</a></p>
     </div>
 <?php
 }

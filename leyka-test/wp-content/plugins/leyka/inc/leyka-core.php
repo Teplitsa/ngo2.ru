@@ -10,34 +10,37 @@ class Leyka {
      * match the Text Domain file header in the main plugin file.
      * @var string
      */
-    private $_plugin_slug = 'leyka';
+    protected $_plugin_slug = 'leyka';
 
     /**
      * Instance of this class.
      * @var object
      */
-    private static $_instance = null;
+    protected static $_instance = null;
 
     /**
      * Gateways list.
      * @var array
      */
-    private $_gateways = array();
+    protected $_gateways = array();
 
     /** @var array Of WP_Error instances. */
-    private $_form_errors = array();
+    protected $_form_errors = array();
 
     /** @var string Gateway URL to process payment data. */
-    private $_payment_url = '';
+    protected $_payment_url = '';
 
     /** @var array Of key => value pairs of payment form vars to send to the Gateway URL. */
-    private $_payment_vars = array();
+    protected $_payment_vars = array();
 
     /**
      * Template list.
      * @var array
      */
-    private $templates = null;
+    protected $templates = null;
+
+    /** @var bool|null */
+    protected $_form_is_screening = null;
 
     /** Initialize the plugin by setting localization, filters, and administration functions. */
     private function __construct() {
@@ -115,7 +118,7 @@ class Leyka {
 
         $this->apply_formatting_filters(); // Internal formatting filters
 
-//        new Non_existing_class; /** @todo  */
+//        new Non_existing_class; /** @todo */
 
         /** Currency rates auto refreshment: */
         if(leyka_options()->opt('auto_refresh_currency_rates')) {
@@ -195,11 +198,20 @@ class Leyka {
     }
 
     public function __get($param) {
+
         switch($param) {
             case 'version': return LEYKA_VERSION;
             case 'plugin_slug': return $this->_plugin_slug;
             case 'payment_url': return $this->_payment_url;
             case 'payment_vars': return $this->_payment_vars;
+            case 'form_is_screening':
+                if($this->_form_is_screening === null) {
+
+                    $this->_form_is_screening = is_singular(Leyka_Campaign_Management::$post_type) ||
+                        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false) /*||
+                    leyka_is_widget_active();*/;
+                }
+                return $this->_form_is_screening;
             default:
                 return '';
         }
@@ -307,7 +319,7 @@ class Leyka {
      * @param boolean $network_wide True if WPMU superadmin uses "Network Activate" action,
      * false if WPMU is disabled or plugin is activated on an individual blog.
      */
-    public static function activate($network_wide) {
+    public static function activate() {
 
         $leyka_last_ver = get_option('leyka_last_ver');
 
@@ -428,6 +440,23 @@ class Leyka {
             }
         }
 
+        /** Fix the bug when total_funded amount of campaigns was calculated incorrectly if correctional donations existed */
+        if($leyka_last_ver && $leyka_last_ver >= '2.2.5' && $leyka_last_ver <= '2.2.7.2') {
+
+            set_time_limit(3600);
+
+            $campaigns = get_posts(array(
+                'post_type' => Leyka_Campaign_Management::$post_type,
+                'nopaging' => true,
+                'post_status' => 'any'
+            ));
+            foreach($campaigns as $campaign) {
+
+                $campaign = new Leyka_Campaign($campaign);
+                $campaign->update_total_funded_amount();
+            }
+        }
+
         /** Set a flag to flush permalinks (needs to be done a bit later, than this activation itself): */
         update_option('leyka_permalinks_flushed', 0);
 
@@ -439,7 +468,7 @@ class Leyka {
      * @param boolean $network_wide True if WPMU superadmin uses "Network Deactivate" action,
      * false if WPMU is disabled or plugin is deactivated on an individual blog.
      */
-    public static function deactivate($network_wide) {
+    public static function deactivate() {
 
         delete_option('leyka_permalinks_flushed');
     }
@@ -860,3 +889,9 @@ __('rebill', 'leyka');
 __('correction', 'leyka');
 __('The donations management system for your WP site', 'leyka');
 __('Lev Zvyagincev aka Ahaenor', 'leyka');
+
+add_action('init', function(){
+
+    echo '<pre>Here: ' . print_r((int)is_singular('leyka_campaign'), 1) . '</pre>';
+    echo '<pre>' . print_r((int)leyka_form_is_screening(), 1) . '</pre>';
+});

@@ -3,9 +3,6 @@
  * Payment form
  **/
 
-/**
- * Form
- **/
 class Leyka_Payment_Form {
 
 	protected $_pm_name;
