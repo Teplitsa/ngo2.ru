@@ -34,13 +34,13 @@ class Leyka_Campaign_Management {
 
     public function set_admin_messages($messages) {
 
-        global $post, $post_ID;
+        $current_post = get_post();
 
         $messages[Leyka_Campaign_Management::$post_type] = array(
             0 => '', // Unused. Messages start at index 1.
             1 => sprintf(
                 __('Campaign updated. <a href="%s">View it</a>', 'leyka'),
-                esc_url(home_url('?p='.$post_ID))
+                esc_url(home_url('?p='.$current_post->ID))
             ),
             2 => __('Field updated.', 'leyka'),
             3 => __('Field deleted.', 'leyka'),
@@ -49,22 +49,22 @@ class Leyka_Campaign_Management {
             5 => isset($_GET['revision']) ? sprintf(__('Campaign restored to revision from %s', 'leyka'), wp_post_revision_title((int)$_GET['revision'], false)) : false,
             6 => sprintf(
                 __('Campaign published. <a href="%s">View it</a>', 'leyka'),
-                esc_url(home_url('?p='.$post_ID))
+                esc_url(home_url('?p='.$current_post->ID))
             ),
             7 => __('Campaign saved.', 'leyka'),
             8 => sprintf(
                 __('Campaign submitted. <a target="_blank" href="%s">Preview it</a>', 'leyka'),
-                esc_url(add_query_arg('preview', 'true', home_url('?p='.$post_ID)))
+                esc_url(add_query_arg('preview', 'true', home_url('?p='.$current_post->ID)))
             ),
             9 => sprintf(
                 __('Campaign scheduled for: <strong>%1$s</strong>. <a target="_blank" href="%2$s">Preview it</a>', 'leyka'),
                 // translators: Publish box date format, see http://php.net/date
-                date_i18n(__( 'M j, Y @ G:i'), strtotime($post->post_date)),
-                esc_url(home_url('?p='.$post_ID))
+                date_i18n(__( 'M j, Y @ G:i'), strtotime($current_post->post_date)),
+                esc_url(home_url('?p='.$current_post->ID))
             ),
             10 => sprintf(
                 __('Campaign draft updated. <a target="_blank" href="%s">Preview it</a>', 'leyka'),
-                esc_url(add_query_arg('preview', 'true', home_url('?p='.$post_ID)))
+                esc_url(add_query_arg('preview', 'true', home_url('?p='.$current_post->ID)))
             ),
         );
 
@@ -73,7 +73,7 @@ class Leyka_Campaign_Management {
 
     public function row_actions($actions, $campaign) {
 
-        global $current_screen;
+        $current_screen = get_current_screen();
 
         if( !$current_screen || !is_object($current_screen) || $current_screen->post_type != self::$post_type ) {
             return $actions;
@@ -120,6 +120,7 @@ class Leyka_Campaign_Management {
             $pagenow == 'edit.php' && !empty($_GET['post_type']) &&
             $_GET['post_type'] == self::$post_type && is_admin() && $query->is_main_query()
         ) {
+
             $meta_query = array('relation' => 'AND');
 
             if(isset($_REQUEST['campaign_state']) && $_REQUEST['campaign_state'] != 'all') {
@@ -316,7 +317,8 @@ class Leyka_Campaign_Management {
             </tfoot>
 
             <tbody>
-            <?php foreach($campaign->get_donations() as $donation) {
+            <?php foreach($campaign->get_donations(array('submitted', 'funded', 'refunded', 'failed')) as $donation) {
+
                 $gateway_label = $donation->gateway_id ? $donation->gateway_label : __('Custom payment info', 'leyka');
                 $pm_label = $donation->gateway_id ? $donation->pm_label : $donation->pm;
 				$amount_css = $donation->sum < 0 ? 'amount-negative' : 'amount';?>
