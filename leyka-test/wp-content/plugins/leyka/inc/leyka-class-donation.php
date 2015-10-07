@@ -41,8 +41,6 @@ class Leyka_Donation_Management {
 
     public function set_admin_messages($messages) {
 
-        global $post;
-
         $messages[self::$post_type] = array(
             0 => '', // Unused. Messages start at index 1.
             1 => __('Donation updated.', 'leyka'),
@@ -61,7 +59,7 @@ class Leyka_Donation_Management {
             9 => sprintf(
                 __('Donation scheduled for: <strong>%1$s</strong>.', 'leyka'),
                 // translators: Publish box date format, see http://php.net/date
-                date_i18n(__( 'M j, Y @ G:i'), strtotime($post->post_date))
+                date_i18n(__( 'M j, Y @ G:i'), strtotime(get_post()->post_date))
             ),
             10 => __('Donation draft updated.', 'leyka'),
         );
@@ -71,7 +69,7 @@ class Leyka_Donation_Management {
 
     public function row_actions($actions, $donation) {
 
-        global $current_screen;
+        $current_screen = get_current_screen();
 
         if( !$current_screen || !is_object($current_screen) || $current_screen->post_type != self::$post_type ) {
             return $actions;
@@ -165,12 +163,8 @@ class Leyka_Donation_Management {
 
     public function do_filtering(WP_Query $query) {
 
-        global $pagenow;
+        if(is_admin() && $query->is_main_query() && get_current_screen()->id == 'edit-'.self::$post_type) {
 
-        if(
-            $pagenow == 'edit.php' && !empty($_GET['post_type']) && $_GET['post_type'] == self::$post_type &&
-            is_admin() && $query->is_main_query()
-        ) {
             $meta_query = array('relation' => 'AND');
 
             if( !empty($_REQUEST['campaign']) )

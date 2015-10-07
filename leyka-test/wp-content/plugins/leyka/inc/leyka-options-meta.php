@@ -1,6 +1,7 @@
 <?php if( !defined('WPINC') ) die;
+
 /** @var $options_meta array An array of initial options set, with default values of each field */
-global $options_meta;
+global $options_meta; /** @todo Make it a singletone instead of global var */
 
 $email_placeholders =
 "<span class='placeholders-help'>".

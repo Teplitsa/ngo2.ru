@@ -114,12 +114,7 @@ class Leyka_Campaign_Management {
 
     public function do_filtering(WP_Query $query) {
 
-        global $pagenow;
-
-        if(
-            $pagenow == 'edit.php' && !empty($_GET['post_type']) &&
-            $_GET['post_type'] == self::$post_type && is_admin() && $query->is_main_query()
-        ) {
+        if(is_admin() && $query->is_main_query() && get_current_screen()->id == 'edit-'.self::$post_type) {
 
             $meta_query = array('relation' => 'AND');
 
@@ -342,15 +337,6 @@ class Leyka_Campaign_Management {
 
     public function embedding_meta_box(WP_Post $campaign) {?>
 
-<!--        <label><input type="radio" name="embed-type" value="donation_form" checked="checked"> --><?php //_e('Donation form', 'leyka');?><!--</label>-->
-<!--        <label><input type="radio" name="embed-type" value="campaign_card" checked="checked"> --><?php //_e('Campaign card', 'leyka');?><!--</label>-->
-
-<!--        <div id="embed-donation_form" class="embed-area">-->
-<!--            <label for="donation-form-embed-code">--><?php //_e("To embed a donation form in some other web page, insert the following code in page HTML:", 'leyka');?><!--</label>-->
-<!---->
-<!--            <textarea class="embed-code" id="donation-form-embed-code" class="donation-form-embed-code">--><?php //echo '<iframe frameborder="0" width="300" height="510" src="'.$link.'donation_form'.'"></iframe>'?><!--</textarea>-->
-<!--        </div>-->
-
 	<div class="embed-block">
 		<div class="embed-code">
 			<h4><?php _e('Size settings', 'leyka');?></h4>
@@ -358,7 +344,7 @@ class Leyka_Campaign_Management {
 				<label><?php _e('Width', 'leyka');?>: <input type="text" name="embed_iframe_w" id="embed_iframe_w" value="300" size="4"></label>
 				<label><?php _e('Height', 'leyka');?>: <input type="text" name="embed_iframe_w" id="embed_iframe_h" value="510" size="4"></label>
 			</div>
-			
+
 			<div id="embed-campaign_card" class="settings-field">
 				<label for="campaign-embed-code"><?php _e("To embed a campaign card in some other web page, insert the following code in page HTML:", 'leyka');?></label>
 				<textarea class="embed-code" id="campaign-embed-code" class="campaign-embed-code"><?php echo self::get_card_embed_code($campaign->ID, true); ?></textarea>
@@ -506,13 +492,6 @@ class Leyka_Campaign {
                 foreach($this->get_donations(array('funded')) as $donation) {
                     $sum += $donation->main_curr_amount ? $donation->main_curr_amount : $donation->amount; //$donation->sum;
                 }
-
-//                $sum = 0.0;
-//                foreach($donations as $donation) {
-//
-//                    $donation = new Leyka_Donation($donation);
-//                    $sum += $donation->main_curr_amount ? $donation->main_curr_amount : $donation->amount;
-//                }
 
                 update_post_meta($this->_id, 'total_funded', $sum);
 
@@ -712,6 +691,7 @@ class Leyka_Campaign {
 
             $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id) && $donation->sum > 0 ?
                 -$donation->sum : $donation->sum;
+            $sum = $donation->status == 'trash' ? -$sum : $sum;
 
             $this->_campaign_meta['total_funded'] += $sum;
 

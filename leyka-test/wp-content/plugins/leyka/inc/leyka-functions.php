@@ -650,12 +650,14 @@ function leyka_is_campaign_link_in_menu() {
 }
 
 /** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
-//function leyka_form_is_screening() {
-//
-//    return
-//        is_singular(Leyka_Campaign_Management::$post_type) ||
-//        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false);
-//}
+function leyka_form_is_screening() {
+
+    $form_is_screening = is_singular(Leyka_Campaign_Management::$post_type) ||
+        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false);
+
+    echo '<pre>Here: ' . print_r((int)$form_is_screening, 1) . '</pre>';
+    return $form_is_screening;
+}
 
 /** ITV info-widget **/
 function leyka_itv_info_widget() {

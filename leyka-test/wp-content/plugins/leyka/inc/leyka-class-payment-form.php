@@ -12,7 +12,7 @@ class Leyka_Payment_Form {
 	protected $_pm = array();
 	protected $_form_action;
 	protected $_current_currency; // Current currency in the view
-	
+
 	function __construct(Leyka_Payment_Method $payment_method, $current_currency = null) {
 
         $this->_pm = $payment_method;
@@ -37,19 +37,21 @@ class Leyka_Payment_Form {
 
 	function get_amount_field() {
 
-		if( !$this->is_field_supported('amount') )
+		if( !$this->is_field_supported('amount') ) {
 			return '';
+        }
 
 		// Options: amount field mode:
 		$mode = leyka_options()->opt('donation_sum_field_type'); // fixed/flexible
 		$supported_curr = leyka_get_active_currencies(); // $this->get_supported_currencies();
 		$current_curr = $this->get_current_currency();
 
-		if(empty($supported_curr[$current_curr]))
+		if(empty($supported_curr[$current_curr])) {
 			return ''; // current currency isn't supported
+        }
 
-		ob_start();
-	?>
+		ob_start();?>
+
 		<label for="leyka_donation_amount" class="leyka-screen-reader-text"><?php _e('Donation amount', 'leyka');?></label>
 	<?php
 		if($mode == 'fixed') {
@@ -103,18 +105,15 @@ class Leyka_Payment_Form {
 
 	function get_hidden_fields($campaign = null) {
 
-
 		if($campaign) {
 			$campaign = leyka_get_validated_campaign($campaign);
 		} else {
-
-			global $post;
 
 			if( !is_singular(Leyka_Campaign_Management::$post_type) ) {
 				return false;
 			}
 
-			$campaign = new Leyka_Campaign($post->ID);
+			$campaign = new Leyka_Campaign(get_post());
 		}
 
         $template = leyka_get_current_template_data(); 
@@ -147,7 +146,7 @@ class Leyka_Payment_Form {
                         .selected($cid, $curr, false).">".$obj['label']."</option>";
 			}
 			$out .= "</select>";
-			
+
 		} else {
 
 			$obj = each($supported_curr);
@@ -155,7 +154,7 @@ class Leyka_Payment_Form {
                     class="leyka_donation_currency" data-currency-label="'.$obj['value']['label'].'" value="'.$obj['key'].'" />';
 		}
 		
-		// Add limits:
+		// Add an amount limits:
 		$hiddens = array();
 		foreach($supported_curr as $cid => $obj){
 			$hiddens[] = "<input type='hidden' name='top_".esc_attr($cid)."' value='".esc_attr($obj['top'])."'>";
@@ -171,8 +170,8 @@ class Leyka_Payment_Form {
             return '';
         }
 
-		ob_start();
-	?>
+		ob_start();?>
+
 		<label for="leyka_donor_name" class="leyka-screen-reader-text"><?php _e('Your name', 'leyka');?></label>
 		<label class="input req"><input type="text" class="required" name="leyka_donor_name" placeholder="<?php _e('Your name', 'leyka');?>" id="leyka_donor_name" value="<?php echo $value;?>"></label>
 		<p class="field-comment"><?php _e('We will use this to personalize your donation experience', 'leyka');?></p>
@@ -374,7 +373,7 @@ function leyka_get_req_mark(){
 }
 
 /* Template tags */
-global $leyka_current_pm;
+global $leyka_current_pm; /** @todo Make it a singletone instead of global var */
 
 function leyka_setup_current_pm(Leyka_Payment_Method $payment_method, $currency = null) {
 	/** @var Leyka_Payment_Form $leyka_current_pm */

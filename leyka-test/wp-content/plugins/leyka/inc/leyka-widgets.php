@@ -192,8 +192,6 @@ class Leyka_Campaigns_List_Widget extends WP_Widget {
 	/** Display widget */
 	public function widget($args, $instance) {
 
-		global $post;
-
 		extract($args, EXTR_SKIP);
 
 		$title = apply_filters('widget_title', $instance['title']);
