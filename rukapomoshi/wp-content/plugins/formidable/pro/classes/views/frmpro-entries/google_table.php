@@ -1,2 +1,0 @@
-<div class="form_results<?php echo $atts['style'] ? FrmFormsHelper::get_form_style_class($form) : ''; ?>" id="form_results<?php echo (int) $form->id ?>">
-<div id="frm_google_table_<?php echo (int) $form->id ?>"></div></div>
