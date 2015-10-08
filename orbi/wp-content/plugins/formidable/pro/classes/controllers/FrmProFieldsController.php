@@ -405,16 +405,17 @@ class FrmProFieldsController{
 		}
 
 		if ( ! FrmAppHelper::is_admin() && FrmField::is_option_true( $field, 'autocom' ) &&
-            ($field['type'] == 'select' || ($field['type'] == 'data' && isset($field['data_type']) && $field['data_type'] == 'select')) ) {
-            global $frm_vars;
-            $frm_vars['chosen_loaded'] = true;
-            $class .= ' frm_chzn';
+		( $field['type'] == 'select' || ( $field['type'] == 'data' && isset( $field['data_type'] ) && $field['data_type'] == 'select' ) ) &&
+		! empty( $field['options'] ) && ! FrmField::is_read_only( $field ) ) {
+			 global $frm_vars;
+			 $frm_vars['chosen_loaded'] = true;
+			 $class .= ' frm_chzn';
 
-            $style = FrmStylesController::get_form_style($field['form_id']);
-            if ( $style && 'rtl' == $style->post_content['direction'] ) {
-                $class .= ' chosen-rtl';
-            }
-        }
+			 $style = FrmStylesController::get_form_style($field['form_id']);
+			 if ( $style && 'rtl' == $style->post_content['direction'] ) {
+				 $class .= ' chosen-rtl';
+			 }
+		}
 
         return $class;
     }
@@ -701,6 +702,7 @@ class FrmProFieldsController{
 		$selected_field_id = FrmAppHelper::get_param( 'selected_field_id', '', 'post', 'sanitize_title' );
 		$field_id = FrmAppHelper::get_param( 'field_id', '', 'post', 'absint' );
 		$hidden_field_id = FrmAppHelper::get_param( 'hide_id', '', 'post', 'sanitize_title' );
+		$default_value = FrmAppHelper::get_param( 'default_value', '', 'post', 'sanitize_title' );
 
         $data_field = FrmField::getOne($selected_field_id);
 
@@ -716,7 +718,7 @@ class FrmProFieldsController{
         $field_data = FrmField::getOne($field_id);
 
         $field = array(
-            'id' => $field_id, 'value' => '', 'default_value' => '', 'form_id' => $field_data->form_id,
+            'id' => $field_id, 'value' => '', 'default_value' => $default_value, 'form_id' => $field_data->form_id,
             'type' => apply_filters('frm_field_type', $field_data->type, $field_data, ''),
             'options' => $field_data->options,
             'size' => (isset($field_data->field_options['size']) && $field_data->field_options['size'] != '') ? $field_data->field_options['size'] : '',
@@ -830,7 +832,7 @@ class FrmProFieldsController{
         global $wpdb;
 
         $query = array( 'fi.field_key' => $time_key, 'it.item_id' => $date_entries);
-        if ( is_numeric($values['entry_id']) ) {
+		if ( isset( $values['entry_id'] ) && is_numeric( $values['entry_id'] ) ) {
             $query['it.item_id !'] = $values['entry_id'];
         }
         $used_times = FrmDb::get_col( $wpdb->prefix .'frm_item_metas it LEFT JOIN '. $wpdb->prefix .'frm_fields fi ON (it.field_id = fi.id)', $query, 'meta_value');
@@ -965,7 +967,7 @@ class FrmProFieldsController{
 
             $values = array();
             FrmFieldsHelper::fill_field( $values, $field, $this_form_id );
-            if ( $field->type == 'divider' ) {
+            if ( FrmField::is_repeating_field( $field ) ) {
                 $values['field_options']['form_select'] = $new_form_id;
             }
 

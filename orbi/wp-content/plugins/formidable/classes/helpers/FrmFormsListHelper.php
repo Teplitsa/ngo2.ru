@@ -232,7 +232,8 @@ class FrmFormsListHelper extends FrmListHelper {
 			}
 
 			$class = 'class="' . esc_attr( $class ) . '"';
-			$attributes = $class . $style;
+			$data_colname = ' data-colname="' . esc_attr( $column_display_name ) . '"';
+			$attributes = $class . $style . $data_colname;
 
 			switch ( $column_name ) {
 				case 'cb':
@@ -243,7 +244,7 @@ class FrmFormsListHelper extends FrmListHelper {
 				    $val = $item->{$column_name};
 				    break;
 				case 'name':
-				    $val = $this->get_form_name( $item, $actions, $edit_link );
+				    $val = $this->get_form_name( $item, $actions, $edit_link, $mode );
 			        $val .= $action_links;
 
 				    break;
@@ -327,12 +328,15 @@ class FrmFormsListHelper extends FrmListHelper {
     /**
      * @param string $edit_link
      */
-    private function get_form_name( $item, $actions, $edit_link ) {
+	private function get_form_name( $item, $actions, $edit_link, $mode = 'list' ) {
         $form_name = $item->name;
         if ( trim($form_name) == '' ) {
             $form_name = __( '(no title)');
         }
-        $form_name = FrmAppHelper::truncate(strip_tags($form_name), 50);
+		$form_name = FrmAppHelper::kses( $form_name );
+		if ( 'excerpt' != $mode ) {
+			$form_name = FrmAppHelper::truncate( $form_name, 50 );
+		}
 
         $val = '<strong>';
         if ( 'trash' == $this->status ) {

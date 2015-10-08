@@ -1,8 +1,16 @@
 # ignore everything in the root 
 /*
 
-# list site folders to include into GIT
+#####################################################
+# Add project folders here to include into GIT
 !annasite/
+!orbi/
+!sodeyst/
+!leyka-test/
+!rukapomoshi/
+!memory/
+
+#####################################################
 
 # track this file .gitignore (i.e. do NOT ignore it)
 !.gitignore

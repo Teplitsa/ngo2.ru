@@ -216,6 +216,10 @@ class FrmProStatisticsController{
         } else {
             // TODO: Make sure this works with truncate_label
             self::get_count_values( $values, $labels, $tooltips, $pie, $field, $args );
+
+			if ( empty( $values ) ) {
+				return;
+			}
         }
 
         // Reset keys for labels, values, and tooltips

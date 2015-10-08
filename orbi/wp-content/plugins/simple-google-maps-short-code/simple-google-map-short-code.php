@@ -3,12 +3,29 @@
 Plugin Name: Simple Google Maps Short Code
 Plugin URL: http://pippinsplugins.com/simple-google-maps-short-code
 Description: Adds a simple Google Maps short code
-Version: 1.1.2
+Version: 1.2
 Author: Pippin Williamson
 Author URI: http://pippinsplugins.com
 Contributors: mordauk
 */
 
+/**
+ * Loads the plugin textdomain
+ *
+ * @access      private
+ * @since       1.2
+ * @return      void
+*/
+function pw_map_textdomain() {
+
+	// Set filter for plugin's languages directory
+	$lang_dir = dirname( plugin_basename( __FILE__ ) ) . '/languages/';
+	$lang_dir = apply_filters( 'pw_map_languages_directory', $lang_dir );
+
+	// Load the translations
+	load_plugin_textdomain( 'simple-google-maps-short-code', false, $lang_dir );
+}
+add_action( 'init', 'pw_map_textdomain' );
 
 /**
  * Displays the map
@@ -17,7 +34,6 @@ Contributors: mordauk
  * @since       1.0
  * @return      void
 */
-
 function pw_map_shortcode( $atts ) {
 
 	$atts = shortcode_atts(
@@ -69,7 +85,7 @@ function pw_map_shortcode( $atts ) {
 		<?php
 		return ob_get_clean();
 	else :
-		return __( 'This Google Map cannot be loaded because the maps API does not appear to be loaded', 'pw-maps' );
+		return __( 'This Google Map cannot be loaded because the maps API does not appear to be loaded', 'simple-google-maps-short-code' );
 	endif;
 }
 add_shortcode( 'pw_map', 'pw_map_shortcode' );
@@ -82,7 +98,6 @@ add_shortcode( 'pw_map', 'pw_map_shortcode' );
  * @since       1.0
  * @return      void
 */
-
 function pw_map_load_scripts() {
 	wp_register_script( 'google-maps-api', '//maps.google.com/maps/api/js?sensor=false' );
 }
@@ -99,7 +114,6 @@ add_action( 'wp_enqueue_scripts', 'pw_map_load_scripts' );
  * @since       1.0
  * @return      void
 */
-
 function pw_map_get_coordinates( $address, $force_refresh = false ) {
 
     $address_hash = md5( $address );
@@ -137,15 +151,15 @@ function pw_map_get_coordinates( $address, $force_refresh = false ) {
 			  	$data = $cache_value;
 
 			} elseif ( $data->status === 'ZERO_RESULTS' ) {
-			  	return __( 'No location found for the entered address.', 'pw-maps' );
+			  	return __( 'No location found for the entered address.', 'simple-google-maps-short-code' );
 			} elseif( $data->status === 'INVALID_REQUEST' ) {
-			   	return __( 'Invalid request. Did you enter an address?', 'pw-maps' );
+			   	return __( 'Invalid request. Did you enter an address?', 'simple-google-maps-short-code' );
 			} else {
-				return __( 'Something went wrong while retrieving your map, please ensure you have entered the short code correctly.', 'pw-maps' );
+				return __( 'Something went wrong while retrieving your map, please ensure you have entered the short code correctly.', 'simple-google-maps-short-code' );
 			}
 
 		} else {
-		 	return __( 'Unable to contact Google API service.', 'pw-maps' );
+		 	return __( 'Unable to contact Google API service.', 'simple-google-maps-short-code' );
 		}
 
     } else {

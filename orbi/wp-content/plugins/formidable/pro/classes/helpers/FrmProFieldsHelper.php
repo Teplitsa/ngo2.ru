@@ -4,7 +4,11 @@ class FrmProFieldsHelper{
 
     public static function get_default_value( $value, $field, $dynamic_default = true, $allow_array = false ) {
 		if ( is_array( maybe_unserialize( $value ) ) ) {
-			return $value;
+			if ( FrmAppHelper::is_empty_value( $value ) || count( array_filter( $value ) ) === 0  ) {
+				$value = '';
+			} else {
+				return $value;
+			}
 		}
 
         $prev_val = '';
@@ -409,7 +413,12 @@ class FrmProFieldsHelper{
             if ( $check ) {
                 $values['options'] = self::get_linked_options($values, $field);
             } else if ( is_numeric($values['value']) ) {
-                $values['options'] = array($values['value'] => FrmEntryMeta::get_entry_meta_by_field($values['value'], $values['form_select']));
+				$values['options'] = array();
+				if ( $field->field_options['data_type'] == 'select' ) {
+					// add blank option for dropdown
+					$values['options'][''] = '';
+				}
+				$values['options'][ $values['value'] ] = FrmEntryMeta::get_entry_meta_by_field( $values['value'], $values['form_select'] );
             }
             unset($check);
 		} else if ( $values['type'] == 'scale' ) {
@@ -906,6 +915,8 @@ class FrmProFieldsHelper{
 
             $rule['Conditions'] = $conditions;
 
+			$rule['FormId'] = $field['parent_form_id'];
+
             if ( ! isset($frm_vars['rules']) || ! $frm_vars['rules'] ) {
                 $frm_vars['rules'] = array();
             }
@@ -937,6 +948,65 @@ class FrmProFieldsHelper{
             unset($rule, $parent_field, $i, $cond);
         }
     }
+
+
+	/**
+	* Check if the frm_helpers variable needs to be set up
+	* frm_helpers stores an array of child field IDs as the keys and parent field IDs as the itesm
+	*
+	* @since 2.0.13
+	* @param string $frm_helpers
+	* @param array $fields
+	* @return string $frm_helpers
+	*/
+	public static function maybe_get_parent_child_field_helpers( $frm_helpers, $fields, $args ){
+		if ( isset( $_POST['frm_helpers_' . $args['form_id'] ] ) ) {
+			// If frm_helpers is posted from a previous page, just keep it
+
+			$frm_helpers = FrmAppHelper::get_post_param( 'frm_helpers_' . $args['form_id'], '', 'sanitize_text_field' );
+		} else {
+			// Check if there is anything that should be added to frm_helpers
+
+			$frm_helpers = array();
+			foreach( $fields as $field ) {
+
+				// If field has conditional logic on it
+				if ( $field['hide_field'] && ( $field['hide_opt'] || $field['form_select'] ) ) {
+					self::setup_child_and_parent_helper( $field, $frm_helpers );
+				}
+			}
+
+			// Make sure the array is json encoded so it can be understood by JavaScript
+			$frm_helpers = json_encode( $frm_helpers );
+		}
+
+		return $frm_helpers;
+	}
+
+	/**
+	* Set up an array of child field IDs as the keys and parent field IDs as the items
+	*
+	* @since 2.0.13
+	* @param array $field
+	* @param array $frm_helpers, pass by reference
+	*/
+	private static function setup_child_and_parent_helper( $field, &$frm_helpers ) {
+		$field_type = isset( $field['original_type'] ) ? $field['original_type'] : $field['type'];
+
+		// Check if conditionally hidden field is a "parent" type of field
+		if ( $field_type == 'divider' || $field_type == 'form' ) {
+
+			// Get all child fields
+			$children = FrmProField::get_children( $field );
+			if ( ! $children ) {
+				return;
+			}
+
+			foreach ( $children as $child ) {
+				$frm_helpers[ $child ] = $field['id'];
+			}
+		}
+	}
 
 	public static function get_category_options( $field ) {
 		if ( is_object( $field ) ) {
@@ -1442,7 +1512,7 @@ class FrmProFieldsHelper{
 		$current_year = (int) date('Y');
 
 		// If current year falls inside of the date range, make the default date today's date
-		if ( $current_year > $start_year && $current_year < $end_year ) {
+		if ( $current_year >= $start_year && $current_year <= $end_year ) {
 			$default_date = '';
 		} else {
 			$default_date = $start_year .',00,01';
@@ -1871,24 +1941,7 @@ DEFAULT_HTML;
                 }
             }
 
-
-            if ( ! empty($trigger) ) {
-                $style = FrmStylesController::get_form_style($field['form_id']);
-
-                // insert the collapse icon with the heading
-                preg_match_all( "/\<h[2-6]\b(.*?)(?:(\/))?\>\b(.*?)(?:(\/))?\<\/h[2-6]>/su", $html, $headings, PREG_PATTERN_ORDER);
-                if ( isset($headings[3]) && ! empty($headings[3]) ) {
-                    foreach ( $headings[3] as $heading ) {
-                        if ( 'before' == $style->post_content['collapse_pos'] ) {
-                            $html = str_replace($heading, '<i class="frm_icon_font frm_arrow_icon"></i> '. $heading, $html);
-                        } else {
-                            $html = str_replace($heading, $heading .' <i class="frm_icon_font frm_arrow_icon"></i>', $html);
-                        }
-                        break;
-                    }
-                }
-                unset($style);
-            }
+			self::maybe_add_collapse_icon( $trigger, $field, $html );
 
             $html = str_replace('[collapse_class]', $trigger, $html);
 		} else if ( $field['type'] == 'html' ) {
@@ -1984,6 +2037,37 @@ DEFAULT_HTML;
 			$frm_vars['div'] = $field['id'];
 
 			$html = preg_replace( $end_div, '', $html );
+		}
+	}
+
+	/**
+	* Add the collapse icon next to collapsible section headings
+	*
+	* @since 2.0.14
+	*
+	* @param string $trigger
+	* @param array $field
+	* @param string $html, pass by reference
+	*/
+	private static function maybe_add_collapse_icon( $trigger, $field, &$html ) {
+		if ( ! empty( $trigger ) ) {
+			$style = FrmStylesController::get_form_style( $field['form_id'] );
+
+			preg_match_all( "/\<h[2-6]\b(.*?)(?:(\/))?\>(.*?)(?:(\/))?\<\/h[2-6]>/su", $html, $headings, PREG_PATTERN_ORDER);
+
+			if ( isset( $headings[3] ) && ! empty( $headings[3] ) ) {
+				$header_text = reset( $headings[3] );
+				$old_header_html = reset( $headings[0] );
+
+				if ( 'before' == $style->post_content['collapse_pos'] ) {
+					$new_header_html = str_replace( $header_text, '<i class="frm_icon_font frm_arrow_icon"></i> ' . $header_text, $old_header_html );
+				} else {
+					$new_header_html = str_replace( $header_text, $header_text . '<i class="frm_icon_font frm_arrow_icon"></i> ', $old_header_html );
+				}
+
+				$html = str_replace( $old_header_html, $new_header_html, $html );
+
+			}
 		}
 	}
 
@@ -2847,7 +2931,7 @@ DEFAULT_HTML;
         $tags = array(
             'event_date', 'entry_count', 'detaillink', 'editlink', 'deletelink',
             'created_at', 'updated_at', 'created_by', 'updated_by',
-            'evenodd', 'post_id', 'parent_id',
+            'evenodd', 'post_id', 'parent_id', 'id',
         );
 
         if ( in_array($tag, $tags) ) {
@@ -2965,7 +3049,7 @@ DEFAULT_HTML;
 
         if ( (isset($atts['location']) && $atts['location'] == 'front') || ( isset($atts['prefix']) && ! empty($atts['prefix']) ) || ( isset($atts['page_id']) && ! empty($atts['page_id']) ) ) {
             $edit_atts = $atts;
-            $edit_atts['id'] = $args['entry']->id;
+            $edit_atts['id'] = isset( $args['foreach_loop'] ) ? $args['entry']->parent_item_id : $args['entry']->id;
             $edit_atts['page_id'] = $page_id;
 
             $replace_with = FrmProEntriesController::entry_edit_link($edit_atts);
@@ -3012,6 +3096,10 @@ DEFAULT_HTML;
 
     public static function do_shortcode_parent_id(&$content, $atts, $shortcodes, $short_key, $args) {
         $content = str_replace($shortcodes[0][$short_key], $args['entry']->parent_item_id, $content);
+    }
+
+    public static function do_shortcode_id(&$content, $atts, $shortcodes, $short_key, $args) {
+        $content = str_replace($shortcodes[0][$short_key], $args['entry']->id, $content);
     }
 
     public static function do_shortcode_created_at(&$content, $atts, $shortcodes, $short_key, $args) {
@@ -3130,6 +3218,11 @@ DEFAULT_HTML;
             }
 
             $entry = FrmEntry::getOne($sub_entry);
+			if ( ! $entry ) {
+				continue;
+			}
+
+			$args['foreach_loop'] = true;
 
             $shortcodes = FrmProDisplaysHelper::get_shortcodes($repeat_content, $entry->form_id);
             $repeating_content = $repeat_content;
@@ -3421,6 +3514,27 @@ DEFAULT_HTML;
         return implode(', ', $new_val);
     }
 
+	public static function get_time_display_value( $replace_with, $atts ) {
+		$defaults = array(
+			'format' => 'H:i A',
+		);
+		$atts = wp_parse_args( $atts, $defaults );
+
+		if ( strpos( $replace_with, ',' ) ) {
+			$replace_with = explode( ',', $replace_with );
+		}
+
+		if ( is_array( $replace_with ) ) {
+			foreach ( $replace_with as $k => $v ) {
+				$replace_with[ $k ] = FrmProAppHelper::format_time( $replace_with[ $k ], $atts['format'] );
+			}
+		} else {
+			$replace_with = FrmProAppHelper::format_time( $replace_with, $atts['format'] );
+		}
+		return $replace_with;
+
+	}
+
     public static function get_date_display_value($replace_with, $atts) {
         $defaults = array(
             'format'    => false,
@@ -3582,6 +3696,20 @@ DEFAULT_HTML;
         return implode($sep, $replace_with);
     }
 
+	/**
+	* Check if a field is hidden through the frm_is_field_hidden hook
+	*
+	* @since 2.0.13
+	* @param boolean $hidden
+	* @param object $field
+	* @param array $values
+	* @return boolean $hidden
+	*/
+	public static function route_to_is_field_hidden( $hidden, $field, $values ) {
+		$hidden = self::is_field_hidden( $field, $values );
+		return $hidden;
+	}
+
 	public static function is_field_hidden( $field, $values ) {
 		if ( $field->type == 'user_id' || $field->type == 'hidden' || ! isset( $field->field_options['hide_field'] ) || empty( $field->field_options['hide_field'] ) ) {
 			return false;
@@ -3673,8 +3801,8 @@ DEFAULT_HTML;
 
 		// Get linked field data
 		$selected_field_id = isset( $field->field_options['form_select'] ) ? $field->field_options['form_select'] : '';
-		if ( ! is_numeric( $selected_field_id ) ) {
-			// TODO: Set this up for hierachical taxonomies as well
+		if ( $selected_field_id == 'taxonomy' ) {
+			self::update_dynamic_category_field_if_empty( $field, $key );
 			return;
 		}
 		$data_field = FrmField::getOne( $selected_field_id );
@@ -3697,6 +3825,43 @@ DEFAULT_HTML;
 		}
 
 		$field->field_options['hide_opt'][ $key ] = apply_filters( 'frm_is_dynamic_field_empty', $field->field_options['hide_opt'][ $key ], compact( 'field', 'key', 'hide_field', 'observed_value' )  );
+	}
+
+	/**
+	* Don't require a dynamic taxonomy field that has no options
+	*
+	* @since 2.0.13
+	*
+	* @param object $field - pass by reference
+	* @param int $key
+	*/
+	private static function update_dynamic_category_field_if_empty( &$field, $key ) {
+		// Get value selected in parent field
+		$parent_val = $field->field_options['hide_opt'][ $key ];
+		if ( ! $parent_val ) {
+			return;
+		}
+
+		// Makes sure this works with multi-select and non multi-select fields
+		if ( ! is_array( $parent_val ) ) {
+			$parent_val = explode( ',', $parent_val );
+		}
+
+		// Get all category IDs that have a parent equal to the parent_val
+		$cats = array();
+		foreach ( $parent_val as $parent_id ) {
+			$args = array(
+				'parent' => (int) $parent_id,
+				'taxonomy'	=> $field->field_options['taxonomy'],
+				'hide_empty'	=> 0,
+			);
+			$cats = array_merge( get_categories( $args ), $cats );
+		}
+
+		if ( empty( $cats )  ) {
+			// Field should not be required so indicate that this field is hidden
+			$field->field_options['hide_opt'][ $key ] = '';
+		}
 	}
 
     public static function &is_field_visible_to_user($field) {
@@ -3869,14 +4034,16 @@ DEFAULT_HTML;
 
 		// Checkbox and multi-select dropdown fields
 		if ( $opt_key && ! is_numeric( $opt_key ) && isset( $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] ) && $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] ) {
+			$posted_val = stripslashes_deep( $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] );
 		    ?>
-			<input type="hidden" name="item_meta[other][<?php echo esc_attr( $field['id'] ) ?>][<?php echo esc_attr( $opt_key ) ?>]" id="<?php echo esc_attr( $other_id ) ?>" value="<?php echo esc_attr( $_POST['item_meta']['other'][ $field['id'] ][ $opt_key ] ); ?>" />
+			<input type="hidden" name="item_meta[other][<?php echo esc_attr( $field['id'] ) ?>][<?php echo esc_attr( $opt_key ) ?>]" id="<?php echo esc_attr( $other_id ) ?>" value="<?php echo esc_attr( $posted_val ); ?>" />
 		    <?php
 
 		// Radio fields and regular dropdowns
 		} else if ( ! is_array( $field['value'] ) && ! is_array( $_POST['item_meta']['other'][ $field['id'] ] ) ) {
+			$posted_val = stripslashes_deep( $_POST['item_meta']['other'][ $field['id'] ] );
 			?>
-			<input type="hidden" name="item_meta[other][<?php echo esc_attr( $field['id'] ) ?>]" id="<?php echo esc_attr( $other_id ) ?>" value="<?php echo esc_attr( $_POST['item_meta']['other'][ $field['id'] ] ); ?>" />
+			<input type="hidden" name="item_meta[other][<?php echo esc_attr( $field['id'] ) ?>]" id="<?php echo esc_attr( $other_id ) ?>" value="<?php echo esc_attr( $posted_val ); ?>" />
 		    <?php
 		}
 	}

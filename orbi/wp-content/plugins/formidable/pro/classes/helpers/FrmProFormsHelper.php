@@ -145,12 +145,15 @@ class FrmProFormsHelper{
         $values = array();
 
         if ( $args['fields'] ) {
+			// Get the ID of the form that houses the embedded form or repeating section
+			$parent_form_id = $args['parent_field']['form_id'];
+
             if ( empty($args['entry_id']) ) {
-                $values = FrmEntriesHelper::setup_new_vars($args['fields'], $args['form']);
+				$values = FrmEntriesHelper::setup_new_vars( $args['fields'], $args['form'], false, array( 'parent_form_id' => $parent_form_id ) );
             } else {
                 $entry = FrmEntry::getOne($args['entry_id'], true);
                 if ( $entry && $entry->form_id == $args['form']->id ) {
-                    $values = FrmAppHelper::setup_edit_vars($entry, 'entries', $args['fields']);
+					$values = FrmAppHelper::setup_edit_vars( $entry, 'entries', $args['fields'], false, array(), array( 'parent_form_id' => $parent_form_id ) );
                 } else {
                     return;
                 }
@@ -524,6 +527,7 @@ $(document.getElementById('<?php echo $datepicker ?>')).change(function(){frmFro
 				'calc_dec'		=> $field['calc_dec'],
 				'fields'    	=> array(),
 				'field_id'		=> $field['field_id'],
+				'form_id'		=> $field['parent_form_id'],
             );
 
             foreach ( $calc_fields as $calc_field ) {

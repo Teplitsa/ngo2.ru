@@ -75,7 +75,7 @@ class EDD_SL_Plugin_Updater {
 
         global $pagenow;
 
-        if( ! is_object( $_transient_data ) ) {
+        if ( ! is_object( $_transient_data ) ) {
             $_transient_data = new stdClass;
         }
 
@@ -138,7 +138,7 @@ class EDD_SL_Plugin_Updater {
             $cache_key    = md5( 'edd_plugin_' .sanitize_key( $this->name ) . '_version_info' );
             $version_info = get_transient( $cache_key );
 
-            if( false === $version_info ) {
+            if ( false === $version_info ) {
 
                 $version_info = $this->api_request( 'plugin_latest_version', array( 'slug' => $this->slug ) );
 
@@ -179,18 +179,21 @@ class EDD_SL_Plugin_Updater {
 
             if ( empty( $version_info->download_link ) ) {
                 printf(
-                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a>.', 'edd' ),
+                    __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s.', 'edd' ),
                     esc_html( $version_info->name ),
-                    esc_url( $changelog_link ),
-                    esc_html( $version_info->new_version )
+                    '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
+                    esc_html( $version_info->new_version ),
+					'</a>'
                 );
             } else {
                 printf(
-                    __( 'There is a new version of %1$s available. <a target="_blank" class="thickbox" href="%2$s">View version %3$s details</a> or <a href="%4$s">update now</a>.', 'edd' ),
+                    __( 'There is a new version of %1$s available. %2$sView version %3$s details%4$s or %5$supdate now%6$s.', 'edd' ),
                     esc_html( $version_info->name ),
-                    esc_url( $changelog_link ),
+                    '<a target="_blank" class="thickbox" href="' . esc_url( $changelog_link ) . '">',
                     esc_html( $version_info->new_version ),
-                    esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name, 'upgrade-plugin_' . $this->name ) )
+					'</a>',
+                    '<a href="' . esc_url( wp_nonce_url( self_admin_url( 'update.php?action=upgrade-plugin&plugin=' ) . $this->name, 'upgrade-plugin_' . $this->name ) ) .'">',
+					'</a>'
                 );
             }
 
@@ -229,7 +232,7 @@ class EDD_SL_Plugin_Updater {
             'fields' => array(
                 'banners' => false, // These will be supported soon hopefully
                 'reviews' => false,
-            )
+            ),
         );
 
         $api_response = $this->api_request( 'plugin_information', $to_send );
@@ -293,7 +296,7 @@ class EDD_SL_Plugin_Updater {
             'item_id'    => isset( $data['item_id'] ) ? $data['item_id'] : false,
             'slug'       => $data['slug'],
             'author'     => $data['author'],
-            'url'        => home_url()
+            'url'        => home_url(),
         );
 
         $request = wp_remote_post( $this->api_url, array( 'timeout' => 15, 'sslverify' => false, 'body' => $api_params ) );
@@ -337,5 +340,4 @@ class EDD_SL_Plugin_Updater {
 
         exit;
     }
-
 }

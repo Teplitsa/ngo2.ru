@@ -165,7 +165,8 @@ class FrmProDisplay{
         $query = array(
             'numberposts'   => $limit,
             'orber_by'      => $order_by,
-            'post_type'     => 'frm_display'
+			'post_type'     => 'frm_display',
+			'post_status'	=> array('publish','private'),
         );
 		$query = array_merge( (array) $where, $query );
 

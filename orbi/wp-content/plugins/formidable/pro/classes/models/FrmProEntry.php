@@ -526,15 +526,7 @@ class FrmProEntry{
 			}
 
 			$time = $times[ $e_key ]->meta_value;
-			$parts = str_replace( array( ' PM',' AM'), '', $time );
-			$parts = explode( ':', $parts );
-			if ( is_array( $parts ) ) {
-				if ( self::is_later_than_noon( $time, $parts ) ) {
-					$parts[0] = (int) $parts[0] + 12;
-				}
-			}
-
-			$new_order[ $e_key ] = (int) $parts[0] . $parts[1];
+			$new_order[ $e_key ] = FrmProAppHelper::format_time( $time, 'Hi' );
 
         	unset($e_key, $entry);
 		}
@@ -547,10 +539,6 @@ class FrmProEntry{
 
         $entry_ids = $final_order;
     }
-
-	private static function is_later_than_noon( $time, $parts ) {
-		return ( ( preg_match( '/PM/', $time ) && ( (int) $parts[0] != 12 ) ) || ( ( (int) $parts[0] == 12 ) && preg_match( '/AM/', $time ) ) );
-	}
 
 	public static function pre_validate( $errors, $values ) {
 		_deprecated_function( __FUNCTION__, '2.0.8', 'FrmProFormsHelper::can_submit_form_now' );

@@ -84,11 +84,12 @@ $news = new WP_Query(array(
 ));
 
 /* functions */
-function tst_featured_event_media($fe, $size = 'embed'){
+function tst_featured_event_media($fe){
 	
-	$img = tst_get_post_thumbnail_src($fe, $size);	
+	$img_id = get_post_thumbnail_id($fe->ID);
+	$img = aq_resize(wp_get_attachment_url($img_id), 564, 395,true, true, true); 
 ?>
-	<div class="hfe-media-content" style="background-image: url('<?php echo $img;?>');"></div>	
+	<a href="<?php echo get_permalink($fe);?>" class="hfe-media-image"><img src="<?php echo $img;?>" alt="<?php echo esc_attr($fe->post_title);?>"></a>	
 <?php
 }
 
@@ -119,37 +120,35 @@ get_header();
 			
 			<div class="mdl-grid mdl-grid--no-spacing">
 			
-				<div class="mdl-cell mdl-cell--8-col mdl-cell--hide-desktop mdl-cell--hide-tablet hfe-media">
+				<div class="mdl-cell mdl-cell--8-col mdl-cell--hide-desktop mdl-cell--hide-tablet hfe-media-mobile">
 					<?php tst_featured_event_media($f_event);?>
 				</div>
 					
 				<div class="mdl-cell mdl-cell--8-col mdl-cell--3-col-tablet mdl-cell--4-col-desktop">
 					
-					<div class="hfe-content">
+					<div class="mdl-card">
 						
-						<header class="hfe-content-element">
-							<div class="mdl-typography--caption ">Скоро</div>
-							<h4 class="mdl-typography--title">
-								<a href="<?php echo get_permalink($f_event);?>"><?php echo get_the_title($f_event);?></a>
+						<header class="mdl-card__title">							
+							<h4 class="mdl-typography--title mdl-card__title-text">
+								<a href="<?php echo get_permalink($f_event);?>">
+									<span>Скоро</span>
+									<?php echo get_the_title($f_event);?>
+								</a>
 							</h4>
 						</header>
 												
-						<div class="hfe-summary hfe-content-element">
+						<div class="hfe-summary mdl-card__supporting-text mdl-card--expand">
 							<h6><?php echo implode(', ', $meta);?></h6>
-						<?php
-							$e = (!empty($f_event->post_excerpt)) ? $f_event->post_excerpt : wp_trim_words(strip_shortcodes($f_event->post_content), 30);
-							echo apply_filters('tst_the_title', $e);
-						?>
 						</div>
 						
-						<div class="mdl-card__actions mdl-card--border hfe-action">
+						<div class="mdl-card__actions hfe-action ">
 							<a href="<?php echo get_permalink($f_event);?>" class="mdl-button mdl-js-button mdl-button--colored">Принять участие</a>
 						</div>
 					</div>
 					
 				</div>
 				
-				<div class="mdl-cell mdl-cell--hide-phone mdl-cell--5-col-tablet mdl-cell--8-col-desktop hfe-media">
+				<div class="mdl-cell mdl-cell--hide-phone mdl-cell--5-col-tablet mdl-cell--8-col-desktop hfe-media-desktop">
 					<?php tst_featured_event_media($f_event);?>
 				</div>
 				

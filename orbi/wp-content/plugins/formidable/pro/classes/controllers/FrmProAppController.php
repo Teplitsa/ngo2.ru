@@ -14,7 +14,7 @@ class FrmProAppController{
         ) );
     }
 
-    public static function drop_tables($tables) {
+    public static function drop_tables( $tables ) {
         global $wpdb;
         $tables[] = $wpdb->prefix .'frm_display';
         return $tables;

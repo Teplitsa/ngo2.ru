@@ -36,6 +36,10 @@ class FrmProDb{
             if ( $db_version >= 29 && $old_db_version < 29 ) {
                 self::migrate_to_29();
             }
+
+            if ( $db_version >= 30 && $old_db_version < 30 ) {
+                self::migrate_to_30();
+            }
         }
 
 		update_option('frmpro_db_version', $db_version);
@@ -69,6 +73,26 @@ class FrmProDb{
 		delete_site_option( 'frm_autoupdate' );
 		delete_site_option( 'frmpro-wpmu-sitewide' );
     }
+
+	/**
+	* Remove form_select from all non-repeating sections
+	*/
+	private static function migrate_to_30(){
+		// Get all section fields
+		$dividers = FrmField::getAll( array( 'fi.type' => 'divider' ) );
+
+		// Remove form_select for non-repeating sections
+		foreach( $dividers as $d ) {
+			if ( FrmField::is_repeating_field( $d ) ) {
+				continue;
+			}
+
+			if ( FrmField::is_option_value_in_object( $d, 'form_select' ) ) {
+				$d->field_options['form_select'] = '';
+				FrmField::update( $d->id, array( 'field_options' => maybe_serialize( $d->field_options ) ) );
+			}
+		}
+	}
 
 	/**
 	* Switch repeating section forms to published and give them names

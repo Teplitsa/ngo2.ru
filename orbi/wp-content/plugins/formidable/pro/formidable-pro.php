@@ -18,7 +18,7 @@ $frm_vars['pro_is_installed'] = 'deprecated';
 add_filter('frm_pro_installed', '__return_true');
 
 add_filter('frm_load_controllers', 'frmpro_load_controllers');
-function frmpro_load_controllers($controllers) {
+function frmpro_load_controllers( $controllers ) {
     $controllers[] = 'FrmProHooksController';
     return $controllers;
 }

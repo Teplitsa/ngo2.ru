@@ -52,6 +52,27 @@ class FrmProAppHelper{
 		return date( $atts['format'], $current_time );
 	}
 
+	/**
+	 * Format the time field values
+	 * @since 2.0.14
+	 */
+	public static function format_time( $time, $format = 'Hi' ) {
+		$parts = str_replace( array( ' PM',' AM'), '', $time );
+		$parts = explode( ':', $parts );
+		if ( is_array( $parts ) && count( $parts ) > 1 ) {
+			if ( self::is_later_than_noon( $time, $parts ) ) {
+				$parts[0] = (int) $parts[0] + 12;
+			}
+			$time = $parts[0] . ':' . $parts[1] . ':00';
+		}
+
+		return date( $format, strtotime( $time ) );
+	}
+
+	private static function is_later_than_noon( $time, $parts ) {
+		return ( ( preg_match( '/PM/', $time ) && ( (int) $parts[0] != 12 ) ) || ( ( (int) $parts[0] == 12 ) && preg_match( '/AM/', $time ) ) );
+	}
+
     /**
      * Get a value from the current user profile
      *
@@ -321,7 +342,13 @@ class FrmProAppHelper{
      */
     private static function prepare_where_args( &$args, $where_field, $entry_ids ) {
         if ( $args['where_val'] == 'NOW' ) {
-            $args['where_val'] = self::get_date('Y-m-d');
+			$date_format = 'Y-m-d';
+			if ( $where_field->type == 'time' ) {
+				$time_format = isset( $where_field->field_options['clock'] ) ? $where_field->field_options['clock'] : 12;
+				$date_format = ( $time_format == 12 ) ? 'h:i A' : 'H:i';
+			}
+			$args['where_val'] = self::get_date( $date_format );
+			unset( $date_format );
         }
 
         if ( $where_field->type == 'date' && ! empty($args['where_val']) ) {
@@ -419,18 +446,22 @@ class FrmProAppHelper{
 		$filter_args = array( 'is_draft' => $args['drafts'] );
 		self::add_group_by( $filter_args, $args );
 
+		// If the field is from a repeating section (or embedded form?) get the parent ID
+		$filter_args['return_parent_id'] = ( $where_field->form_id != $args['form_id'] );
+
 		// Add entry IDs to $where_statement. Meant for use when showing one entry.
 		if ( $args['use_ids'] ) {
 			if ( is_array( $where_statement ) ) {
-				$where_statement['item_id'] = $entry_ids;
+				if ( $filter_args['return_parent_id'] ) {
+					$where_statement['parent_item_id'] = $entry_ids;
+				} else {
+					$where_statement['item_id'] = $entry_ids;
+				}
 			} else {
 				// if the filter changed the query to a string, allow it
 				$where_statement .= FrmAppHelper::prepend_and_or_where( ' AND ', array( 'item_id' => $entry_ids ) );
 			}
 		}
-
-		// If the field is from a repeating section (or embedded form?) get the parent ID
-		$filter_args['return_parent_id'] = ( $where_field->form_id != $args['form_id'] );
 
 		$new_ids = FrmEntryMeta::getEntryIds( $where_statement, '', '', true, $filter_args );
 

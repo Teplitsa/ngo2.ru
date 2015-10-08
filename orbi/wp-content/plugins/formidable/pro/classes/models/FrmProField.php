@@ -196,4 +196,32 @@ class FrmProField {
 
 		return $form_id;
 	}
+
+	/**
+	* Return all the field IDs for the fields inside of a section (not necessarily repeating) or an embedded form
+	*
+	* @since 2.0.13
+	* @param array $field
+	* @return array $children
+	*/
+	public static function get_children( $field ) {
+		global $wpdb;
+
+		$children = array();
+
+		// If repeating field or embedded form
+		if ( FrmField::is_repeating_field( $field ) || $field['type'] == 'form' ) {
+			$repeat_id = isset( $field['form_select'] ) ? $field['form_select'] : $field['field_options']['form_select'];
+			$children = FrmDb::get_col( $wpdb->prefix . 'frm_fields', array( 'form_id' => $repeat_id ) );
+
+		} else {
+			$end_divider_order = FrmDb::get_var( $wpdb->prefix . 'frm_fields', array( 'form_id' => $field['form_id'], 'type' => 'end_divider', 'field_order>' => $field['field_order'] ), 'field_order', array( 'order_by' => 'field_order ASC' ), 1 );
+			$min_field_order = $field['field_order'] + 1;
+			$max_field_order = $end_divider_order - 1;
+
+			$children = FrmDb::get_col( $wpdb->prefix . 'frm_fields', array( 'form_id' => $field['form_id'], 'field_order>' => $min_field_order, 'field_order<' => $max_field_order ) );
+		}
+
+		return $children;
+	}
 }

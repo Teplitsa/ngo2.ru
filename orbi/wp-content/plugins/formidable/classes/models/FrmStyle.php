@@ -30,11 +30,11 @@ class FrmStyle {
         return (object) $style;
     }
 
-    public function save($settings) {
+	public function save( $settings ) {
 		return FrmAppHelper::save_settings( $settings, 'frm_styles' );
     }
 
-    public function duplicate($id) {
+	public function duplicate( $id ) {
         // duplicating is a pro feature
     }
 
@@ -99,7 +99,7 @@ class FrmStyle {
     /**
      * Create static css file
      */
-    public function save_settings($styles) {
+	public function save_settings( $styles ) {
         $filename = FrmAppHelper::plugin_path() .'/css/custom_theme.css.php';
 
         if ( ! is_file($filename) ) {
@@ -124,16 +124,20 @@ class FrmStyle {
         $access_type = get_filesystem_method();
         if ( $access_type === 'direct' ) {
         	$creds = request_filesystem_credentials( site_url() .'/wp-admin/', '', false, false, array() );
+		} else {
+			$creds = $this->get_ftp_creds( $access_type );
+		}
 
+		if ( ! empty( $creds ) ) {
         	// initialize the API
-        	if ( ! WP_Filesystem($creds) ) {
+        	if ( ! WP_Filesystem( $creds ) ) {
         		// any problems and we exit
         		$dirs_exist = false;
 			}
 
-        	global $wp_filesystem;
-
             if ( $dirs_exist ) {
+	        	global $wp_filesystem;
+
             	$chmod_dir = defined('FS_CHMOD_DIR') ? FS_CHMOD_DIR : ( fileperms( ABSPATH ) & 0777 | 0755 );
             	$chmod_file = defined('FS_CHMOD_FILE') ? FS_CHMOD_FILE : ( fileperms( ABSPATH . 'index.php' ) & 0777 | 0644 );
 
@@ -162,7 +166,57 @@ class FrmStyle {
         set_transient('frmpro_css', $css);
 	}
 
-	public function destroy($id) {
+	private function get_ftp_creds( $type ) {
+		$credentials = get_option( 'ftp_credentials', array( 'hostname' => '', 'username' => '' ) );
+
+		$credentials['hostname'] = defined('FTP_HOST') ? FTP_HOST : $credentials['hostname'];
+		$credentials['username'] = defined('FTP_USER') ? FTP_USER : $credentials['username'];
+		$credentials['password'] = defined('FTP_PASS') ? FTP_PASS : '';
+
+		// Check to see if we are setting the public/private keys for ssh
+		$credentials['public_key'] = defined('FTP_PUBKEY') ? FTP_PUBKEY : '';
+		$credentials['private_key'] = defined('FTP_PRIKEY') ? FTP_PRIKEY : '';
+
+		// Sanitize the hostname, Some people might pass in odd-data:
+		$credentials['hostname'] = preg_replace( '|\w+://|', '', $credentials['hostname'] ); //Strip any schemes off
+
+		if ( strpos( $credentials['hostname'], ':' ) ) {
+			list( $credentials['hostname'], $credentials['port'] ) = explode( ':', $credentials['hostname'], 2 );
+			if ( ! is_numeric( $credentials['port'] ) ) {
+				unset( $credentials['port'] );
+			}
+		} else {
+			unset( $credentials['port'] );
+		}
+
+		if ( ( defined( 'FTP_SSH' ) && FTP_SSH ) || ( defined( 'FS_METHOD' ) && 'ssh2' == FS_METHOD ) ) {
+			$credentials['connection_type'] = 'ssh';
+		} else if ( ( defined( 'FTP_SSL' ) && FTP_SSL ) && 'ftpext' == $type ) {
+			//Only the FTP Extension understands SSL
+			$credentials['connection_type'] = 'ftps';
+		} else if ( ! isset( $credentials['connection_type'] ) ) {
+			//All else fails (And it's not defaulted to something else saved), Default to FTP
+			$credentials['connection_type'] = 'ftp';
+		}
+
+		$has_creds = ( ! empty( $credentials['password'] ) && ! empty( $credentials['username'] ) && ! empty( $credentials['hostname'] ) );
+		$can_ssh = ( 'ssh' == $credentials['connection_type'] && ! empty( $credentials['public_key'] ) && ! empty( $credentials['private_key'] ) );
+		if ( $has_creds || $can_ssh ) {
+			$stored_credentials = $credentials;
+			if ( ! empty( $stored_credentials['port'] ) ) {
+				//save port as part of hostname to simplify above code.
+				$stored_credentials['hostname'] .= ':' . $stored_credentials['port'];
+			}
+
+			unset( $stored_credentials['password'], $stored_credentials['port'], $stored_credentials['private_key'], $stored_credentials['public_key'] );
+
+			return $credentials;
+		}
+
+		return false;
+	}
+
+	public function destroy( $id ) {
         return wp_delete_post($id);
     }
 
@@ -258,7 +312,7 @@ class FrmStyle {
         return $styles;
     }
 
-    public function get_default_style($styles = null) {
+	public function get_default_style( $styles = null ) {
         if ( ! isset($styles) ) {
 			$styles = $this->get_all( 'menu_order', 'DESC', 1 );
         }
@@ -270,7 +324,7 @@ class FrmStyle {
         }
     }
 
-	public function override_defaults($settings) {
+	public function override_defaults( $settings ) {
 	    if ( ! is_array($settings) ) {
 	        return $settings;
 	    }
@@ -422,7 +476,7 @@ class FrmStyle {
         );
     }
 
-    public function get_field_name($field_name, $post_field = 'post_content') {
+	public function get_field_name( $field_name, $post_field = 'post_content' ) {
 		return 'frm_style_setting'. ( empty($post_field) ? '' : '['. $post_field .']' ) .'[' . $field_name . ']';
 	}
 

@@ -42,7 +42,10 @@
         		} ?></td>
 <?php       }
             if ( $atts['delete_link'] ) { ?>
-        <td><?php if ( FrmProEntriesHelper::user_can_delete($entry) ) { ?><a href="<?php echo esc_url(add_query_arg( array( 'frm_action' => 'destroy', 'entry' => $entry->id))) ?>" class="frm_delete_link" onclick="return confirm('<?php echo esc_attr($atts['confirm']); ?>')"><?php echo $atts['delete_link']; ?></a><?php } ?></td>
+		<td><?php
+		if ( FrmProEntriesHelper::user_can_delete( $entry ) ) {
+        ?><a href="<?php echo esc_url( add_query_arg( array( 'frm_action' => 'destroy', 'entry' => $entry->id ) ) ) ?>" class="frm_delete_link" data-frmconfirm="'<?php echo esc_attr( $atts['confirm'] ); ?>"><?php echo $atts['delete_link']; ?></a><?php
+		} ?></td>
 <?php       }
  ?>
         </tr>

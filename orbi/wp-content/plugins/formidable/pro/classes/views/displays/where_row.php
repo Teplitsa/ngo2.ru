@@ -5,6 +5,7 @@
         <option value="updated_at" <?php selected($where_field, 'updated_at') ?>><?php _e( 'Entry updated date', 'formidable' ) ?></option>
         <option value="id" <?php selected($where_field, 'id') ?>><?php _e( 'Entry ID', 'formidable' ) ?></option>
         <option value="item_key" <?php selected($where_field, 'item_key') ?>><?php _e( 'Entry Key', 'formidable' ) ?></option>
+		<option value="post_id" <?php selected($where_field, 'post_id') ?>><?php _e( 'Post ID', 'formidable' ) ?></option>
         <?php
         if ( is_numeric($form_id) ) {
 			FrmProFieldsHelper::get_field_options( $form_id, $where_field, 'not', array( 'break', 'end_divider', 'divider', 'file' ) );

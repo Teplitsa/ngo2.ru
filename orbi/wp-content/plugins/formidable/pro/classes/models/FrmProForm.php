@@ -126,6 +126,7 @@ class FrmProForm{
         $new_values = apply_filters('frm_before_field_created', FrmFieldsHelper::setup_new_vars('select', $form_id));
         $new_values['name'] = __( 'Status', 'formidable' );
         $new_values['field_options']['post_field'] = 'post_status';
+		$new_values['field_options']['separate_value'] = 1;
         $settings['post_status'] = FrmField::create( $new_values );
     }
 
@@ -149,6 +150,9 @@ class FrmProForm{
         if ( in_array($this_post_field, $post_fields) ) {
             $field_options['post_field'] = $this_post_field;
         }
+		if ( $this_post_field == 'post_status' ) {
+			$field_options['separate_value'] = 1;
+		}
         unset($this_post_field);
 
         //Set post categories

@@ -149,7 +149,7 @@ class FrmProDisplaysController{
         return $columns;
     }
 
-    public static function sortable_columns($columns) {
+	public static function sortable_columns( $columns ) {
         $columns['name'] = 'name';
         $columns['shortcode'] = 'ID';
 
@@ -290,7 +290,7 @@ class FrmProDisplaysController{
         return $excerpt;
     }
 
-    public static function add_meta_boxes($post_type) {
+	public static function add_meta_boxes( $post_type ) {
         if ( $post_type != self::$post_type ) {
             return;
         }
@@ -642,7 +642,7 @@ class FrmProDisplaysController{
         return $content;
     }
 
-    private static function calendar_daily_entries($entry, $display, $args, array &$daily_entries) {
+	private static function calendar_daily_entries( $entry, $display, $args, array &$daily_entries ) {
         $i18n = false;
 
         if ( is_numeric($display->frm_date_field_id) ) {
@@ -720,7 +720,7 @@ class FrmProDisplaysController{
         }
     }
 
-    private static function get_repeating_dates($entry, $display, $args, array &$dates) {
+	private static function get_repeating_dates( $entry, $display, $args, array &$dates ) {
         if ( ! is_numeric($display->frm_repeat_event_field_id) ) {
             return;
         }

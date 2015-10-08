@@ -25,7 +25,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
                 unset($v);
             }
         }else{ ?>
-<input name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id ) ?>" type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" />
+<input name="<?php echo esc_attr( $field_name ) ?>" id="<?php echo esc_attr( $html_id ) ?>" type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" <?php do_action('frm_field_input_html', $field) ?> />
 <?php   }
     }
 } else if ( $field['data_type'] == 'data' && is_numeric( $field['hide_opt'] ) && is_numeric( $field['form_select'] ) ) {
@@ -84,7 +84,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <?php   }
 	} else {
         foreach ( (array) $field['value'] as $v ) { ?>
-<input name="<?php echo esc_attr( $field_name ) ?>[]" type="hidden" value="<?php echo esc_attr( $v ) ?>" />
+<input name="<?php echo esc_attr( $field_name ) ?>[]" type="hidden" value="<?php echo esc_attr( $v ) ?>" <?php do_action('frm_field_input_html', $field) ?> />
 <?php   }
     }//else echo 'There are no options';
 
@@ -103,7 +103,7 @@ $selected = ( $field['value'] == $opt_key || in_array($opt_key, (array) $field['
 <?php
         }
 	} else { ?>
-<input name="<?php echo esc_attr( $field_name ) ?>" type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" />
+<input name="<?php echo esc_attr( $field_name ) ?>" type="hidden" value="<?php echo esc_attr( $field['value'] ) ?>" <?php do_action('frm_field_input_html', $field) ?> />
 <?php
 	}
 }

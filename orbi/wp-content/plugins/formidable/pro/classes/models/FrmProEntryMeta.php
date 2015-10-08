@@ -149,8 +149,8 @@ class FrmProEntryMeta{
             FrmEntriesHelper::get_posted_value($field, $value, $args);
         }
 
-        if ( $field->type == 'form' ||  $field->type == 'divider' ) {
-            self::validate_embeded_form($errors, $field, $args['exclude'] );
+        if ( $field->type == 'form' ||  FrmField::is_repeating_field( $field ) ) {
+            self::validate_embedded_form( $errors, $field, $args['exclude'] );
         } else if ( $field->type == 'user_id' ) {
             // make sure we have a user ID
             if ( ! is_numeric($value) ) {
@@ -247,12 +247,7 @@ class FrmProEntryMeta{
         return $errors;
     }
 
-    public static function validate_embeded_form(&$errors, $field, $exclude = array()) {
-        // If this is a section, but not a repeating section, exit now
-        if ( $field->type == 'divider' && ! FrmField::is_repeating_field($field) ) {
-            return;
-        }
-
+	public static function validate_embedded_form( &$errors, $field, $exclude = array() ) {
 		// Check if this section is conditionally hidden before validating the nested fields
 		self::validate_no_input_fields( $errors, $field );
 
@@ -263,7 +258,7 @@ class FrmProEntryMeta{
             return;
         }
 
-        $where = apply_filters('frm_posted_field_ids', array( 'fi.form_id' => $subforms ) );
+		$where = array( 'fi.form_id' => $subforms );
         if ( ! empty( $exclude ) ) {
             $where['fi.type not'] = $exclude;
         }

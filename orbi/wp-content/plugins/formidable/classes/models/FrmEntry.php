@@ -92,7 +92,7 @@ class FrmEntry {
      * check for duplicate entries created in the last minute
      * @return boolean
      */
-    public static function is_duplicate($new_values, $values) {
+	public static function is_duplicate( $new_values, $values ) {
 		if ( defined('WP_IMPORTING') && WP_IMPORTING ) {
             return false;
         }
@@ -304,7 +304,7 @@ class FrmEntry {
 		}
 	}
 
-    public static function getOne( $id, $meta = false) {
+	public static function getOne( $id, $meta = false ) {
         global $wpdb;
 
         $query = "SELECT it.*, fr.name as form_name, fr.form_key as form_key FROM {$wpdb->prefix}frm_items it
@@ -330,7 +330,7 @@ class FrmEntry {
         return stripslashes_deep($entry);
     }
 
-    public static function get_meta($entry) {
+	public static function get_meta( $entry ) {
         if ( ! $entry ) {
             return $entry;
         }
@@ -573,5 +573,4 @@ class FrmEntry {
 		_deprecated_function( __FUNCTION__, '2.0.9', 'FrmEntryValidate::akismet' );
 		return FrmEntryValidate::akismet( $values );
 	}
-
 }

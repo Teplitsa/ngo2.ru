@@ -81,9 +81,31 @@ class FrmProEntriesHelper{
 
 		FrmForm::maybe_get_form( $form );
 
+		self::maybe_get_parent_form_and_entry( $form, $entry );
+
         $allowed = self::user_can_edit_check($entry, $form);
         return apply_filters('frm_user_can_edit', $allowed, compact('entry', 'form'));
     }
+
+	/**
+	* If a form is a child form, get the parent form. Then if the entry is a child entry, get the parent entry.
+	*
+	* @since 2.0.13
+	* @param int|object $form - pass by reference
+	* @param int|object $entry - pass by reference
+	*/
+	private static function maybe_get_parent_form_and_entry( &$form, &$entry ) {
+		// If form is a child form, refer to parent form's settings
+		if ( $form->parent_form_id ) {
+			$form = FrmForm::getOne( $form->parent_form_id );
+
+			// Make sure we're also checking the parent entry's permissions
+			FrmEntry::maybe_get_entry( $entry );
+			if ( $entry->parent_item_id ) {
+				$entry = FrmEntry::getOne( $entry->parent_item_id );
+			}
+		}
+	}
 
     public static function user_can_edit_check($entry, $form) {
         $user_ID = get_current_user_id();

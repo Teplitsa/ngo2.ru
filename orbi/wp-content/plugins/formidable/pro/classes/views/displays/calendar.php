@@ -17,7 +17,7 @@ for ( $i = $week_begins; $i < ( $maxday+$startday ); $i++ ) {
         $day_class .= ' frmcal-today';
 	}
 
-	if ( $pos == $week_begins || $pos == $week_ends ) {
+	if ( $pos == 0 || $pos == 6 ) {
         $day_class .= ' frmcal-week-end';
 	}
 

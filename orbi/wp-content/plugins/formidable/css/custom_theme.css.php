@@ -632,18 +632,26 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 .frm_form_field.frm_last_inline,
 .frm_form_field.frm_last,
 .frm_form_field.frm_half,
+.frm_submit.frm_half,
 .frm_form_field.frm_third,
+.frm_submit.frm_third,
 .frm_form_field.frm_two_thirds,
 .frm_form_field.frm_fourth,
+.frm_submit.frm_fourth,
 .frm_form_field.frm_three_fourths,
 .frm_form_field.frm_fifth,
+.frm_submit.frm_fifth,
 .frm_form_field.frm_two_fifths,
 .frm_form_field.frm_three_fifths,
 .frm_form_field.frm_four_fifths,
 .frm_form_field.frm_sixth,
+.frm_submit.frm_sixth,
 .frm_form_field.frm_seventh,
+.frm_submit.frm_seventh,
 .frm_form_field.frm_eighth,
-.frm_form_field.frm_inline{
+.frm_submit.frm_eighth,
+.frm_form_field.frm_inline,
+.frm_submit.frm_inline{
     clear:none;
     float:left;
 	margin-left:2.5%;
@@ -678,12 +686,14 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 .frm_form_field.frm_right_half,
 .frm_form_field.frm_first_half,
 .frm_form_field.frm_last_half,
-.frm_form_field.frm_half{
+.frm_form_field.frm_half,
+.frm_submit.frm_half{
     width:48.75%;
 }
 
 .frm_form_field.frm_left_third,
 .frm_form_field.frm_third,
+.frm_submit.frm_third,
 .frm_form_field.frm_right_third,
 .frm_form_field.frm_first_third,
 .frm_form_field.frm_last_third{
@@ -700,6 +710,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 
 .frm_form_field.frm_left_fourth,
 .frm_form_field.frm_fourth,
+.frm_submit.frm_fourth,
 .frm_form_field.frm_right_fourth,
 .frm_form_field.frm_first_fourth,
 .frm_form_field.frm_last_fourth{
@@ -712,6 +723,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 
 .frm_form_field.frm_left_fifth,
 .frm_form_field.frm_fifth,
+.frm_submit.frm_fifth,
 .frm_form_field.frm_right_fifth,
 .frm_form_field.frm_first_fifth,
 .frm_form_field.frm_last_fifth{
@@ -731,18 +743,21 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 }
 
 .frm_form_field.frm_sixth,
+.frm_submit.frm_sixth,
 .frm_form_field.frm_first_sixth,
 .frm_form_field.frm_last_sixth{
     width:14.58%;
 }
 
 .frm_form_field.frm_seventh,
+.frm_submit.frm_seventh,
 .frm_form_field.frm_first_seventh,
 .frm_form_field.frm_last_seventh{
     width:12.14%;
 }
 
 .frm_form_field.frm_eighth,
+.frm_submit.frm_eighth,
 .frm_form_field.frm_first_eighth,
 .frm_form_field.frm_last_eighth{
     width:10.31%;
@@ -751,6 +766,7 @@ table.frmcal-calendar .frmcal-today .frmcal_date{
 .frm_form_field.frm_left_inline,
 .frm_form_field.frm_first_inline,
 .frm_form_field.frm_inline,
+.frm_submit.frm_inline,
 .frm_form_field.frm_right_inline,
 .frm_form_field.frm_last_inline{
     width:auto;
@@ -1277,8 +1293,8 @@ html[xmlns] .frm_clearfix{
 	margin:0 !important;
 }
 
-.with_frm_style.frm_login_form.frm_inline_login.frm_no_labels .login-username label,
-.with_frm_style.frm_login_form.frm_inline_login.frm_no_labels .login-password label{
+.with_frm_style.frm_login_form.frm_no_labels .login-username label,
+.with_frm_style.frm_login_form.frm_no_labels .login-password label{
 	display:none;
 }
 
@@ -1751,31 +1767,39 @@ html[xmlns] .frm_clearfix{
 
 @media only screen and (max-width: 600px) {
 	.frm_form_field.frm_half,
+	.frm_submit.frm_half,
     .frm_form_field.frm_left_half,
     .frm_form_field.frm_right_half,
     .frm_form_field.frm_first_half,
     .frm_form_field.frm_last_half,
     .frm_form_field.frm_first_third,
     .frm_form_field.frm_third,
+	.frm_submit.frm_third,
     .frm_form_field.frm_last_third,
     .frm_form_field.frm_first_two_thirds,
 	.frm_form_field.frm_last_two_thirds,
 	.frm_form_field.frm_two_thirds,
     .frm_form_field.frm_left_fourth,
     .frm_form_field.frm_fourth,
+	.frm_submit.frm_fourth,
     .frm_form_field.frm_right_fourth,
     .frm_form_field.frm_first_fourth,
 	.frm_form_field.frm_last_fourth,
 	.frm_form_field.frm_three_fourths,
 	.frm_form_field.frm_fifth,
+	.frm_submit.frm_fifth,
 	.frm_form_field.frm_two_fifths,
 	.frm_form_field.frm_three_fifths,
 	.frm_form_field.frm_four_fifths,
 	.frm_form_field.frm_sixth,
+	.frm_submit.frm_sixth,
 	.frm_form_field.frm_seventh,
+	.frm_submit.frm_seventh,
 	.frm_form_field.frm_eighth,
+	.frm_submit.frm_eighth,
     .frm_form_field.frm_first_inline,
     .frm_form_field.frm_inline,
+	.frm_submit.frm_inline,
     .frm_form_field.frm_last_inline{
         width:100%;
         margin-left:0;

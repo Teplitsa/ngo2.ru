@@ -89,6 +89,9 @@ class FrmProHooksController{
         add_filter('frm_other_custom_html', 'FrmProFieldsHelper::get_default_html', 10, 2);
         add_filter('frm_get_display_value', 'FrmProFieldsHelper::get_display_value', 10, 3);
 		add_filter('frm_pro_available_fields', 'FrmProFieldsHelper::modify_available_fields', 10);
+		add_filter('frm_get_parent_child_field_helpers', 'FrmProFieldsHelper::maybe_get_parent_child_field_helpers', 10, 3);
+		add_filter('frm_is_field_hidden', 'FrmProFieldsHelper::route_to_is_field_hidden', 10, 3);
+		add_filter( 'frm_get_current_page', 'FrmProFieldsHelper::get_current_page', 10, 3 );
 
         // Form Actions Controller
         add_action('frm_registered_form_actions', 'FrmProFormActionsController::register_actions');
@@ -118,6 +121,10 @@ class FrmProHooksController{
 
         // notification model
         add_filter('frm_notification_attachment', 'FrmProNotification::add_attachments', 1, 3 );
+
+		// XML Controller
+		add_filter( 'frm_default_templates_files', 'FrmProXMLController::import_default_templates' );
+		add_filter( 'frm_importing_xml', 'FrmProXMLController::importing_xml', 10, 2 );
     }
 
     public static function load_admin_hooks() {
@@ -238,9 +245,7 @@ class FrmProHooksController{
 		add_filter( 'frm_style_switcher', 'FrmProStylesController::style_switcher', 10, 2 );
 
         // XML Controller
-        add_filter('frm_default_templates_files', 'FrmProXMLController::import_default_templates');
         add_filter('frm_xml_route', 'FrmProXMLController::route', 10, 2 );
-        add_filter('frm_importing_xml', 'FrmProXMLController::importing_xml', 10, 2 );
         add_filter('frm_upload_instructions1', 'FrmProXMLController::csv_instructions_1');
         add_filter('frm_upload_instructions2', 'FrmProXMLController::csv_instructions_2');
         add_action('frm_csv_opts', 'FrmProXMLController::csv_opts');
@@ -329,7 +334,6 @@ class FrmProHooksController{
         add_filter('frm_setup_edit_fields_vars', 'FrmProFieldsHelper::setup_edit_vars', 10, 3);
         add_action('frm_after_checkbox', 'FrmProFieldsHelper::get_child_checkboxes');
         add_filter('frm_get_paged_fields', 'FrmProFieldsHelper::get_form_fields', 10, 3);
-        add_filter('frm_get_current_page', 'FrmProFieldsHelper::get_current_page', 10, 3);
         add_filter('frm_before_replace_shortcodes', 'FrmProFieldsHelper::before_replace_shortcodes', 10, 2);
         add_filter('frm_replace_shortcodes', 'FrmProFieldsHelper::replace_html_shortcodes', 10, 3);
 

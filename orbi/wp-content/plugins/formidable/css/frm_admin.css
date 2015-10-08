@@ -1383,7 +1383,7 @@ span.howto{display:inline;}
 #frm_form_editor_container .ui-widget-content{display:none; padding:15px;}
 #frm_form_editor_container .ui-widget-content label{float:left; width:170px; text-align:right; padding-right:5px; clear:both;}
 #frm_form_editor_container .ui-widget-content label.nofloat{clear:none; float:none; margin-left:10px;}
-#frm_form_editor_container .ui-state-default{color:#333;}
+#frm_form_editor_container .ui-state-default{color:#333 !important;}
 #frm_form_editor_container .ui-state-default a.frm_orange, #postbox-container-1 a.frm_orange{color:#D54E21;}
 
 #styling_settings input[type=checkbox], #styling_settings input[type=radio] {border:solid 1px #bbb;}
@@ -1415,12 +1415,14 @@ span.howto{display:inline;}
 .frm_sorting > li.ui-state-default,
 .frm_sorting .no_repeat_section li.ui-state-default.edit_field_type_end_divider:hover{
 	border:1px solid transparent;
-	font-weight:normal;
+	font-weight:lighter !important;
 	background-color:transparent;
 	background-image:none;
 	padding:5px;
 	margin:20px 0;
 	box-shadow:none;
+	display:block !important;
+	text-align:inherit !important;
 }
 .frm_sorting > li.ui-state-default.edit_field_type_form{
 	border:1px solid #d1e5ee;
@@ -1703,13 +1705,12 @@ table td.frm_left_label{
 .frm_38_trigger .frm_sorting li.ui-state-default.frm_not_divider.selected,
 .frm_sorting li.ui-state-default.selected.edit_field_type_divider .divider_section_only{
 	border:1px solid #e4f3ff;
-	background-color: #fbfdff; 
+	background-color: #fbfdff;
 }
 .start_divider.frm_sorting li.ui-state-default.frm_not_divider.selected {
 	border:1px solid #E7E7E7;
 	background:#FDFDFD;
 }
-
 
 .frm_sorting li.ui-state-default.selected.edit_field_type_divider .divider_section_only .frm-show-hover{
 	visibility:visible !important;
@@ -2141,6 +2142,37 @@ Responsive Design
         display:table-cell;
         width:auto !important;
     }
+
+	.wp-list-table.toplevel_page_formidable .column-entries,
+	.wp-list-table.toplevel_page_formidable .column-form_key,
+	.wp-list-table.toplevel_page_formidable .column-shortcode,
+	.wp-list-table.toplevel_page_formidable .column-created_at{
+	    display:none !important;
+	}
+
+	.wp-list-table.toplevel_page_formidable td.column-entries,
+	.wp-list-table.toplevel_page_formidable td.column-form_key,
+	.wp-list-table.toplevel_page_formidable td.column-shortcode,
+	.wp-list-table.toplevel_page_formidable td.column-created_at{
+	    padding: 3px 8px 3px 35%;
+		text-align:left;
+	}
+
+	.wp-list-table.toplevel_page_formidable td.column-title:before,
+	.wp-list-table.toplevel_page_formidable td.column-id:before{
+		display:none !important;
+	}
+
+	.wp-list-table.toplevel_page_formidable td.column-title,
+	.wp-list-table.toplevel_page_formidable td.column-id{
+		display:table-cell !important;
+	}
+
+	.wp-list-table.formidable_page_formidable-entries th.frm_hidden,
+	.wp-list-table.formidable_page_formidable-entries td.frm_hidden{
+		display:none !important;
+	}
+
 }
 @media (min-width:768px){
     .navbar-right .frm-dropdown-menu{right:0;left:auto;}
