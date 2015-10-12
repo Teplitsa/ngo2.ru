@@ -40,7 +40,7 @@ class Leyka {
     protected $templates = null;
 
     /** @var bool|null */
-    protected $_form_is_screening = null;
+    protected $_form_is_screening = false;
 
     /** Initialize the plugin by setting localization, filters, and administration functions. */
     private function __construct() {
@@ -59,13 +59,11 @@ class Leyka {
         $this->_payment_form_redirect_url = wp_get_referer();
 
         // Load public-facing style sheet and JavaScript:
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
-        add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
+        add_action('wp_footer', array($this, 'enqueue_styles'));
+        add_action('wp_footer', array($this, 'enqueue_scripts')); // wp_enqueue_scripts action
 
-        // Post types:
         add_action('init', array($this, 'register_post_types'), 9);
 
-        // User roles and capabilities:
         add_action('init', array($this, 'register_user_capabilities'));
 
         if( !session_id() ) {
@@ -85,7 +83,7 @@ class Leyka {
         add_action('admin_bar_menu', array($this, 'leyka_add_toolbar_menu'), 999);
 
         /** Service URLs handler: */
-        add_action('parse_request', function($request){
+        add_action('parse_request', function(){
             // Callback URLs are: some-website.org/leyka/service/{gateway_id}/{action_name}/
             // For ex., some-website.org/leyka/service/yandex/check_order/
             $request = $_SERVER['REQUEST_URI']; //$request->request;
@@ -204,14 +202,7 @@ class Leyka {
             case 'plugin_slug': return $this->_plugin_slug;
             case 'payment_url': return $this->_payment_url;
             case 'payment_vars': return $this->_payment_vars;
-            case 'form_is_screening':
-                if($this->_form_is_screening === null) {
-
-                    $this->_form_is_screening = is_singular(Leyka_Campaign_Management::$post_type) ||
-                        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false) /*||
-                    leyka_is_widget_active();*/;
-                }
-                return $this->_form_is_screening;
+            case 'form_is_screening': return $this->_form_is_screening;
             default:
                 return '';
         }
@@ -222,7 +213,7 @@ class Leyka {
         switch($name) {
             case 'form_is_screening':
                 $value = !!$value;
-                if( !$this->_form_is_screening ) {
+                if( !$this->_form_is_screening && $value ) {
                     $this->_form_is_screening = $value;
                 }
         }
@@ -495,11 +486,19 @@ class Leyka {
     /** Register and enqueue public-facing style sheet. */
     public function enqueue_styles() {
 
+        if( !leyka_form_is_screening() ) {
+            return;
+        }
+
         wp_enqueue_style($this->_plugin_slug.'-plugin-styles', LEYKA_PLUGIN_BASE_URL.'css/public.css', array(), LEYKA_VERSION);
     }
 
     /** Register and enqueues public-facing JavaScript files. */
     public function enqueue_scripts() {
+
+        if( !leyka_form_is_screening() ) {
+            return;
+        }
 
         wp_enqueue_script(
             $this->_plugin_slug.'-modal',
@@ -900,8 +899,3 @@ __('rebill', 'leyka');
 __('correction', 'leyka');
 __('The donations management system for your WP site', 'leyka');
 __('Lev Zvyagincev aka Ahaenor', 'leyka');
-
-add_action('wp_enqueue_scripts', function(){
-
-    echo '<pre>Here: ' . print_r((int)leyka_form_is_screening(), 1) . '</pre>';
-});

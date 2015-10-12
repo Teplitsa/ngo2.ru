@@ -12,6 +12,10 @@ class Leyka_Payment_Form {
 
 	function __construct(Leyka_Payment_Method $payment_method, $current_currency = null) {
 
+        if( !leyka()->form_is_screening ) {
+            leyka()->form_is_screening = true;
+        }
+
         $this->_pm = $payment_method;
         $this->_pm_name = $payment_method->id;
 
