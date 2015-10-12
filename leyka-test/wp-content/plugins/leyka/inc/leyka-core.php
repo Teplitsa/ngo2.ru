@@ -901,8 +901,7 @@ __('correction', 'leyka');
 __('The donations management system for your WP site', 'leyka');
 __('Lev Zvyagincev aka Ahaenor', 'leyka');
 
-add_action('init', function(){
+add_action('wp_enqueue_scripts', function(){
 
-    echo '<pre>Here: ' . print_r((int)is_singular('leyka_campaign'), 1) . '</pre>';
-    echo '<pre>' . print_r((int)leyka_form_is_screening(), 1) . '</pre>';
+    echo '<pre>Here: ' . print_r((int)leyka_form_is_screening(), 1) . '</pre>';
 });

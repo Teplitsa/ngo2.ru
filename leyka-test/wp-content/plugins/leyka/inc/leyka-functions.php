@@ -652,9 +652,12 @@ function leyka_is_campaign_link_in_menu() {
 /** @return boolean True if at least one Leyka form is currently on the screen, false otherwise */
 function leyka_form_is_screening() {
 
+    $template = get_page_template_slug();
+
     $form_is_screening = is_singular(Leyka_Campaign_Management::$post_type) ||
-        (is_front_page() && stristr(get_page_template_slug(), 'home-campaign_one') !== false); /*||
-        leyka_is_widget_active();*/
+        stristr($template, 'home-campaign_one') !== false ||
+        stripos($template, 'leyka') !== false ||
+        leyka_is_widget_active();
 
     return $form_is_screening;
 }
