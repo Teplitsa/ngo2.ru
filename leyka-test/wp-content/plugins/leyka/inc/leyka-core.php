@@ -528,6 +528,8 @@ class Leyka {
         ));
 
         wp_localize_script($this->_plugin_slug.'-public', 'leyka', $js_data);
+
+        do_action('leyka_enqueue_scripts'); // Allow the gateways to add their own scripts
     }
 
     /** Register leyka user roles and caps. */

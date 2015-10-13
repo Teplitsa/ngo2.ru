@@ -18,7 +18,8 @@ function leyka_render_section_area($section){?>
 
 /** Text fields */
 add_action('leyka_render_text', 'leyka_render_text_field', 10, 2);
-function leyka_render_text_field($option_name, $data){ 
+function leyka_render_text_field($option_name, $data){
+
     $option_name = stristr($option_name, 'leyka_') ? $option_name : 'leyka_'.$option_name;?>
 
     <div id="<?php echo $option_name.'-wrapper'?>">

@@ -17,13 +17,55 @@ class Leyka_Options_Controller {
         return self::$_instance;
     }
 
-    private function __construct() {
+    protected function __construct() {
 
         require_once(LEYKA_PLUGIN_DIR.'inc/leyka-options-meta.php');
     }
 
+    protected function _intialize_option($option_name, $load_value = false) {
+
+        $option_name = str_replace('leyka_', '', $option_name);
+
+        if(empty(self::$_options_meta[$option_name]) && empty($this->_options[$option_name])) {
+            return false;
+        }
+
+        if(empty($this->_options[$option_name])) {
+            $this->_options[$option_name] = self::$_options_meta[$option_name];
+        }
+
+        if( !!$load_value ) {
+            $this->_initialize_value($option_name);
+        }
+
+        return true;
+    }
+
+    protected function _initialize_value($option_name) {
+
+        $option_name = str_replace('leyka_', '', $option_name);
+
+        if(empty($this->_options[$option_name]['value'])) {
+
+            $this->_options[$option_name]['value'] = get_option("leyka_$option_name");
+
+            if( !$this->_options[$option_name]['value'] ) { // Option is not set, use default value from meta
+                $this->_options[$option_name]['value'] = self::$_options_meta[$option_name]['default'];
+            }
+        }
+
+        if($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html') {
+
+            $this->_options[$option_name]['value'] =
+                is_array($this->_options[$option_name]['value']) &&
+                isset($this->_options[$option_name]['value']['value']) ?
+                    html_entity_decode(stripslashes($this->_options[$option_name]['value']['value'])) :
+                    html_entity_decode(stripslashes((string)$this->_options[$option_name]['value']));
+        }
+    }
+
     public function get_options_names() {
-        return array_keys(self::$_options_meta);
+        return array_unique(array_merge(array_keys(self::$_options_meta), array_keys($this->_options)));
     }
 
     /** 
@@ -32,32 +74,11 @@ class Leyka_Options_Controller {
      */
     public function get_value($option_name) {
 
-        $option_name = str_replace('leyka_', '', $option_name); 
-        if(empty($this->_options[$option_name]) && empty(self::$_options_meta[$option_name])) {
-            return null;
-        }
+        $option_name = str_replace('leyka_', '', $option_name);
 
-        if(empty($this->_options[$option_name])) {
-
-            self::$_options_meta[$option_name]['value'] = get_option("leyka_$option_name");
-
-            if(self::$_options_meta[$option_name]['value'] === false) { // Option is not set, use default value from meta
-                self::$_options_meta[$option_name]['value'] = self::$_options_meta[$option_name]['default'];
-            }
-
-            $this->_options[str_replace('leyka_', '', $option_name)] = self::$_options_meta[$option_name];
-        }
-
-        if($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html') {
-
-            $this->_options[$option_name]['value'] =
-                is_array($this->_options[$option_name]['value']) &&
-                isset($this->_options[$option_name]['value']['value']) ?
-                html_entity_decode(stripslashes($this->_options[$option_name]['value']['value'])) :
-                html_entity_decode(stripslashes((string)$this->_options[$option_name]['value']));
-        }
-
-        return apply_filters('leyka_option_value', $this->_options[$option_name]['value'], $option_name);
+        return $this->_intialize_option($option_name, true) ?
+            apply_filters('leyka_option_value', $this->_options[$option_name]['value'], $option_name) :
+            false;
     }
 
     public function add_option($name, $type, $params) {
@@ -95,7 +116,7 @@ class Leyka_Options_Controller {
         $option_added = $value_saved !== false ? true : add_option($name, $params['value']);
 
         if($option_added) {
-            $this->_options[ str_replace('leyka_', '', $name) ] = $params;
+            $this->_options[str_replace('leyka_', '', $name)] = $params;
         }
 
         return $option_added;
@@ -105,15 +126,21 @@ class Leyka_Options_Controller {
 
         $name = stristr($name, 'leyka_') !== false ? $name : 'leyka_'.$name;
 
+        $this->_intialize_option($name);
+
         $option_deleted = delete_option($name);
-        
-        if($option_deleted)
-            unset($this->_options[ str_replace('leyka_', '', $name) ]);
+
+        if($option_deleted) {
+            unset($this->_options[str_replace('leyka_', '', $name)]);
+        }
 
         return $option_deleted;
     }
 
     public function option_exists($name) {
+
+        $this->_intialize_option($name);
+
         return isset($this->_options[str_replace('leyka_', '', $name)]);
     }
 
@@ -124,23 +151,28 @@ class Leyka_Options_Controller {
      */
     public function set_value($option_name, $option_value = null) {
 
-        // Check if option exists. If not, do nothing and return false:
+        $option_name = str_replace('leyka_', '', $option_name);
+
+        $this->_intialize_option($option_name);
+
         if($this->option_exists($option_name) && $this->_validate_option($option_name, $option_value)) {
 
             $old_value = $this->_options[$option_name]['value']; // Rollback to it if option update fails
             $this->_options[$option_name]['value'] = $option_value;
 
             $updated = update_option('leyka_'.$option_name, $option_value); 
-            if( !$updated )
+            if( !$updated ) {
                 $this->_options[$option_name]['value'] = $old_value;
+            }
 
             return $updated;
+
         } else {
             return false;
         }
     }
 
-    public function opt($option_name, $new_value = null) { 
+    public function opt($option_name, $new_value = null) {
         return $new_value === null ? $this->get_value($option_name) : $this->set_value($option_name, $new_value);
     }
 
@@ -153,7 +185,7 @@ class Leyka_Options_Controller {
 
     protected function _validate_option($option_name, $option_value) {
 
-        $option_name = str_replace('leyka_', '', $option_name);
+//        $option_name = str_replace('leyka_', '', $option_name);
         // use the $this->_options[$option_name]['validation_rules'], luke
         return true;
     }
@@ -162,23 +194,20 @@ class Leyka_Options_Controller {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        if(empty($this->_options[$option_name]))
+        $this->_intialize_option($option_name);
+
+        if(empty($this->_options[$option_name]) || empty($this->_options[$option_name]['default'])) {
             return false;
-        else
+        } else {
             return empty($this->_options[$option_name]['default']) ? '' : $this->_options[$option_name]['default'];
+        }
     }
 
     public function get_info_of($option_name) {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        if(empty(self::$_options_meta[$option_name])) {
-            return false;
-        }
-
-        if(empty($this->_options[$option_name])) {
-            $this->_options[$option_name] = self::$_options_meta[$option_name];
-        }
+        $this->_intialize_option($option_name, true);
 
         return $this->_options[$option_name];
     }
@@ -187,13 +216,7 @@ class Leyka_Options_Controller {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        if(empty($this->_options[$option_name]) && empty(self::$_options_meta[$option_name])) {
-            return false;
-        }
-
-        if(empty($this->_options[$option_name])) {
-            $this->_options[$option_name] = self::$_options_meta[$option_name];
-        }
+        $this->_intialize_option($option_name);
 
         return $this->_options[$option_name]['type'];
     }
@@ -202,15 +225,22 @@ class Leyka_Options_Controller {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        if(empty($this->_options[$option_name]))
+        $this->_intialize_option($option_name);
+
+        if(empty($this->_options[$option_name])) {
             return false;
-        else
-            return $this->_options[$option_name]['required'] >= 1 ? 1 : 0;
+        } else {
+            return !!$this->_options[$option_name]['required'];
+        }
     }
 
     public function is_valid($option_name) {
 
+        $option_name = str_replace('leyka_', '', $option_name);
+
+        $this->_intialize_option($option_name, true);
         $value = $this->opt_safe($option_name);
+
         return !(
             ($this->is_required($option_name) && !$value) ||
             ($value && !$this->_validate_option($option_name, $value))
