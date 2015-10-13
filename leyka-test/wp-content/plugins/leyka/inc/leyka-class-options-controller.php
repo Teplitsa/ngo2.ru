@@ -49,12 +49,14 @@ class Leyka_Options_Controller {
 
             $this->_options[$option_name]['value'] = get_option("leyka_$option_name");
 
-            if( !$this->_options[$option_name]['value'] ) { // Option is not set, use default value from meta
+            if( !$this->_options[$option_name]['value'] && !empty(self::$_options_meta[$option_name]) ) { // Option is not set, use default value from meta
                 $this->_options[$option_name]['value'] = self::$_options_meta[$option_name]['default'];
             }
         }
 
-        if($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html') {
+        if(
+            $this->_options[$option_name]['value'] && ($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html')
+        ) {
 
             $this->_options[$option_name]['value'] =
                 is_array($this->_options[$option_name]['value']) &&
