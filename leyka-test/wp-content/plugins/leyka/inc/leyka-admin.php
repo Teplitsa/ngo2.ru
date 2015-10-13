@@ -386,16 +386,13 @@ class Leyka_Admin_Setup {
 
         $current_stage = $this->get_current_settings_tab();
 
-        require(LEYKA_PLUGIN_DIR.'inc/settings-pages/leyka-settings-common.php');
+        require_once(LEYKA_PLUGIN_DIR.'inc/settings-pages/leyka-settings-common.php');
 
         /* Page actions */
 		do_action('leyka_pre_settings_actions', $current_stage);
 
         /** Process settings change */
-	    if(
-            !empty($_POST["leyka_settings_{$current_stage}_submit"]) /*&&
-            wp_verify_nonce('_leyka_nonce', "leyka_settings_{$current_stage}")*/
-        ) {
+	    if( !empty($_POST["leyka_settings_{$current_stage}_submit"]) /*&& wp_verify_nonce('_leyka_nonce', "leyka_settings_{$current_stage}")*/ ) {
 			do_action("leyka_settings_{$current_stage}_submit", $current_stage);
 		}?>
 
@@ -409,7 +406,7 @@ class Leyka_Admin_Setup {
             <?php wp_nonce_field("leyka_settings_{$current_stage}", '_leyka_nonce');
 
             if(file_exists(LEYKA_PLUGIN_DIR."inc/settings-pages/leyka-settings-$current_stage.php")) {
-                require(LEYKA_PLUGIN_DIR."inc/settings-pages/leyka-settings-$current_stage.php");
+                require_once(LEYKA_PLUGIN_DIR."inc/settings-pages/leyka-settings-$current_stage.php");
             } else {
 
                 do_action("leyka_settings_pre_{$current_stage}_fields");

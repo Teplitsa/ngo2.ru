@@ -3,12 +3,16 @@
 class Leyka_Options_Controller {
 
     private static $_instance = null;
+    protected static $_options_meta = array();
+
     protected $_options = array();
     protected $_field_types = array('text', 'html', 'rich_html', 'select', 'radio', 'checkbox', 'multi_checkbox');
 
     public static function instance() {
-        if(empty(self::$_instance))
+
+        if( !self::$_instance ) {
             self::$_instance = new self;
+        }
 
         return self::$_instance;
     }
@@ -16,23 +20,10 @@ class Leyka_Options_Controller {
     private function __construct() {
 
         require_once(LEYKA_PLUGIN_DIR.'inc/leyka-options-meta.php');
-
-        global $options_meta;
-
-        foreach($options_meta as $name => &$data) {
-
-            $data['value'] = get_option("leyka_$name");
-
-            if($data['value'] === false) { // Option is not set, use default value from meta
-                $data['value'] = $data['default'];
-            }
-
-            $this->_options[str_replace('leyka_', '', $name)] = $data;
-        }
     }
 
     public function get_options_names() {
-        return array_keys($this->_options);
+        return array_keys(self::$_options_meta);
     }
 
     /** 
@@ -42,18 +33,31 @@ class Leyka_Options_Controller {
     public function get_value($option_name) {
 
         $option_name = str_replace('leyka_', '', $option_name); 
-        if(empty($this->_options[$option_name])) {
+        if(empty($this->_options[$option_name]) && empty(self::$_options_meta[$option_name])) {
             return null;
         }
 
-        $value = $this->_options[$option_name]['value'];      
-        
-        if($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html') {
-            $value = is_array($value) && isset($value['value']) ?
-                html_entity_decode(stripslashes($value['value'])) : html_entity_decode(stripslashes((string)$value));
+        if(empty($this->_options[$option_name])) {
+
+            self::$_options_meta[$option_name]['value'] = get_option("leyka_$option_name");
+
+            if(self::$_options_meta[$option_name]['value'] === false) { // Option is not set, use default value from meta
+                self::$_options_meta[$option_name]['value'] = self::$_options_meta[$option_name]['default'];
+            }
+
+            $this->_options[str_replace('leyka_', '', $option_name)] = self::$_options_meta[$option_name];
         }
 
-        return apply_filters('leyka_option_value', $value, $option_name);
+        if($this->_options[$option_name]['type'] == 'html' || $this->_options[$option_name]['type'] == 'rich_html') {
+
+            $this->_options[$option_name]['value'] =
+                is_array($this->_options[$option_name]['value']) &&
+                isset($this->_options[$option_name]['value']['value']) ?
+                html_entity_decode(stripslashes($this->_options[$option_name]['value']['value'])) :
+                html_entity_decode(stripslashes((string)$this->_options[$option_name]['value']));
+        }
+
+        return apply_filters('leyka_option_value', $this->_options[$option_name]['value'], $option_name);
     }
 
     public function add_option($name, $type, $params) {
@@ -168,14 +172,30 @@ class Leyka_Options_Controller {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        return empty($this->_options[$option_name]) ? false : $this->_options[$option_name]; 
+        if(empty(self::$_options_meta[$option_name])) {
+            return false;
+        }
+
+        if(empty($this->_options[$option_name])) {
+            $this->_options[$option_name] = self::$_options_meta[$option_name];
+        }
+
+        return $this->_options[$option_name];
     }
 
     public function get_type_of($option_name) {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        return empty($this->_options[$option_name]) ? false : $this->_options[$option_name]['type'];
+        if(empty($this->_options[$option_name]) && empty(self::$_options_meta[$option_name])) {
+            return false;
+        }
+
+        if(empty($this->_options[$option_name])) {
+            $this->_options[$option_name] = self::$_options_meta[$option_name];
+        }
+
+        return $this->_options[$option_name]['type'];
     }
 
     public function is_required($option_name) {

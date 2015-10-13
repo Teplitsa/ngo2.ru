@@ -1,7 +1,7 @@
 <?php if( !defined('WPINC') ) die;
 
 /** @var $options_meta array An array of initial options set, with default values of each field */
-global $options_meta; /** @todo Make it a singletone instead of global var */
+//global $options_meta;
 
 $email_placeholders =
 "<span class='placeholders-help'>".
@@ -32,7 +32,7 @@ $agreement_placeholders =
 "<code>#BANK_CORR_ACCOUNT#</code> - ". __("an organization's bank correspondent account", 'leyka')."<br/>".
 "</span>";
 
-$options_meta = apply_filters('leyka_core_options_meta', array(
+self::$_options_meta = apply_filters('leyka_core_options_meta', array(
     'org_full_name' => array(
         'type' => 'text', // html, rich_html, select, radio, checkbox, multi_checkbox
         'default' => '',
