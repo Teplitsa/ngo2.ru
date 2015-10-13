@@ -23,16 +23,15 @@ class Leyka_Options_Controller {
 
             $data['value'] = get_option("leyka_$name");
 
-            if($data['value'] === false) // Option is not set, use default value from meta
+            if($data['value'] === false) { // Option is not set, use default value from meta
                 $data['value'] = $data['default'];
+            }
 
             $this->_options[str_replace('leyka_', '', $name)] = $data;
-
         }
     }
 
     public function get_options_names() {
-
         return array_keys($this->_options);
     }
 
@@ -41,9 +40,11 @@ class Leyka_Options_Controller {
      * @return mixed
      */
     public function get_value($option_name) {
+
         $option_name = str_replace('leyka_', '', $option_name); 
-        if(empty($this->_options[$option_name]))
+        if(empty($this->_options[$option_name])) {
             return null;
+        }
 
         $value = $this->_options[$option_name]['value'];      
         
@@ -55,46 +56,24 @@ class Leyka_Options_Controller {
         return apply_filters('leyka_option_value', $value, $option_name);
     }
 
-    /**
-     * @param string $section
-     * @return array
-     */
-    public function get_values($section = '') {
-        if(empty($section)) {
-            $values = array();
-            foreach($this->_options as $name => $data) {
-                $values[$name] = $data['value'];
-            }
-
-            return $values;
-        }
-
-        if( !in_array($section, $this->_options['modules']) )
-            return false;
-
-        $section_opts = array();
-        foreach($this->_options as $name => $data) {
-            if(stristr($name, $section.'_'))
-                $section_opts[str_replace($section.'_', '', $name)] = $data['value'];
-        }
-
-        return $section_opts;
-    }
-
     public function add_option($name, $type, $params) {
+
         $name = stristr($name, 'leyka_') !== false ? $name : 'leyka_'.$name;
 
-        if( !in_array($type, $this->_field_types) )
+        if( !in_array($type, $this->_field_types) ) {
             return false;
-        if( !empty($params['type']) ) // Just in case
+        }
+        if( !empty($params['type']) ) { // Just in case
             unset($params['type']);
+        }
 
         $value_saved = maybe_unserialize(get_option($name));
 
-        if(empty($params['value']) && $value_saved !== false)
+        if(empty($params['value']) && $value_saved !== false) {
             $params['value'] = $value_saved;
-        else if(empty($params['value']) && !empty($params['default']))
+        } else if(empty($params['value']) && !empty($params['default'])) {
             $params['value'] = $params['default'];
+        }
 
         $params = array_merge(array(
             'type' => $type, // html, rich_html, select, radio, checkbox, multi_checkbox  
@@ -111,13 +90,15 @@ class Leyka_Options_Controller {
 
         $option_added = $value_saved !== false ? true : add_option($name, $params['value']);
 
-        if($option_added)
+        if($option_added) {
             $this->_options[ str_replace('leyka_', '', $name) ] = $params;
+        }
 
         return $option_added;
     }
-    
+
     public function delete_option($name) {
+
         $name = stristr($name, 'leyka_') !== false ? $name : 'leyka_'.$name;
 
         $option_deleted = delete_option($name);
@@ -138,6 +119,7 @@ class Leyka_Options_Controller {
      * @return bool
      */
     public function set_value($option_name, $option_value = null) {
+
         // Check if option exists. If not, do nothing and return false:
         if($this->option_exists($option_name) && $this->_validate_option($option_name, $option_value)) {
 
@@ -149,28 +131,31 @@ class Leyka_Options_Controller {
                 $this->_options[$option_name]['value'] = $old_value;
 
             return $updated;
-        } else
+        } else {
             return false;
+        }
     }
 
     public function opt($option_name, $new_value = null) { 
-        return $new_value === null ?
-            $this->get_value($option_name) : $this->set_value($option_name, $new_value);
+        return $new_value === null ? $this->get_value($option_name) : $this->set_value($option_name, $new_value);
     }
 
-    public function opt_safe($option_name) { 
+    public function opt_safe($option_name) {
+
         $value = $this->get_value($option_name); 
 
         return $value ? $value : $this->get_default_of($option_name);
     }
 
-    protected function _validate_option($option_name) {
+    protected function _validate_option($option_name, $option_value) {
+
         $option_name = str_replace('leyka_', '', $option_name);
         // use the $this->_options[$option_name]['validation_rules'], luke
         return true;
     }
 
     public function get_default_of($option_name) {
+
         $option_name = str_replace('leyka_', '', $option_name);
 
         if(empty($this->_options[$option_name]))
@@ -180,18 +165,21 @@ class Leyka_Options_Controller {
     }
 
     public function get_info_of($option_name) {
+
         $option_name = str_replace('leyka_', '', $option_name);
 
         return empty($this->_options[$option_name]) ? false : $this->_options[$option_name]; 
     }
 
     public function get_type_of($option_name) {
+
         $option_name = str_replace('leyka_', '', $option_name);
 
         return empty($this->_options[$option_name]) ? false : $this->_options[$option_name]['type'];
     }
 
     public function is_required($option_name) {
+
         $option_name = str_replace('leyka_', '', $option_name);
 
         if(empty($this->_options[$option_name]))
@@ -202,9 +190,10 @@ class Leyka_Options_Controller {
 
     public function is_valid($option_name) {
 
+        $value = $this->opt_safe($option_name);
         return !(
-            ($this->is_required($option_name) && !$this->opt_safe($option_name)) ||
-            ($this->opt_safe($option_name) && !$this->_validate_option($option_name))
+            ($this->is_required($option_name) && !$value) ||
+            ($value && !$this->_validate_option($option_name, $value))
         );
     }
 }
