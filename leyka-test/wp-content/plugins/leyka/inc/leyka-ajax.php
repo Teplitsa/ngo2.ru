@@ -97,7 +97,7 @@ function leyka_payment_method_action() {
 
         <div class='leyka-user-data'>
             <!-- field for GA -->
-            <input type="hidden" name="leyka_ga_payment_method" value="<?php echo esc_attr($curr_pm->label);?>" />
+            <input type="hidden" name="leyka_ga_payment_method" value="<?php echo esc_attr($curr_pm->label);?>">
             <?php
             echo leyka_pf_get_name_field(empty($_POST['user_name']) ? '' : trim($_POST['user_name']));
             echo leyka_pf_get_email_field(empty($_POST['user_email']) ? '' : trim($_POST['user_email']));
@@ -125,7 +125,7 @@ function leyka_payment_method_action() {
 
     $payment_form = new Leyka_Payment_Form($curr_pm, $curr_currency);
     echo json_encode(array('pm' => $out, 'currency' => $payment_form->get_currency_field()));
-    die();
+    wp_die();
 }
 add_action('wp_ajax_leyka_payment_method', 'leyka_payment_method_action');
 add_action('wp_ajax_nopriv_leyka_payment_method', 'leyka_payment_method_action');
