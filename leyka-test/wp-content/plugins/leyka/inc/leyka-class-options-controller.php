@@ -155,7 +155,7 @@ class Leyka_Options_Controller {
 
         $option_name = str_replace('leyka_', '', $option_name);
 
-        $this->_intialize_option($option_name);
+        $this->_intialize_option($option_name, true);
 
         if($this->option_exists($option_name) && $this->_validate_option($option_name, $option_value)) {
 
@@ -185,7 +185,7 @@ class Leyka_Options_Controller {
         return $value ? $value : $this->get_default_of($option_name);
     }
 
-    protected function _validate_option($option_name, $option_value) {
+    protected function _validate_option($option_name, $option_value = '') {
 
 //        $option_name = str_replace('leyka_', '', $option_name);
         // use the $this->_options[$option_name]['validation_rules'], luke

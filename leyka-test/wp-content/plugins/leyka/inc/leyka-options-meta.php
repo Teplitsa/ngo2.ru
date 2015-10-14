@@ -32,6 +32,7 @@ $agreement_placeholders =
 "<code>#BANK_CORR_ACCOUNT#</code> - ". __("an organization's bank correspondent account", 'leyka')."<br/>".
 "</span>";
 
+// This "self" is Leyka_Options_Controller
 self::$_options_meta = apply_filters('leyka_core_options_meta', array(
     'org_full_name' => array(
         'type' => 'text', // html, rich_html, select, radio, checkbox, multi_checkbox
@@ -652,6 +653,17 @@ self::$_options_meta = apply_filters('leyka_core_options_meta', array(
         'placeholder' => '', // For text fields
         'length' => '', // For text fields
         'list_entries' => 'leyka_get_pages_list',
+        'validation_rules' => array(), // List of regexp?..
+    ),
+    'load_scripts_if_need' => array(
+        'type' => 'checkbox',
+        'default' => 0,
+        'title' => __('Load plugin scripts only if necessary', 'leyka'),
+        'description' => __("Check this to load Leyka scripts and styles only on an applicable pages. If this box is unchecked, plugin will load it's scripts on every website page.", 'leyka'),
+        'required' => 0, // 1 if field is required, 0 otherwise
+        'placeholder' => '', // For text fields
+        'length' => '', // For text fields
+        'list_entries' => array(),
         'validation_rules' => array(), // List of regexp?..
     ),
 ));

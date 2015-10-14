@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: Leyka Plugin\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2014-09-11 08:25:09+00:00\n"
-"PO-Revision-Date: Wed Oct 14 2015 13:36:21 GMT+0300\n"
+"PO-Revision-Date: Wed Oct 14 2015 13:34:42 GMT+0300\n"
 "Last-Translator: ahaenor <ahaenor@gmail.com>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: Russian\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #: ../inc/leyka-options-meta.php:661
 msgid "Load plugin scripts only if necessary"
-msgstr "Загрузка скриптов и стилей плагина по необходимости"
+msgstr "Загружать скрипты и стили плагина только при необходимости"
 
 #: ../inc/leyka-options-meta.php:662
 msgid ""
