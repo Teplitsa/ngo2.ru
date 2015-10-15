@@ -569,7 +569,6 @@ function leyka_are_settings_complete($settings_tab) {
     return $settings_complete;
 }
 
-/** @todo We should explixitly output a list of PMs and gateways that are not configured enough */
 function leyka_is_min_payment_settings_complete() {
 
     $pm_list = leyka_get_pm_list(true);
@@ -579,37 +578,46 @@ function leyka_is_min_payment_settings_complete() {
 
     $gateway_options_valid = array(); // Array of already validated gateways
 
-    foreach(leyka_options()->opt('pm_available') as $pm_full_id) { // Full ID is "gateway_id-pm_id"
+    foreach($pm_list as $pm) { /** @var $pm Leyka_Payment_Method */
 
-        $pm = leyka_get_pm_by_id($pm_full_id, true);
-        $pm_full_id = explode('-', $pm_full_id);
-        $gateway = leyka_get_gateway_by_id(reset($pm_full_id));
+        $gateway = leyka_get_gateway_by_id($pm->gateway_id);
 
         if( !$pm || !$gateway ) {
-            return false;
+            continue;
         }
 
+        $min_settings_complete = true;
         foreach($pm->get_pm_options_names() as $option_name) {
 
             if( !leyka_options()->is_valid($option_name) ) {
-                return false;
+
+                $min_settings_complete = false;
+                break;
             }
         }
 
-        if(empty($gateway_options_valid[$gateway->id])) {
+        if( !isset($gateway_options_valid[$gateway->id]) ) {
 
             foreach($gateway->get_options_names() as $option_name) {
 
                 if( !leyka_options()->is_valid($option_name) ) {
-                    return false;
+
+                    $gateway_options_valid[$gateway->id] = false;
+                    break;
                 }
             }
 
-            $gateway_options_valid[$gateway->id] = true;
+            if( !isset($gateway_options_valid[$gateway->id]) ) {
+                $gateway_options_valid[$gateway->id] = true;
+            }
+        }
+
+        if($min_settings_complete && !empty($gateway_options_valid[$gateway->id])) {
+            return true;
         }
     }
 
-    return true;
+    return false;
 }
 
 function leyka_is_campaign_published() {

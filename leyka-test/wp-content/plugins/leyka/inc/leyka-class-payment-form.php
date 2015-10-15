@@ -522,11 +522,9 @@ function leyka_pf_footer() {
 }
 
 function leyka_share_campaign_block($campaign_id = null) {
-
-	global $post;
 	
 	if( !$campaign_id ) {
-		$campaign_id = $post->ID;
+		$campaign_id = get_the_ID();
     }?>
 
 	<div id="share-campaign-area" class="toggle">
