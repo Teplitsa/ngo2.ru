@@ -6,7 +6,7 @@
 class Leyka_Payment_Form {
 
 	protected $_pm_name;
-	protected $_pm = array();
+	protected $_pm = null;
 	protected $_form_action;
 	protected $_current_currency; // Current currency in the view
 
@@ -22,6 +22,16 @@ class Leyka_Payment_Form {
 		$this->_current_currency = $current_currency;
 		$this->_form_action = get_option('permalink_structure') ?
 			site_url('leyka-process-donation') : site_url('?page=leyka-process-donation');
+	}
+
+	public function __get($name) {
+
+		switch($name) {
+			case 'id': return $this->_pm ? $this->_pm->id : false;
+			case 'full_id': return $this->_pm ? $this->_pm->full_id : false;
+			case 'label': return $this->_pm ? $this->_pm->label : false;
+            default: return false;
+		}
 	}
 
 	/**
