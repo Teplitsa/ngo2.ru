@@ -50,13 +50,13 @@ leyka_setup_current_pm($curr_pm, $curr_pm->default_currency);?>
                     <!-- field for GA -->
                     <input type="hidden" name="leyka_ga_payment_method" value="<?php echo esc_attr($curr_pm->label);?>">
                     <?php echo leyka_pf_get_name_field()
-                        .leyka_pf_get_email_field()
-                        .leyka_pf_get_pm_fields();?>
+                    .leyka_pf_get_email_field()
+                    .leyka_pf_get_pm_fields();?>
                 </div>
 
                 <?php echo leyka_pf_get_recurring_field()
-                        .leyka_pf_get_agree_field()
-                        .leyka_pf_get_submit_field();
+                    .leyka_pf_get_agree_field()
+                    .leyka_pf_get_submit_field();
 
                 $icons = leyka_pf_get_pm_icons();
                 if($icons) {

@@ -342,13 +342,12 @@ class Leyka {
 
             require_once(LEYKA_PLUGIN_DIR.'inc/leyka-options-meta.php');
 
-            global $options_meta;
-
-            foreach($options_meta as $name => $meta) {
+            foreach(leyka_options()->get_options_names() as $name) {
 
                 $option = get_option("leyka_$name");
-                if(is_array($option) && isset($option['type']) && isset($option['title'])) // Update option data
+                if(is_array($option) && isset($option['type']) && isset($option['title'])) { // Update option data
                     update_option("leyka_$name", $option['value']);
+                }
             }
 
             // Mostly to initialize gateways' and PM's options before updating them:

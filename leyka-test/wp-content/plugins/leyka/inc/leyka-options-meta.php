@@ -1,36 +1,33 @@
 <?php if( !defined('WPINC') ) die;
 
-/** @var $options_meta array An array of initial options set, with default values of each field */
-//global $options_meta;
-
 $email_placeholders =
-"<span class='placeholders-help'>".
-"<code>#SITE_NAME#</code> - ".__('a title of the website', 'leyka')."<br/>".
-"<code>#ORG_NAME#</code> - ".__('an official title of the organization', 'leyka')."<br/>".
-"<code>#DONATION_ID#</code> - ".__('an ID of current donation', 'leyka')."<br/>".
-"<code>#DONOR_NAME#</code> - ".__('a name of the donor', 'leyka')."<br/>".
-"<code>#SUM#</code> - ".__('a full sum of donation (without taking into account some payment commissions)', 'leyka')."<br/>".
-"<code>#PAYMENT_METHOD_NAME#</code> - ".__('a name of payment method used', 'leyka')."<br/>".
-"<code>#CAMPAIGN_NAME#</code> - ".__('a campaign to which donation was made', 'leyka')."<br/>".
-"<code>#PURPOSE#</code> - ".__('a campaign title meant for payment system (see campaign settings)', 'leyka')."<br/>".
-"<code>#DATE#</code> - ".__('a date of donation', 'leyka')."<br/>".
-"</span>";
+"<span class='placeholders-help'>
+<code>#SITE_NAME#</code> - ".__('a title of the website', 'leyka')."<br>
+<code>#ORG_NAME#</code> - ".__('an official title of the organization', 'leyka')."<br>
+<code>#DONATION_ID#</code> - ".__('an ID of current donation', 'leyka')."<br>
+<code>#DONOR_NAME#</code> - ".__('a name of the donor', 'leyka')."<br>
+<code>#SUM#</code> - ".__('a full sum of donation (without taking into account some payment commissions)', 'leyka')."<br>
+<code>#PAYMENT_METHOD_NAME#</code> - ".__('a name of payment method used', 'leyka')."<br>
+<code>#CAMPAIGN_NAME#</code> - ".__('a campaign to which donation was made', 'leyka')."<br>
+<code>#PURPOSE#</code> - ".__('a campaign title meant for payment system (see campaign settings)', 'leyka')."<br>
+<code>#DATE#</code> - ".__('a date of donation', 'leyka')."<br>
+</span>";
 
 $agreement_placeholders =
-"<span class='placeholders-help'>".
-"<code>#LEGAL_NAME#</code> - ". __("a legal representative of the organization", 'leyka')."<br/>".
-"<code>#LEGAL_FACE#</code> - ". __("a legal representative of the organization", 'leyka')."<br/>".
-"<code>#LEGAL_FACE_RP#</code> - ". __("a legal representative of the organization (in genitive case)", 'leyka')."<br/>".
-"<code>#LEGAL_FACE_POSITION#</code> - ". __("an official position of the legal representative", 'leyka')."<br/>".
-"<code>#LEGAL_ADDRESS#</code> - ". __("an official organization's address", 'leyka')."<br/>".
-"<code>#STATE_REG_NUMBER#</code> - ". __("a state registration number of your organization", 'leyka')."<br/>".
-"<code>#KPP#</code> - ". __("an organization's statement of the account number", 'leyka')."<br/>".
-"<code>#INN#</code> - ". __("an organization's individual taxpayer number", 'leyka')."<br/>".
-"<code>#BANK_ACCOUNT#</code> - ". __("an organization's bank account number", 'leyka')."<br/>".
-"<code>#BANK_NAME#</code> - ". __("an organization's bank name", 'leyka')."<br/>".
-"<code>#BANK_BIC#</code> - ". __("an organization's bank indentification code", 'leyka')."<br/>".
-"<code>#BANK_CORR_ACCOUNT#</code> - ". __("an organization's bank correspondent account", 'leyka')."<br/>".
-"</span>";
+"<span class='placeholders-help'>
+<code>#LEGAL_NAME#</code> - ". __("a legal representative of the organization", 'leyka')."<br>
+<code>#LEGAL_FACE#</code> - ". __("a legal representative of the organization", 'leyka')."<br>
+<code>#LEGAL_FACE_RP#</code> - ". __("a legal representative of the organization (in genitive case)", 'leyka')."<br>
+<code>#LEGAL_FACE_POSITION#</code> - ". __("an official position of the legal representative", 'leyka')."<br>
+<code>#LEGAL_ADDRESS#</code> - ". __("an official organization's address", 'leyka')."<br>
+<code>#STATE_REG_NUMBER#</code> - ". __("a state registration number of your organization", 'leyka')."<br>
+<code>#KPP#</code> - ". __("an organization's statement of the account number", 'leyka')."<br>
+<code>#INN#</code> - ". __("an organization's individual taxpayer number", 'leyka')."<br>
+<code>#BANK_ACCOUNT#</code> - ". __("an organization's bank account number", 'leyka')."<br>
+<code>#BANK_NAME#</code> - ". __("an organization's bank name", 'leyka')."<br>
+<code>#BANK_BIC#</code> - ". __("an organization's bank indentification code", 'leyka')."<br>
+<code>#BANK_CORR_ACCOUNT#</code> - ". __("an organization's bank correspondent account", 'leyka')."<br>
+</span>";
 
 // This "self" is Leyka_Options_Controller
 self::$_options_meta = apply_filters('leyka_core_options_meta', array(
