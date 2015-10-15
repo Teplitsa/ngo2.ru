@@ -427,7 +427,7 @@ class Leyka_Donation_Management {
         }
 	}
 
-    public function new_donation_data_metabox($donation) {
+    public function new_donation_data_metabox() {
 
         $campaign_id = empty($_GET['campaign_id']) ? '' : (int)$_GET['campaign_id'];
         $campaign = new Leyka_Campaign($campaign_id);?>
