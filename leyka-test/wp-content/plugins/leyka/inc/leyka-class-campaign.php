@@ -640,6 +640,10 @@ class Leyka_Campaign {
             $meta['date_target_reached'] = 0;
         }
 
+        if( !isset($meta['target_state']) ) {
+            $meta['target_state'] = $target_state;
+        }
+
         foreach($meta as $key => $value) {
             update_post_meta($this->_id, $key, $value);
         }
@@ -693,9 +697,13 @@ class Leyka_Campaign {
                 -$donation->sum : $donation->sum;
             $sum = $donation->status == 'trash' ? -$sum : $sum;
 
+            echo '<pre>Before: ' . print_r($this->_campaign_meta['total_funded'], 1) . '</pre>';
+            echo '<pre>' . print_r($sum, 1) . '</pre>';
             $this->_campaign_meta['total_funded'] += $sum;
+            echo '<pre>After: ' . print_r($this->_campaign_meta['total_funded'], 1) . '</pre>';
 
             update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);
+            die();
         }
 
         $this->refresh_target_state();
