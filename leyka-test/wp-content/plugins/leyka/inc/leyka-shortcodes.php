@@ -56,6 +56,7 @@ function leyka_get_scale($campaign = null, $args = array()) {
 		$css_class .= ' has-button';
 	}
 
+    echo '<pre>' . print_r($campaign->total_funded, 1) . '</pre>';
 //    $campaign->update_total_funded_amount();
 
 	ob_start();?>
