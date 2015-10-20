@@ -674,7 +674,7 @@ class Leyka_Campaign {
         update_post_meta($this->_id, 'count_submits', $this->_campaign_meta['count_submits']);
     }
 
-    public function update_total_funded_amount($donation = false) {
+    public function update_total_funded_amount($donation = false, $action = 'add', $old_sum = false) {
 
         if( !$donation ) { // Recalculate total collected amount for a campaign and recache it
 
@@ -686,16 +686,25 @@ class Leyka_Campaign {
             $this->_campaign_meta['total_funded'] = $sum;
             update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);
 
-        } else { // Just add/subtract a sum of new donation from a campaign metadata
+        } else { // Just add/subtract a sum of a new donation from a campaign metadata
 
             $donation = leyka_get_validated_donation($donation);
             if( !$donation ) {
                 return false;
             }
 
-            $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id) && $donation->sum > 0 ?
-                -$donation->sum : $donation->sum;
-            $sum = $donation->status == 'trash' ? -$sum : $sum;
+            if($action == 'remove') { // Subtract given donation's sum from campaign's total_funded
+                $sum = -$donation->sum;
+            } else { // Add given donation's sum to campaign's total_funded
+
+                if($action == 'update_sum' && (int)$old_sum) { // If donation sum was changed, subtract it from total_funded first
+                    $this->_campaign_meta['total_funded'] -= (int)$old_sum;
+                }
+
+                $sum = ($donation->status != 'funded' || $donation->campaign_id != $this->_id) && $donation->sum > 0 ?
+                    -$donation->sum : $donation->sum;
+                $sum = $donation->status == 'trash' ? -$sum : $sum;
+            }
 
 //            echo '<pre>Before: ' . print_r($this->_campaign_meta['total_funded'], 1) . '</pre>';
 //            echo '<pre>' . print_r($sum, 1) . '</pre>';
