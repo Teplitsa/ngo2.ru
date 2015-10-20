@@ -98,9 +98,9 @@ class Leyka_Donation_Management {
             $donation = new Leyka_Donation($donation);
 
             $campaign = new Leyka_Campaign($donation->campaign_id);
-//            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
+            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
             $campaign->update_total_funded_amount($donation);
-//            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
+            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
         }
     }
 
@@ -1039,7 +1039,9 @@ class Leyka_Donation_Management {
         }
 
         if($donation->status != $_POST['donation_status']) {
+            echo '<pre>' . print_r('Status was: '.$donation->status, 1) . '</pre>';
             $donation->status = $_POST['donation_status'];
+            echo '<pre>' . print_r('Status changed on: '.$donation->status, 1) . '</pre>';
         }
 
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
@@ -1059,8 +1061,8 @@ class Leyka_Donation_Management {
             $campaign = new Leyka_Campaign($donation->campaign_id);
         }
 
-//        echo '<pre>Save, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
-//        die('<pre>Save, after: ' . print_r($donation->status.' - '.$campaign->total_funded, 1) . '</pre>');
+        echo '<pre>Save, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
+        die('<pre>Save, after: ' . print_r($donation->status.' - '.$campaign->total_funded, 1) . '</pre>');
 
         // It's a new correction donation, set a title from it's campaign:
         $donation_title = $campaign->payment_title ?
@@ -1411,6 +1413,7 @@ class Leyka_Donation {
                 }
 
                 wp_update_post(array('ID' => $this->_id, 'post_status' => $value));
+                $this->_post_object->post_status = $value;
 
                 $status_log = get_post_meta($this->_id, '_status_log', true);
                 $status_log[] = array('date' => time(), 'status' => $value);
