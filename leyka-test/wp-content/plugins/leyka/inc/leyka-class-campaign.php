@@ -674,7 +674,7 @@ class Leyka_Campaign {
         update_post_meta($this->_id, 'count_submits', $this->_campaign_meta['count_submits']);
     }
 
-    public function update_total_funded_amount($donation = false, $action = 'add', $old_sum = false) {
+    public function update_total_funded_amount($donation = false, $action = '', $old_sum = false) {
 
         if( !$donation ) { // Recalculate total collected amount for a campaign and recache it
 

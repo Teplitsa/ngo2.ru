@@ -98,9 +98,9 @@ class Leyka_Donation_Management {
             $donation = new Leyka_Donation($donation);
 
             $campaign = new Leyka_Campaign($donation->campaign_id);
-            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
+//            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
             $campaign->update_total_funded_amount($donation);
-            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
+//            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
         }
     }
 
@@ -1055,13 +1055,17 @@ class Leyka_Donation_Management {
 
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
 
-            if($donation->campaign_id) { // If we're adding a correctional donation, $donation->campaign_id == 0
+            // If we're adding a correctional donation, $donation->campaign_id == 0:
+            if($donation->campaign_id && $donation->status == 'funded') {
                 $campaign->update_total_funded_amount($donation, 'remove'); // Old campaign
             }
 
             $donation->campaign_id = (int)$_POST['campaign-id'];
             $campaign = new Leyka_Campaign($donation->campaign_id); // New campaign
-            $campaign->update_total_funded_amount($donation);
+
+            if($donation->status == 'funded') {
+                $campaign->update_total_funded_amount($donation);
+            }
         }
 
 //        echo '<pre>Save, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
