@@ -134,8 +134,9 @@ function leyka_currency_choice_action() {
 
     check_ajax_referer('leyka_payment_form', '_leyka_ajax_nonce');
 
-    if(empty($_POST['currency']))
+    if(empty($_POST['currency'])) {
         die('-1');
+    }
 
     $curr_currency = trim($_POST['currency']);
     $pm_selected = trim($_POST['current_pm']);
@@ -149,8 +150,9 @@ function leyka_currency_choice_action() {
             break;
         }
     }
-    if( !$curr_pm_is_active )
+    if( !$curr_pm_is_active ) {
         $pm_selected = reset($currently_active_pmethods);
+    }
 
     leyka_setup_current_pm($pm_selected, $curr_currency);
 
@@ -199,9 +201,7 @@ function leyka_currency_choice_action() {
                 echo "<ul class='leyka-pm-icons cf'>";
                 echo implode('', $list);
                 echo "</ul>";
-            }
-
-            ?>
+            }?>
         </div>
         <?php echo "<div class='leyka-pm-desc'>".apply_filters('leyka_the_content', leyka_pf_get_pm_description())."</div>";?>
 
@@ -212,3 +212,21 @@ function leyka_currency_choice_action() {
 }
 add_action('wp_ajax_leyka_currency_choice', 'leyka_currency_choice_action');
 add_action('wp_ajax_nopriv_leyka_currency_choice', 'leyka_currency_choice_action');
+
+function leyka_recalculate_total_funded_action() {
+
+    if( !wp_verify_nonce($_GET['nonce'], 'leyka_recalculate_total_funded_amount') ) {
+        wp_die(__('Error: incorrect request parameters', 'leyka'));
+    }
+
+    if(empty($_GET['campaign_id'])) {
+        wp_die(__('Error: campaign ID is missing', 'leyka'));
+    }
+
+    $campaign = new Leyka_Campaign((int)$_GET['campaign_id']);
+    $campaign->update_total_funded_amount();
+
+    wp_die($campaign->total_funded);
+}
+add_action('wp_ajax_leyka_recalculate_total_funded_amount', 'leyka_recalculate_total_funded_action');
+add_action('wp_ajax_nopriv_leyka_recalculate_total_funded_amount', 'leyka_recalculate_total_funded_action');
