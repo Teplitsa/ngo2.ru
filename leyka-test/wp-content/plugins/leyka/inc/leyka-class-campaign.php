@@ -229,7 +229,7 @@ class Leyka_Campaign_Management {
             </label>			
 			<input type="text" id="collected_target" disabled="disabled" value="<?php echo $campaign->total_funded;?>" class="widefat">
             <div class="recalculate-total-funded">
-                <a href="<?php echo add_query_arg(array('recalculate_total_funded' => 1,));?>" id="recalculate_total_funded"><?php _e('Recalculate collected amount', 'leyka');?></a>
+                <a href="<?php echo add_query_arg(array('recalculate_total_funded' => 1,));?>" id="recalculate_total_funded" data-nonce="<?php echo wp_create_nonce('recalculate_total_funded_amount');?>" data-campaign-id="<?php echo $campaign->id;?>"><?php _e('Recalculate collected amount', 'leyka');?></a>
                 <img src="<?php echo LEYKA_PLUGIN_BASE_URL.'/img/ajax-loader-h.gif';?>" id="recalculate_total_funded_loader" style="display: none;">
             </div>
 		</fieldset>

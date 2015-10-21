@@ -109,7 +109,6 @@ jQuery(document).ready(function($){
         var $link = $(this).attr('disabled', 'disabled'),
             $indicator = $link.parent().find('#recalculate_total_funded_loader').show();
 
-        //$.get(leyka.ajaxurl, {}, function(e){});
-        console.log(leyka)
+        $.get(leyka.ajaxurl, {}, function(e){});
     });
 });
