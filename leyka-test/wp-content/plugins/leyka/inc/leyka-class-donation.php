@@ -98,9 +98,7 @@ class Leyka_Donation_Management {
             $donation = new Leyka_Donation($donation);
 
             $campaign = new Leyka_Campaign($donation->campaign_id);
-//            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
             $campaign->update_total_funded_amount($donation, $old == 'funded' ? 'remove' : 'add');
-//            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
         }
     }
 
@@ -710,7 +708,7 @@ class Leyka_Donation_Management {
         <div class="leyka-ddata-string">
             <label><?php _e('Initial donation of the recurring subscription', 'leyka');?>:</label>
             <div class="leyka-ddata-field">
-                <a href="<?php echo admin_url('post.php?post='.$donation->init_recurring_donation_id.'&action=edit');?>">#<?php echo $donation->init_recurring_donation_id;?></a></span>
+                <a href="<?php echo admin_url('post.php?post='.$donation->init_recurring_donation_id.'&action=edit');?>">#<?php echo $donation->init_recurring_donation_id;?></a>
             </div>
         </div>
         <?php }?>
@@ -1032,9 +1030,7 @@ class Leyka_Donation_Management {
         $campaign = new Leyka_Campaign($donation->campaign_id);
 
         if($donation->status != $_POST['donation_status']) {
-//            echo '<pre>' . print_r('Status was: '.$donation->status, 1) . '</pre>';
             $donation->status = $_POST['donation_status'];
-//            echo '<pre>' . print_r('Status changed on: '.$donation->status, 1) . '</pre>';
         }
 
         if(isset($_POST['campaign-id']) && $donation->campaign_id != (int)$_POST['campaign-id']) {
@@ -1048,11 +1044,7 @@ class Leyka_Donation_Management {
             $campaign = new Leyka_Campaign($donation->campaign_id); // New campaign
 
             if($donation->status == 'funded') {
-//                echo '<pre>' . print_r($campaign->title, 1) . '</pre>';
-//                echo '<pre>' . print_r($donation->sum, 1) . '</pre>';
-//                echo '<pre>Before: ' . print_r($campaign->total_funded, 1) . '</pre>';
                 $campaign->update_total_funded_amount($donation);
-//                die('<pre>After: ' . print_r($campaign->total_funded, 1) . '</pre>');
             }
         }
 
@@ -1072,11 +1064,6 @@ class Leyka_Donation_Management {
         if( !$donation->currency ) {
             $donation->currency = 'rur';
         }
-
-
-
-//        echo '<pre>Save, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
-//        die('<pre>Save, after: ' . print_r($donation->status.' - '.$campaign->total_funded, 1) . '</pre>');
 
         // It's a new correction donation, set a title from it's campaign:
         $donation_title = $campaign->payment_title ?

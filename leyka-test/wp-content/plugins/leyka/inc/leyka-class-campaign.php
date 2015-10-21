@@ -224,17 +224,20 @@ class Leyka_Campaign_Management {
 		</fieldset>
 		
 		<fieldset id="collected-amount" class="metabox-field campaign-field campaign-target-collected">
-		<?php $collected = $campaign->get_collected_amount(); ?>
 			<label for="collected_target">
                 <?php echo sprintf(__('Collected (%s)', 'leyka'), leyka_get_currency_label('rur'));?>
             </label>			
-			<input type="text" id="collected_target" disabled="disabled" value="<?php echo $collected;?>" class="widefat">
+			<input type="text" id="collected_target" disabled="disabled" value="<?php echo $campaign->total_funded;?>" class="widefat">
+            <div class="recalculate-total-funded">
+                <a href="<?php echo add_query_arg(array('recalculate_total_funded' => 1,));?>" id="recalculate_total_funded"><?php _e('Recalculate collected amount', 'leyka');?></a>
+                <img src="<?php echo LEYKA_PLUGIN_BASE_URL.'/img/ajax-loader-h.gif';?>" id="recalculate_total_funded_loader" style="display: none;">
+            </div>
 		</fieldset>
 
 		<fieldset id="d-scale-demo" class="metabox-field campaign-field campaign-target-scale">
 		<?php if($campaign->target > 0) {
 
-			$percentage = round(100*$collected/$campaign->target);
+			$percentage = round(100*$campaign->total_funded/$campaign->target);
             $percentage = $percentage > 100 ? 100 : $percentage;?>
 
 			<div class="d-scale-scale">

@@ -100,4 +100,16 @@ jQuery(document).ready(function($){
 
         $embed_code.html($text.prop('outerHTML'));
     });
+
+    // Recalculate total funded amount:
+    $('#recalculate_total_funded').click(function(e){
+
+        e.preventDefault();
+
+        var $link = $(this).attr('disabled', 'disabled'),
+            $indicator = $link.parent().find('#recalculate_total_funded_loader').show();
+
+        //$.get(leyka.ajaxurl, {}, function(e){});
+        console.log(leyka)
+    });
 });
