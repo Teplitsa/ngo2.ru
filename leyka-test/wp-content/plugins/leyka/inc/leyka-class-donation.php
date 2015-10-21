@@ -99,7 +99,7 @@ class Leyka_Donation_Management {
 
             $campaign = new Leyka_Campaign($donation->campaign_id);
 //            echo '<pre>SC, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
-            $campaign->update_total_funded_amount($donation);
+            $campaign->update_total_funded_amount($donation, $old == 'funded' ? 'remove' : 'add');
 //            echo '<pre>SC, after: ' . print_r($new.' - '.$campaign->total_funded, 1) . '</pre>';
         }
     }
@@ -1031,22 +1031,6 @@ class Leyka_Donation_Management {
         $donation = new Leyka_Donation($donation_id);
         $campaign = new Leyka_Campaign($donation->campaign_id);
 
-        if(isset($_POST['donation-amount']) && (float)$donation->amount != (float)$_POST['donation-amount']) {
-
-            $_POST['donation-amount'] = round((float)$_POST['donation-amount'], 2);
-
-            $old_amount = $donation->amount;
-            $donation->amount = $_POST['donation-amount'];
-
-            if($donation->campaign_id) { // If we're adding a correctional donation, $donation->campaign_id == 0
-                $campaign->update_total_funded_amount($donation, 'update_sum', $old_amount);
-            }
-        }
-
-        if( !$donation->currency ) {
-            $donation->currency = 'rur';
-        }
-
         if($donation->status != $_POST['donation_status']) {
 //            echo '<pre>' . print_r('Status was: '.$donation->status, 1) . '</pre>';
             $donation->status = $_POST['donation_status'];
@@ -1064,9 +1048,32 @@ class Leyka_Donation_Management {
             $campaign = new Leyka_Campaign($donation->campaign_id); // New campaign
 
             if($donation->status == 'funded') {
+//                echo '<pre>' . print_r($campaign->title, 1) . '</pre>';
+//                echo '<pre>' . print_r($donation->sum, 1) . '</pre>';
+//                echo '<pre>Before: ' . print_r($campaign->total_funded, 1) . '</pre>';
                 $campaign->update_total_funded_amount($donation);
+//                die('<pre>After: ' . print_r($campaign->total_funded, 1) . '</pre>');
             }
         }
+
+        if(isset($_POST['donation-amount']) && (float)$donation->amount != (float)$_POST['donation-amount']) {
+
+            $_POST['donation-amount'] = round((float)$_POST['donation-amount'], 2);
+
+            $old_amount = $donation->amount;
+            $donation->amount = $_POST['donation-amount'];
+
+            // If we're adding a correctional donation, $donation->campaign_id == 0:
+            if($donation->campaign_id && $donation->status == 'funded') {
+                $campaign->update_total_funded_amount($donation, 'update_sum', $old_amount);
+            }
+        }
+
+        if( !$donation->currency ) {
+            $donation->currency = 'rur';
+        }
+
+
 
 //        echo '<pre>Save, before: ' . print_r($campaign->total_funded, 1) . '</pre>';
 //        die('<pre>Save, after: ' . print_r($donation->status.' - '.$campaign->total_funded, 1) . '</pre>');

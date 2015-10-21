@@ -485,8 +485,7 @@ class Leyka_Campaign {
                 $meta['is_finished'][0] = 0;
             }
 
-            // If campaign total collected amount is not saved, save it:
-            if( !isset($meta['total_funded']) || !$meta['total_funded'][0] ) {
+            if( !isset($meta['total_funded']) ) { // If campaign total collected amount is not saved, save it
 
                 $sum = 0.0;
                 foreach($this->get_donations(array('funded')) as $donation) {
@@ -686,7 +685,7 @@ class Leyka_Campaign {
             $this->_campaign_meta['total_funded'] = $sum;
             update_post_meta($this->_id, 'total_funded', $this->_campaign_meta['total_funded']);
 
-        } else { // Just add/subtract a sum of a new donation from a campaign metadata
+        } else { // Add/subtract a sum of a donation from it's campaign metadata
 
             $donation = leyka_get_validated_donation($donation);
             if( !$donation ) {
