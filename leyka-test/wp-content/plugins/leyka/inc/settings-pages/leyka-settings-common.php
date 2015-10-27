@@ -33,7 +33,6 @@ function leyka_save_settings($tab_name) {
 
         if($option_type == 'checkbox') {
             leyka_options()->opt($name, isset($_POST["leyka_$name"]) ? 1 : 0);
-            echo '<pre>Here: ' . print_r($name.' - '.leyka_options()->opt($name), 1) . '</pre>';
         } elseif($option_type == 'multi_checkbox') {
 
             if(isset($_POST["leyka_$name"]) && leyka_options()->opt($name) != $_POST["leyka_$name"]) {
