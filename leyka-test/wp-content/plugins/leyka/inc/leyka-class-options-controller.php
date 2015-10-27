@@ -161,8 +161,9 @@ class Leyka_Options_Controller {
 
             $old_value = $this->_options[$option_name]['value']; // Rollback to it if option update fails
             $this->_options[$option_name]['value'] = $option_value;
-
-            $updated = update_option('leyka_'.$option_name, $option_value); 
+//            echo '<pre>Here: ' . print_r($this->_options[$option_name], 1) . '</pre>';
+            $updated = update_option('leyka_'.$option_name, $option_value);
+            echo '<pre>' . print_r($option_name.' - '.$option_value.' - '.(int)$updated.' - '.get_option('leyka_'.$option_name), 1) . '</pre>';
             if( !$updated ) {
                 $this->_options[$option_name]['value'] = $old_value;
             }
