@@ -541,6 +541,11 @@ class Leyka {
     /** Register leyka user roles and caps. */
     function register_user_capabilities() {
 
+        $role = get_role('administrator');
+        if( !$role ) {
+            return false;
+        }
+
         /** Create all roles and capabilities: */
         $caps = array(
             'read' => true, 'edit_#base#' => true, 'read_#base#' => true, 'delete_#base#' => true,
@@ -551,7 +556,6 @@ class Leyka {
             'upload_files' => true, 'unfiltered_html' => true, 'leyka_manage_donations' => true,
         );
 
-        $role = get_role('administrator');
         if(empty($role->capabilities['leyka_manage_donations'])) {
 
             foreach($caps as $cap => $true) {
