@@ -541,7 +541,7 @@ class Leyka {
     /** Register leyka user roles and caps. */
     function register_user_capabilities() {
 
-        $role = get_role('administrator');
+        $role = get_role('administrator'); // Just in case. There were some exotic cases..
         if( !$role ) {
             return false;
         }
