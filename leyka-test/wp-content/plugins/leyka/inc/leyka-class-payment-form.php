@@ -48,13 +48,13 @@ class Leyka_Payment_Form {
 
 	function get_amount_field() {
 
-		if( !$this->is_field_supported('amount') ) {
-			return '';
-        }
+//		if( !$this->is_field_supported('amount') ) {
+//			return '';
+//        }
 
 		// Options: amount field mode:
 		$mode = leyka_options()->opt('donation_sum_field_type'); // fixed/flexible
-		$supported_curr = leyka_get_active_currencies(); // $this->get_supported_currencies();
+		$supported_curr = leyka_get_active_currencies();
 		$current_curr = $this->get_current_currency();
 
 		if(empty($supported_curr[$current_curr])) {
@@ -232,8 +232,8 @@ class Leyka_Payment_Form {
     }
 
 	public function get_agree_field() {
-		
-		if( !leyka_options()->opt('argee_to_terms_needed') || !$this->is_field_supported('agree') ) {
+
+		if( !leyka_options()->opt('agree_to_terms_needed') || !$this->is_field_supported('agree') ) {
             return '';
         }
 
