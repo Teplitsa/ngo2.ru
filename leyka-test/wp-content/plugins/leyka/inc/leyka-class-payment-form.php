@@ -48,6 +48,7 @@ class Leyka_Payment_Form {
 
 	function get_amount_field() {
 
+        /** @todo Fix a bug when amount+currency fields doesn't appear on Radio form if Text PM is first in a PM list */
 //		if( !$this->is_field_supported('amount') ) {
 //			return '';
 //        }
