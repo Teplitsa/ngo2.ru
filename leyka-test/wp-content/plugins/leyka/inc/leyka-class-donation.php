@@ -1360,7 +1360,7 @@ class Leyka_Donation {
                 return leyka_options()->opt('leyka_currency_'.$this->_donation_meta['currency'].'_label');
             case 'sum':
             case 'amount':
-                return $this->_donation_meta['amount'];
+                return empty($this->_donation_meta['amount']) ? 0.0 : $this->_donation_meta['amount'];
             case 'main_curr_amount':
             case 'amount_equiv':
                 return $this->_donation_meta['main_curr_amount'];
