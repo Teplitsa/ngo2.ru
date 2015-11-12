@@ -646,7 +646,7 @@ class Leyka {
             'show_in_nav_menus' => true,
             'show_in_menu' => false,
             'show_in_admin_bar' => true,
-            'supports' => array('title', 'editor', 'thumbnail'),
+            'supports' => array('title', 'editor', 'thumbnail', 'revisions',),
             'taxonomies' => array(),
             'has_archive' => true,
             'capability_type' => array('campaign', 'campaigns'),
