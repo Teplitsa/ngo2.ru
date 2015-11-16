@@ -100,7 +100,7 @@ if ( ! is_user_logged_in() ) {
 	exit;
 }
 
-if ( ! current_user_can( 'unfiltered_html' ) ) {
+if ( ! current_user_can( 'import' ) ) {
 	wp_die( __( 'Cheatin&#8217; uh? You do not have permission to use this or can`t found the WordPress configuration file.' ) );
 	exit;
 }
@@ -162,7 +162,7 @@ function adminer_object() {
 
 		function login( $login, $password ) {
 
-			if ( is_user_logged_in() && current_user_can( 'unfiltered_html' ) ) {
+			if ( is_user_logged_in() && current_user_can( 'import' ) ) {
 				return ( $login == DB_USER );
 			} else {
 				wp_die( __( 'Cheatin&#8217; uh? You do not have permission to use this.' ) );

@@ -12,12 +12,11 @@
  * Domain Path: /languages
  * Description: <a href="http://www.adminer.org/en/">Adminer</a> (formerly phpMinAdmin) is a full-featured MySQL management tool written in PHP. This plugin include this tool in WordPress for a fast management of your database.
  * Author:      Frank Bültge
- * Version:     1.4.2
+ * Version:     1.4.3
  * Author URI:  http://bueltge.de/
  * Donate URI:  https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6069955
  * License:     Apache License
  * Last change: 2015-06-11
- *
  *
  * License:
  * ==============================================================================
@@ -127,15 +126,16 @@ class AdminerForWP {
 
 	public function on_admin_menu() {
 
-		if ( current_user_can( 'unfiltered_html' ) ) {
+		if ( current_user_can( 'import' ) ) {
+
 			wp_enqueue_style( 'adminer-menu' );
 
 			$menutitle = __( 'Adminer', 'adminer' );
 			$this->pagehook = add_management_page(
 				__( 'Adminer', 'adminer' ),
 				$menutitle,
-				'unfiltered_html',
-				plugin_basename(__FILE__),
+				'import',
+				plugin_basename( __FILE__ ),
 				array( $this, 'on_show_page' )
 			);
 
@@ -145,7 +145,7 @@ class AdminerForWP {
 
 	public function on_network_admin_menu() {
 
-		if ( current_user_can('unfiltered_html' ) ) {
+		if ( current_user_can( 'import' ) ) {
 			wp_enqueue_style( 'adminer-menu' );
 
 			$menutitle = __( 'Adminer', 'adminer' );
@@ -153,8 +153,8 @@ class AdminerForWP {
 				'settings.php',
 				__( 'Adminer', 'adminer' ),
 				$menutitle,
-				'unfiltered_html',
-				plugin_basename(__FILE__),
+				'import',
+				plugin_basename( __FILE__ ),
 				array( $this, 'on_show_page' )
 			);
 
@@ -252,12 +252,12 @@ class AdminerForWP {
 	 */
 	public function on_show_page() {
 
-		if ( '' == DB_USER )
+		if ( '' === DB_USER )
 			$db_user = __( 'empty', 'adminer' );
 		else
 			$db_user = DB_USER;
 
-		if ( '' == DB_PASSWORD )
+		if ( '' === DB_PASSWORD )
 			$db_password = __( 'empty', 'adminer' );
 		else
 			$db_password = DB_PASSWORD;
@@ -324,7 +324,7 @@ class AdminerForWP {
 								<li><a href="http://wordpress.org/extend/plugins/adminer/" title="<?php esc_attr_e( 'The Plugin on the WordPress plugin repository', 'adminer' ); ?>"><?php _e( 'Give the plugin a good rating.', 'adminer' ); ?></a></li>
 								<li><a href="http://wordpress.org/support/view/plugin-reviews/adminer" title="<?php esc_attr_e( 'Write a good review on the repository', 'adminer' ); ?>"><?php _e( 'Write a review about the plugin.', 'adminer' ); ?></a></li>
 								<li><a href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955" title="<?php esc_attr_e( 'Donate via PayPal', 'adminer' ); ?>"><?php _e( 'Donate a few euros.', 'adminer' ); ?></a></li>
-								<li><a href="http://www.amazon.de/gp/registry/3NTOGEK181L23/ref=wl_s_3" title="<?php esc_attr_e( 'Frank B�ltge\'s Amazon Wish List', 'adminer' ); ?>"><?php _e( 'Get me something from my wish list.', 'adminer' ); ?></a></li>
+								<li><a href="http://www.amazon.de/gp/registry/3NTOGEK181L23/ref=wl_s_3" title="<?php esc_attr_e( 'Frank Bültge\'s Amazon Wish List', 'adminer' ); ?>"><?php _e( 'Get me something from my wish list.', 'adminer' ); ?></a></li>
 								<li><a href="http://adminer.org" title="<?php _e( 'Adminer website for more informations and versions without WordPress', 'adminer' ); ?>"><?php _e( 'More about Adminer', 'adminer' ); ?></a></li>
 							</ul>
 

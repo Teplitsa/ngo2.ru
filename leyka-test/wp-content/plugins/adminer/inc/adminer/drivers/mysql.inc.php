@@ -720,7 +720,7 @@ if (!defined("DRIVER")) {
 	* @return bool
 	*/
 	function drop_views($views) {
-		return queries("DROP VIEW " . implode(", ", array_map('table', $views)));
+		return queries("DROP VIEW " . implode(", ", array_map('adminer_table', $views)));
 	}
 
 	/** Drop tables
@@ -728,7 +728,7 @@ if (!defined("DRIVER")) {
 	* @return bool
 	*/
 	function drop_tables($tables) {
-		return queries("DROP TABLE " . implode(", ", array_map('table', $tables)));
+		return queries("DROP TABLE " . implode(", ", array_map('adminer_table', $tables)));
 	}
 
 	/** Move tables to other schema

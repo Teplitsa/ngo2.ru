@@ -3,8 +3,8 @@ Contributors: Bueltge, inpsyde
 Donate link: https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&hosted_button_id=6069955
 Tags: adminer, debug, sql, analyse, tuning, performance, database, queries, query, phpMyAdmin, admin, database management
 Requires at least: 2.7
-Tested up to: 4.2.2
-Stable tag: 1.4.2
+Tested up to: 4.4
+Stable tag: 1.4.3
 
 Adminer is a full-featured MySQL management tool written in PHP. This plugin include this tool in WordPress.
 
@@ -54,8 +54,10 @@ If you use the plugins outside the wp-root or other one install, then you must d
 * Thanks for dutch translation to [Renè](http://wpwebshop.com/premium-wordpress-themes/ "WP webshop")
 * Thanks for japanese translation to [KAZ]
 * Thanks for the spanish language files to [Jose Manuel Aguado](http://www.anunciosgoogle.net/)
-* Thanks to [Brian Flores](http://www.inmotionhosting.com/) for serbian translation
-* Thanks to Iver Odin Kvello for norwegian translation
+* Thanks to [Brian Flores](http://www.inmotionhosting.com/) for serbian translation.
+* Thanks to Iver Odin Kvello for norwegian translation.
+* Thanks to Putra Ramadhan for indonesian language.
+* Thanks for the polnish translation to [Anka](http://couponmachine.in)
 
 = Licence =
 Good news, this plugin is free for everyone! Since it's released under the GPL, you can use it free of charge on your personal or commercial blog. But if you enjoy this plugin, you can thank me and leave a [small donation](http://bueltge.de/wunschliste/ "Wishliste and Donate") for the time I've spent writing and supporting this plugin. And I really don't want to know how many hours of my life this plugin has already eaten ;)
@@ -64,9 +66,17 @@ Good news, this plugin is free for everyone! Since it's released under the GPL, 
 The plugin comes with various translations, please refer to the [WordPress Codex](http://codex.wordpress.org/Installing_WordPress_in_Your_Language "Installing WordPress in Your Language") for more information about activating the translation. If you want to help to translate the plugin to your language, please have a look at the .pot file which contains all definitions and may be used with a [gettext](http://www.gnu.org/software/gettext/) editor like [Poedit](http://www.poedit.net/) (Windows) or plugin for WordPress [Localization](http://wordpress.org/extend/plugins/codestyling-localization/).
 
 == Changelog ==
+= v1.4.3 (2015-11-09) =
+* Drop Table fix, Thx to Tom [issue](https://wordpress.org/support/topic/error-when-dropping-tables)
+* Drop view fix
+* Change capability check to `import`, see [https://codex.wordpress.org/Roles_and_Capabilities](https://codex.wordpress.org/Roles_and_Capabilities)
+* Update pot and de_DE language files.
+* Fix XSS in alter table (Adminer 4.2.2 now)
+
 = v1.4.2 (2015-06-11) =
 * Fix some trouble with SVN, now all files inside the repository
 * Add .htaccess for trouble to scan php files with third plugins.
+* Add Indonesian language.
 
 = v1.4.1 (2015-06-05) =
 * Bugfix for the checkbox problem
